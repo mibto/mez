@@ -1,13 +1,19 @@
 package ch.bli.mez;
 
+import ch.bli.mez.controller.MainController;
+
+
 /**
  * Hello world!
  *
  */
 public class App 
 {
+  static MainController mainController;
+  
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+       mainController = new MainController();
+       mainController.showView();
     }
 }
