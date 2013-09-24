@@ -2,7 +2,7 @@ package ch.bli.mez.model.database;
 
 import java.sql.*;
 
-class DBManager {
+public class DBManager {
 
   private static final DBManager dbManager = new DBManager();
   private static Connection connection;

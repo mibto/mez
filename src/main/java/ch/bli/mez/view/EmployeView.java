@@ -1,5 +1,8 @@
 package ch.bli.mez.view;
 
-public class EmployeView {
+import javax.swing.JFrame;
+
+public class EmployeView extends JFrame{
+
 
 }
