@@ -5,10 +5,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
+import javax.swing.JTabbedPane;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 public class MainView extends JFrame {
 
@@ -17,23 +16,24 @@ public class MainView extends JFrame {
   private JButton btnVerwaltung = new JButton("Verwaltung");
 
   public MainView() {
+    setResizable(false);
+    
+    JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+    getContentPane().add(tabbedPane_1, BorderLayout.CENTER);
+    
+    JPanel timeTab = new JPanel();
+    tabbedPane_1.addTab("Zeit erfassen", null, timeTab, null);
+    
+    JPanel EmployeTab = new JPanel();
+    tabbedPane_1.addTab("Mitarbeiter verwalten", null, EmployeTab, null);
+    
+    JPanel ReportTab = new JPanel();
+    tabbedPane_1.addTab("Reports erstellen", null, ReportTab, null);
     initView();
   }
 
   private void initView() {
-    getContentPane().setLayout(
-        new FormLayout(new ColumnSpec[] { ColumnSpec.decode("159px"),
-            ColumnSpec.decode("130px"), }, new RowSpec[] {
-            FormFactory.LINE_GAP_ROWSPEC, RowSpec.decode("25px"),
-            FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-            FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-            FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-            FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-            FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
 
-    getContentPane().add(btnZeitErfassen, "2, 8, left, top");
-    getContentPane().add(btnBlaa, "2, 10");
-    getContentPane().add(btnVerwaltung, "2, 12");
   }
   
   public String getName() {
@@ -57,5 +57,6 @@ public class MainView extends JFrame {
   }
 
   private static final long serialVersionUID = 1L;
+  private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 
 }
