@@ -4,14 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ch.bli.mez.model.EmployeModel;
+import ch.bli.mez.model.MainModel;
 import ch.bli.mez.view.MainView;
 
 public class MainController {
     private MainView view;
-    private EmployeModel model;
+    private MainModel model;
     
     public MainController(){
-        this.model = new EmployeModel();
+        this.model = new MainModel();
         this.view = new MainView();
         addListener();
     }
@@ -20,22 +21,28 @@ public class MainController {
     }
     
     private void addListener(){
-        /*this.view.setWurzelBerechnenListener(new WurzelBerechnenListener());
-        this.view.setResetFormListener(new ResetFormListener());*/
+        this.view.setBlaaActionListener(new BlaaListener());
+        this.view.setZeitErfassenActionListener(new WurzelBerechnenListener());
+        this.view.setVerwaltungActionListener(new WurzelBerechnenListener());
+    }
+    
+    class BlaaListener implements ActionListener{
+      public void actionPerformed(ActionEvent e) {
+        String name = view.getName();
+        model.updateName(name);
+        view.setName(model.getName());
+      }
     }
 
     class WurzelBerechnenListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            /*long wert = Long.valueOf(view.getEingabe());
-            model.updateUser(wert);
-            view.setErgebnis(String.valueOf(model.getWurzel()));*/
+
         }
     }
 
     class ResetFormListener implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            /*view.resetView();
-            model.zurückSetzen();*/
+
         }
     }
 
