@@ -16,10 +16,14 @@ public class DBManager {
     return dbManager;
   }
   
-  private void initDBConnection() throws SQLException{
+  private void initDBConnection(){
     if (connection != null)
       return;
-    connection = DriverManager.getConnection(DB_DRIVER+":"+DB_PATH);
+    try {
+      connection = DriverManager.getConnection(DB_DRIVER+":"+DB_PATH);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public ResultSet query(String sqlStatement) {

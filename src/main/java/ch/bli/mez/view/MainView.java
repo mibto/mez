@@ -4,10 +4,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
-
-import javax.swing.JTabbedPane;
-import java.awt.BorderLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+
+import java.awt.GridBagLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
+import javax.swing.Box;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class MainView extends JFrame {
 
@@ -16,19 +24,47 @@ public class MainView extends JFrame {
   private JButton btnVerwaltung = new JButton("Verwaltung");
 
   public MainView() {
-    setResizable(false);
+    try
+    {
+//     UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+      UIManager.setLookAndFeel( "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel" );
+    }
+    catch ( Exception e )
+    {
+      e.printStackTrace();
+    }
+    setResizable(true);
+    getContentPane().setLayout(new CardLayout(0, 0));
     
     JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-    getContentPane().add(tabbedPane_1, BorderLayout.CENTER);
+    getContentPane().add(tabbedPane_1, "name_81679655182644");
     
-    JPanel timeTab = new JPanel();
-    tabbedPane_1.addTab("Zeit erfassen", null, timeTab, null);
+    JPanel panel = new JPanel();
+    tabbedPane_1.addTab("New tab", null, panel, null);
+    panel.setLayout(new CardLayout(0, 0));
     
-    JPanel EmployeTab = new JPanel();
-    tabbedPane_1.addTab("Mitarbeiter verwalten", null, EmployeTab, null);
+    JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.LEFT);
+    panel.add(tabbedPane_2, "name_81722033527761");
     
-    JPanel ReportTab = new JPanel();
-    tabbedPane_1.addTab("Reports erstellen", null, ReportTab, null);
+    JPanel panel_4 = new JPanel();
+    tabbedPane_2.addTab("New tab", null, panel_4, null);
+    
+    JPanel panel_5 = new JPanel();
+    tabbedPane_2.addTab("New tab", null, panel_5, null);
+    
+    JPanel panel_6 = new JPanel();
+    tabbedPane_2.addTab("New tab", null, panel_6, null);
+    
+    JPanel panel_1 = new JPanel();
+    tabbedPane_1.addTab("New tab", null, panel_1, null);
+    
+    JPanel panel_2 = new JPanel();
+    tabbedPane_1.addTab("New tab", null, panel_2, null);
+    
+    JPanel panel_3 = new JPanel();
+    tabbedPane_1.addTab("New tab", null, panel_3, null);
+    
+    
     initView();
   }
 
@@ -58,5 +94,4 @@ public class MainView extends JFrame {
 
   private static final long serialVersionUID = 1L;
   private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
 }

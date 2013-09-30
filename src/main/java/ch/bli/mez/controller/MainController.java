@@ -2,8 +2,6 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import ch.bli.mez.model.EmployeModel;
 import ch.bli.mez.model.MainModel;
 import ch.bli.mez.view.MainView;
 
