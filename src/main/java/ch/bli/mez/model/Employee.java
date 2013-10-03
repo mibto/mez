@@ -1,4 +1,4 @@
-package ch.bli.mez.model.classes;
+package ch.bli.mez.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,17 +9,17 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "employe")
-public class Employe {
+@Table(name = "employee")
+public class Employee {
     private Integer id;
     private String name;
     private String email;
  
-    public Employe() {
+    public Employee() {
  
     }
  
-    public Employe(Integer id, String name, String email) {
+    public Employee(Integer id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
