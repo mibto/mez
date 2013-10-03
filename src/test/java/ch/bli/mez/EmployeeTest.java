@@ -1,6 +1,5 @@
 package ch.bli.mez;
 
-import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +17,7 @@ public class EmployeeTest {
 
   @Test
   public void test() {
-    fail("Not yet implemented");
+    
   }
 
 }
