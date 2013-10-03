@@ -19,8 +19,12 @@ public class EmployeeView extends JFrame {
   private JButton btnBlaa = new JButton("Blaa");
   private JButton btnVerwaltung = new JButton("Verwaltung");
   private JButton btnBlubb = new JButton("Blubb");
+  
 
   public EmployeeView() {
+	  
+	// Close
+	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     try {
       UIManager
