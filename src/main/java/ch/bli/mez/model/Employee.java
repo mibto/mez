@@ -1,8 +1,11 @@
 package ch.bli.mez.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
  
 /**
  * The persistent class for the contact database table.
@@ -19,13 +22,14 @@ public class Employee {
  
     }
  
-    public Employee(Integer id, String name, String email) {
-        this.id = id;
+    public Employee(String name, String email) {
         this.name = name;
         this.email = email;
     }
  
-    @Id
+    @Id 
+    @GeneratedValue(generator="increment") 
+    @GenericGenerator(name="increment", strategy = "increment")   
     public Integer getId() {
         return this.id;
     }

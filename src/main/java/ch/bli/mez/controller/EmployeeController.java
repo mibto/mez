@@ -35,7 +35,7 @@ public class EmployeeController {
     view.setBlaaActionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent arg0) {
-        model.addEmployee(new Employee(3, "franzl max2", "max2@blaaa.ch"));
+        model.addEmployee(new Employee("franzl max3", "max3@blaaa.ch"));
       }
     });
   }
