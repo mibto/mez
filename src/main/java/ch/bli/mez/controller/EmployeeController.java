@@ -27,7 +27,7 @@ public class EmployeeController {
       public void actionPerformed(ActionEvent arg0) {
         for (Employee employee : model.findAll()) {
           //jetzt was der view übergeben.
-          System.out.println(employee.getName() + employee.getEmail());
+          System.out.println(employee.getFirstName() + " " +  employee.getLastName());
         }
       } 
     });
@@ -35,7 +35,7 @@ public class EmployeeController {
     view.setBlaaActionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent arg0) {
-        model.addEmployee(new Employee("franzl max3", "max3@blaaa.ch"));
+        model.addEmployee(new Employee("michael", "brodmann", "gattikonerstrasse 117", 8136, "gattikon"));
       }
     });
   }
