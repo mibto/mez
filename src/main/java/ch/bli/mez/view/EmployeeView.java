@@ -21,6 +21,7 @@ public class EmployeeView extends JFrame {
   private JButton btnBlubb = new JButton("Blubb");
 
   public EmployeeView() {
+  	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     try {
       UIManager
@@ -62,6 +63,7 @@ public class EmployeeView extends JFrame {
     JPanel panel_3 = new JPanel();
     tabbedPane_1.addTab("New tab", null, panel_3, null);
 
+    this.pack();
     initView();
   }
 
