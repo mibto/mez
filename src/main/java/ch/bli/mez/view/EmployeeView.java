@@ -19,6 +19,7 @@ public class EmployeeView extends JFrame {
   private JButton btnBlaa = new JButton("Blaa");
   private JButton btnVerwaltung = new JButton("Verwaltung");
   private JButton btnBlubb = new JButton("Blubb");
+  private JTabbedPane tabbedPane_2;
   
 
   public EmployeeView() {
@@ -42,7 +43,7 @@ public class EmployeeView extends JFrame {
     tabbedPane_1.addTab("New tab", null, panel, null);
     panel.setLayout(new CardLayout(0, 0));
 
-    JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.LEFT);
+    tabbedPane_2 = new JTabbedPane(JTabbedPane.LEFT);
     panel.add(tabbedPane_2, "name_81722033527761");
 
     JPanel panel_4 = new JPanel();
@@ -50,12 +51,6 @@ public class EmployeeView extends JFrame {
     
     panel_4.add(btnBlubb);
     panel_4.add(btnBlaa);
-
-    JPanel panel_5 = new JPanel();
-    tabbedPane_2.addTab("New tab", null, panel_5, null);
-
-    JPanel panel_6 = new JPanel();
-    tabbedPane_2.addTab("New tab", null, panel_6, null);
 
     JPanel panel_1 = new JPanel();
     tabbedPane_1.addTab("New tab", null, panel_1, null);
@@ -80,6 +75,18 @@ public class EmployeeView extends JFrame {
   public void setName(String name) {
     this.btnBlaa.setText(name);
   }
+  
+  
+  public void addEmployeeTab(String name, Integer Id) {
+	  // Wird von Controller verwendet (internerKommentar)
+	  // Buttons und Formular müssen die Id des Employees kennen.
+	  // newButton.setName(id);
+	  // oder
+	  // newButton.putClientProperty("id", id);
+	  
+	  JPanel tabPanel = new JPanel();
+	  tabbedPane_2.addTab(name, null, tabPanel, null);
+  }
 
   public void setZeitErfassenActionListener(ActionListener al) {
     btnZeitErfassen.addActionListener(al);
@@ -96,4 +103,13 @@ public class EmployeeView extends JFrame {
   public void setVerwaltungActionListener(ActionListener al) {
     btnVerwaltung.addActionListener(al);
   }
+
+public void setSaveNewEmployeeListener(ActionListener actionListener) {
+	// Wird von Controller verwendet (internerKommentar)
+	
+}
+
+public void setSaveChangedEmployeeListener(ActionListener actionListener){
+	// Wird von Controller verwendet (internerKommentar)
+}
 }
