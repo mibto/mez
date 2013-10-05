@@ -1,5 +1,6 @@
 package ch.bli.mez.view;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -8,6 +9,7 @@ import javax.swing.UIManager;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class EmployeeView extends JFrame {
 
@@ -20,6 +22,7 @@ public class EmployeeView extends JFrame {
   private JButton btnVerwaltung = new JButton("Verwaltung");
   private JButton btnBlubb = new JButton("Blubb");
   private JTabbedPane tabbedPane_2;
+  private HashMap<Integer, PanelWithMap> employeePanelMap = new HashMap<Integer, PanelWithMap>();
   
 
   public EmployeeView() {
@@ -77,15 +80,33 @@ public class EmployeeView extends JFrame {
   }
   
   
-  public void addEmployeeTab(String name, Integer Id) {
+  public void addEmployeeTab(String name, Integer id) {
 	  // Wird von Controller verwendet (internerKommentar)
-	  // Buttons und Formular müssen die Id des Employees kennen.
+	  // Alle Felder müssen den Feldname zB.: "firstName" als name haben
+	  // newTextfield.setName(fieldname);
+	  // alle Buttons haben als Name die id des employees
 	  // newButton.setName(id);
-	  // oder
-	  // newButton.putClientProperty("id", id);
+	  // zudem müssen die Felder der map des Panels hinzugefügt werden:
+	  // tabPanel.putComponent(fieldname, newTextfield)
+	  // so können die Felder eindeutig angesprochen und ausgelesen werden.
 	  
-	  JPanel tabPanel = new JPanel();
+	  PanelWithMap tabPanel = new PanelWithMap();
+	  employeePanelMap.put(id, tabPanel);
 	  tabbedPane_2.addTab(name, null, tabPanel, null);
+  }
+  
+  private PanelWithMap getPanelById(Integer id){
+	  return employeePanelMap.get(id);
+  }
+  
+  public JComponent getComponent(Integer id, String fieldname){
+	  PanelWithMap employeePanel = getPanelById(id);
+	  return employeePanel.getComponentByName(fieldname);
+  }
+  
+  public Object getFieldValue(Integer id, String fieldname){
+	  // TODO: get Value by fieldtype
+	  return null;
   }
 
   public void setZeitErfassenActionListener(ActionListener al) {
