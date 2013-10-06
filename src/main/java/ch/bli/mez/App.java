@@ -1,12 +1,13 @@
 package ch.bli.mez;
 
-import ch.bli.mez.controller.EmployeeController;
+import ch.bli.mez.controller.MainController;
 
-
-
-public class App {  
-  public static void main(String[] args) {
-    EmployeeController employeeController = new EmployeeController();
-    employeeController.showView();
-  }
+public class App {
+	/*
+	 * Starten vom MainController und somit vom Mainframe
+	 */
+	public static void main(String[] args) {
+		MainController mainController = new MainController();
+		mainController.showView();
+	}
 }
