@@ -1,6 +1,13 @@
 .classpath
 .project
 .settings
+mez.db
+mez.db-journal
+.javaignore
+*~
+*.swp
+/.idea
+*.iml
 
 *.class
 
@@ -9,3 +16,26 @@
 *.war
 *.ear
 /target
+*.com
+*.class
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

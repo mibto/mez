@@ -19,13 +19,26 @@ public class EmployeeDAO {
   }
 
   public List<Employee> findAll() {
-    return session.createQuery("from Employee")
-        .list();
+	List<Employee> employees = session.createQuery("from Employee").list();
+	session.flush();
+    return employees;
   }
 
   public void addEmployee(Employee employee) {
     session.save(employee);
     session.flush();
+  }
+  
+  public Employee getEmployee(Integer id) {
+	  Employee employee = (Employee) session.load(
+		        Employee.class, id);
+	  session.flush();
+	  return employee;
+  }
+  
+  public void updateEmployee(Employee employee) {
+	  session.update(employee);
+	  session.flush();
   }
 
   public void deleteEmployee(Integer id) {
