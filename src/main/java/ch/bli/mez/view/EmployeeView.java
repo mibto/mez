@@ -1,7 +1,6 @@
 package ch.bli.mez.view;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
@@ -19,15 +18,13 @@ public class EmployeeView extends JPanel {
 	private JButton btnBlaa = new JButton("Blaa");
 	private JButton btnBlubb = new JButton("Blubb");
 	private HashMap<Integer, PanelWithMap> employeePanelMap = new HashMap<Integer, PanelWithMap>();
-	private SearchPanel searchPanel;
 	private JTabbedPane tabbedPane;
 
-	public EmployeeView() {
+	public EmployeeView(SearchPanel searchPanel) {
 
 		// @Zumbühl, ich habe ein SearchPanel kreiert, welches sowohl für diese
 		// Klasse als auch für die Klasse ZeiterfassenView wiederverwendet
 		// werden kann
-		this.searchPanel = new SearchPanel();
 		this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 		
 		this.setLayout(new BorderLayout());

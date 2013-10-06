@@ -15,10 +15,12 @@ public class EmployeeController {
 	private EmployeeView view;
 	private EmployeeDAO model;
 	private Collection<String> formfields;
+	private final MainController mainController;
 
-	public EmployeeController() {
+	public EmployeeController(MainController mainController) {
+		this.mainController = mainController;
 		this.model = new EmployeeDAO();
-		this.view = new EmployeeView();
+		this.view = new EmployeeView(mainController.getSearchController().getSearchPanel());
 		this.formfields = new ArrayList<String>();
 		formfields.add("firstName");
 		formfields.add("lastName");

@@ -1,7 +1,15 @@
 package ch.bli.mez.view;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -25,15 +33,37 @@ public class SearchPanel extends JPanel {
 	}
 
 	private void initializePanel() {
-		this.setLayout(new GridLayout(0, 10, 0, 0));
-		add(txtSearch);
+		JPanel panel = new JPanel();
+		initializeTextField();
+		panel.add(txtSearch);
+		panel.add(btnSearch);
+		this.setLayout(new BorderLayout());
+		this.add(panel, BorderLayout.WEST);
+	}
+	
+	public void initializeTextField(){
 		txtSearch.setText("search");
 		txtSearch.setColumns(10);
-		add(btnSearch);
+		txtSearch.addFocusListener(new FocusListener() {
+			
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				txtSearch.setText(null);
+			}
+		});
 	}
 
 	public void setButtonSearchActionListener(ActionListener actionListener) {
 		btnSearch.addActionListener(actionListener);
+	}
+	
+	public String getSearchText(){
+		return txtSearch.getText();
 	}
 
 }
