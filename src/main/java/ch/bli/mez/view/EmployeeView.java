@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
 
 public class EmployeeView extends JPanel {
 
@@ -15,9 +17,20 @@ public class EmployeeView extends JPanel {
    * 
    */
 	private static final long serialVersionUID = 8767516928379563985L;
-	private JButton btnBlaa = new JButton("Blaa");
+	private JButton btnBlaa = new JButton("MA eintragen");
 	private JButton btnBlubb = new JButton("Blubb");
-	private HashMap<Integer, PanelWithMap> employeePanelMap = new HashMap<Integer, PanelWithMap>();
+	
+	// @ Leandra: Hesch das so gmeint?
+	// Map mit Employee-ID und (PANEL)EmployeePanel (Name, Aaresse) -> Diese Panel wird auf die PanelWithMap hinzugefügt
+	private HashMap<Integer, EmployeePanel> employeePanels = new HashMap<Integer, EmployeePanel>();
+	// Map mit Employee-ID und (PANEL)Verträge -> wird in die EmployeePanel hinzugefügt
+	private HashMap<Integer, TimeTransferPanel> timeTransferPanels = new HashMap<Integer, TimeTransferPanel>();
+	// Map mit Employee-ID und (PANEL)Ferienübertrag -> wird in die EmployeePanel hinzugefügt
+	private HashMap<Integer, ContractPanel> contractPanels = new HashMap<Integer, ContractPanel>();
+	
+	// Tabelle mit Employee-ID und PanelWithMap
+	private HashMap<Integer, PanelWithMap> employeePanelMaps = new HashMap<Integer, PanelWithMap>();
+	
 	private JTabbedPane tabbedPane;
 
 	public EmployeeView(SearchPanel searchPanel) {
@@ -36,8 +49,13 @@ public class EmployeeView extends JPanel {
 		// addEmployeeTab hinzugefügt werden sollten
 		JPanel mitarbeiterTab = new JPanel();
 		tabbedPane.addTab("New tab", null, mitarbeiterTab, null);
-		mitarbeiterTab.add(btnBlubb);
-		mitarbeiterTab.add(btnBlaa);
+		mitarbeiterTab.setLayout(new BorderLayout(0, 0));
+		mitarbeiterTab.add(btnBlubb, BorderLayout.SOUTH);
+		btnBlaa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		mitarbeiterTab.add(btnBlaa, BorderLayout.NORTH);
 
 	}
 
@@ -56,12 +74,40 @@ public class EmployeeView extends JPanel {
 		// so können die Felder eindeutig angesprochen und ausgelesen werden.
 
 		PanelWithMap tabPanel = new PanelWithMap();
-		employeePanelMap.put(id, tabPanel);
+		employeePanelMaps.put(id, tabPanel);
 		tabbedPane.addTab(name, null, tabPanel, null);
+		
+		// Panel Employee erstellen mit den zwei "Unterpanels" Contract und TimeTransfer
+		EmployeePanel empPanel = new EmployeePanel();
+		employeePanels.put(id, empPanel);
+		
+		TimeTransferPanel timetransPanel = new TimeTransferPanel();
+		timeTransferPanels.put(id, timetransPanel);
+		employeePanels.get(id).setExtraPanel(timeTransferPanels.get(id), "10, 4, 1, 15, fill, fill");
+
+		ContractPanel contractPanel = new ContractPanel();
+		contractPanels.put(id, contractPanel);
+		employeePanels.get(id).setExtraPanel(contractPanels.get(id), "4, 22, 8, 2, fill, fill");
+		
+		
+		//externe EmployeePanel setzen
+		tabPanel.setPanel(employeePanels.get(id));
+
+		// Alle TEXTFELDER als Componenten hinzufügen
+		tabPanel.putComponent("lastname", employeePanels.get(id).getTextField_lastname());
+		tabPanel.putComponent("fistname", employeePanels.get(id).getTextField_firstname());
+		tabPanel.putComponent("street", employeePanels.get(id).getTextField_street());
+		tabPanel.putComponent("city", employeePanels.get(id).getTextField_city());
+		tabPanel.putComponent("plz", employeePanels.get(id).getTextField_plz());
+		tabPanel.putComponent("homeNumber", employeePanels.get(id).getTextField_homeNumber());
+		tabPanel.putComponent("mobileNumber", employeePanels.get(id).getTextField_mobileNumber());
+		tabPanel.putComponent("email", employeePanels.get(id).getTextField_email());
+		
+		
 	}
 
 	private PanelWithMap getPanelById(Integer id) {
-		return employeePanelMap.get(id);
+		return employeePanelMaps.get(id);
 	}
 
 	public JComponent getComponent(Integer id, String fieldname) {
@@ -69,6 +115,7 @@ public class EmployeeView extends JPanel {
 		return employeePanel.getComponentByName(fieldname);
 	}
 
+	
 	public Object getFieldValue(Integer id, String fieldname) {
 		// TODO: get Value by fieldtype
 		return null;

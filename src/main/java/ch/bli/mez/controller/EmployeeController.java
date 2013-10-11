@@ -66,8 +66,13 @@ public class EmployeeController {
 		view.setBlaaActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-				Employee employee = new Employee("michael", "brodmann",
+				Employee employee = new Employee("Michael", "Brodmann",
 						"gattikonerstrasse 117", 8136, "gattikon");
+				model.addEmployee(employee);
+				addTabForEmployee(employee);
+				
+				employee = new Employee("Max", "Power",
+						"superstrasse 1541", 9999, "Entenhausen");
 				model.addEmployee(employee);
 				addTabForEmployee(employee);
 			}
