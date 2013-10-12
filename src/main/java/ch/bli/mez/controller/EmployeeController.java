@@ -60,9 +60,7 @@ public class EmployeeController {
 	 * @param employee
 	 */
 	private void addTabForEmployee(Employee employee) {
-		view.addEmployeeTab(
-				employee.getFirstName() + " " + employee.getLastName(),
-				employee.getId());
+		view.addEmployeeTab(employee);
 	}
 
 	/**
