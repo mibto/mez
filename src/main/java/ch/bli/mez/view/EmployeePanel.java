@@ -2,7 +2,10 @@ package ch.bli.mez.view;
 
 import java.awt.CardLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -21,8 +24,10 @@ public class EmployeePanel extends PanelWithMap {
 	private JTextField textField_homeNumber;
 	private JTextField textField_mobileNumber;
 	private JTextField textField_email;
+	
+	private JButton btnSave;
 
-	JLayeredPane layeredPane = new JLayeredPane();
+	private JLayeredPane layeredPane = new JLayeredPane();
 	
 	/**
 	 * Create the panel for employees
@@ -61,7 +66,7 @@ public class EmployeePanel extends PanelWithMap {
 		textField_street.setBounds(133, 104, 196, 24);
 		layeredPane.add(textField_street);
 		textField_street.setColumns(10);
-		
+
 		JLabel lblcity = new JLabel("Ort");
 		lblcity.setBounds(25, 150, 111, 14);
 		layeredPane.add(lblcity);
@@ -79,7 +84,7 @@ public class EmployeePanel extends PanelWithMap {
 		textField_plz.setBounds(133, 186, 196, 24);
 		layeredPane.add(textField_plz);
 		textField_plz.setColumns(10);
-		
+
 		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
 		lblhomeNumber.setBounds(24, 232, 112, 14);
 		layeredPane.add(lblhomeNumber);
@@ -106,6 +111,10 @@ public class EmployeePanel extends PanelWithMap {
 		textField_email.setBounds(133, 309, 196, 24);
 		layeredPane.add(textField_email);
 		textField_email.setColumns(10);
+		
+		btnSave = new JButton("Speichern");
+		btnSave.setBounds(25, 363, 89, 23);
+		layeredPane.add(btnSave);
 		
 	}
 	
@@ -182,5 +191,13 @@ public class EmployeePanel extends PanelWithMap {
 
 	public void setTextField_email(String value) {
 		this.textField_email.setText(value);
+	}
+	
+	public JButton getBtnSave() {
+		return btnSave;
+	}
+	
+	public void setBtnSaveName(String id) {
+		 btnSave.setName(id);
 	}
 }
