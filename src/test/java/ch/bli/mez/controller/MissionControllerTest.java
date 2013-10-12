@@ -6,6 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Prüft ob der Controller richtig erstellt wird, und ob die View instanziert wurde
+ * 
+ * @author dave
+ * @version 1.0
+ */
 public class MissionControllerTest {
 	
 	private MissionController instance;
@@ -27,14 +33,6 @@ public class MissionControllerTest {
 	public void checkInstance() {
 		assertNotNull(instance);
 		assertNotNull(instance.getView());
-	}
-	
-	/*
-	 * Prüft 
-	 */
-	@Test
-	public void test(){
-		assertTrue();
 	}
 
 }
