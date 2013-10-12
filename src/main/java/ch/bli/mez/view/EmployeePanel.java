@@ -124,63 +124,63 @@ public class EmployeePanel extends PanelWithMap {
 		return textField_lastname;
 	}
 
-	public void setTextField_lastname(JTextField textField_lastname) {
-		this.textField_lastname = textField_lastname;
+	public void setTextField_lastname(String value) {
+		this.textField_lastname.setText(value);
 	}
 
 	public JTextField getTextField_firstname() {
 		return textField_firstname;
 	}
 
-	public void setTextField_firstname(JTextField textField_firstname) {
-		this.textField_firstname = textField_firstname;
+	public void setTextField_firstname(String value) {
+		this.textField_firstname.setText(value);
 	}
 
 	public JTextField getTextField_street() {
 		return textField_street;
 	}
 
-	public void setTextField_street(JTextField textField_street) {
-		this.textField_street = textField_street;
+	public void setTextField_street(String value) {
+		this.textField_street.setText(value);
 	}
 
 	public JTextField getTextField_city() {
 		return textField_city;
 	}
 
-	public void setTextField_city(JTextField textField_city) {
-		this.textField_city = textField_city;
+	public void setTextField_city(String value) {
+		this.textField_city.setText(value);
 	}
 
 	public JTextField getTextField_plz() {
 		return textField_plz;
 	}
 
-	public void setTextField_plz(JTextField textField_plz) {
-		this.textField_plz = textField_plz;
+	public void setTextField_plz(String value) {
+		this.textField_plz.setText(value);
 	}
 
 	public JTextField getTextField_homeNumber() {
 		return textField_homeNumber;
 	}
 
-	public void setTextField_homeNumber(JTextField textField_homeNumber) {
-		this.textField_homeNumber = textField_homeNumber;
+	public void setTextField_homeNumber(String value) {
+		this.textField_homeNumber.setText(value);
 	}
 
 	public JTextField getTextField_mobileNumber() {
 		return textField_mobileNumber;
 	}
 
-	public void setTextField_mobileNumber(JTextField textField_mobileNumber) {
-		this.textField_mobileNumber = textField_mobileNumber;
+	public void setTextField_mobileNumber(String value) {
+		this.textField_mobileNumber.setText(value);
 	}
 
 	public JTextField getTextField_email() {
 		return textField_email;
 	}
 
-	public void setTextField_email(JTextField textField_email) {
-		this.textField_email = textField_email;
+	public void setTextField_email(String value) {
+		this.textField_email.setText(value);
 	}
 }

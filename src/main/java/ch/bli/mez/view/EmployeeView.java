@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 
+
+import ch.bli.mez.model.Employee;
+
 import java.awt.event.ActionEvent;
 
 public class EmployeeView extends JPanel {
@@ -58,7 +61,7 @@ public class EmployeeView extends JPanel {
 		this.btnBlaa.setText(name);
 	}
 
-	public void addEmployeeTab(String name, Integer id) {
+	public void addEmployeeTab(Employee employee) {
 		// Wird von Controller verwendet (internerKommentar)
 		// Alle Felder müssen den Feldname zB.: "firstName" als name haben
 		// newTextfield.setName(fieldname);
@@ -69,33 +72,41 @@ public class EmployeeView extends JPanel {
 		// so können die Felder eindeutig angesprochen und ausgelesen werden.
 
 		JPanel tabPanel = new JPanel();
-		tabbedPane.addTab(name, null, tabPanel, null);
+		tabbedPane.addTab(employee.getFirstName(), null, tabPanel, null);
 		
 		// Panel Employee erstellen mit den zwei "Unterpanels" Contract und TimeTransfer
 		EmployeePanel empPanel = new EmployeePanel();
-		employeePanels.put(id, empPanel);
+		employeePanels.put(employee.getId(), empPanel);
 		
 		tabPanel.setLayout(new BorderLayout());
 		tabPanel.add(empPanel, BorderLayout.CENTER);
 		
 		TimeTransferPanel timetransPanel = new TimeTransferPanel();
-		timeTransferPanels.put(id, timetransPanel);
-		empPanel.setExtraPanel(timeTransferPanels.get(id), new Rectangle(390, 20, 80, 260));
+		timeTransferPanels.put(employee.getId(), timetransPanel);
+		empPanel.setExtraPanel(timeTransferPanels.get(employee.getId()), new Rectangle(390, 20, 80, 260));
 
 		ContractPanel contractPanel = new ContractPanel();
-		contractPanels.put(id, contractPanel);
-		empPanel.setExtraPanel(contractPanels.get(id), new Rectangle(25, 290, 540, 140));
+		contractPanels.put(employee.getId(), contractPanel);
+		empPanel.setExtraPanel(contractPanels.get(employee.getId()), new Rectangle(25, 290, 540, 140));
 
 		// Alle TEXTFELDER als Componenten hinzufügen
-		empPanel.putComponent("lastname", employeePanels.get(id).getTextField_lastname());
-		empPanel.putComponent("fistname", employeePanels.get(id).getTextField_firstname());
-		empPanel.putComponent("street", employeePanels.get(id).getTextField_street());
-		empPanel.putComponent("city", employeePanels.get(id).getTextField_city());
-		empPanel.putComponent("plz", employeePanels.get(id).getTextField_plz());
-		empPanel.putComponent("homeNumber", employeePanels.get(id).getTextField_homeNumber());
-		empPanel.putComponent("mobileNumber", employeePanels.get(id).getTextField_mobileNumber());
-		empPanel.putComponent("email", employeePanels.get(id).getTextField_email());
-
+		empPanel.putComponent("lastname", employeePanels.get(employee.getId()).getTextField_lastname());
+		empPanel.putComponent("fistname", employeePanels.get(employee.getId()).getTextField_firstname());
+		empPanel.putComponent("street", employeePanels.get(employee.getId()).getTextField_street());
+		empPanel.putComponent("city", employeePanels.get(employee.getId()).getTextField_city());
+		empPanel.putComponent("plz", employeePanels.get(employee.getId()).getTextField_plz());
+		empPanel.putComponent("homeNumber", employeePanels.get(employee.getId()).getTextField_homeNumber());
+		empPanel.putComponent("mobileNumber", employeePanels.get(employee.getId()).getTextField_mobileNumber());
+		empPanel.putComponent("email", employeePanels.get(employee.getId()).getTextField_email());
+		
+		empPanel.setTextField_firstname(employee.getFirstName());
+		empPanel.setTextField_lastname(employee.getLastName());
+		empPanel.setTextField_street(employee.getStreet());
+		empPanel.setTextField_city(employee.getFirstName());
+		empPanel.setTextField_plz(employee.getPlz().toString());
+		empPanel.setTextField_homeNumber(employee.getHomeNumber());
+		empPanel.setTextField_mobileNumber(employee.getMobileNumber());
+		empPanel.setTextField_email(employee.getEmail());
 	}
 
 	private PanelWithMap getEmployeePanelById(Integer id) {
