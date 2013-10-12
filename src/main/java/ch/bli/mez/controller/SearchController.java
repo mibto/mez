@@ -5,6 +5,13 @@ import java.awt.event.ActionListener;
 
 import ch.bli.mez.view.SearchPanel;
 
+/**
+ * Controller für das Searchpanel mit der Aufgabe die Suche zu verarbeiten, und
+ * das Resultat anzuzeigen
+ * 
+ * @author dave
+ * @version 1.0
+ */
 public class SearchController {
 
 	private final SearchPanel searchPanel;
@@ -14,10 +21,17 @@ public class SearchController {
 		addListener();
 	}
 
+	/**
+	 * 
+	 * @return das verwendete SearchPanel
+	 */
 	public SearchPanel getSearchPanel() {
 		return this.searchPanel;
 	}
 
+	/**
+	 * Listener auf dem Searchbutton setzen
+	 */
 	public void addListener() {
 		searchPanel.setButtonSearchActionListener(new ActionListener() {
 
