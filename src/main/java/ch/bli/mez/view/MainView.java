@@ -8,11 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
+/**
+ * MainFrame beinhaltet die oberen Tabs, ursprünglich "Zeiten erfassen", "Mitarbeiter verwalten", "Auswertungen", "Verwaltung"
+ * @author dave
+ * @version 1.0
+ */
 public class MainView extends JFrame {
 
-	/**
-	 * MainFrame beinhaltet die oberen Tabs, ursprünglich "Zeiten erfassen", "Mitarbeiter verwalten", "Auswertungen", "Verwaltung"
-	 */
 	private static final long serialVersionUID = -8484150056391154851L;
 	private JTabbedPane tabbedPaneMain;
 
@@ -39,7 +41,7 @@ public class MainView extends JFrame {
 		tabbedPaneMain.insertTab("Verwaltung", null, new JPanel(), null, 3);
 	}
 
-	/*
+	/**
 	 * @@@Auskommentieren, sobald Klasse TimeMgmtView erstellt ist Panel
 	 * "Zeiten erfassen" setzen
 	 * 
@@ -50,7 +52,7 @@ public class MainView extends JFrame {
 	// tabbedPaneMain.setComponentAt(0, timeMgmtView);
 	// }
 
-	/*
+	/**
 	 * @@@Auskommentieren, sobald Klasse TimeMgmtView erstellt ist Panel
 	 * "Zeiten erfassen" ausgeben
 	 * 
@@ -60,17 +62,17 @@ public class MainView extends JFrame {
 	// return tabbedPaneMain.getTabComponentAt(0);
 	// }
 
-	/*
+	/**
 	 * Panel "Mitarbeiter verwalten" setzen
 	 * 
-	 * @ param employeeView EmployeeView Objekt welches im Tab
+	 * @param employeeView EmployeeView Objekt welches im Tab
 	 * "Mitarbeiter verwalten" eingesetzt werden soll
 	 */
 	public void setEmployeePanel(EmployeeView employeeView) {
 		tabbedPaneMain.setComponentAt(1, employeeView);
 	}
 
-	/*
+	/**
 	 * Panel "Mitarbeiter verwalten" ausgeben
 	 * 
 	 * @return EmployeeView das aktuell eingesetzte "Mitarbeiter verwalten"

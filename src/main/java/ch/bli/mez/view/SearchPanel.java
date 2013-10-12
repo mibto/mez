@@ -11,13 +11,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * SearchPanel ist das kleine Suchfeld welches oberhalb der Tabs mit
+ * Mitarbeiternamen platziert wird Der SearchPanel wird für "Zeiten erfassen"
+ * sowie "Mitarbeiter verwalten" verwendet
+ * 
+ * @author dave
+ * @version 1.0
+ */
 public class SearchPanel extends JPanel {
 
-	/**
-	 * SearchPanel ist das kleine Suchfeld welches oberhalb der Tabs mit
-	 * Mitarbeiternamen platziert wird Der SearchPanel wird für
-	 * "Zeiten erfassen" sowie "Mitarbeiter verwalten" verwendet
-	 */
 	private static final long serialVersionUID = 5735685030723299266L;
 	private JTextField txtSearch;
 	private JButton btnSearch;
@@ -37,7 +40,9 @@ public class SearchPanel extends JPanel {
 		this.add(panel, BorderLayout.WEST);
 	}
 
-	// Listener welche nur "GUI Feature sind werden hier hinzugefügt
+	/**
+	 * GUI interne Listener werden hier hinzugefügt
+	 */
 	public void initializeTextField() {
 		txtSearch.setText("search...");
 		txtSearch.setColumns(10);
@@ -71,11 +76,20 @@ public class SearchPanel extends JPanel {
 		});
 	}
 
+	/**
+	 * Actionlistener für den "Search-Button" hinzufügen
+	 * 
+	 * @param actionListener
+	 *            ActionsListener welche dem "Search-Button" hinzugefügt werden
+	 *            soll
+	 */
 	public void setButtonSearchActionListener(ActionListener actionListener) {
 		btnSearch.addActionListener(actionListener);
 	}
 
-	/*
+	/**
+	 * Such TextFeld auslesen
+	 * 
 	 * @return den String aus dem Textfeld
 	 */
 	public String getSearchText() {
