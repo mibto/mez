@@ -14,9 +14,9 @@ public class ManagementView extends JPanel {
 	/*
 	 * Fügt einen neuen Tab hinzu
 	 */
-	public void addEmployeeTab(String name, JPanel mission) {
+	public void addManagementTab(String name, JPanel management) {
 
-		tabbedPane.addTab(name, null, mission, null);
+		tabbedPane.addTab(name, null, management, null);
 
 	}
 
