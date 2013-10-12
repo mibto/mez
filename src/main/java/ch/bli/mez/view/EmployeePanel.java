@@ -1,16 +1,18 @@
 package ch.bli.mez.view;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
+import java.awt.CardLayout;
+import java.awt.Rectangle;
+
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 public class EmployeePanel extends PanelWithMap {
-	private JPanel panel_for_timetransfer;
+
+	private static final long serialVersionUID = -1774268602344482972L;
+	
 	private JTextField textField_lastname;
 	private JTextField textField_firstname;
 	private JTextField textField_street;
@@ -20,6 +22,8 @@ public class EmployeePanel extends PanelWithMap {
 	private JTextField textField_mobileNumber;
 	private JTextField textField_email;
 
+	JLayeredPane layeredPane = new JLayeredPane();
+	
 	/**
 	 * Create the panel for employees
 	 * 
@@ -27,115 +31,94 @@ public class EmployeePanel extends PanelWithMap {
 	 * 
 	 */
 	public EmployeePanel() {
-		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(80dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(30dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(50dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		setLayout(new CardLayout(0, 0));
+		
+		add(layeredPane, "name_13971428008795");
 		
 		JLabel lbllastname = new JLabel("Name");
-		add(lbllastname, "4, 4, left, default");
+		lbllastname.setBounds(25, 19, 27, 14);
+		layeredPane.add(lbllastname);
 		
 		textField_lastname = new JTextField();
-		add(textField_lastname, "6, 4, fill, default");
+		textField_lastname.setBounds(130, 14, 196, 20);
+		layeredPane.add(textField_lastname);
 		textField_lastname.setColumns(10);
 		
 		JLabel lblfirstname = new JLabel("Vorname");
-		add(lblfirstname, "4, 6, left, default");
+		lblfirstname.setBounds(25, 52, 42, 14);
+		layeredPane.add(lblfirstname);
 		
 		textField_firstname = new JTextField();
-		add(textField_firstname, "6, 6, fill, default");
+		textField_firstname.setBounds(130, 48, 196, 20);
+		layeredPane.add(textField_firstname);
 		textField_firstname.setColumns(10);
 		
 		JLabel lblstreet = new JLabel("Strasse");
-		add(lblstreet, "4, 8, left, default");
+		lblstreet.setBounds(25, 85, 36, 14);
+		layeredPane.add(lblstreet);
 		
 		textField_street = new JTextField();
-		add(textField_street, "6, 8, fill, default");
+		textField_street.setBounds(130, 82, 196, 20);
+		layeredPane.add(textField_street);
 		textField_street.setColumns(10);
 		
 		JLabel lblcity = new JLabel("Ort");
-		add(lblcity, "4, 10, left, default");
+		lblcity.setBounds(25, 118, 16, 14);
+		layeredPane.add(lblcity);
 		
 		textField_city = new JTextField();
-		add(textField_city, "6, 10, fill, default");
+		textField_city.setBounds(130, 116, 196, 20);
+		layeredPane.add(textField_city);
 		textField_city.setColumns(10);
 		
 		JLabel lblplz = new JLabel("Plz");
-		add(lblplz, "4, 12, left, default");
+		lblplz.setBounds(25, 151, 13, 14);
+		layeredPane.add(lblplz);
 		
 		textField_plz = new JTextField();
-		add(textField_plz, "6, 12, fill, default");
+		textField_plz.setBounds(130, 150, 196, 20);
+		layeredPane.add(textField_plz);
 		textField_plz.setColumns(10);
 		
 		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
-		add(lblhomeNumber, "4, 14, left, default");
+		lblhomeNumber.setBounds(24, 184, 78, 14);
+		layeredPane.add(lblhomeNumber);
 		
 		textField_homeNumber = new JTextField();
-		add(textField_homeNumber, "6, 14, fill, default");
+		textField_homeNumber.setBounds(130, 184, 196, 20);
+		layeredPane.add(textField_homeNumber);
 		textField_homeNumber.setColumns(10);
 		
 		JLabel lblmobileNumber = new JLabel("Natel Tel.Nr.");
-		add(lblmobileNumber, "4, 16, left, default");
+		lblmobileNumber.setBounds(25, 217, 61, 14);
+		layeredPane.add(lblmobileNumber);
 		
 		textField_mobileNumber = new JTextField();
-		add(textField_mobileNumber, "6, 16, fill, default");
+		textField_mobileNumber.setBounds(130, 218, 196, 20);
+		layeredPane.add(textField_mobileNumber);
 		textField_mobileNumber.setColumns(10);
 		
 		JLabel lblemail = new JLabel("E-Mail");
-		add(lblemail, "4, 18, left, default");
+		lblemail.setBounds(24, 250, 28, 14);
+		layeredPane.add(lblemail);
 		
 		textField_email = new JTextField();
-		add(textField_email, "6, 18, fill, default");
+		textField_email.setBounds(130, 252, 196, 20);
+		layeredPane.add(textField_email);
 		textField_email.setColumns(10);
+		
 	}
 	
 	/*
 	 * Koordinaten:
-	 * Zeitübertragung: 	10, 4, 1, 15, fill, fill
-	 * Verträge: 			4, 22, 8, 2, fill, fill
-	 */
-	public void setExtraPanel(JPanel panel, String coordinates){
-		// EXAMPLE: panel_for_timetransfer = new TimeTransferPanel();
-		// EXAMPLE add(panel_for_contracts, "4, 22, 8, 2, fill, fill");
-		add(panel, coordinates);
-
+	 * 
+	*/
+	public void setExtraPanel(JPanel panel, Rectangle coordinates){
+		panel.setBounds(coordinates);
+		this.layeredPane.add(panel);
 	}
 	
-	// Automatisch generierter GET und SET methoden
+	// Automatisch generierte GET und SET methoden
 
 	public JTextField getTextField_lastname() {
 		return textField_lastname;
@@ -200,5 +183,4 @@ public class EmployeePanel extends PanelWithMap {
 	public void setTextField_email(JTextField textField_email) {
 		this.textField_email = textField_email;
 	}
-
 }
