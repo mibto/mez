@@ -12,18 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class EmployeePanel extends PanelWithMap {
+public class EmployeePanel extends JPanel {
 
 	private static final long serialVersionUID = -1774268602344482972L;
 	
-	private JTextField textField_lastname;
-	private JTextField textField_firstname;
-	private JTextField textField_street;
-	private JTextField textField_city;
-	private JTextField textField_plz;
-	private JTextField textField_homeNumber;
-	private JTextField textField_mobileNumber;
-	private JTextField textField_email;
+	private JTextField lastname;
+	private JTextField firstname;
+	private JTextField street;
+	private JTextField city;
+	private JTextField plz;
+	private JTextField homeNumber;
+	private JTextField mobileNumber;
+	private JTextField email;
 	
 	private JButton btnSave;
 
@@ -35,7 +35,7 @@ public class EmployeePanel extends PanelWithMap {
 	 * Panels for the contracts and timetransfers are separated
 	 * 
 	 */
-	public EmployeePanel() {
+	public EmployeePanel(Integer id) {
 		setLayout(new CardLayout(0, 0));
 		
 		add(layeredPane, "name_13971428008795");
@@ -44,78 +44,83 @@ public class EmployeePanel extends PanelWithMap {
 		lbllastname.setBounds(25, 27, 111, 14);
 		layeredPane.add(lbllastname);
 		
-		textField_lastname = new JTextField();
-		textField_lastname.setBounds(133, 22, 196, 24);
-		layeredPane.add(textField_lastname);
-		textField_lastname.setColumns(10);
+		lastname = new JTextField();
+		lastname.setBounds(133, 22, 196, 24);
+		layeredPane.add(lastname);
+		lastname.setColumns(10);
 		
 		JLabel lblfirstname = new JLabel("Vorname");
 		lblfirstname.setBounds(25, 68, 111, 14);
 		layeredPane.add(lblfirstname);
 		
-		textField_firstname = new JTextField();
-		textField_firstname.setBounds(133, 63, 196, 24);
-		layeredPane.add(textField_firstname);
-		textField_firstname.setColumns(10);
+		firstname = new JTextField();
+		firstname.setBounds(133, 63, 196, 24);
+		layeredPane.add(firstname);
+		firstname.setColumns(10);
 		
 		JLabel lblstreet = new JLabel("Strasse");
 		lblstreet.setBounds(25, 109, 111, 14);
 		layeredPane.add(lblstreet);
 		
-		textField_street = new JTextField();
-		textField_street.setBounds(133, 104, 196, 24);
-		layeredPane.add(textField_street);
-		textField_street.setColumns(10);
+		street = new JTextField();
+		street.setBounds(133, 104, 196, 24);
+		layeredPane.add(street);
+		street.setColumns(10);
 
 		JLabel lblcity = new JLabel("Ort");
 		lblcity.setBounds(25, 150, 111, 14);
 		layeredPane.add(lblcity);
 		
-		textField_city = new JTextField();
-		textField_city.setBounds(133, 145, 196, 24);
-		layeredPane.add(textField_city);
-		textField_city.setColumns(10);
+		city = new JTextField();
+		city.setBounds(133, 145, 196, 24);
+		layeredPane.add(city);
+		city.setColumns(10);
 		
 		JLabel lblplz = new JLabel("Plz");
 		lblplz.setBounds(25, 191, 111, 14);
 		layeredPane.add(lblplz);
 		
-		textField_plz = new JTextField();
-		textField_plz.setBounds(133, 186, 196, 24);
-		layeredPane.add(textField_plz);
-		textField_plz.setColumns(10);
+		plz = new JTextField();
+		plz.setBounds(133, 186, 196, 24);
+		layeredPane.add(plz);
+		plz.setColumns(10);
 
 		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
 		lblhomeNumber.setBounds(24, 232, 112, 14);
 		layeredPane.add(lblhomeNumber);
 		
-		textField_homeNumber = new JTextField();
-		textField_homeNumber.setBounds(133, 227, 196, 24);
-		layeredPane.add(textField_homeNumber);
-		textField_homeNumber.setColumns(10);
+		homeNumber = new JTextField();
+		homeNumber.setBounds(133, 227, 196, 24);
+		layeredPane.add(homeNumber);
+		homeNumber.setColumns(10);
 		
 		JLabel lblmobileNumber = new JLabel("Natel Tel.Nr.");
 		lblmobileNumber.setBounds(25, 273, 111, 14);
 		layeredPane.add(lblmobileNumber);
 		
-		textField_mobileNumber = new JTextField();
-		textField_mobileNumber.setBounds(133, 268, 196, 24);
-		layeredPane.add(textField_mobileNumber);
-		textField_mobileNumber.setColumns(10);
+		mobileNumber = new JTextField();
+		mobileNumber.setBounds(133, 268, 196, 24);
+		layeredPane.add(mobileNumber);
+		mobileNumber.setColumns(10);
 		
 		JLabel lblemail = new JLabel("E-Mail");
 		lblemail.setBounds(24, 314, 112, 14);
 		layeredPane.add(lblemail);
 		
-		textField_email = new JTextField();
-		textField_email.setBounds(133, 309, 196, 24);
-		layeredPane.add(textField_email);
-		textField_email.setColumns(10);
+		email = new JTextField();
+		email.setBounds(133, 309, 196, 24);
+		layeredPane.add(email);
+		email.setColumns(10);
 		
 		btnSave = new JButton("Speichern");
+		btnSave.setName(id.toString());
 		btnSave.setBounds(25, 363, 89, 23);
 		layeredPane.add(btnSave);
 		
+	}
+	
+	public void setSaveChangedEmployeeListener(ActionListener actionListener) {
+		btnSave.addActionListener(actionListener);
 	}
 	
 	/*
@@ -127,70 +132,102 @@ public class EmployeePanel extends PanelWithMap {
 		this.layeredPane.add(panel);
 	}
 	
+	public String getFirstname(){
+		return firstname.getText();
+	}
+	
+	public String getLastname(){
+		return lastname.getText();
+	}
+	
+	public String getStreet(){
+		return street.getText();
+	}
+	
+	public String getCity(){
+		return city.getText();
+	}
+	
+	public String getPlz(){
+		return plz.getText();
+	}
+	
+	public String getMobileNumber(){
+		return mobileNumber.getText();
+	}
+	
+	public String getHomeNumber(){
+		return homeNumber.getText();
+	}
+	
+	public String getEmail(){
+		return email.getText();
+	}
+	
 	// Automatisch generierte GET und SET methoden
 
-	public JTextField getTextField_lastname() {
-		return textField_lastname;
+	public JTextField getlastname() {
+		return lastname;
 	}
 
-	public void setTextField_lastname(String value) {
-		this.textField_lastname.setText(value);
+	public void setlastname(String value) {
+		this.lastname.setText(value);
 	}
 
-	public JTextField getTextField_firstname() {
-		return textField_firstname;
+	public JTextField getfirstname() {
+		return firstname;
 	}
 
-	public void setTextField_firstname(String value) {
-		this.textField_firstname.setText(value);
+	public void setfirstname(String value) {
+		this.firstname.setText(value);
 	}
 
-	public JTextField getTextField_street() {
-		return textField_street;
+	public JTextField getstreet() {
+		return street;
 	}
 
-	public void setTextField_street(String value) {
-		this.textField_street.setText(value);
+	public void setstreet(String value) {
+		this.street.setText(value);
 	}
 
-	public JTextField getTextField_city() {
-		return textField_city;
+	public JTextField getcity() {
+		return city;
 	}
 
-	public void setTextField_city(String value) {
-		this.textField_city.setText(value);
+	public void setcity(String value) {
+		this.city.setText(value);
 	}
 
-	public JTextField getTextField_plz() {
-		return textField_plz;
+	public JTextField getplz() {
+		return plz;
 	}
 
-	public void setTextField_plz(String value) {
-		this.textField_plz.setText(value);
+	public void setplz(String value) {
+		this.plz.setText(value);
 	}
 
-	public JTextField getTextField_homeNumber() {
-		return textField_homeNumber;
+	public JTextField gethomeNumber() {
+		return homeNumber;
 	}
 
-	public void setTextField_homeNumber(String value) {
-		this.textField_homeNumber.setText(value);
+	public void sethomeNumber(String value) {
+		this.homeNumber.setText(value);
 	}
 
-	public JTextField getTextField_mobileNumber() {
-		return textField_mobileNumber;
+	public JTextField getmobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setTextField_mobileNumber(String value) {
-		this.textField_mobileNumber.setText(value);
+	public void setmobileNumber(String value) {
+		this.mobileNumber.setText(value);
 	}
 
-	public JTextField getTextField_email() {
-		return textField_email;
+	public JTextField getemail() {
+		return email;
 	}
 
-	public void setTextField_email(String value) {
-		this.textField_email.setText(value);
+	public void setemail(String value) {
+		this.email.setText(value);
 	}
 	
 	public JButton getBtnSave() {
