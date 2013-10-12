@@ -11,12 +11,21 @@ import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.view.EmployeeView;
 
+/**
+ * @author leandrafinger
+ * @version 1.0
+ */
 public class EmployeeController {
 	private EmployeeView view;
 	private EmployeeDAO model;
 	private Collection<String> formfields;
 	private final SearchController searchController;
 
+	/**
+	 * Initialisiert einen SearchController, EmployeeDAO, EmployeeView.
+	 * Bestimmt die Formfelder und speichert Sie in der ArrayList formfields.
+	 * Die Methoden addListener(), addTabsForEmployees() werden aufgerufen.
+	 */
 	public EmployeeController() {
 		this.model = new EmployeeDAO();
 		this.searchController = new SearchController();
@@ -35,18 +44,33 @@ public class EmployeeController {
 		return view;
 	}
 
+	/**
+	 * Iteriert über alle Employees und ruft für jeden
+	 * die Methode addTabForEmployee auf.
+	 */
 	private void addTabsForEmployees() {
 		for (Employee employee : model.findAll()) {
 			addTabForEmployee(employee);
 		}
 	}
 
+	/**
+	 * Nimmt einen Employee entgegen, übergibt Name und Id der
+	 * view Methode addEmployeeTab
+	 * @param employee
+	 */
 	private void addTabForEmployee(Employee employee) {
 		view.addEmployeeTab(
 				employee.getFirstName() + " " + employee.getLastName(),
 				employee.getId());
 	}
 
+	/**
+	 * Liest das Formular für den Mitarbeiter mit der gegeben id aus
+	 * und returnt eine Map mit den gegebenen Daten.
+	 * @param id
+	 * @return
+	 */
 	private HashMap<String, Object> getFormData(Integer id) {
 		HashMap<String, Object> formdata = new HashMap<String, Object>();
 		for (String field : formfields) {

@@ -4,9 +4,7 @@ import java.util.HashMap;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.JButton;
 import java.awt.BorderLayout;
-import javax.swing.JLabel;
 
 public class PanelWithMap extends JPanel {
 	private static final long serialVersionUID = -8776121615582171474L;

@@ -2,12 +2,11 @@ package ch.bli.mez.model;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import ch.bli.mez.model.Employee;
 
 public class EmployeeTest {
 
@@ -23,7 +22,6 @@ public class EmployeeTest {
 	
 	Employee employee;
 
-	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
 		employee = new Employee();
@@ -45,7 +43,6 @@ public class EmployeeTest {
 		employee = null;
 	}
 
-	@SuppressWarnings("unused")
 	@Test
 	public void CreateEmployeeClasstest() {
 		Employee employee = new Employee();
