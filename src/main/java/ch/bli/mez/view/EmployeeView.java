@@ -1,6 +1,7 @@
 package ch.bli.mez.view;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 
@@ -8,7 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.BoxLayout;
+
+
 import java.awt.event.ActionEvent;
 
 public class EmployeeView extends JPanel {
@@ -73,15 +75,16 @@ public class EmployeeView extends JPanel {
 		EmployeePanel empPanel = new EmployeePanel();
 		employeePanels.put(id, empPanel);
 		
+		tabPanel.setLayout(new BorderLayout());
 		tabPanel.add(empPanel, BorderLayout.CENTER);
 		
 		TimeTransferPanel timetransPanel = new TimeTransferPanel();
 		timeTransferPanels.put(id, timetransPanel);
-		employeePanels.get(id).setExtraPanel(timeTransferPanels.get(id), "10, 4, 1, 15, fill, fill");
+		empPanel.setExtraPanel(timeTransferPanels.get(id), new Rectangle(390, 20, 80, 260));
 
 		ContractPanel contractPanel = new ContractPanel();
 		contractPanels.put(id, contractPanel);
-		employeePanels.get(id).setExtraPanel(contractPanels.get(id), "4, 22, 8, 2, fill, fill");
+		empPanel.setExtraPanel(contractPanels.get(id), new Rectangle(25, 290, 540, 140));
 
 		// Alle TEXTFELDER als Componenten hinzufügen
 		empPanel.putComponent("lastname", employeePanels.get(id).getTextField_lastname());
@@ -92,6 +95,7 @@ public class EmployeeView extends JPanel {
 		empPanel.putComponent("homeNumber", employeePanels.get(id).getTextField_homeNumber());
 		empPanel.putComponent("mobileNumber", employeePanels.get(id).getTextField_mobileNumber());
 		empPanel.putComponent("email", employeePanels.get(id).getTextField_email());
+
 	}
 
 	private PanelWithMap getEmployeePanelById(Integer id) {
