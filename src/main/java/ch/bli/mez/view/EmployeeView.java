@@ -83,11 +83,11 @@ public class EmployeeView extends JPanel {
 		
 		TimeTransferPanel timetransPanel = new TimeTransferPanel();
 		timeTransferPanels.put(employee.getId(), timetransPanel);
-		empPanel.setExtraPanel(timeTransferPanels.get(employee.getId()), new Rectangle(390, 20, 80, 260));
+		empPanel.setExtraPanel(timeTransferPanels.get(employee.getId()), new Rectangle(350, 27, 80, 250));
 
 		ContractPanel contractPanel = new ContractPanel();
 		contractPanels.put(employee.getId(), contractPanel);
-		empPanel.setExtraPanel(contractPanels.get(employee.getId()), new Rectangle(25, 290, 540, 140));
+		empPanel.setExtraPanel(contractPanels.get(employee.getId()), new Rectangle(25, 350, 600, 150));
 
 		// Alle TEXTFELDER als Componenten hinzufügen
 		empPanel.putComponent("lastname", employeePanels.get(employee.getId()).getTextField_lastname());
@@ -98,6 +98,8 @@ public class EmployeeView extends JPanel {
 		empPanel.putComponent("homeNumber", employeePanels.get(employee.getId()).getTextField_homeNumber());
 		empPanel.putComponent("mobileNumber", employeePanels.get(employee.getId()).getTextField_mobileNumber());
 		empPanel.putComponent("email", employeePanels.get(employee.getId()).getTextField_email());
+		
+		
 		
 		empPanel.setTextField_firstname(employee.getFirstName());
 		empPanel.setTextField_lastname(employee.getLastName());

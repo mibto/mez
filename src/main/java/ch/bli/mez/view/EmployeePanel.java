@@ -36,74 +36,74 @@ public class EmployeePanel extends PanelWithMap {
 		add(layeredPane, "name_13971428008795");
 		
 		JLabel lbllastname = new JLabel("Name");
-		lbllastname.setBounds(25, 19, 27, 14);
+		lbllastname.setBounds(25, 27, 111, 14);
 		layeredPane.add(lbllastname);
 		
 		textField_lastname = new JTextField();
-		textField_lastname.setBounds(130, 14, 196, 20);
+		textField_lastname.setBounds(133, 22, 196, 24);
 		layeredPane.add(textField_lastname);
 		textField_lastname.setColumns(10);
 		
 		JLabel lblfirstname = new JLabel("Vorname");
-		lblfirstname.setBounds(25, 52, 42, 14);
+		lblfirstname.setBounds(25, 68, 111, 14);
 		layeredPane.add(lblfirstname);
 		
 		textField_firstname = new JTextField();
-		textField_firstname.setBounds(130, 48, 196, 20);
+		textField_firstname.setBounds(133, 63, 196, 24);
 		layeredPane.add(textField_firstname);
 		textField_firstname.setColumns(10);
 		
 		JLabel lblstreet = new JLabel("Strasse");
-		lblstreet.setBounds(25, 85, 36, 14);
+		lblstreet.setBounds(25, 109, 111, 14);
 		layeredPane.add(lblstreet);
 		
 		textField_street = new JTextField();
-		textField_street.setBounds(130, 82, 196, 20);
+		textField_street.setBounds(133, 104, 196, 24);
 		layeredPane.add(textField_street);
 		textField_street.setColumns(10);
 		
 		JLabel lblcity = new JLabel("Ort");
-		lblcity.setBounds(25, 118, 16, 14);
+		lblcity.setBounds(25, 150, 111, 14);
 		layeredPane.add(lblcity);
 		
 		textField_city = new JTextField();
-		textField_city.setBounds(130, 116, 196, 20);
+		textField_city.setBounds(133, 145, 196, 24);
 		layeredPane.add(textField_city);
 		textField_city.setColumns(10);
 		
 		JLabel lblplz = new JLabel("Plz");
-		lblplz.setBounds(25, 151, 13, 14);
+		lblplz.setBounds(25, 191, 111, 14);
 		layeredPane.add(lblplz);
 		
 		textField_plz = new JTextField();
-		textField_plz.setBounds(130, 150, 196, 20);
+		textField_plz.setBounds(133, 186, 196, 24);
 		layeredPane.add(textField_plz);
 		textField_plz.setColumns(10);
 		
 		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
-		lblhomeNumber.setBounds(24, 184, 78, 14);
+		lblhomeNumber.setBounds(24, 232, 112, 14);
 		layeredPane.add(lblhomeNumber);
 		
 		textField_homeNumber = new JTextField();
-		textField_homeNumber.setBounds(130, 184, 196, 20);
+		textField_homeNumber.setBounds(133, 227, 196, 24);
 		layeredPane.add(textField_homeNumber);
 		textField_homeNumber.setColumns(10);
 		
 		JLabel lblmobileNumber = new JLabel("Natel Tel.Nr.");
-		lblmobileNumber.setBounds(25, 217, 61, 14);
+		lblmobileNumber.setBounds(25, 273, 111, 14);
 		layeredPane.add(lblmobileNumber);
 		
 		textField_mobileNumber = new JTextField();
-		textField_mobileNumber.setBounds(130, 218, 196, 20);
+		textField_mobileNumber.setBounds(133, 268, 196, 24);
 		layeredPane.add(textField_mobileNumber);
 		textField_mobileNumber.setColumns(10);
 		
 		JLabel lblemail = new JLabel("E-Mail");
-		lblemail.setBounds(24, 250, 28, 14);
+		lblemail.setBounds(24, 314, 112, 14);
 		layeredPane.add(lblemail);
 		
 		textField_email = new JTextField();
-		textField_email.setBounds(130, 252, 196, 20);
+		textField_email.setBounds(133, 309, 196, 24);
 		layeredPane.add(textField_email);
 		textField_email.setColumns(10);
 		

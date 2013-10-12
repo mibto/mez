@@ -17,7 +17,7 @@ public class ContractPanel extends JPanel {
 		add(layeredPane, "name_14434211068954");
 		
 		JLabel lblVertraege = new JLabel("Verträge ....");
-		lblVertraege.setBounds(130, 37, 86, 14);
+		lblVertraege.setBounds(130, 37, 183, 24);
 		layeredPane.add(lblVertraege);
 
 	}
