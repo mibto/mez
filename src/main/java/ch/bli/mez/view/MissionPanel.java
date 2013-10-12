@@ -1,6 +1,7 @@
 package ch.bli.mez.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
 
-public class MissionPanel extends JPanel {
+public class MissionPanel  extends PanelWithMap {
+
+	private static final long serialVersionUID = -7537968850748849818L;
+	
 	private JTextField name;
 	private JTextField comment;
 
@@ -34,6 +37,7 @@ public class MissionPanel extends JPanel {
 		btnAdd.setBounds(488, 63, 89, 23);
 		layeredPane.add(btnAdd);
 		
+		name =new JTextField();
 		name.setBounds(21, 62, 213, 24);
 		layeredPane.add(name);
 		name.setColumns(10);
@@ -46,6 +50,7 @@ public class MissionPanel extends JPanel {
 		lblComment.setBounds(252, 28, 109, 23);
 		layeredPane.add(lblComment);
 		
+		comment = new JTextField();
 		comment.setColumns(10);
 		comment.setBounds(252, 62, 213, 24);
 		layeredPane.add(comment);
@@ -64,6 +69,7 @@ public class MissionPanel extends JPanel {
 		txtpnPlatzhalterFrDie.setEnabled(false);
 		txtpnPlatzhalterFrDie.setEditable(false);
 		txtpnPlatzhalterFrDie.setText("Platzhalter für die spätere Liste");
+
 
 	}
 

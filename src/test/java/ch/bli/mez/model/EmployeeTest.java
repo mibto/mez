@@ -10,32 +10,21 @@ import ch.bli.mez.model.Employee;
 
 public class EmployeeTest {
 
-	String id;
-	String lastName;
-	String firstname;
-	String email;
-	String street;
-	String city;
-	Integer plz;
-	String mobileNumber;
-	String homeNumber;
-	
 	Employee employee;
 
 	@Before
 	public void setUp() throws Exception {
+		
 		employee = new Employee();
-
-		String id = "1";
-		String lastName = "Power";
-		String firstname = "Max";
-		String street = "inceptionstreet";
-		String email = "max.power@powerranger.com";
-		String city = "New York";
-		String mobileNumber = "099 555 66 88";
-		Integer plz = 9999;
-		String homeNumber = "055 777 99 77";
-
+		
+		employee.setFirstName("Max");
+		employee.setLastName("Power");
+		employee.setCity("New York");
+		employee.setPlz(9999);
+		employee.setStreet("inceptionstreet");
+		employee.setEmail("max.power@powerranger.com");
+		employee.setHomeNumber("099 555 66 88");
+		employee.setMobileNumber("055 777 99 77");
 	}
 
 	@After
@@ -51,40 +40,14 @@ public class EmployeeTest {
 	// City, PLZ und Street hinzufügen und abfragen
 	@Test
 	public void CityEmployeetest() {
-		employee.setCity(city);
-		employee.setPlz(plz);
-		employee.setStreet(street);
-		
-		assertEquals(city, employee.getCity());
-		assertEquals(plz, employee.getPlz());
-		assertEquals(street, employee.getStreet());
-	}
-	
-	// E-Mail hinzufügen und abfragen
-	@Test
-	public void EmailEmployeetest() {
-		employee.setEmail(email);
-		assertEquals(email, employee.getCity());
-	}
-
-	// Lastname & Firstname hinzufügen und abfragen
-	@Test
-	public void FirstLastNameEmployeetest() {
-		employee.setLastName(lastName);
-		employee.setFirstName(firstname);
-		assertEquals(email, employee.getLastName());
-		assertEquals(email, employee.getFirstName());
-	}
-
-	
-	// Phone Numbers testen
-	@Test
-	public void NumbersEmployeetest() {
-		employee.setHomeNumber(homeNumber);
-		employee.setMobileNumber(mobileNumber);
-		
-		assertEquals(homeNumber, employee.getHomeNumber());
-		assertEquals(mobileNumber, employee.getMobileNumber());
+		assertEquals("New York", employee.getCity());
+		assertEquals("9999", employee.getPlz().toString());
+		assertEquals("inceptionstreet", employee.getStreet());
+		assertEquals("max.power@powerranger.com", employee.getEmail());
+		assertEquals("Power", employee.getLastName());
+		assertEquals("Max", employee.getFirstName());
+		assertEquals("099 555 66 88", employee.getHomeNumber());
+		assertEquals("055 777 99 77", employee.getMobileNumber());
 	}
 
 
