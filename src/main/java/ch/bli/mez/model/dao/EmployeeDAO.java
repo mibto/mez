@@ -42,8 +42,14 @@ public class EmployeeDAO {
   }
 
   public void updateEmployee(Employee employee) {
-    session.update(employee);
-    session.flush();
+    Transaction tx = session.beginTransaction();
+    try {
+      session.update(employee);
+      session.flush();
+      tx.commit();
+    } catch (Exception ex) {
+      tx.rollback();
+    }
   }
 
   public void deleteEmployee(Integer id) {
