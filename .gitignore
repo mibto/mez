@@ -26,6 +26,7 @@ mez.db-journal
 *.rar
 *.tar
 *.zip
+*.log.*
 *.log
 *.sql
 *.sqlite
