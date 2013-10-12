@@ -1,12 +1,11 @@
 package ch.bli.mez.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
-
-import ch.bli.mez.model.Employee;
 
 public class EmployeeTest {
 
@@ -34,12 +33,12 @@ public class EmployeeTest {
 
 	@Test
 	public void CreateEmployeeClasstest() {
-		Employee employee = new Employee();
+		Employee newemployee = new Employee();
 	}
 
-	// City, PLZ und Street hinzufügen und abfragen
+	// Get Methoden testen
 	@Test
-	public void CityEmployeetest() {
+	public void GetEmployeetest() {
 		assertEquals("New York", employee.getCity());
 		assertEquals("9999", employee.getPlz().toString());
 		assertEquals("inceptionstreet", employee.getStreet());
@@ -49,6 +48,21 @@ public class EmployeeTest {
 		assertEquals("099 555 66 88", employee.getHomeNumber());
 		assertEquals("055 777 99 77", employee.getMobileNumber());
 	}
+	
 
+	
+	// Pflichtfelder
+	@Ignore
+	@Test(expected = Exception.class)
+	public void setLastNameNullEmployeetest() {
+		employee.setLastName(null);
+	}
+	// Pflichtfelder
+	@Ignore
+	@Test(expected = Exception.class)
+	public void setFirstNameNullEmployeetest() {
+		employee.setFirstName(null);
+	}
+	
 
 }
