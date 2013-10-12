@@ -30,10 +30,7 @@ public class EmployeeView extends JPanel {
 		
 
 		// musterTab - muss weg, da die Tabs vom Controller mit der Methode
-		// addEmployeeTab hinzugefügt werden sollten
-		JPanel mitarbeiterTab = new JPanel();
-		tabbedPane.addTab("New tab", null, mitarbeiterTab, null);
-		mitarbeiterTab.setLayout(new BorderLayout(0, 0));
+		// addEmployeeTab hinzugefügt werden sollte
 
 	}
 
@@ -43,9 +40,9 @@ public class EmployeeView extends JPanel {
 	/*
 	 * Fügt einen neuen Tab hinzu
 	 */
-	public void addEmployeeTab(String name, JPanel employee) {
+	public void addEmployeeTab(String name, JPanel employeePanel) {
 
-		tabbedPane.addTab(name, null, employee, null);
+		tabbedPane.addTab(name, null, employeePanel, null);
 
 	}
 

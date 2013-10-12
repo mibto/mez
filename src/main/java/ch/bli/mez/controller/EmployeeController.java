@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
+import ch.bli.mez.view.EmployeePanel;
 import ch.bli.mez.view.EmployeeView;
 
 /**
@@ -36,12 +37,37 @@ public class EmployeeController {
 		formfields.add("street");
 		formfields.add("plz");
 		formfields.add("city");
-		addListener();
+		formfields.add("mobileNumber");
+		formfields.add("homeNumber");
+		formfields.add("email");
+		addInitalTab();
+		// addListener();
 		addTabsForEmployees();
 	}
 	
 	public EmployeeView getView() {
 		return view;
+	}
+	
+	private void addInitalTab() {
+		final EmployeePanel panel = new EmployeePanel();
+		panel.setSaveChangedEmployeeListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent event) {
+				Employee employee = new Employee();
+				employee.setFirstName(panel.getFirstname());
+				employee.setLastName(panel.getLastname());
+				employee.setStreet(panel.getStreet());
+				employee.setPlz(Integer.parseInt(panel.getPlz()));
+				employee.setCity(panel.getCity());
+				employee.setMobileNumber(panel.getMobileNumber());
+				employee.setHomeNumber(panel.getHomeNumber());
+				employee.setEmail(panel.getEmail());
+				addTabForEmployee(employee);
+				model.addEmployee(employee);
+			}
+		});
+		view.addEmployeeTab("Neuer Mitarbeiter", panel);
 	}
 
 	/**
@@ -59,8 +85,34 @@ public class EmployeeController {
 	 * view Methode addEmployeeTab
 	 * @param employee
 	 */
-	private void addTabForEmployee(Employee employee) {
-		view.addEmployeeTab(employee);
+	public void addTabForEmployee(Employee emp) {
+		final Employee employee = emp;
+		final EmployeePanel panel = new EmployeePanel();
+		
+		panel.setFirstname(employee.getFirstName());
+		panel.setLastname(employee.getLastName());
+		panel.setCity(employee.getCity());
+		panel.setPlz(employee.getPlz().toString());
+		panel.setEmail(employee.getEmail());
+		panel.setHomeNumber(employee.getHomeNumber());
+		panel.setMobileNumber(employee.getMobileNumber());
+		panel.setStreet(employee.getStreet());
+		
+		panel.setSaveChangedEmployeeListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent event) {
+				employee.setFirstName(panel.getFirstname());
+				employee.setLastName(panel.getLastname());
+				employee.setStreet(panel.getStreet());
+				employee.setPlz(Integer.parseInt(panel.getPlz()));
+				employee.setCity(panel.getCity());
+				employee.setMobileNumber(panel.getMobileNumber());
+				employee.setHomeNumber(panel.getHomeNumber());
+				employee.setEmail(panel.getEmail());
+				model.updateEmployee(employee);
+			}
+		});
+		view.addEmployeeTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
 	}
 
 	/**
@@ -69,69 +121,25 @@ public class EmployeeController {
 	 * @param id
 	 * @return
 	 */
-	private HashMap<String, Object> getFormData(Integer id) {
-		HashMap<String, Object> formdata = new HashMap<String, Object>();
-		for (String field : formfields) {
-			formdata.put(field, view.getFieldValue(id, field));
-		}
-		return formdata;
-	}
+	
 
-	private void addListener() {
-		view.setBlubbctionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				for (Employee employee : model.findAll()) {
-					// jetzt was der view übergeben.
-					System.out.println(employee.getFirstName() + " "
-							+ employee.getLastName());
-				}
-			}
-		});
-
-		view.setBlaaActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				Employee employee = new Employee("Michael", "Brodmann",
-						"gattikonerstrasse 117", 8136, "gattikon");
-				model.addEmployee(employee);
-				addTabForEmployee(employee);
-				
-				employee = new Employee("Max", "Power",
-						"superstrasse 1541", 9999, "Entenhausen");
-				model.addEmployee(employee);
-				addTabForEmployee(employee);
-			}
-		});
-
-		view.setSaveNewEmployeeListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent event) {
-				HashMap<String, Object> formdata = getFormData(null);
-				Employee employee = new Employee((String) formdata
-						.get("firstName"), (String) formdata.get("lastName"),
-						(String) formdata.get("street"), (Integer) formdata
-								.get("plz"), (String) formdata.get("city"));
-				model.addEmployee(employee);
-				addTabForEmployee(employee);
-			}
-		});
-
-		view.setSaveChangedEmployeeListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent event) {
-				Integer id = Integer.parseInt(((Component) event.getSource())
-						.getName());
-				HashMap<String, Object> formdata = getFormData(id);
-				Employee employee = model.getEmployee(id);
-				employee.setFirstName((String) formdata.get("firstName"));
-				employee.setLastName((String) formdata.get("lastName"));
-				employee.setStreet((String) formdata.get("street"));
-				employee.setPlz((Integer) formdata.get("plz"));
-				employee.setCity((String) formdata.get("city"));
-				model.updateEmployee(employee);
-			}
-		});
-	}
+//	private void addListener() {
+//
+//		view.setSaveNewEmployeeListener(new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent event) {
+//				HashMap<String, Object> formdata = getFormData(null);
+//				Employee employee = new Employee((String) formdata
+//						.get("firstName"), (String) formdata.get("lastName"),
+//						(String) formdata.get("street"), (Integer) formdata
+//						.get("plz"), (String) formdata.get("city"));
+//				employee.setCity((String) formdata.get("mobileNumber"));
+//				employee.setCity((String) formdata.get("homeNumber"));
+//				employee.setCity((String) formdata.get("email"));
+//				model.addEmployee(employee);
+//				addTabForEmployee(employee);
+//			}
+//		});
+//	}
 
 }
