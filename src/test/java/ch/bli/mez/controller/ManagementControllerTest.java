@@ -6,6 +6,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Prüft ob der Controller richtig erstellt wird und die Getter funktionieren
+ * 
+ * @author dave
+ * @version 1.0
+ */
 public class ManagementControllerTest {
 	
 	private ManagementController instance;
