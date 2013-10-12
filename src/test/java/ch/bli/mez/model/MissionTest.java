@@ -10,7 +10,7 @@ import org.junit.Test;
  * Prüft ob eine Mission erstellt, geändert, inaktiviert werden kann
  * 
  * @author dave
- * @version 1.0
+ * @version 1.1
  */
 public class MissionTest {
 
@@ -64,4 +64,12 @@ public class MissionTest {
 		assertTrue(instance.getStatusActive() == false);
 	}
 
+	/*
+	 * Prüft ob "IstOrgel" auf false geändert werden kann
+	 */
+	@Test
+	public void changeIsOrgan() {
+		instance.setIsOrgan(false);
+		assertFalse(instance.getIsOrgan());
+	}
 }
