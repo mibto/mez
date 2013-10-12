@@ -15,12 +15,12 @@ public class EmployeeController {
 	private EmployeeView view;
 	private EmployeeDAO model;
 	private Collection<String> formfields;
-	private final MainController mainController;
+	private final SearchController searchController;
 
-	public EmployeeController(MainController mainController) {
-		this.mainController = mainController;
+	public EmployeeController() {
 		this.model = new EmployeeDAO();
-		this.view = new EmployeeView(mainController.getSearchController().getSearchPanel());
+		this.searchController = new SearchController();
+		this.view = new EmployeeView(searchController.getSearchPanel());
 		this.formfields = new ArrayList<String>();
 		formfields.add("firstName");
 		formfields.add("lastName");
@@ -29,6 +29,10 @@ public class EmployeeController {
 		formfields.add("city");
 		addListener();
 		addTabsForEmployees();
+	}
+	
+	public EmployeeView getView() {
+		return view;
 	}
 
 	private void addTabsForEmployees() {
@@ -106,10 +110,6 @@ public class EmployeeController {
 				model.updateEmployee(employee);
 			}
 		});
-	}
-
-	public EmployeeView getView() {
-		return view;
 	}
 
 }

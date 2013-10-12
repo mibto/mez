@@ -18,12 +18,6 @@ public class PanelWithMap extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 	}
 	
-	// externes Panel hinzufügen
-	public void setPanel(JPanel panel){
-		this.add(panel, BorderLayout.CENTER);
-	}
-	
-	//
 	public void putComponent(String name, JComponent component){
 		componentMap.put(name, component);
 	}

@@ -8,13 +8,11 @@ public class MainController {
 	// private final TimeMgmtController timeMgmtController;
 	// private final ReportingController reportingController;
 	// private final ManagementController managementController;
-	private final SearchController searchController;
 	private final MainView mainView;
 
 	public MainController() {
 		this.mainView = new MainView();
-		this.searchController = new SearchController();
-		this.employeeController = new EmployeeController(this);
+		this.employeeController = new EmployeeController();
 		setPanels();
 	}
 
@@ -28,9 +26,4 @@ public class MainController {
 		// hier sollen die "Zeiten erfassen", "Auswertungen" und "Verwaltung"
 		// Panels dem Mainframe hinzugefügt werden (internerKommentar)
 	}
-	
-	public SearchController getSearchController(){
-		return this.searchController;
-	}
-
 }

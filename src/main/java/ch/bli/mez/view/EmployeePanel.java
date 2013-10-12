@@ -9,7 +9,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class EmployeePanel extends JPanel {
+public class EmployeePanel extends PanelWithMap {
 	private JPanel panel_for_timetransfer;
 	private JTextField textField_lastname;
 	private JTextField textField_firstname;

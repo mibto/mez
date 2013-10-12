@@ -8,7 +8,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class TimeTransferPanel extends JPanel {
+public class TimeTransferPanel extends PanelWithMap {
 	/**
 	 * 
 	 */

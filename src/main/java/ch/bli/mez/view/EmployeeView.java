@@ -20,16 +20,9 @@ public class EmployeeView extends JPanel {
 	private JButton btnBlaa = new JButton("MA eintragen");
 	private JButton btnBlubb = new JButton("Blubb");
 	
-	// @ Leandra: Hesch das so gmeint?
-	// Map mit Employee-ID und (PANEL)EmployeePanel (Name, Aaresse) -> Diese Panel wird auf die PanelWithMap hinzugefügt
 	private HashMap<Integer, EmployeePanel> employeePanels = new HashMap<Integer, EmployeePanel>();
-	// Map mit Employee-ID und (PANEL)Verträge -> wird in die EmployeePanel hinzugefügt
 	private HashMap<Integer, TimeTransferPanel> timeTransferPanels = new HashMap<Integer, TimeTransferPanel>();
-	// Map mit Employee-ID und (PANEL)Ferienübertrag -> wird in die EmployeePanel hinzugefügt
 	private HashMap<Integer, ContractPanel> contractPanels = new HashMap<Integer, ContractPanel>();
-	
-	// Tabelle mit Employee-ID und PanelWithMap
-	private HashMap<Integer, PanelWithMap> employeePanelMaps = new HashMap<Integer, PanelWithMap>();
 	
 	private JTabbedPane tabbedPane;
 
@@ -73,13 +66,14 @@ public class EmployeeView extends JPanel {
 		// tabPanel.putComponent(fieldname, newTextfield)
 		// so können die Felder eindeutig angesprochen und ausgelesen werden.
 
-		PanelWithMap tabPanel = new PanelWithMap();
-		employeePanelMaps.put(id, tabPanel);
+		JPanel tabPanel = new JPanel();
 		tabbedPane.addTab(name, null, tabPanel, null);
 		
 		// Panel Employee erstellen mit den zwei "Unterpanels" Contract und TimeTransfer
 		EmployeePanel empPanel = new EmployeePanel();
 		employeePanels.put(id, empPanel);
+		
+		tabPanel.add(empPanel, BorderLayout.CENTER);
 		
 		TimeTransferPanel timetransPanel = new TimeTransferPanel();
 		timeTransferPanels.put(id, timetransPanel);
@@ -88,30 +82,24 @@ public class EmployeeView extends JPanel {
 		ContractPanel contractPanel = new ContractPanel();
 		contractPanels.put(id, contractPanel);
 		employeePanels.get(id).setExtraPanel(contractPanels.get(id), "4, 22, 8, 2, fill, fill");
-		
-		
-		//externe EmployeePanel setzen
-		tabPanel.setPanel(employeePanels.get(id));
 
 		// Alle TEXTFELDER als Componenten hinzufügen
-		tabPanel.putComponent("lastname", employeePanels.get(id).getTextField_lastname());
-		tabPanel.putComponent("fistname", employeePanels.get(id).getTextField_firstname());
-		tabPanel.putComponent("street", employeePanels.get(id).getTextField_street());
-		tabPanel.putComponent("city", employeePanels.get(id).getTextField_city());
-		tabPanel.putComponent("plz", employeePanels.get(id).getTextField_plz());
-		tabPanel.putComponent("homeNumber", employeePanels.get(id).getTextField_homeNumber());
-		tabPanel.putComponent("mobileNumber", employeePanels.get(id).getTextField_mobileNumber());
-		tabPanel.putComponent("email", employeePanels.get(id).getTextField_email());
-		
-		
+		empPanel.putComponent("lastname", employeePanels.get(id).getTextField_lastname());
+		empPanel.putComponent("fistname", employeePanels.get(id).getTextField_firstname());
+		empPanel.putComponent("street", employeePanels.get(id).getTextField_street());
+		empPanel.putComponent("city", employeePanels.get(id).getTextField_city());
+		empPanel.putComponent("plz", employeePanels.get(id).getTextField_plz());
+		empPanel.putComponent("homeNumber", employeePanels.get(id).getTextField_homeNumber());
+		empPanel.putComponent("mobileNumber", employeePanels.get(id).getTextField_mobileNumber());
+		empPanel.putComponent("email", employeePanels.get(id).getTextField_email());
 	}
 
-	private PanelWithMap getPanelById(Integer id) {
-		return employeePanelMaps.get(id);
+	private PanelWithMap getEmployeePanelById(Integer id) {
+		return employeePanels.get(id);
 	}
 
 	public JComponent getComponent(Integer id, String fieldname) {
-		PanelWithMap employeePanel = getPanelById(id);
+		PanelWithMap employeePanel = getEmployeePanelById(id);
 		return employeePanel.getComponentByName(fieldname);
 	}
 
@@ -131,7 +119,6 @@ public class EmployeeView extends JPanel {
 
 	public void setSaveNewEmployeeListener(ActionListener actionListener) {
 		// Wird von Controller verwendet (internerKommentar)
-
 	}
 
 	public void setSaveChangedEmployeeListener(ActionListener actionListener) {

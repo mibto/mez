@@ -2,7 +2,7 @@ package ch.bli.mez.view;
 
 import javax.swing.JPanel;
 
-public class TimeMgmtView extends JPanel {
+public class TimeMgmtView extends PanelWithMap {
 
 	/**
 	 * 
