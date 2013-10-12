@@ -35,7 +35,7 @@ public class EmployeePanel extends JPanel {
 	 * Panels for the contracts and timetransfers are separated
 	 * 
 	 */
-	public EmployeePanel(Integer id) {
+	public EmployeePanel() {
 		setLayout(new CardLayout(0, 0));
 		
 		add(layeredPane, "name_13971428008795");
@@ -113,10 +113,8 @@ public class EmployeePanel extends JPanel {
 		email.setColumns(10);
 		
 		btnSave = new JButton("Speichern");
-		btnSave.setName(id.toString());
 		btnSave.setBounds(25, 363, 89, 23);
 		layeredPane.add(btnSave);
-		
 	}
 	
 	public void setSaveChangedEmployeeListener(ActionListener actionListener) {
@@ -170,7 +168,7 @@ public class EmployeePanel extends JPanel {
 		return lastname;
 	}
 
-	public void setlastname(String value) {
+	public void setLastname(String value) {
 		this.lastname.setText(value);
 	}
 
@@ -178,7 +176,7 @@ public class EmployeePanel extends JPanel {
 		return firstname;
 	}
 
-	public void setfirstname(String value) {
+	public void setFirstname(String value) {
 		this.firstname.setText(value);
 	}
 
@@ -186,7 +184,7 @@ public class EmployeePanel extends JPanel {
 		return street;
 	}
 
-	public void setstreet(String value) {
+	public void setStreet(String value) {
 		this.street.setText(value);
 	}
 
@@ -194,7 +192,7 @@ public class EmployeePanel extends JPanel {
 		return city;
 	}
 
-	public void setcity(String value) {
+	public void setCity(String value) {
 		this.city.setText(value);
 	}
 
@@ -202,7 +200,7 @@ public class EmployeePanel extends JPanel {
 		return plz;
 	}
 
-	public void setplz(String value) {
+	public void setPlz(String value) {
 		this.plz.setText(value);
 	}
 
@@ -210,7 +208,7 @@ public class EmployeePanel extends JPanel {
 		return homeNumber;
 	}
 
-	public void sethomeNumber(String value) {
+	public void setHomeNumber(String value) {
 		this.homeNumber.setText(value);
 	}
 
@@ -218,7 +216,7 @@ public class EmployeePanel extends JPanel {
 		return mobileNumber;
 	}
 
-	public void setmobileNumber(String value) {
+	public void setMobileNumber(String value) {
 		this.mobileNumber.setText(value);
 	}
 
@@ -226,15 +224,11 @@ public class EmployeePanel extends JPanel {
 		return email;
 	}
 
-	public void setemail(String value) {
+	public void setEmail(String value) {
 		this.email.setText(value);
 	}
 	
 	public JButton getBtnSave() {
 		return btnSave;
-	}
-	
-	public void setBtnSaveName(String id) {
-		 btnSave.setName(id);
 	}
 }
