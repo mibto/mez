@@ -4,7 +4,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -151,7 +150,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(btnSave);
 	}
 	
-	public void setSaveChangedEmployeeListener(ActionListener actionListener) {
+	public void setSaveEmployeeListener(ActionListener actionListener) {
 		btnSave.addActionListener(actionListener);
 	}
 	
@@ -159,7 +158,7 @@ public class EmployeePanel extends JPanel {
 		plzError.setVisible(true);
 	}
 	
-	public void hidePlzError(){
+	private void hidePlzError(){
 		plzError.setVisible(false);
 	}
 	
@@ -167,7 +166,7 @@ public class EmployeePanel extends JPanel {
 		firstNameError.setVisible(true);
 	}
 	
-	public void hideFirstNameError(){
+	private void hideFirstNameError(){
 		firstNameError.setVisible(false);
 	}
 	
@@ -175,7 +174,7 @@ public class EmployeePanel extends JPanel {
 		lastNameError.setVisible(true);
 	}
 	
-	public void hideLastNameError(){
+	private void hideLastNameError(){
 		lastNameError.setVisible(false);
 	}
 	
@@ -186,6 +185,12 @@ public class EmployeePanel extends JPanel {
 	
 	public void hideConfirmation() {
 		confirmation.setVisible(false);
+	}
+	
+	public void hideErrors(){
+		hideFirstNameError();
+		hideLastNameError();
+		hidePlzError();
 	}
 	
 	public void cleanFields(){

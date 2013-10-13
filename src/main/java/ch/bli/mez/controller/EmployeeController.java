@@ -1,11 +1,7 @@
 package ch.bli.mez.controller;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
@@ -19,7 +15,6 @@ import ch.bli.mez.view.EmployeeView;
 public class EmployeeController {
 	private EmployeeView view;
 	private EmployeeDAO model;
-	private Collection<String> formfields;
 	private final SearchController searchController;
 
 	/**
@@ -31,17 +26,7 @@ public class EmployeeController {
 		this.model = new EmployeeDAO();
 		this.searchController = new SearchController();
 		this.view = new EmployeeView(searchController.getSearchPanel());
-		this.formfields = new ArrayList<String>();
-		formfields.add("firstName");
-		formfields.add("lastName");
-		formfields.add("street");
-		formfields.add("plz");
-		formfields.add("city");
-		formfields.add("mobileNumber");
-		formfields.add("homeNumber");
-		formfields.add("email");
 		addInitalTab();
-		// addListener();
 		addTabsForEmployees();
 	}
 	
@@ -51,31 +36,17 @@ public class EmployeeController {
 	
 	private void addInitalTab() {
 		final EmployeePanel panel = new EmployeePanel();
-		panel.setSaveChangedEmployeeListener(new ActionListener() {
+		panel.setSaveEmployeeListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent event) {
 				panel.hideConfirmation();
-				panel.hideFirstNameError();
-				panel.hideLastNameError();
-				if (panel.getFirstname().equals("") || panel.getLastname().equals("")){
-					if (panel.getFirstname().equals("")){
-						panel.showFirstNameError();
-					}
-					if (panel.getLastname().equals("")){
-						panel.showLastNameError();
-					}
+				panel.hideErrors();
+				if (! validateFields(panel)){
 					return;
 				}
 				Employee employee = new Employee(panel.getFirstname(), panel.getLastname());
 				employee.setStreet(panel.getStreet());
-				try {
-					panel.hidePlzError();
-					if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));					
-				}
-				catch (NumberFormatException e){
-					panel.showPlzError();
-					return;
-				}
+				if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));
 				employee.setCity(panel.getCity());
 				employee.setMobileNumber(panel.getMobileNumber());
 				employee.setHomeNumber(panel.getHomeNumber());
@@ -118,29 +89,15 @@ public class EmployeeController {
 		panel.setMobileNumber(employee.getMobileNumber());
 		panel.setStreet(employee.getStreet());
 		
-		panel.setSaveChangedEmployeeListener(new ActionListener() {
+		panel.setSaveEmployeeListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent event) {
+				panel.hideErrors();
 				panel.hideConfirmation();
-				panel.hideFirstNameError();
-				panel.hideLastNameError();
-				if (panel.getFirstname().equals("") || panel.getLastname().equals("")){
-					if (panel.getFirstname().equals("")){
-						panel.showFirstNameError();
-					}
-					if (panel.getLastname().equals("")){
-						panel.showLastNameError();
-					}
+				if (! validateFields(panel)){
 					return;
 				}
-				try {
-					panel.hidePlzError();
-					if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));					
-				}
-				catch (NumberFormatException e){
-					panel.showPlzError();
-					return;
-				}
+				if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));					
 				employee.setFirstName(panel.getFirstname());
 				employee.setLastName(panel.getLastname());
 				employee.setStreet(panel.getStreet());
@@ -153,5 +110,25 @@ public class EmployeeController {
 			}
 		});
 		view.addEmployeeTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
+	}
+
+	public boolean validateFields(EmployeePanel panel){
+		boolean valid = true;
+		if (panel.getFirstname().equals("")){
+			panel.showFirstNameError();
+			valid = false;
+		}
+		if (panel.getLastname().equals("")){
+			panel.showLastNameError();
+			valid = false;
+		}
+		try {
+			if (!panel.getPlz().equals("")) Integer.parseInt(panel.getPlz());					
+		}
+		catch (NumberFormatException e){
+			panel.showPlzError();
+			valid = false;
+		}
+		return valid;
 	}
 }
