@@ -15,7 +15,7 @@ import org.junit.Test;
 public class MissionDAOTest {
 	
 	private MissionDAO instance;
-	private Mission mission
+	private Mission mission;
 
 	@Before
 	public void setUp() throws Exception {

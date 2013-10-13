@@ -49,18 +49,25 @@ public class EmployeeTest {
 		assertEquals("055 777 99 77", employee.getMobileNumber());
 	}
 	
+	
+	//PLZ muss int sein
+	@Test
+	public void setPlzNullEmployeetest() {
+		employee.setPlz(Integer.parseInt(""));
+		assertEquals(null, employee.getPlz());
+	}
 
 	
 	// Pflichtfelder
 	@Ignore
 	@Test(expected = Exception.class)
-	public void setLastNameNullEmployeetest() {
+	public void setLastNameNullExEmployeetest() {
 		employee.setLastName(null);
 	}
 	// Pflichtfelder
 	@Ignore
 	@Test(expected = Exception.class)
-	public void setFirstNameNullEmployeetest() {
+	public void setFirstNameNullExEmployeetest() {
 		employee.setFirstName(null);
 	}
 	
