@@ -39,8 +39,8 @@ public class MissionTest {
 		assertTrue(instance.getName() == "Orgel1");
 		assertTrue(instance.getComment() == "small comment");
 		assertTrue(instance.getIsOrgan());
-		assertNotNull(instance.getId());
-		assertTrue(instance.getStatusActive());
+		assertNull(instance.getId());  // Not set before written to Database.
+		assertTrue(instance.getIsActive());
 	}
 
 	/*
@@ -60,8 +60,8 @@ public class MissionTest {
 	 */
 	@Test
 	public void changeStatusMission() {
-		instance.setStatusActive(false);
-		assertTrue(instance.getStatusActive() == false);
+		instance.setIsActive(false);
+		assertTrue(instance.getIsActive() == false);
 	}
 
 	/*

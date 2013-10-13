@@ -1,8 +1,9 @@
 package ch.bli.mez.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -25,6 +26,12 @@ public class EmployeePanel extends JPanel {
 	private JTextField mobileNumber;
 	private JTextField email;
 	
+	private JLabel plzError;
+	private JLabel lastNameError;
+	private JLabel firstNameError;
+	
+	private JLabel confirmation;
+	
 	private JButton btnSave;
 
 	private JLayeredPane layeredPane = new JLayeredPane();
@@ -40,86 +47,163 @@ public class EmployeePanel extends JPanel {
 		
 		add(layeredPane, "name_13971428008795");
 		
+		confirmation = new JLabel("");
+		confirmation.setBounds(25, 4, 210, 14);
+		layeredPane.add(confirmation);
+		confirmation.setForeground(new Color(34,139,34));
+		confirmation.setVisible(false);
+		
 		JLabel lbllastname = new JLabel("Name");
-		lbllastname.setBounds(25, 27, 111, 14);
+		lbllastname.setBounds(25, 78, 111, 14);
+		lbllastname.setFont(lbllastname.getFont().deriveFont(Font.BOLD));
 		layeredPane.add(lbllastname);
 		
 		lastname = new JTextField();
-		lastname.setBounds(133, 22, 196, 24);
+		lastname.setBounds(133, 73, 196, 24);
 		layeredPane.add(lastname);
 		lastname.setColumns(10);
 		
+		lastNameError = new JLabel("Dieses Feld muss ausgefüllt werden.");
+		lastNameError.setBounds(345, 78, 240, 14);
+		lastNameError.setForeground(Color.red);
+		lastNameError.setVisible(false);
+		layeredPane.add(lastNameError);
+		
 		JLabel lblfirstname = new JLabel("Vorname");
-		lblfirstname.setBounds(25, 68, 111, 14);
+		lblfirstname.setBounds(25, 37, 111, 14);
+		lblfirstname.setFont(lblfirstname.getFont().deriveFont(Font.BOLD));
 		layeredPane.add(lblfirstname);
 		
 		firstname = new JTextField();
-		firstname.setBounds(133, 63, 196, 24);
+		firstname.setBounds(133, 32, 196, 24);
 		layeredPane.add(firstname);
 		firstname.setColumns(10);
 		
+		firstNameError = new JLabel("Dieses Feld muss ausgefüllt werden.");
+		firstNameError.setBounds(345, 37, 240, 14);
+		firstNameError.setForeground(Color.red);
+		firstNameError.setVisible(false);
+		layeredPane.add(firstNameError);
+		
 		JLabel lblstreet = new JLabel("Strasse");
-		lblstreet.setBounds(25, 109, 111, 14);
+		lblstreet.setBounds(25, 119, 111, 14);
 		layeredPane.add(lblstreet);
 		
 		street = new JTextField();
-		street.setBounds(133, 104, 196, 24);
+		street.setBounds(133, 114, 196, 24);
 		layeredPane.add(street);
 		street.setColumns(10);
 
 		JLabel lblcity = new JLabel("Ort");
-		lblcity.setBounds(25, 150, 111, 14);
+		lblcity.setBounds(25, 201, 111, 14);
 		layeredPane.add(lblcity);
 		
 		city = new JTextField();
-		city.setBounds(133, 145, 196, 24);
+		city.setBounds(133, 196, 196, 24);
 		layeredPane.add(city);
 		city.setColumns(10);
 		
-		JLabel lblplz = new JLabel("Plz");
-		lblplz.setBounds(25, 191, 111, 14);
+		JLabel lblplz = new JLabel("PLZ");
+		lblplz.setBounds(25, 160, 111, 14);
 		layeredPane.add(lblplz);
 		
 		plz = new JTextField();
-		plz.setBounds(133, 186, 196, 24);
+		plz.setBounds(133, 155, 196, 24);
 		layeredPane.add(plz);
 		plz.setColumns(10);
+		
+		plzError = new JLabel("Bitte eine Zahl eingeben.");
+		plzError.setBounds(345, 160, 160, 14);
+		plzError.setForeground(Color.red);
+		plzError.setVisible(false);
+		layeredPane.add(plzError);
 
 		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
-		lblhomeNumber.setBounds(24, 232, 112, 14);
+		lblhomeNumber.setBounds(24, 242, 112, 14);
 		layeredPane.add(lblhomeNumber);
 		
 		homeNumber = new JTextField();
-		homeNumber.setBounds(133, 227, 196, 24);
+		homeNumber.setBounds(133, 237, 196, 24);
 		layeredPane.add(homeNumber);
 		homeNumber.setColumns(10);
 		
 		JLabel lblmobileNumber = new JLabel("Natel Tel.Nr.");
-		lblmobileNumber.setBounds(25, 273, 111, 14);
+		lblmobileNumber.setBounds(25, 283, 111, 14);
 		layeredPane.add(lblmobileNumber);
 		
 		mobileNumber = new JTextField();
-		mobileNumber.setBounds(133, 268, 196, 24);
+		mobileNumber.setBounds(133, 278, 196, 24);
 		layeredPane.add(mobileNumber);
 		mobileNumber.setColumns(10);
 		
 		JLabel lblemail = new JLabel("E-Mail");
-		lblemail.setBounds(24, 314, 112, 14);
+		lblemail.setBounds(24, 324, 112, 14);
 		layeredPane.add(lblemail);
 		
 		email = new JTextField();
-		email.setBounds(133, 309, 196, 24);
+		email.setBounds(133, 319, 196, 24);
 		layeredPane.add(email);
 		email.setColumns(10);
 		
 		btnSave = new JButton("Speichern");
-		btnSave.setBounds(25, 363, 89, 23);
+		btnSave.setBounds(25, 373, 89, 23);
 		layeredPane.add(btnSave);
 	}
 	
-	public void setSaveChangedEmployeeListener(ActionListener actionListener) {
+	public void setSaveEmployeeListener(ActionListener actionListener) {
 		btnSave.addActionListener(actionListener);
 	}
+	
+	public void showPlzError(){
+		plzError.setVisible(true);
+	}
+	
+	private void hidePlzError(){
+		plzError.setVisible(false);
+	}
+	
+	public void showFirstNameError(){
+		firstNameError.setVisible(true);
+	}
+	
+	private void hideFirstNameError(){
+		firstNameError.setVisible(false);
+	}
+	
+	public void showLastNameError(){
+		lastNameError.setVisible(true);
+	}
+	
+	private void hideLastNameError(){
+		lastNameError.setVisible(false);
+	}
+	
+	public void showConfirmation(String name){
+		confirmation.setText(name + " wurde gespeichert.");
+		confirmation.setVisible(true);
+	}
+	
+	public void hideConfirmation() {
+		confirmation.setVisible(false);
+	}
+	
+	public void hideErrors(){
+		hideFirstNameError();
+		hideLastNameError();
+		hidePlzError();
+	}
+	
+	public void cleanFields(){
+		setFirstname("");
+		setLastname("");
+		setStreet("");
+		setPlz("");
+		setCity("");
+		setMobileNumber("");
+		setHomeNumber("");
+		setEmail("");
+	}
+	
 	
 	/*
 	 * Koordinaten:

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class EmployeeTest {
@@ -33,7 +32,9 @@ public class EmployeeTest {
 
 	@Test
 	public void CreateEmployeeClasstest() {
-		Employee newemployee = new Employee();
+		Employee newemployee = new Employee("Vorname", "Nachname");
+		assertEquals("Vorname", newemployee.getFirstName());
+		assertEquals("Nachname", newemployee.getLastName());
 	}
 
 	// Get Methoden testen
@@ -48,28 +49,4 @@ public class EmployeeTest {
 		assertEquals("099 555 66 88", employee.getHomeNumber());
 		assertEquals("055 777 99 77", employee.getMobileNumber());
 	}
-	
-	
-	//PLZ muss int sein
-	@Test
-	public void setPlzNullEmployeetest() {
-		employee.setPlz(Integer.parseInt(""));
-		assertEquals(null, employee.getPlz());
-	}
-
-	
-	// Pflichtfelder
-	@Ignore
-	@Test(expected = Exception.class)
-	public void setLastNameNullExEmployeetest() {
-		employee.setLastName(null);
-	}
-	// Pflichtfelder
-	@Ignore
-	@Test(expected = Exception.class)
-	public void setFirstNameNullExEmployeetest() {
-		employee.setFirstName(null);
-	}
-	
-
 }

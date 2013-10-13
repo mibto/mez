@@ -28,14 +28,10 @@ public class Employee {
       
     }
  
-    public Employee(String firstName, String lastName, String street,
-        Integer plz, String city) {
-      super();
-      this.firstName = firstName;
-      this.lastName = lastName;
-      this.street = street;
-      this.plz = plz;
-      this.city = city;
+    public Employee(String firstName, String lastName) {
+    	super();
+    	this.firstName = firstName;
+      	this.lastName = lastName;
     }
 
     @Id 
@@ -90,6 +86,8 @@ public class Employee {
     }
 
     public Integer getPlz() {
+    	if (plz == null)
+    		return 0;
       return plz;
     }
 

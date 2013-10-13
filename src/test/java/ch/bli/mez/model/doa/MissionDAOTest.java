@@ -1,6 +1,11 @@
 package ch.bli.mez.model.doa;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.hibernate.ObjectNotFoundException;
 import org.junit.After;
@@ -9,9 +14,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
-import ch.bli.mez.model.dao.EmployeeDAO;
+import ch.bli.mez.model.dao.MissionDAO;
 
 /**
  * Prüft ob eine Mission korrekt abgespeichert, updated und gelöscht werden kann
@@ -76,6 +80,17 @@ public class MissionDAOTest {
 		instance.deleteMission(mission.getId());
 	}
 	
+	/* 
+	 * Exceptions werden abgefangen und ein rollback ausgeführt.
+	 * Hier wäre ein mock test nützlich um zu testen, ob der rollback ausgeführt wird.
+	 */
+	@Test
+	public void missionHasId(){
+		instance.addMission(mission);
+		List<Mission> myMissions = instance.findAll();
+		assertNotNull(myMissions.get(0).getId());
+	}
+
 	/*
 	 * Prüft ob eine als null gespeicherte Mission nicht gespeichert wird
 	 */

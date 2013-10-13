@@ -37,7 +37,7 @@ public class EmployeeDAOTest {
 	
 	@Before
 	public void setUp(){
-		this.employee = new Employee("Hans", "Müller", "Golfstrasse", 1234, "Zürich");
+		this.employee = new Employee("Hans", "Müller");
 	}
 
 	@After
