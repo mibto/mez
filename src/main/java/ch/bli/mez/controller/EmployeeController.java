@@ -54,17 +54,36 @@ public class EmployeeController {
 		panel.setSaveChangedEmployeeListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent event) {
-				Employee employee = new Employee();
-				employee.setFirstName(panel.getFirstname());
-				employee.setLastName(panel.getLastname());
+				panel.hideConfirmation();
+				panel.hideFirstNameError();
+				panel.hideLastNameError();
+				if (panel.getFirstname().equals("") || panel.getLastname().equals("")){
+					if (panel.getFirstname().equals("")){
+						panel.showFirstNameError();
+					}
+					if (panel.getLastname().equals("")){
+						panel.showLastNameError();
+					}
+					return;
+				}
+				Employee employee = new Employee(panel.getFirstname(), panel.getLastname());
 				employee.setStreet(panel.getStreet());
-				employee.setPlz(Integer.parseInt(panel.getPlz()));
+				try {
+					panel.hidePlzError();
+					if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));					
+				}
+				catch (NumberFormatException e){
+					panel.showPlzError();
+					return;
+				}
 				employee.setCity(panel.getCity());
 				employee.setMobileNumber(panel.getMobileNumber());
 				employee.setHomeNumber(panel.getHomeNumber());
 				employee.setEmail(panel.getEmail());
 				addTabForEmployee(employee);
 				model.addEmployee(employee);
+				panel.cleanFields();
+				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
 			}
 		});
 		view.addEmployeeTab("Neuer Mitarbeiter", panel);
@@ -92,7 +111,8 @@ public class EmployeeController {
 		panel.setFirstname(employee.getFirstName());
 		panel.setLastname(employee.getLastName());
 		panel.setCity(employee.getCity());
-		panel.setPlz(employee.getPlz().toString());
+		if (employee.getPlz() != 0)
+			panel.setPlz(employee.getPlz().toString());
 		panel.setEmail(employee.getEmail());
 		panel.setHomeNumber(employee.getHomeNumber());
 		panel.setMobileNumber(employee.getMobileNumber());
@@ -101,45 +121,37 @@ public class EmployeeController {
 		panel.setSaveChangedEmployeeListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent event) {
+				panel.hideConfirmation();
+				panel.hideFirstNameError();
+				panel.hideLastNameError();
+				if (panel.getFirstname().equals("") || panel.getLastname().equals("")){
+					if (panel.getFirstname().equals("")){
+						panel.showFirstNameError();
+					}
+					if (panel.getLastname().equals("")){
+						panel.showLastNameError();
+					}
+					return;
+				}
+				try {
+					panel.hidePlzError();
+					if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));					
+				}
+				catch (NumberFormatException e){
+					panel.showPlzError();
+					return;
+				}
 				employee.setFirstName(panel.getFirstname());
 				employee.setLastName(panel.getLastname());
 				employee.setStreet(panel.getStreet());
-				employee.setPlz(Integer.parseInt(panel.getPlz()));
 				employee.setCity(panel.getCity());
 				employee.setMobileNumber(panel.getMobileNumber());
 				employee.setHomeNumber(panel.getHomeNumber());
 				employee.setEmail(panel.getEmail());
 				model.updateEmployee(employee);
+				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
 			}
 		});
 		view.addEmployeeTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
 	}
-
-	/**
-	 * Liest das Formular für den Mitarbeiter mit der gegeben id aus
-	 * und returnt eine Map mit den gegebenen Daten.
-	 * @param id
-	 * @return
-	 */
-	
-
-//	private void addListener() {
-//
-//		view.setSaveNewEmployeeListener(new ActionListener() {
-//
-//			public void actionPerformed(ActionEvent event) {
-//				HashMap<String, Object> formdata = getFormData(null);
-//				Employee employee = new Employee((String) formdata
-//						.get("firstName"), (String) formdata.get("lastName"),
-//						(String) formdata.get("street"), (Integer) formdata
-//						.get("plz"), (String) formdata.get("city"));
-//				employee.setCity((String) formdata.get("mobileNumber"));
-//				employee.setCity((String) formdata.get("homeNumber"));
-//				employee.setCity((String) formdata.get("email"));
-//				model.addEmployee(employee);
-//				addTabForEmployee(employee);
-//			}
-//		});
-//	}
-
 }
