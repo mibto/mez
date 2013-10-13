@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import ch.bli.mez.view.EmployeePanel;
 
 public class EmployeeTest {
 
@@ -35,7 +32,9 @@ public class EmployeeTest {
 
 	@Test
 	public void CreateEmployeeClasstest() {
-		Employee newemployee = new Employee();
+		Employee newemployee = new Employee("Vorname", "Nachname");
+		assertEquals("Vorname", newemployee.getFirstName());
+		assertEquals("Nachname", newemployee.getLastName());
 	}
 
 	// Get Methoden testen

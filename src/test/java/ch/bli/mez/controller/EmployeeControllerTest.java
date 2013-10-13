@@ -6,10 +6,8 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import ch.bli.mez.model.Employee;
 import ch.bli.mez.view.EmployeePanel;
 
 public class EmployeeControllerTest {
