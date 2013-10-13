@@ -2,35 +2,50 @@ package ch.bli.mez.model.doa;
 
 import static org.junit.Assert.*;
 
+import org.hibernate.ObjectNotFoundException;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import ch.bli.mez.model.Employee;
+import ch.bli.mez.model.Mission;
+import ch.bli.mez.model.dao.EmployeeDAO;
+
 /**
- * Prüft ob die MissionDAO Klasse korrekt funktioniert
+ * Prüft ob eine Mission korrekt abgespeichert, updated und gelöscht werden kann
  * 
  * @author dave
- * @version draft
+ * @version 1.0
  */
 public class MissionDAOTest {
 	
-	private MissionDAO instance;
-	private Mission mission
-
+	private static MissionDAO instance;
+	private Mission mission;
+	
+	@BeforeClass
+	public static void beforeEverything(){
+		instance = new MissionDAO();		
+	}
+	
+	@AfterClass
+	public static void cleanUp(){
+		instance = null;
+	}
+	
 	@Before
-	public void setUp() throws Exception {
-		this.instance = new MissionDAO();
-		this.mission = new Mission("Orgel1", "small comment", true);
+	public void setUp(){
+		this.mission = new Mission("Orgelx", "comment", true);
 	}
 
 	@After
-	public void tearDown() throws Exception {
-		this.instance = null;
+	public void tearDown(){
 		this.mission = null;
 	}
-
+	
 	/*
-	 * Prüft ob die Instanz erstellt wurde
+	 * Prüft ob die Instanzen erstellt wurden
 	 */
 	@Test
 	public void checkInstance() {
@@ -39,19 +54,60 @@ public class MissionDAOTest {
 	}
 	
 	/*
-	 * Prüft ob eine Mission im Model abgespeichert werden kann
+	 * Prüft ob eine Mission korrekt abgespeichert und wieder gelöscht wird
 	 */
-	@Test
-	public void addMission(){
+	@Test(expected=ObjectNotFoundException.class)
+	public void saveMission(){
 		instance.addMission(mission);
+		assertEquals(mission, instance.getMission(mission.getId()));
+		instance.deleteMission(mission.getId());
+		instance.getMission(mission.getId());
 	}
 	
-	/* @@@ (internal comment) muss getestet werden, ob überhaupt eine Exception geworfen wird!!!
-	 * Prüft ob eine Exception geworfen wird, wenn keine Misson mitgegeben wird
+	/*
+	 * Prüft, dass eine Mission nicht doppelt gespeichert werden kann
+	 */
+	@Test
+	public void duplicateMission(){
+		instance.addMission(mission);
+		int begin = instance.findAll().size();
+		instance.addMission(mission);
+		assertEquals(begin, instance.findAll().size());
+		instance.deleteMission(mission.getId());
+	}
+	
+	/*
+	 * Prüft ob eine als null gespeicherte Mission nicht gespeichert wird
 	 */
 	@Test(expected=Exception.class)
 	public void addNullMission(){
 		instance.addMission(null);
+	}
+
+	/*
+	 * Prüft ob die Mission updated werden kann
+	 */
+	@Test
+	public void updateMission(){
+		instance.addMission(mission);
+		mission.setName("KeineOrgel");
+		mission.setIsOrgan(false);
+		instance.updateMission(mission);
+		assertFalse("Orgelx".equals(instance.getMission(mission.getId()).getName()));
+		assertEquals(mission, instance.getMission(mission.getId()));
+		instance.deleteMission(mission.getId());
+	}
+	
+	/*
+	 * Prüft ob die Mission ohne Änderungen korrekt updated wird
+	 */
+	@Test
+	public void updateWithoutModificationMission(){
+		instance.addMission(mission);
+		instance.updateMission(mission);
+		assertTrue("Orgelx".equals(instance.getMission(mission.getId()).getName()));
+		assertEquals(mission, instance.getMission(mission.getId()));
+		instance.deleteMission(mission.getId());
 	}
 
 }
