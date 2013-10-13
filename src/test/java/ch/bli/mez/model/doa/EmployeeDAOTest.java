@@ -80,7 +80,7 @@ public class EmployeeDAOTest {
 	/*
 	 * Prüft ob einen als null gespeicherten Employee nicht gespeichert wird
 	 */
-	@Test(expected=Exception.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void addNullEmployee(){
 		instance.addEmployee(null);
 	}

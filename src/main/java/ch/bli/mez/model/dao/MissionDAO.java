@@ -30,8 +30,9 @@ public class MissionDAO {
       session.save(mission);
       session.flush();
       tx.commit();
-    } catch (Exception ex) {
+    } catch (IllegalArgumentException ex) {
       tx.rollback();
+      throw ex;
     }
   }
 

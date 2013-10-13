@@ -30,8 +30,9 @@ public class EmployeeDAO {
       session.save(employee);
       session.flush();
       tx.commit();
-    } catch (Exception ex) {
+    } catch (IllegalArgumentException ex) {
       tx.rollback();
+      throw ex;
     }
   }
 

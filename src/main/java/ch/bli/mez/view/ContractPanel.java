@@ -8,6 +8,11 @@ import javax.swing.JLayeredPane;
 public class ContractPanel extends JPanel {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2881324238578980153L;
+
+	/**
 	 * Create the panel.
 	 */
 	public ContractPanel() {

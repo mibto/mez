@@ -7,7 +7,7 @@ import javax.swing.JPanel;
  * @author dave
  * @version 1.0
  */
-public class TimeMgmtView extends PanelWithMap {
+public class TimeMgmtView extends JPanel {
 
 	private static final long serialVersionUID = -9040213583757030012L;
 

@@ -94,7 +94,7 @@ public class MissionDAOTest {
 	/*
 	 * Prüft ob eine als null gespeicherte Mission nicht gespeichert wird
 	 */
-	@Test(expected=Exception.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void addNullMission(){
 		instance.addMission(null);
 	}

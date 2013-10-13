@@ -4,9 +4,10 @@ import java.awt.CardLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TimeTransferPanel extends PanelWithMap {
+public class TimeTransferPanel extends JPanel {
 	/**
 	 * 
 	 */
