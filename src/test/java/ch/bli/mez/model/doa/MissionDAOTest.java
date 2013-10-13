@@ -2,9 +2,14 @@ package ch.bli.mez.model.doa;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import ch.bli.mez.model.Mission;
+import ch.bli.mez.model.dao.MissionDAO;
 
 /**
  * Prüft ob die MissionDAO Klasse korrekt funktioniert
@@ -46,10 +51,18 @@ public class MissionDAOTest {
 		instance.addMission(mission);
 	}
 	
-	/* @@@ (internal comment) muss getestet werden, ob überhaupt eine Exception geworfen wird!!!
-	 * Prüft ob eine Exception geworfen wird, wenn keine Misson mitgegeben wird
+	@Test
+	public void missionHasId(){
+		instance.addMission(mission);
+		List<Mission> myMissions = instance.findAll();
+		assertNotNull(myMissions.get(0).getId());
+	}
+	
+	/* 
+	 * Exceptions werden abgefangen und ein rollback ausgeführt.
+	 * Hier wäre ein mock test nützlich um zu testen, ob der rollback ausgeführt wird.
 	 */
-	@Test(expected=Exception.class)
+	@Test
 	public void addNullMission(){
 		instance.addMission(null);
 	}

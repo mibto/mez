@@ -15,5 +15,6 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
          
         <mapping class="ch.bli.mez.model.Employee"/>
+        <mapping class="ch.bli.mez.model.Mission"/>
     </session-factory>
 </hibernate-configuration>
