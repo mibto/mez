@@ -13,7 +13,7 @@ public class MainController {
 	private final EmployeeController employeeController;
 	// private final TimeMgmtController timeMgmtController;
 	// private final ReportingController reportingController;
-	private final ManagementController managementController;
+	   private final ManagementController managementController;
 	private final MainView mainView;
 
 	public MainController() {

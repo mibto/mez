@@ -18,7 +18,7 @@ public class MissionController {
     this.view = new MissionPanel();
     this.model = new MissionDAO();
     addActionListeners();
-    addMissionEntrys();
+    //addMissionEntrys();
   }
   
   public MissionPanel getView(){
