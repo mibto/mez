@@ -73,7 +73,7 @@ public class EmployeeController {
 	/**
 	 * Nimmt einen Employee entgegen, übergibt Name und Id der
 	 * view Methode addEmployeeTab
-	 * @param employee
+	 * @param emp Employee Objekt
 	 */
 	public void addTabForEmployee(Employee emp) {
 		final Employee employee = emp;
