@@ -81,6 +81,15 @@ public class MainView extends JFrame {
 	public EmployeeView getEmployeePanel() {
 		return (EmployeeView) tabbedPaneMain.getTabComponentAt(1);
 	}
-	//Setter und Getter für "Auswertung" und "Verwaltung" müssen noch erstellt werden (internerKommentar)
+	
+	
+	public void setManagementPanel(ManagementView managementView){
+	  tabbedPaneMain.setComponentAt(3, managementView);
+	}
+	
+	public ManagementView getManagementPanel(){
+	  return (ManagementView) tabbedPaneMain.getTabComponentAt(3);
+	}
+	//Setter und Getter für "Auswertung" muss noch erstellt werden (internerKommentar)
 
 }

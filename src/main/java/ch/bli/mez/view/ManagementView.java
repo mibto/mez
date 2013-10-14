@@ -19,5 +19,11 @@ public class ManagementView extends JPanel {
 		tabbedPane.addTab(name, null, management, null);
 
 	}
+ //views zu den tabs hinzufügen (tabbedpane). siehe auch mainView
+	
+  public void setMissionPanel(MissionPanel view) {
+    // TODO Auto-generated method stub
+    
+  }
 
 }

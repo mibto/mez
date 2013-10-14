@@ -83,4 +83,10 @@ public class MissionPanel  extends JPanel {
 	public JTextField getTextField_Comment() {
 		return comment;
 	}
+
+
+  public void addMissionListEntry(MissionListEntry missionListEntry) {
+    // TODO Auto-generated method stub
+    
+  }
 }
