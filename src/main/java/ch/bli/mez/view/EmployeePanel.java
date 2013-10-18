@@ -47,7 +47,7 @@ public class EmployeePanel extends JPanel {
 		
 		add(layeredPane, "name_13971428008795");
 		
-		confirmation = new JLabel("");
+		confirmation = new JLabel("xxyy gespeichert...");
 		confirmation.setBounds(25, 4, 210, 14);
 		layeredPane.add(confirmation);
 		confirmation.setForeground(new Color(34,139,34));
@@ -59,7 +59,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lbllastname);
 		
 		lastname = new JTextField();
-		lastname.setBounds(133, 73, 196, 24);
+		lastname.setBounds(133, 73, 196, 30);
 		layeredPane.add(lastname);
 		lastname.setColumns(10);
 		
@@ -75,7 +75,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblfirstname);
 		
 		firstname = new JTextField();
-		firstname.setBounds(133, 32, 196, 24);
+		firstname.setBounds(133, 32, 196, 30);
 		layeredPane.add(firstname);
 		firstname.setColumns(10);
 		
@@ -90,7 +90,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblstreet);
 		
 		street = new JTextField();
-		street.setBounds(133, 114, 196, 24);
+		street.setBounds(133, 114, 196, 30);
 		layeredPane.add(street);
 		street.setColumns(10);
 
@@ -99,7 +99,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblcity);
 		
 		city = new JTextField();
-		city.setBounds(133, 196, 196, 24);
+		city.setBounds(133, 196, 196, 30);
 		layeredPane.add(city);
 		city.setColumns(10);
 		
@@ -108,7 +108,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblplz);
 		
 		plz = new JTextField();
-		plz.setBounds(133, 155, 196, 24);
+		plz.setBounds(133, 155, 196, 30);
 		layeredPane.add(plz);
 		plz.setColumns(10);
 		
@@ -123,7 +123,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblhomeNumber);
 		
 		homeNumber = new JTextField();
-		homeNumber.setBounds(133, 237, 196, 24);
+		homeNumber.setBounds(133, 237, 196, 30);
 		layeredPane.add(homeNumber);
 		homeNumber.setColumns(10);
 		
@@ -132,7 +132,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblmobileNumber);
 		
 		mobileNumber = new JTextField();
-		mobileNumber.setBounds(133, 278, 196, 24);
+		mobileNumber.setBounds(133, 278, 196, 30);
 		layeredPane.add(mobileNumber);
 		mobileNumber.setColumns(10);
 		
@@ -141,7 +141,7 @@ public class EmployeePanel extends JPanel {
 		layeredPane.add(lblemail);
 		
 		email = new JTextField();
-		email.setBounds(133, 319, 196, 24);
+		email.setBounds(133, 319, 196, 30);
 		layeredPane.add(email);
 		email.setColumns(10);
 		
@@ -205,11 +205,12 @@ public class EmployeePanel extends JPanel {
 	}
 	
 	
-	/*
-	 * Koordinaten:
-	 * 
-	*/
-	public void setExtraPanel(JPanel panel, Rectangle coordinates){
+	/**
+	 * Ein JPanel auf diesem Panel platzieren. Zukünftig für Ferientage oder verträge.
+	 * @param panel JPanel
+	 * @param coordinates Rectangle koordinaten
+	 */
+	public void addAnotherPanel(JPanel panel, Rectangle coordinates){
 		panel.setBounds(coordinates);
 		this.layeredPane.add(panel);
 	}
