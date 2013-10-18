@@ -9,7 +9,7 @@ public class ManagementController {
   public ManagementController(){
     this.view = new ManagementView();
     this.missionController = new MissionController();
-    setPanels();
+    setTabs();
   }
   
   public ManagementView getView(){
@@ -20,8 +20,8 @@ public class ManagementController {
     return missionController;
   }
   
-  private void setPanels() {
-    view.setMissionPanel(missionController.getView());
+  private void setTabs() {
+    view.addTab("Mission Verwaltung", missionController.getView());
     // Weitere views für die Tabs hier setzen.
    }
 }

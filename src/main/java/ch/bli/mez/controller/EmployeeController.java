@@ -57,7 +57,7 @@ public class EmployeeController {
 				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
 			}
 		});
-		view.addEmployeeTab("Neuer Mitarbeiter", panel);
+		view.addTab("Neuer Mitarbeiter", panel);
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class EmployeeController {
 				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
 			}
 		});
-		view.addEmployeeTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
+		view.addTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
 	}
 
 	public boolean validateFields(EmployeePanel panel){

@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 
-public class MissionPanel  extends JPanel {
+public class MissionPanel extends JPanel {
 
 	private static final long serialVersionUID = -7537968850748849818L;
 	
