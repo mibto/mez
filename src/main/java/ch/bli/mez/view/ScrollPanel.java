@@ -1,6 +1,5 @@
 package ch.bli.mez.view;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import javax.swing.BoxLayout;
@@ -33,11 +32,13 @@ public class ScrollPanel extends JPanel {
 	public void addPanelToList(JPanel panel){
 		listContainer.add(panel);
 		listContainer.revalidate();
+		
 
 	}
 	
 	public void removePanelFromList(JPanel panel){
 		listContainer.remove(panel);
+		listContainer.repaint();
 		listContainer.revalidate();
 
 	}

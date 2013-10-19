@@ -95,19 +95,19 @@ public class MissionController {
 		final MissionListEntry listentry = new MissionListEntry();
 		final Mission mission = new Mission();
 		
+		// TODO ID Problematik
+		//listentry.setDeleteButtonName(missionentry.getId().toString());
 		listentry.setName(missionentry.getName());
 		listentry.setComment(missionentry.getComment());
 
 		// BUTTON SPEICHERN
-		// TODO: Hier muss noch ein Validator rein
 		listentry.setSaveMissionEntryListListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				
 				if (!validateFields(listentry)) {
 					return;
 				}
-				
-				
+
 				mission.setName(listentry.getNameMission());
 				mission.setComment(listentry.getComment());
 				model.updateMission(mission);
@@ -120,7 +120,9 @@ public class MissionController {
 		// wird an dem bereits etwas hinzugefügt wurde
 		listentry.setDeleteMissionEntryListListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				// model.deleteMission(model.find(listentry.getName()));
+				// TODO
+				// ID Problematik...
+				//model.deleteMission();
 				scrollpanemissions.removePanelFromList(listentry);
 			}
 		}));

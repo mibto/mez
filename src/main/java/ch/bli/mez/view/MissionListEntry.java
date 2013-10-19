@@ -3,12 +3,14 @@ package ch.bli.mez.view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class MissionListEntry extends JPanel {
 
@@ -58,12 +60,28 @@ public class MissionListEntry extends JPanel {
 		setBackground(new Color(255, 150, 150));
 	}
 	
+	/**
+	 * Färbt den hintergrund Grün. Verschwindet nach ca. 2Sek. 
+	 */
 	private void showSuccess(){
+		final Color originalcolor = getBackground();
 		setBackground(new Color(150, 255, 150));
+		
+		// SWING Timer! jeeehaaa
+		  int delay = 1800;
+		  ActionListener taskPerformer = new ActionListener() {
+		      public void actionPerformed(ActionEvent evt) {
+		    	  setBackground(originalcolor);
+		      }
+		  };
+		  Timer timer = new Timer(delay, taskPerformer);
+		  timer.setRepeats(false);
+		  timer.start();
+
 	}
 	
 	public void showNameError() {
-		this.name.setBackground(new Color(255, 0, 0));
+		this.name.setBackground(new Color(255,90,90));
 		showError();
 	}
 	
@@ -72,6 +90,13 @@ public class MissionListEntry extends JPanel {
 		showSuccess();
 	}
 
+	public void setDeleteButtonName(String value) {
+		btnDelete.setName(value);
+	}
+
+	public String getDeleteButtonName() {
+		return btnDelete.getName();
+	}
 	
 	public void setSaveMissionEntryListListener(ActionListener actionListener) {
 		btnSave.addActionListener(actionListener);
@@ -105,6 +130,4 @@ public class MissionListEntry extends JPanel {
 	public void setComment(String value) {
 		this.comment.setText(value);
 	}
-	
-	
 }

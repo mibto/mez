@@ -24,4 +24,13 @@ public class EmployeeView extends JPanel {
   public void addTab(String name, JPanel employeePanel) {
     tabbedPane.addTab(name, employeePanel);
   }
+  
+  public void removeTab(int value) {
+	    tabbedPane.remove(value);
+	}
+  
+  public int getSelectedIndex() {
+	  return tabbedPane.getSelectedIndex();
+	}
+  
 }

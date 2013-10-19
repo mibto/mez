@@ -33,6 +33,7 @@ public class EmployeePanel extends JPanel {
 	private JLabel confirmation;
 	
 	private JButton btnSave;
+	private JButton btnDelete;
 
 	private JLayeredPane layeredPane = new JLayeredPane();
 	
@@ -148,33 +149,59 @@ public class EmployeePanel extends JPanel {
 		btnSave = new JButton("Speichern");
 		btnSave.setBounds(25, 373, 89, 23);
 		layeredPane.add(btnSave);
+		
+		btnDelete = new JButton("Löschen");
+		btnDelete.setBounds(125, 373, 89, 23);
+		layeredPane.add(btnDelete);
 	}
 	
 	public void setSaveEmployeeListener(ActionListener actionListener) {
 		btnSave.addActionListener(actionListener);
 	}
 	
+	public void setDeleteEmployeeListener(ActionListener actionListener) {
+		btnDelete.addActionListener(actionListener);
+	}
+	
+	public void setDeleteButtonName(String value){
+		btnDelete.setName(value);
+	}
+	
+	public String getDeleteButtonName(){
+		return btnDelete.getName();
+	}
+	
+	public void hideDeleteButton(){
+		btnDelete.setVisible(false);
+	}
+	
 	public void showPlzError(){
+		plz.setBackground(new Color(255,90,90));
 		plzError.setVisible(true);
 	}
 	
 	private void hidePlzError(){
+		plz.setBackground(new Color(255,255,255));
 		plzError.setVisible(false);
 	}
 	
 	public void showFirstNameError(){
+		firstname.setBackground(new Color(255,90,90));
 		firstNameError.setVisible(true);
 	}
 	
 	private void hideFirstNameError(){
+		firstname.setBackground(new Color(255,255,255));
 		firstNameError.setVisible(false);
 	}
 	
 	public void showLastNameError(){
+		lastname.setBackground(new Color(255,90,90));
 		lastNameError.setVisible(true);
 	}
 	
 	private void hideLastNameError(){
+		lastname.setBackground(new Color(255,255,255));
 		lastNameError.setVisible(false);
 	}
 	
@@ -247,8 +274,6 @@ public class EmployeePanel extends JPanel {
 		return email.getText();
 	}
 	
-	// Automatisch generierte GET und SET methoden
-
 	public JTextField getlastname() {
 		return lastname;
 	}
@@ -315,5 +340,9 @@ public class EmployeePanel extends JPanel {
 	
 	public JButton getBtnSave() {
 		return btnSave;
+	}
+	
+	public JButton getBtnDelete() {
+		return btnDelete;
 	}
 }

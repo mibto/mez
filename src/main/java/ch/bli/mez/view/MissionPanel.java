@@ -36,11 +36,11 @@ public class MissionPanel extends JPanel {
 		add(layeredPane, "name_25118593990762");
 		
 		btnAdd = new JButton("Hinzufügen");
-		btnAdd.setBounds(488, 63, 109, 23);
+		btnAdd.setBounds(488, 74, 109, 23);
 		layeredPane.add(btnAdd);
 		
-		name =new JTextField();
-		name.setBounds(21, 62, 213, 30);
+		name = new JTextField();
+		name.setBounds(21, 73, 213, 30);
 		layeredPane.add(name);
 		name.setColumns(10);
 		
@@ -54,22 +54,22 @@ public class MissionPanel extends JPanel {
 		
 		comment = new JTextField();
 		comment.setColumns(10);
-		comment.setBounds(252, 62, 213, 30);
+		comment.setBounds(252, 73, 213, 30);
 		layeredPane.add(comment);
 		
 		btnClear = new JButton("Leeren");
-		btnClear.setBounds(607, 63, 92, 23);
+		btnClear.setBounds(607, 74, 92, 23);
 		layeredPane.add(btnClear);
 		
 		confirmation = new JLabel("xxxyyy wurde zur Liste hinzugefügt!");
 		confirmation.setForeground(new Color(0, 128, 0));
-		confirmation.setBounds(21, 103, 352, 23);
+		confirmation.setBounds(21, 114, 352, 23);
 		confirmation.setVisible(false);
 		layeredPane.add(confirmation);
 		
-		nameError = new JLabel("error darf nicht leer sein");
+		nameError = new JLabel("Auftragsname darf nicht leer sein");
 		nameError.setForeground(new Color(255, 0, 0));
-		nameError.setBounds(21, 46, 213, 14);
+		nameError.setBounds(21, 48, 213, 14);
 		nameError.setVisible(false);
 		layeredPane.add(nameError);
 	
@@ -105,6 +105,7 @@ public class MissionPanel extends JPanel {
 	}
 	
 	public void cleanFields(){
+		name.setBackground(new Color(255,255,255));
 		setName("");
 		setComment("");
 	}
@@ -115,6 +116,7 @@ public class MissionPanel extends JPanel {
 	
 	public void showNameError(){
 		nameError.setVisible(true);
+		name.setBackground(new Color(255,90,90));
 	}
 	
 	public String getNameMission() {
