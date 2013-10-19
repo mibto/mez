@@ -15,89 +15,127 @@ import ch.bli.mez.view.ScrollPanel;
  * @version 1.0
  */
 
-
 public class MissionController {
-	
-  private MissionPanel view;
-  private ScrollPanel scrollpanemissions = new ScrollPanel();
-  private MissionDAO model;
 
-  public MissionController(){
-    this.view = new MissionPanel();
-    this.view.addAnotherPanel(this.scrollpanemissions, new Rectangle(21, 160, 600, 100));
-    
-    this.model = new MissionDAO();
-    
-    addActionListeners();
-    addMissionEntrys();
-  }
-  
-  public MissionPanel getView(){
-    return view;
-  }
-  
-  private void addActionListeners(){
-    
-  }
-  
-  
-	/**
-	 * Iteriert über alle Mission's und ruft für jeden
-	 * die Methode addMissionListEntry auf.
-	 */
-  private void addMissionEntrys(){
-    for (Mission mission : model.findAll()) {
-      addMissionListEntry(mission);
-     }
-  }
-  
-  /**
-   * Generiert pro Mission ein neues JPanel (wir erzeugen eine JPanel Liste, die JPanel werden untereinander angezeigt)
-   * @param missionListEntry
-   */
-  public void addMissionListEntry(Mission missionentry) {
+	private MissionPanel view;
+	private ScrollPanel scrollpanemissions;
+	private MissionDAO model;
 
-		MissionListEntry listentry = new MissionListEntry();
-		listentry.setName(missionentry.getName());
-		listentry.setComment(missionentry.getComment());
+	public MissionController() {
+
+		this.model = new MissionDAO();
 		
-		scrollpanemissions.add(listentry);
-  }
-  
-  
-  public void setSaveAction() {
-	  final Mission newmission = new Mission();
+		// Mission Panel mit ActionListeners etc. erstellen
+		createMissionPanel();
+		this.scrollpanemissions  = new ScrollPanel();
+		this.view.addAnotherPanel(this.scrollpanemissions, new Rectangle(20, 160, 815, 350));
 
+		
+		//TODO
+		scrollpanemissions.add(new MissionListEntry());
+		scrollpanemissions.add(new MissionListEntry());
+
+		// Vorhandene Missions in der Liste anzeigen
+		addMissionEntrys();
+	}
+
+	public MissionPanel getView() {
+		return view;
+	}
+
+	public void createMissionPanel() {
+		this.view = new MissionPanel();
+
+		final Mission newmission = new Mission();
+
+		// BUTTON HINZUFÜGEN definition
 		view.setSaveMissionListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				view.hideConfirmation();
+				view.hideNameError();
 
-				if (! validateFields(view)){
+				if (!validateFields(view)) {
 					return;
 				}
-				
-				newmission.setName(view.getName());
+
+				newmission.setName(view.getNameMission());
 				newmission.setComment(view.getComment());
 				model.updateMission(newmission);
 				view.cleanFields();
+				addMissionListEntry(newmission);
+				view.showConfirmation(newmission.getName());
 			}
 		}));
-		addMissionListEntry(newmission);
-  }
-  
-  /*
-   * MUSS Felder
-   * 
-   */
-  public boolean validateFields(MissionPanel panel){
-		boolean valid = true;
-		
-		if (panel.getTextField_Name().equals("")){
-			panel.showNameError();
-			valid = false;
-		}
-		return valid;
+
+		// BUTTON LEEREN definition
+		view.setClearMissionListener((new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				view.hideConfirmation();
+				view.hideNameError();
+				view.cleanFields();
+			}
+		}));
+
 	}
-  
-  
+
+
+	/**
+	 * Iteriert über alle Mission's und ruft für jeden die Methode
+	 * addMissionListEntry auf.
+	 */
+	private void addMissionEntrys() {
+		for (Mission mission : model.findAll()) {
+			addMissionListEntry(mission);
+		}
+	}
+
+	/**
+	 * Generiert pro Mission ein neues JPanel (wir erzeugen eine JPanel Liste,
+	 * die JPanel werden untereinander angezeigt)
+	 * 
+	 * @param missionListEntry
+	 */
+	public void addMissionListEntry(Mission missionentry) {
+
+		final MissionListEntry listentry = new MissionListEntry();
+		final Mission mission = new Mission();
+		
+		listentry.setName(missionentry.getName());
+		listentry.setComment(missionentry.getComment());
+
+		// BUTTON SPEICHERN
+		// TODO: Hier muss noch ein Validator rein
+		listentry.setSaveMissionEntryListListener((new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				mission.setName(listentry.getNameMission());
+				mission.setComment(listentry.getComment());
+				model.updateMission(mission);
+			}
+		}));
+
+		// BUTTON LÖSCHEN
+		// TODO: Hier muss noch ein Validator rein, damit kein Projekt gelöscht
+		// wird an dem bereits etwas hinzugefügt wurde
+		listentry.setDeleteMissionEntryListListener((new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				// model.deleteMission(model.find(listentry.getName()));
+			}
+		}));
+
+		scrollpanemissions.addPanelToList(listentry);
+	}
+
+	/*
+	 * MUSS Felder
+	 */
+	public boolean validateFields(MissionPanel panel) {
+		boolean validator = true;
+
+		if (panel.getNameMission().equals("")) {
+			panel.showNameError();
+			validator = false;
+		}
+		return validator;
+	}
+
 }

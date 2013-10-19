@@ -22,7 +22,7 @@ public class MainView extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new CardLayout(0, 0));
-		setMinimumSize(new Dimension(500, 500));
+		setMinimumSize(new Dimension(1000, 600));
 		
 		try {
 			UIManager

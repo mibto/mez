@@ -10,8 +10,7 @@ public class ScrollPanel extends JPanel {
 
 	private static final long serialVersionUID = 3508706503558546692L;
 
-	JScrollPane scrollPane;
-	JPanel listContainer;
+	private JPanel listContainer;
 	
 	/**
 	 * Create the panel.
@@ -23,16 +22,21 @@ public class ScrollPanel extends JPanel {
 		listContainer = new JPanel();
 		listContainer.setLayout(new BoxLayout(listContainer, BoxLayout.Y_AXIS)); // Die Panels, welche hinzugefügt werden, werden untereinander angezeigt
 		
-		
-		scrollPane = new JScrollPane(listContainer);
+		JScrollPane scrollPane = new JScrollPane(listContainer);
 		add(scrollPane);
-
 
 	}
 	
-	public void addPanelToList(JPanel newpanel){
-		scrollPane.add(newpanel);
-		scrollPane.revalidate();
+	public void addPanelToList(JPanel panel){
+		
+		System.out.println("Eintrag hinzuuu");
+		listContainer.add(panel);
+		listContainer.revalidate();
+	}
+	
+	public void removePanelFromList(JPanel panel){
+		listContainer.remove(panel);
+		listContainer.revalidate();
 	}
 
 }

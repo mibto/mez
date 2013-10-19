@@ -1,6 +1,7 @@
 package ch.bli.mez.view;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ public class MissionListEntry extends JPanel {
 	 */
 	public MissionListEntry() {
 		setLayout(new CardLayout(0, 0));
+		setMinimumSize(new Dimension(700, 35));
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		add(layeredPane, "name_19448412410232");
@@ -60,14 +62,18 @@ public class MissionListEntry extends JPanel {
 	public JTextField getTextField_Name(){
 		return this.comment;
 	}
-	
-	
 
 	public JTextField getTextField_Comment(){
 		return this.name;
 	}
 
-	
+	public String getNameMission() {
+		return this.name.getText();
+	}
+
+	public String getComment() {
+		return this.comment.getText();
+	}
 	
 	public void setName(String value) {
 		this.name.setText(value);

@@ -61,7 +61,7 @@ public class MissionPanel extends JPanel {
 		btnClear.setBounds(607, 63, 92, 23);
 		layeredPane.add(btnClear);
 		
-		JLabel confirmation = new JLabel("xxxyyy wurde zur Liste hinzugefügt!");
+		confirmation = new JLabel("xxxyyy wurde zur Liste hinzugefügt!");
 		confirmation.setForeground(new Color(0, 128, 0));
 		confirmation.setBounds(21, 103, 352, 23);
 		confirmation.setVisible(false);
@@ -141,7 +141,4 @@ public class MissionPanel extends JPanel {
 	public void setComment(String value) {
 		this.comment.setText(value);
 	}
-	
-
-  
 }
