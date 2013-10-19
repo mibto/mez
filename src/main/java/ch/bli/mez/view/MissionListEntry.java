@@ -1,6 +1,7 @@
 package ch.bli.mez.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
@@ -23,8 +24,10 @@ public class MissionListEntry extends JPanel {
 	 * Create the panel.
 	 */
 	public MissionListEntry() {
+		setForeground(new Color(0, 0, 0));
 		setLayout(new CardLayout(0, 0));
-		setMinimumSize(new Dimension(700, 35));
+		setMinimumSize(new Dimension(800, 50));
+		setMaximumSize(new Dimension(800, 50));
 		
 		JLayeredPane layeredPane = new JLayeredPane();
 		add(layeredPane, "name_19448412410232");
@@ -49,6 +52,26 @@ public class MissionListEntry extends JPanel {
 		layeredPane.add(btnDelete);
 
 	}
+	
+	
+	private void showError(){
+		setBackground(new Color(255, 150, 150));
+	}
+	
+	private void showSuccess(){
+		setBackground(new Color(150, 255, 150));
+	}
+	
+	public void showNameError() {
+		this.name.setBackground(new Color(255, 0, 0));
+		showError();
+	}
+	
+	public void hideNameError() {
+		this.name.setBackground(new Color(255, 255, 255));
+		showSuccess();
+	}
+
 	
 	public void setSaveMissionEntryListListener(ActionListener actionListener) {
 		btnSave.addActionListener(actionListener);

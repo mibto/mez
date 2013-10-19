@@ -30,11 +30,6 @@ public class MissionController {
 		this.scrollpanemissions  = new ScrollPanel();
 		this.view.addAnotherPanel(this.scrollpanemissions, new Rectangle(20, 160, 815, 350));
 
-		
-		//TODO
-		scrollpanemissions.add(new MissionListEntry());
-		scrollpanemissions.add(new MissionListEntry());
-
 		// Vorhandene Missions in der Liste anzeigen
 		addMissionEntrys();
 	}
@@ -107,9 +102,16 @@ public class MissionController {
 		// TODO: Hier muss noch ein Validator rein
 		listentry.setSaveMissionEntryListListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				
+				if (!validateFields(listentry)) {
+					return;
+				}
+				
+				
 				mission.setName(listentry.getNameMission());
 				mission.setComment(listentry.getComment());
 				model.updateMission(mission);
+				listentry.hideNameError();
 			}
 		}));
 
@@ -119,6 +121,7 @@ public class MissionController {
 		listentry.setDeleteMissionEntryListListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				// model.deleteMission(model.find(listentry.getName()));
+				scrollpanemissions.removePanelFromList(listentry);
 			}
 		}));
 
@@ -129,6 +132,20 @@ public class MissionController {
 	 * MUSS Felder
 	 */
 	public boolean validateFields(MissionPanel panel) {
+		boolean validator = true;
+
+		if (panel.getNameMission().equals("")) {
+			panel.showNameError();
+			validator = false;
+		}
+		return validator;
+	}
+	
+	
+	/*
+	 * MUSS Felder
+	 */
+	public boolean validateFields(MissionListEntry panel) {
 		boolean validator = true;
 
 		if (panel.getNameMission().equals("")) {
