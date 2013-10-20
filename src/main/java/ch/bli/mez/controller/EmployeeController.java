@@ -79,8 +79,7 @@ public class EmployeeController {
 	 * @param emp
 	 *            Employee Objekt
 	 */
-	public void addTabForEmployee(Employee emp) {
-		final Employee employee = emp;
+	public void addTabForEmployee(final Employee employee) {
 		final EmployeePanel panel = new EmployeePanel();
 
 		// TODO

@@ -36,7 +36,7 @@ public class MissionTest {
 	@Test
 	public void checkInstance() {
 		assertNotNull(instance);
-		assertTrue(instance.getName() == "Orgel1");
+		assertTrue(instance.getMissionName() == "Orgel1");
 		assertTrue(instance.getComment() == "small comment");
 		assertTrue(instance.getIsOrgan());
 		assertNull(instance.getId());  // Not set before written to Database.
@@ -48,9 +48,9 @@ public class MissionTest {
 	 */
 	@Test
 	public void changeMission() {
-		instance.setName("Orgel2");
+		instance.setMissionName("Orgel2");
 		instance.setComment("comment changed");
-		assertTrue(instance.getName() == "Orgel2");
+		assertTrue(instance.getMissionName() == "Orgel2");
 		assertTrue(instance.getComment() == "comment changed");
 	}
 

@@ -1,133 +1,123 @@
 package ch.bli.mez.view;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
 public class MissionListEntry extends JPanel {
 
-	private static final long serialVersionUID = -2823140194213618642L;
-	
-	private JTextField name;
-	private JTextField comment;
-	
-	private JButton btnSave;
-	private JButton btnDelete;
+  private static final long serialVersionUID = -2823140194213618642L;
 
-	/**
-	 * Create the panel.
-	 */
-	public MissionListEntry() {
-		setForeground(new Color(0, 0, 0));
-		setLayout(new CardLayout(0, 0));
-		setMinimumSize(new Dimension(800, 50));
-		setMaximumSize(new Dimension(800, 50));
-		
-		JLayeredPane layeredPane = new JLayeredPane();
-		add(layeredPane, "name_19448412410232");
-		
-		name = new JTextField();
-		name.setColumns(10);
-		name.setBounds(10, 11, 216, 30);
-		layeredPane.add(name);
-		
-		
-		comment = new JTextField();
-		comment.setColumns(10);
-		comment.setBounds(236, 11, 216, 30);
-		layeredPane.add(comment);
-		
-		btnSave = new JButton("Speichern");
-		btnSave.setBounds(474, 15, 89, 23);
-		layeredPane.add(btnSave);
-		
-		btnDelete = new JButton("Löschen");
-		btnDelete.setBounds(569, 15, 89, 23);
-		layeredPane.add(btnDelete);
+  private JTextField missionName;
+  private JTextField comment;
 
-	}
-	
-	
-	private void showError(){
-		setBackground(new Color(255, 150, 150));
-	}
-	
-	/**
-	 * Färbt den hintergrund Grün. Verschwindet nach ca. 2Sek. 
-	 */
-	private void showSuccess(){
-		final Color originalcolor = getBackground();
-		setBackground(new Color(150, 255, 150));
-		
-		// SWING Timer! jeeehaaa
-		  int delay = 1800;
-		  ActionListener taskPerformer = new ActionListener() {
-		      public void actionPerformed(ActionEvent evt) {
-		    	  setBackground(originalcolor);
-		      }
-		  };
-		  Timer timer = new Timer(delay, taskPerformer);
-		  timer.setRepeats(false);
-		  timer.start();
+  private JButton btnSave;
+  private JButton btnDelete;
 
-	}
-	
-	public void showNameError() {
-		this.name.setBackground(new Color(255,90,90));
-		showError();
-	}
-	
-	public void hideNameError() {
-		this.name.setBackground(new Color(255, 255, 255));
-		showSuccess();
-	}
+  /**
+   * Create the panel.
+   */
+  public MissionListEntry() {
+    setPreferredSize(new Dimension(0,40));
+    setLayout(null);
 
-	public void setDeleteButtonName(String value) {
-		btnDelete.setName(value);
-	}
+    missionName = new JTextField();
+    missionName.setBounds(12, 12, 216, 30);
+    add(missionName);
+    missionName.setColumns(10);
 
-	public String getDeleteButtonName() {
-		return btnDelete.getName();
-	}
-	
-	public void setSaveMissionEntryListListener(ActionListener actionListener) {
-		btnSave.addActionListener(actionListener);
-	}
-	
-	public void setDeleteMissionEntryListListener(ActionListener actionListener) {
-		btnDelete.addActionListener(actionListener);
-	}
+    comment = new JTextField();
+    comment.setBounds(249, 12, 216, 30);
+    add(comment);
+    comment.setColumns(10);
 
-	
-	public JTextField getTextField_Name(){
-		return this.comment;
-	}
+    btnSave = new JButton("Speichern");
+    btnSave.setBounds(483, 12, 120, 30);
+    add(btnSave);
 
-	public JTextField getTextField_Comment(){
-		return this.name;
-	}
+    btnDelete = new JButton("Löschen");
+    btnDelete.setBounds(612, 12, 120, 30);
+    add(btnDelete);
 
-	public String getNameMission() {
-		return this.name.getText();
-	}
+  }
 
-	public String getComment() {
-		return this.comment.getText();
-	}
-	
-	public void setName(String value) {
-		this.name.setText(value);
-	}
+  private void showError() {
+    setBackground(new Color(255, 150, 150));
+  }
 
-	public void setComment(String value) {
-		this.comment.setText(value);
-	}
+  /**
+   * Färbt den hintergrund Grün. Verschwindet nach ca. 2Sek.
+   */
+  private void showSuccess() {
+    final Color originalcolor = getBackground();
+    setBackground(new Color(150, 255, 150));
+
+    // SWING Timer! jeeehaaa
+    int delay = 1800;
+    ActionListener taskPerformer = new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        setBackground(originalcolor);
+      }
+    };
+    Timer timer = new Timer(delay, taskPerformer);
+    timer.setRepeats(false);
+    timer.start();
+
+  }
+
+  public void showNameError() {
+    this.missionName.setBackground(new Color(255, 90, 90));
+    showError();
+  }
+
+  public void hideNameError() {
+    this.missionName.setBackground(new Color(255, 255, 255));
+    showSuccess();
+  }
+
+  public void setDeleteButtonName(String value) {
+    btnDelete.setName(value);
+  }
+
+  public String getDeleteButtonName() {
+    return btnDelete.getName();
+  }
+
+  public void setSaveMissionEntryListListener(ActionListener actionListener) {
+    btnSave.addActionListener(actionListener);
+  }
+
+  public void setDeleteMissionEntryListListener(ActionListener actionListener) {
+    btnDelete.addActionListener(actionListener);
+  }
+
+  public JTextField getTextField_Name() {
+    return this.comment;
+  }
+
+  public JTextField getTextField_Comment() {
+    return this.missionName;
+  }
+
+  public String getMissionName() {
+    return missionName.getText();
+  }
+
+  public String getComment() {
+    return comment.getText();
+  }
+
+  public void setMissionName(String missionName) {
+    this.missionName.setText(missionName);
+  }
+
+  public void setComment(String value) {
+    comment.setText(value);
+  }
 }
