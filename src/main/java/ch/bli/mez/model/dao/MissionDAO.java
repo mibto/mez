@@ -19,8 +19,10 @@ public class MissionDAO {
   }
 
   public List<Mission> findAll() {
+	Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery("from "  + Mission.class.getName()).list();
     session.flush();
+    tx.commit();
     return missions;
   }
 
@@ -37,8 +39,10 @@ public class MissionDAO {
   }
 
   public Mission getMission(Integer id) {
+	Transaction tx = session.beginTransaction();
     Mission mission = (Mission) session.load(Mission.class, id);
     session.flush();
+    tx.commit();
     return mission;
   }
 
@@ -54,9 +58,11 @@ public class MissionDAO {
   }
 
   public void deleteMission(Integer id) {
+    Transaction tx = session.beginTransaction();
     Mission mission = (Mission) session.load(Mission.class, id);
     if (null != mission) {
       session.delete(mission);
     }
+    tx.commit();
   }
 }

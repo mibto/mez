@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeListener;
 
 /**
  * MainFrame beinhaltet die oberen Tabs, ursprünglich "Zeiten erfassen", "Mitarbeiter verwalten", "Auswertungen", "Verwaltung"
@@ -82,6 +83,9 @@ public class MainView extends JFrame {
 		return (EmployeeView) tabbedPaneMain.getTabComponentAt(1);
 	}
 	
+
+	
+	
 	
 	public void setManagementPanel(ManagementView managementView){
 	  tabbedPaneMain.setComponentAt(3, managementView);
@@ -91,5 +95,9 @@ public class MainView extends JFrame {
 	  return (ManagementView) tabbedPaneMain.getTabComponentAt(3);
 	}
 	//Setter und Getter für "Auswertung" muss noch erstellt werden (internerKommentar)
+	
+	public void setTabChangeListener(ChangeListener cl){
+		tabbedPaneMain.addChangeListener(cl);
+	}
 
 }
