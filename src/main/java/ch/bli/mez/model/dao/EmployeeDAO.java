@@ -20,7 +20,7 @@ public class EmployeeDAO {
 
   public List<Employee> findAll() {
 	Transaction tx = session.beginTransaction();
-    List<Employee> employees = session.createQuery("from Employee").list();
+    List<Employee> employees = session.createQuery("from Employee e order by e.firstName").list();
     session.flush();
     tx.commit();
     return employees;
