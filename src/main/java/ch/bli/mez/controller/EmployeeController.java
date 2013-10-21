@@ -97,7 +97,7 @@ public class EmployeeController {
 
     form.setDeleteEmployeeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        // TODO: notify model
+        model.deleteEmployee(employee.getId());
         view.removeTab(view.getSelectedIndex());
       }
     });
