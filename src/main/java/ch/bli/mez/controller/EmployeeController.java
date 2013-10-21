@@ -33,20 +33,21 @@ public class EmployeeController {
     view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
     for (Employee employee : model.findAll()) {
       view.addTab(employee.getFirstName() + " " + employee.getLastName(),
-          createEmployeePanel(employee));
+          createEmployeePanel(employee, false));
     }
   }
 
   private EmployeePanel createNewEmployeeTab() {
     Employee employee = new Employee();
-    EmployeePanel form = createEmployeePanel(employee);
+    EmployeePanel form = createEmployeePanel(employee, true);
     form.hideDeleteButton();
     return form;
   }
 
-  private EmployeePanel createEmployeePanel(Employee employee) {
+  private EmployeePanel createEmployeePanel(Employee employee,
+      Boolean isNewEmployee) {
     EmployeePanel form = new EmployeePanel();
-    setFormActionListeners(employee, form);
+    setFormActionListeners(employee, form, isNewEmployee);
 
     form.setFirstname(employee.getFirstName());
     form.setLastname(employee.getLastName());
@@ -72,7 +73,8 @@ public class EmployeeController {
     return employee;
   }
 
-  public void setFormActionListeners(final Employee employee, final EmployeePanel form) {
+  public void setFormActionListeners(final Employee employee,
+      final EmployeePanel form, final Boolean newEmployee) {
     form.setSaveEmployeeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         form.hideErrors();
@@ -80,7 +82,14 @@ public class EmployeeController {
         if (!validateFields(form)) {
           return;
         }
-        model.updateEmployee(updateEmployee(employee, form));
+        if (!newEmployee) {
+          model.updateEmployee(updateEmployee(employee, form));
+        } else {
+          model.addEmployee(updateEmployee(employee, form));
+          view.addTab(employee.getFirstName() + " " + employee.getLastName(),
+              createEmployeePanel(employee, false));
+          form.cleanFields();
+        }
         form.showConfirmation(employee.getFirstName() + " "
             + employee.getLastName());
       }
