@@ -101,7 +101,7 @@ public class MissionPanel extends JPanel {
 
   public void cleanFields() {
     missionName.setBackground(new Color(255, 255, 255));
-    setName("");
+    setMissionName("");
     setComment("");
   }
 

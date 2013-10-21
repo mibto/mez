@@ -35,38 +35,50 @@ public class MissionController {
     }
   }
 
-  private void setActionListeners(){
+  private void setActionListeners() {
     view.setSaveMissionListener(new ActionListener() {
-      
       public void actionPerformed(ActionEvent arg0) {
-        Mission mission = new Mission(view.getMissionName(), view.getComment(), view.getIsOrgan());
+        Mission mission = new Mission(view.getMissionName(), view.getComment(),
+            view.getIsOrgan());
         model.addMission(mission);
         view.addMissionListEntry(createMissionListEntry(mission));
       }
     });
+
+    view.setClearMissionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        view.cleanFields();
+      }
+    });
   }
-  
-  private MissionListEntry createMissionListEntry(final Mission mission){
+
+  private MissionListEntry createMissionListEntry(final Mission mission) {
     final MissionListEntry missionListEntry = new MissionListEntry();
-    
+
     missionListEntry.setMissionName(mission.getMissionName());
     missionListEntry.setComment(mission.getComment());
-    
+
+    setMissionListEntryActionListeners(missionListEntry, mission);
+
+    return missionListEntry;
+  }
+
+  private void setMissionListEntryActionListeners(
+      final MissionListEntry missionListEntry, final Mission mission) {
+
     missionListEntry.setSaveMissionEntryListListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         mission.setMissionName(missionListEntry.getMissionName());
         mission.setComment(missionListEntry.getComment());
         model.updateMission(mission);
-        missionListEntry.hideNameError();
       }
     }));
 
     missionListEntry.setDeleteMissionEntryListListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
+        model.deleteMission(mission.getId());
         view.removeMissionListEntry(missionListEntry);
       }
     }));
-    
-    return missionListEntry;
   }
 }
