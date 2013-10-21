@@ -39,7 +39,6 @@ public class MissionController {
     view.setSaveMissionListener(new ActionListener() {
       
       public void actionPerformed(ActionEvent arg0) {
-        System.out.print(view.getMissionName());
         Mission mission = new Mission(view.getMissionName(), view.getComment(), view.getIsOrgan());
         model.addMission(mission);
         view.addMissionListEntry(createMissionListEntry(mission));

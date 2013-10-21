@@ -82,11 +82,8 @@ public class MainView extends JFrame {
 	public EmployeeView getEmployeePanel() {
 		return (EmployeeView) tabbedPaneMain.getTabComponentAt(1);
 	}
-	
 
-	
-	
-	
+
 	public void setManagementPanel(ManagementView managementView){
 	  tabbedPaneMain.setComponentAt(3, managementView);
 	}

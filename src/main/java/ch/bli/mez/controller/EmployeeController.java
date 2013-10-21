@@ -10,142 +10,107 @@ import ch.bli.mez.view.EmployeeView;
 
 /**
  * @author leandrafinger
- * @version 1.0
+ * @author mbrodmann
+ * @version 2.0
  */
 public class EmployeeController {
-	private EmployeeView view;
-	private EmployeeDAO model;
-	private final SearchController searchController;
+  private EmployeeView view;
+  private EmployeeDAO model;
+  private final SearchController searchController;
 
-	/**
-	 * Initialisiert einen SearchController, EmployeeDAO, EmployeeView. Bestimmt
-	 * die Formfelder und speichert Sie in der ArrayList formfields. Die
-	 * Methoden addListener(), addTabsForEmployees() werden aufgerufen.
-	 */
-	public EmployeeController() {
-		this.model = new EmployeeDAO();
-		this.searchController = new SearchController();
-		this.view = new EmployeeView(searchController.getSearchPanel());
-		addInitalTab();
-		addTabsForEmployees();
-	}
+  public EmployeeController() {
+    this.model = new EmployeeDAO();
+    this.searchController = new SearchController();
+    this.view = new EmployeeView(searchController.getSearchPanel());
+    addTabs();
+  }
 
-	public EmployeeView getView() {
-		return view;
-	}
+  public EmployeeView getView() {
+    return view;
+  }
 
-	private void addInitalTab() {
-		final EmployeePanel panel = new EmployeePanel();
-		panel.hideDeleteButton(); // Muss bei neuen Mitarbeiter nicht angezeigt werden
-		
-		
-		panel.setSaveEmployeeListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				panel.hideConfirmation();
-				panel.hideErrors();
-				if (!validateFields(panel)) {
-					return;
-				}
-				Employee employee = new Employee(panel.getFirstname(), panel.getLastname());
-				employee.setStreet(panel.getStreet());
-				if (!panel.getPlz().equals("")) employee.setPlz(Integer.parseInt(panel.getPlz()));
-				employee.setCity(panel.getCity());
-				employee.setMobileNumber(panel.getMobileNumber());
-				employee.setHomeNumber(panel.getHomeNumber());
-				employee.setEmail(panel.getEmail());
-				addTabForEmployee(employee);
-				model.addEmployee(employee);
-				panel.cleanFields();
-				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
-			}
-		});
-		view.addTab("Neuer Mitarbeiter", panel);
-	}
+  private void addTabs() {
+    view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
+    for (Employee employee : model.findAll()) {
+      view.addTab(employee.getFirstName() + " " + employee.getLastName(),
+          createEmployeePanel(employee));
+    }
+  }
 
-	/**
-	 * Iteriert über alle Employees und ruft für jeden die Methode
-	 * addTabForEmployee auf.
-	 */
-	private void addTabsForEmployees() {
-		for (Employee employee : model.findAll()) {
-			addTabForEmployee(employee);
-		}
-	}
+  private EmployeePanel createNewEmployeeTab() {
+    Employee employee = new Employee();
+    EmployeePanel form = createEmployeePanel(employee);
+    form.hideDeleteButton();
+    return form;
+  }
 
-	/**
-	 * Nimmt einen Employee entgegen, übergibt Name und Id der view Methode
-	 * addEmployeeTab
-	 * 
-	 * @param emp
-	 *            Employee Objekt
-	 */
-	public void addTabForEmployee(final Employee employee) {
-		final EmployeePanel panel = new EmployeePanel();
+  private EmployeePanel createEmployeePanel(Employee employee) {
+    EmployeePanel form = new EmployeePanel();
+    setFormActionListeners(employee, form);
 
-		// TODO
-		// Ein Employee muss bereits beim speichern eine ID erhalten. Oder er muss zuerst in die DB gespeichert und dann wieder herausgelesen werden.
-		// panel.setDeleteButtonName(employee.getId().toString()); // ID auf DeleteButton
-		panel.setFirstname(employee.getFirstName());
-		panel.setLastname(employee.getLastName());
-		panel.setCity(employee.getCity());
-		if (employee.getPlz() != 0)
-			panel.setPlz(employee.getPlz().toString());
-		panel.setEmail(employee.getEmail());
-		panel.setHomeNumber(employee.getHomeNumber());
-		panel.setMobileNumber(employee.getMobileNumber());
-		panel.setStreet(employee.getStreet());
+    form.setFirstname(employee.getFirstName());
+    form.setLastname(employee.getLastName());
+    form.setCity(employee.getCity());
+    if (employee.getPlz() != 0)
+      form.setPlz(employee.getPlz().toString());
+    form.setEmail(employee.getEmail());
+    form.setHomeNumber(employee.getHomeNumber());
+    form.setMobileNumber(employee.getMobileNumber());
+    form.setStreet(employee.getStreet());
+    return form;
+  }
 
-		panel.setSaveEmployeeListener(new ActionListener() {
+  public Employee updateEmployee(Employee employee, EmployeePanel form) {
+    employee.setPlz(Integer.parseInt(form.getPlz()));
+    employee.setFirstName(form.getFirstname());
+    employee.setLastName(form.getLastname());
+    employee.setStreet(form.getStreet());
+    employee.setCity(form.getCity());
+    employee.setMobileNumber(form.getMobileNumber());
+    employee.setHomeNumber(form.getHomeNumber());
+    employee.setEmail(form.getEmail());
+    return employee;
+  }
 
-			public void actionPerformed(ActionEvent event) {
-				panel.hideErrors();
-				panel.hideConfirmation();
-				if (!validateFields(panel)) {
-					return;
-				}
-				if (!panel.getPlz().equals(""))
-					employee.setPlz(Integer.parseInt(panel.getPlz()));
-				employee.setFirstName(panel.getFirstname());
-				employee.setLastName(panel.getLastname());
-				employee.setStreet(panel.getStreet());
-				employee.setCity(panel.getCity());
-				employee.setMobileNumber(panel.getMobileNumber());
-				employee.setHomeNumber(panel.getHomeNumber());
-				employee.setEmail(panel.getEmail());
-				model.updateEmployee(employee);
-				panel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
-			}
-		});
+  public void setFormActionListeners(final Employee employee, final EmployeePanel form) {
+    form.setSaveEmployeeListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        form.hideErrors();
+        form.hideConfirmation();
+        if (!validateFields(form)) {
+          return;
+        }
+        model.updateEmployee(updateEmployee(employee, form));
+        form.showConfirmation(employee.getFirstName() + " "
+            + employee.getLastName());
+      }
+    });
 
-		panel.setDeleteEmployeeListener(new ActionListener() {
+    form.setDeleteEmployeeListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        // TODO: notify model
+        view.removeTab(view.getSelectedIndex());
+      }
+    });
+  }
 
-			public void actionPerformed(ActionEvent event) {
-				// TODO Sobald die ID-Problematik gelöst ist kann das hier benutzt werden.
-				//model.deleteEmployee(Integer.parseInt(panel.getDeleteButtonName())); 
-				view.removeTab(view.getSelectedIndex());
-			}
-		});
-
-		view.addTab(employee.getFirstName() + ' ' + employee.getLastName(), panel);
-	}
-
-	public boolean validateFields(EmployeePanel panel) {
-		boolean valid = true;
-		if (panel.getFirstname().equals("")) {
-			panel.showFirstNameError();
-			valid = false;
-		}
-		if (panel.getLastname().equals("")) {
-			panel.showLastNameError();
-			valid = false;
-		}
-		try {
-			if (!panel.getPlz().equals(""))
-				Integer.parseInt(panel.getPlz());
-		} catch (NumberFormatException e) {
-			panel.showPlzError();
-			valid = false;
-		}
-		return valid;
-	}
+  public boolean validateFields(EmployeePanel panel) {
+    boolean valid = true;
+    if (panel.getFirstname().equals("")) {
+      panel.showFirstNameError();
+      valid = false;
+    }
+    if (panel.getLastname().equals("")) {
+      panel.showLastNameError();
+      valid = false;
+    }
+    try {
+      if (!panel.getPlz().equals(""))
+        Integer.parseInt(panel.getPlz());
+    } catch (NumberFormatException e) {
+      panel.showPlzError();
+      valid = false;
+    }
+    return valid;
+  }
 }
