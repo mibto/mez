@@ -84,14 +84,19 @@ public class EmployeeController {
         }
         if (!newEmployee) {
           model.updateEmployee(updateEmployee(employee, form));
+          form.showConfirmation(employee.getFirstName() + " "
+              + employee.getLastName());
         } else {
-          model.addEmployee(updateEmployee(employee, form));
-          view.addTab(employee.getFirstName() + " " + employee.getLastName(),
-              createEmployeePanel(employee, false));
+          Employee safeEmployee = new Employee();
+          safeEmployee = updateEmployee(safeEmployee, form);
+          model.addEmployee(safeEmployee);
+          view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
+              createEmployeePanel(safeEmployee, false));
           form.cleanFields();
+          form.showConfirmation(safeEmployee.getFirstName() + " "
+              + safeEmployee.getLastName());
         }
-        form.showConfirmation(employee.getFirstName() + " "
-            + employee.getLastName());
+
       }
     });
 

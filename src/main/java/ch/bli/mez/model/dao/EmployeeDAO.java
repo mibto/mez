@@ -19,8 +19,9 @@ public class EmployeeDAO {
   }
 
   public List<Employee> findAll() {
-	Transaction tx = session.beginTransaction();
-    List<Employee> employees = session.createQuery("from Employee e order by e.firstName").list();
+    Transaction tx = session.beginTransaction();
+    List<Employee> employees = session.createQuery(
+        "from Employee e order by e.firstName").list();
     session.flush();
     tx.commit();
     return employees;
@@ -39,7 +40,7 @@ public class EmployeeDAO {
   }
 
   public Employee getEmployee(Integer id) {
-	Transaction tx = session.beginTransaction();
+    Transaction tx = session.beginTransaction();
     Employee employee = (Employee) session.load(Employee.class, id);
     session.flush();
     tx.commit();
@@ -58,7 +59,7 @@ public class EmployeeDAO {
   }
 
   public void deleteEmployee(Integer id) {
-	Transaction tx = session.beginTransaction();
+    Transaction tx = session.beginTransaction();
     Employee employee = (Employee) session.load(Employee.class, id);
     if (null != employee) {
       session.delete(employee);
