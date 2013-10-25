@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class MissionPanel extends JPanel {
 
@@ -36,14 +37,18 @@ public class MissionPanel extends JPanel {
 	public MissionPanel() {
 
 		setLayout(new BorderLayout());
-
+		
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(topPanel, BorderLayout.NORTH);
 
+		JPanel topPanel2 = new JPanel();
+		topPanel2.setLayout(new BoxLayout(topPanel2, BoxLayout.Y_AXIS));
+		topPanel.add(topPanel2);
+		
 		JPanel entryPanel = new JPanel();
 		entryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(entryPanel);
+		topPanel2.add(entryPanel);
 
 		JPanel missionNamePanel = new JPanel();
 		missionNamePanel.setLayout(new BoxLayout(missionNamePanel,
@@ -84,20 +89,19 @@ public class MissionPanel extends JPanel {
 
 		messagePanel = new JPanel();
 		messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(messagePanel);
+		topPanel2.add(messagePanel);
 
-		messageLabel = new JLabel("leer");
-		messageLabel.setVisible(false);
+		messageLabel = new JLabel(" ");
 		messagePanel.add(messageLabel);
 
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		add(listPanel, BorderLayout.CENTER);
+		add(new JScrollPane(listPanel), BorderLayout.CENTER);
 
 		missionListEntryContainer = new JPanel();
 		missionListEntryContainer.setLayout(new BoxLayout(
 				missionListEntryContainer, BoxLayout.PAGE_AXIS));
-		listPanel.add(new JScrollPane(missionListEntryContainer));
+		listPanel.add((missionListEntryContainer));
 
 		addGuiFeatureListener();
 	}
@@ -110,32 +114,31 @@ public class MissionPanel extends JPanel {
 		clearButton.addActionListener(actionListener);
 	}
 
-	public void showConfirmation(String name) {
-		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
-		messageLabel.setForeground(new Color(0, 128, 0));
-		messageLabel.setVisible(true);
-	}
-
-	public void hideConfirmation() {
-		messageLabel.setVisible(false);
-	}
-
 	public void cleanFields() {
 		missionNameTextField.setBackground(new Color(255, 255, 255));
 		setMissionName("");
 		setComment("");
 	}
-
-	public void hideNameError() {
-		messageLabel.setVisible(false);
-		missionNameTextField.setBackground(commentTextField.getBackground());
+	
+	public void showConfirmation(String name) {
+		messageLabel.setForeground(new Color(0, 128, 0));
+		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
+		hideMessageLabel();
 	}
 
 	public void showNameError() {
-		messageLabel.setText("Auftragsname darf nicht leer sein");
 		messageLabel.setForeground(new Color(255, 0, 0));
-		messageLabel.setVisible(true);
-		missionNameTextField.setBackground(new Color(255, 90, 90));
+		messageLabel.setText("Auftragsname darf nicht leer sein");
+		hideMessageLabel();
+	}
+	
+	private void hideMessageLabel(){
+		Timer timer = new Timer(1800, new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				messageLabel.setText(" ");
+			}});
+		timer.setRepeats(false);
+		timer.start();
 	}
 
 	public String getMissionName() {
