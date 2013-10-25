@@ -57,6 +57,7 @@ public class MissionController {
 
     missionListEntry.setMissionName(mission.getMissionName());
     missionListEntry.setComment(mission.getComment());
+    missionListEntry.setIsOrgan(mission.getIsOrgan());
 
     setMissionListEntryActionListeners(missionListEntry, mission);
 
@@ -70,6 +71,7 @@ public class MissionController {
       public void actionPerformed(ActionEvent event) {
         mission.setMissionName(missionListEntry.getMissionName());
         mission.setComment(missionListEntry.getComment());
+        mission.setIsOrgan(missionListEntry.getIsOrgan());
         model.updateMission(mission);
       }
     }));

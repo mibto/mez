@@ -1,146 +1,197 @@
 package ch.bli.mez.view;
 
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class MissionPanel extends JPanel {
 
-  private static final long serialVersionUID = -7537968850748849818L;
+	private static final long serialVersionUID = -7537968850748849818L;
 
-  private JTextField missionName;
-  private JTextField comment;
+	private JTextField missionNameTextField;
+	private JTextField commentTextField;
+	private JCheckBox isOrganCheckBox;
 
-  private JLabel confirmation;
-  private JLabel nameError;
+	private JPanel messagePanel;
+	private JLabel messageLabel;
 
-  private JButton btnAdd;
-  private JButton btnClear;
+	private JButton addButton;
+	private JButton clearButton;
 
-  private JLayeredPane layeredPane = new JLayeredPane();
-  private JScrollPane scrollPane;
-  private JPanel missionListEntryContainer;
+	private JPanel missionListEntryContainer;
 
+	public MissionPanel() {
 
-  public MissionPanel() {
-    setLayout(new CardLayout(0, 0));
+		setLayout(new BorderLayout());
 
-    add(layeredPane, "name_25118593990762");
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+		add(topPanel, BorderLayout.NORTH);
 
-    btnAdd = new JButton("Hinzufügen");
-    btnAdd.setBounds(483, 72, 140, 30);
-    layeredPane.add(btnAdd);
+		JPanel entryPanel = new JPanel();
+		entryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(entryPanel);
 
-    missionName = new JTextField();
-    missionName.setBounds(21, 73, 213, 30);
-    layeredPane.add(missionName);
-    missionName.setColumns(10);
+		JPanel missionNamePanel = new JPanel();
+		missionNamePanel.setLayout(new BoxLayout(missionNamePanel,
+				BoxLayout.Y_AXIS));
+		entryPanel.add(missionNamePanel);
 
-    JLabel lblMissionName = new JLabel("Auftragsname:");
-    lblMissionName.setBounds(21, 28, 109, 23);
-    layeredPane.add(lblMissionName);
+		JLabel nameLabel = new JLabel("Auftragsname:");
+		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		missionNamePanel.add(nameLabel);
 
-    JLabel lblComment = new JLabel("Kommentar:");
-    lblComment.setBounds(252, 28, 109, 23);
-    layeredPane.add(lblComment);
+		missionNameTextField = new JTextField();
+		missionNameTextField.setColumns(10);
+		missionNameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		missionNamePanel.add(missionNameTextField);
 
-    comment = new JTextField();
-    comment.setColumns(10);
-    comment.setBounds(252, 73, 213, 30);
-    layeredPane.add(comment);
+		JPanel missionCommentPanel = new JPanel();
+		missionCommentPanel.setLayout(new BoxLayout(missionCommentPanel,
+				BoxLayout.Y_AXIS));
+		entryPanel.add(missionCommentPanel);
 
-    btnClear = new JButton("Leeren");
-    btnClear.setBounds(642, 72, 92, 30);
-    layeredPane.add(btnClear);
+		JLabel commentLabel = new JLabel("Kommentar:");
+		commentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		missionCommentPanel.add(commentLabel);
 
-    confirmation = new JLabel("xxxyyy wurde zur Liste hinzugefügt!");
-    confirmation.setForeground(new Color(0, 128, 0));
-    confirmation.setBounds(21, 114, 352, 23);
-    confirmation.setVisible(false);
-    layeredPane.add(confirmation);
+		commentTextField = new JTextField();
+		commentTextField.setColumns(25);
+		commentTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		missionCommentPanel.add(commentTextField);
 
-    nameError = new JLabel("Auftragsname darf nicht leer sein");
-    nameError.setForeground(new Color(255, 0, 0));
-    nameError.setBounds(21, 48, 213, 14);
-    nameError.setVisible(false);
-    layeredPane.add(nameError);
-    
-    missionListEntryContainer = new JPanel();
-    missionListEntryContainer.setLayout(new BoxLayout(missionListEntryContainer, BoxLayout.Y_AXIS));
+		isOrganCheckBox = new JCheckBox("Orgel-Code", true);
+		entryPanel.add(isOrganCheckBox);
 
-    scrollPane = new JScrollPane(missionListEntryContainer);
-    scrollPane.setBounds(21, 182, 780, 190);
-    layeredPane.add(scrollPane);
+		addButton = new JButton("Hinzufügen");
+		entryPanel.add(addButton);
 
-  }
+		clearButton = new JButton("Leeren");
+		entryPanel.add(clearButton);
 
-  public void setSaveMissionListener(ActionListener actionListener) {
-    btnAdd.addActionListener(actionListener);
-  }
+		messagePanel = new JPanel();
+		messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(messagePanel);
 
-  public void setClearMissionListener(ActionListener actionListener) {
-    btnClear.addActionListener(actionListener);
-  }
+		messageLabel = new JLabel("leer");
+		messageLabel.setVisible(false);
+		messagePanel.add(messageLabel);
 
-  public void showConfirmation(String name) {
-    confirmation.setText(name + " wurde zur Liste hinzugefügt!");
-    confirmation.setVisible(true);
-  }
+		JPanel listPanel = new JPanel();
+		listPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		add(listPanel, BorderLayout.CENTER);
 
-  public void hideConfirmation() {
-    confirmation.setVisible(false);
-  }
+		missionListEntryContainer = new JPanel();
+		missionListEntryContainer.setLayout(new BoxLayout(
+				missionListEntryContainer, BoxLayout.PAGE_AXIS));
+		listPanel.add(new JScrollPane(missionListEntryContainer));
 
-  public void cleanFields() {
-    missionName.setBackground(new Color(255, 255, 255));
-    setMissionName("");
-    setComment("");
-  }
+		addGuiFeatureListener();
+	}
 
-  public void hideNameError() {
-    nameError.setVisible(false);
-  }
+	public void setSaveMissionListener(ActionListener actionListener) {
+		addButton.addActionListener(actionListener);
+	}
 
-  public void showNameError() {
-    nameError.setVisible(true);
-    missionName.setBackground(new Color(255, 90, 90));
-  }
+	public void setClearMissionListener(ActionListener actionListener) {
+		clearButton.addActionListener(actionListener);
+	}
 
-  public String getMissionName() {
-    return missionName.getText();
-  }
+	public void showConfirmation(String name) {
+		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
+		messageLabel.setForeground(new Color(0, 128, 0));
+		messageLabel.setVisible(true);
+	}
 
-  public String getComment() {
-    return comment.getText();
-  }
+	public void hideConfirmation() {
+		messageLabel.setVisible(false);
+	}
 
-  public void setMissionName(String missionName) {
-    this.missionName.setText(missionName);
-  }
+	public void cleanFields() {
+		missionNameTextField.setBackground(new Color(255, 255, 255));
+		setMissionName("");
+		setComment("");
+	}
 
-  public void setComment(String value) {
-    comment.setText(value);
-  }
+	public void hideNameError() {
+		messageLabel.setVisible(false);
+		missionNameTextField.setBackground(commentTextField.getBackground());
+	}
 
-  public void addMissionListEntry(MissionListEntry missionListEntry) {
-    missionListEntryContainer.add(missionListEntry);
-    scrollPane.revalidate();
-    scrollPane.repaint();
-  }
+	public void showNameError() {
+		messageLabel.setText("Auftragsname darf nicht leer sein");
+		messageLabel.setForeground(new Color(255, 0, 0));
+		messageLabel.setVisible(true);
+		missionNameTextField.setBackground(new Color(255, 90, 90));
+	}
 
-  public void removeMissionListEntry(MissionListEntry missionListEntry) {
-    missionListEntryContainer.remove(missionListEntry);
-  }
+	public String getMissionName() {
+		return missionNameTextField.getText();
+	}
 
-  public boolean getIsOrgan() {
-    return false;
-  }
+	public String getComment() {
+		return commentTextField.getText();
+	}
+
+	public void setMissionName(String missionName) {
+		this.missionNameTextField.setText(missionName);
+	}
+
+	public void setComment(String value) {
+		commentTextField.setText(value);
+	}
+
+	public void addMissionListEntry(MissionListEntry missionListEntry) {
+		missionListEntryContainer.add(missionListEntry);
+		missionListEntryContainer.revalidate();
+		missionListEntryContainer.repaint();
+	}
+
+	public void removeMissionListEntry(MissionListEntry missionListEntry) {
+		missionListEntryContainer.remove(missionListEntry);
+	}
+
+	public boolean getIsOrgan() {
+		if (isOrganCheckBox.isSelected()) {
+			return true;
+		}
+		return false;
+	}
+
+	private void addGuiFeatureListener() {
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cleanFields();
+				isOrganCheckBox.setSelected(true);
+			}
+		});
+		KeyListener enterKeyListener = new KeyListener() {
+			public void keyTyped(KeyEvent e) {
+			}
+
+			public void keyReleased(KeyEvent e) {
+			}
+
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					addButton.doClick();
+				}
+			}
+		};
+		missionNameTextField.addKeyListener(enterKeyListener);
+		commentTextField.addKeyListener(enterKeyListener);
+	}
 }
