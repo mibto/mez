@@ -33,7 +33,7 @@ public class MainView extends JFrame {
 		}
 
 		tabbedPaneMain = new JTabbedPane(JTabbedPane.TOP);
-		getContentPane().add(tabbedPaneMain);
+		getContentPane().add("Main", tabbedPaneMain);
 
 		// Tab Platzhalter hinzufügen
 		tabbedPaneMain.insertTab("Zeiten erfassen", null, new JPanel(), null, 0);
