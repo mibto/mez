@@ -154,11 +154,11 @@ public class MissionPanel extends JPanel {
 	public void addMissionListEntry(MissionListEntry missionListEntry) {
 		listPanel.add(missionListEntry);
 		listPanel.revalidate();
-		listPanel.repaint();
 	}
 
 	public void removeMissionListEntry(MissionListEntry missionListEntry) {
 		listPanel.remove(missionListEntry);
+		listPanel.revalidate();
 	}
 
 	public boolean getIsOrgan() {
