@@ -1,8 +1,14 @@
 package ch.bli.mez.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -19,6 +25,7 @@ public class Mission {
   private String comment;
   private boolean isOrgan;
   private boolean isActive = true;
+  private Set<Position> positions = new HashSet<Position>(0);
 
   public Mission() {
 
@@ -33,6 +40,7 @@ public class Mission {
   @Id
   @GeneratedValue(generator = "increment")
   @GenericGenerator(name = "increment", strategy = "increment")
+  @Column(name="mission_id", unique=true, nullable=false)
   public Integer getId() {
     return this.id;
   }
@@ -72,4 +80,21 @@ public class Mission {
   public void setIsActive(boolean isActive) {
     this.isActive = isActive;
   }
+  
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "missions")
+	public Set<Position> getPositions() {
+		return this.positions;
+	}
+
+	public void setPositions(Set<Position> positions) {
+		this.positions = positions;
+	}
+	
+	public void addPosition(Position position){
+		positions.add(position);
+	}
+	
+	public void addPositions(Set<Position> positions){
+		this.positions.addAll(positions);
+	}
 }

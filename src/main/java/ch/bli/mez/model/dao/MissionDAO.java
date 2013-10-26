@@ -65,4 +65,20 @@ public class MissionDAO {
     }
     tx.commit();
   }
+  
+  public List<Mission> getOrganMissions(){
+	  Transaction tx = session.beginTransaction();
+	  List<Mission> organMissions = session.createQuery("from " +Mission.class.getName()+ " m where m.isOrgan = true").list();
+	    tx.commit();
+	    session.flush();
+	    return organMissions;
+  }
+  
+  public List<Mission> getNotOrganMissions(){
+	  Transaction tx = session.beginTransaction();
+	  List<Mission> notOrganMissions = session.createQuery("from " +Mission.class.getName()+ " m where m.isOrgan = false").list();
+	    tx.commit();
+	    session.flush();
+	    return notOrganMissions;
+  }
 }

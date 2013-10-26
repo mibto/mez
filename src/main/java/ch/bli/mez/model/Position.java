@@ -1,6 +1,7 @@
 package ch.bli.mez.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,13 +23,21 @@ import org.hibernate.annotations.GenericGenerator;
 public class Position {
 	
 	private Integer id;
+	private Integer number;
 	private String positionName;
     private String comment;
 	private boolean isOrganDefault;
+	public void setOrganDefault(boolean isOrganDefault) {
+		this.isOrganDefault = isOrganDefault;
+	}
+
 	private Set<Mission> missions = new HashSet<Mission>();
 
-	public Position() {
-
+	public Position(Integer number, String positionName, String comment, boolean isOrganDefault) {
+		this.positionName = positionName;
+		this.comment = comment;
+		this.isOrganDefault = isOrganDefault;
+		this.setNumber(number);
 	}
 
 	@Id 
@@ -63,10 +72,6 @@ public class Position {
 		return isOrganDefault;
 	}
 
-	public void setOrganDefault(boolean isOrganDefault) {
-		this.isOrganDefault = isOrganDefault;
-	}
-
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "position_mission", joinColumns = { 
 			@JoinColumn(name = "position_id", nullable = false, updatable = false) }, 
@@ -84,7 +89,15 @@ public class Position {
 		missions.add(mission);
 	}
 	
-	public void addMissions(Set<Mission> missions){
+	public void addMissions(List<Mission> missions){
 		this.missions.addAll(missions);
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 }
