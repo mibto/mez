@@ -10,7 +10,8 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.view.PositionPanel;
+import ch.bli.mez.view.management.PositionPanel;
+
 
 public class PositionController {
 	

@@ -1,4 +1,4 @@
-package ch.bli.mez.view;
+package ch.bli.mez.view.time;
 
 import javax.swing.JPanel;
 

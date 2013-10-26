@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
-import ch.bli.mez.view.EmployeePanel;
-import ch.bli.mez.view.EmployeeView;
+import ch.bli.mez.view.employee.EmployeePanel;
+import ch.bli.mez.view.employee.EmployeeView;
 
 /**
  * @author leandrafinger

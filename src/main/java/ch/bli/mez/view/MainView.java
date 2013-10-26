@@ -9,6 +9,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeListener;
 
+import ch.bli.mez.view.employee.EmployeeView;
+import ch.bli.mez.view.management.ManagementView;
+
 /**
  * MainFrame beinhaltet die oberen Tabs, ursprünglich "Zeiten erfassen", "Mitarbeiter verwalten", "Auswertungen", "Verwaltung"
  * @author dave
@@ -25,12 +28,13 @@ public class MainView extends JFrame {
 		getContentPane().setLayout(new CardLayout(0, 0));
 		setMinimumSize(new Dimension(1000, 600));
 		
+		/*
 		try {
 			UIManager
 					.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		tabbedPaneMain = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add("Main", tabbedPaneMain);
