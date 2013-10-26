@@ -50,11 +50,11 @@ public class MissionController {
 			}
 		});
 
-		view.setClearMissionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				view.cleanFields();
-			}
-		});
+//		view.setClearMissionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				view.cleanFields();
+//			}
+//		});
 	}
 
 	private MissionListEntry createMissionListEntry(final Mission mission) {

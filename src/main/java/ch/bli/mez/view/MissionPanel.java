@@ -29,9 +29,8 @@ public class MissionPanel extends JPanel {
 	private JLabel messageLabel;
 
 	private JButton addButton;
-	private JButton clearButton;
 
-	private JPanel missionListEntryContainer;
+	private JPanel listPanel;
 
 	public MissionPanel() {
 
@@ -87,10 +86,6 @@ public class MissionPanel extends JPanel {
 		addButton.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(addButton);
 
-		clearButton = new JButton("Felder leeren");
-		clearButton.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(clearButton);
-
 		messagePanel = new JPanel();
 		messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(messagePanel, BorderLayout.SOUTH);
@@ -98,24 +93,19 @@ public class MissionPanel extends JPanel {
 		messageLabel = new JLabel(" ");
 		messagePanel.add(messageLabel);
 
-		JPanel listPanel = new JPanel();
-		listPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		add(new JScrollPane(listPanel), BorderLayout.CENTER);
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
-		missionListEntryContainer = new JPanel();
-		missionListEntryContainer.setLayout(new BoxLayout(
-				missionListEntryContainer, BoxLayout.PAGE_AXIS));
-		listPanel.add((missionListEntryContainer));
+		listPanel = new JPanel();
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.PAGE_AXIS));
+		centerPanel.add((listPanel));
 
 		addGuiFeatureListener();
 	}
 
 	public void setSaveMissionListener(ActionListener actionListener) {
 		addButton.addActionListener(actionListener);
-	}
-
-	public void setClearMissionListener(ActionListener actionListener) {
-		clearButton.addActionListener(actionListener);
 	}
 
 	public void cleanFields() {
@@ -127,16 +117,16 @@ public class MissionPanel extends JPanel {
 	public void showConfirmation(String name) {
 		messageLabel.setForeground(new Color(0, 128, 0));
 		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
-		hideMessageLabel();
+		hideMessage();
 	}
 
 	public void showNameError() {
 		messageLabel.setForeground(new Color(255, 0, 0));
 		messageLabel.setText("Auftragsname darf nicht leer sein");
-		hideMessageLabel();
+		hideMessage();
 	}
 	
-	private void hideMessageLabel(){
+	private void hideMessage(){
 		Timer timer = new Timer(1800, new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				messageLabel.setText(" ");
@@ -162,13 +152,13 @@ public class MissionPanel extends JPanel {
 	}
 
 	public void addMissionListEntry(MissionListEntry missionListEntry) {
-		missionListEntryContainer.add(missionListEntry);
-		missionListEntryContainer.revalidate();
-		missionListEntryContainer.repaint();
+		listPanel.add(missionListEntry);
+		listPanel.revalidate();
+		listPanel.repaint();
 	}
 
 	public void removeMissionListEntry(MissionListEntry missionListEntry) {
-		missionListEntryContainer.remove(missionListEntry);
+		listPanel.remove(missionListEntry);
 	}
 
 	public boolean getIsOrgan() {
