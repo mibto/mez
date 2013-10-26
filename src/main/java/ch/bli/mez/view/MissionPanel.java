@@ -43,12 +43,12 @@ public class MissionPanel extends JPanel {
 		add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
 		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+		topPanel.setLayout(new BorderLayout());
 		northPanel.add(topPanel);
 		
 		JPanel entryPanel = new JPanel();
 		entryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(entryPanel);
+		topPanel.add(entryPanel, BorderLayout.CENTER);
 
 		JPanel missionNamePanel = new JPanel();
 		missionNamePanel.setLayout(new BoxLayout(missionNamePanel,
@@ -89,7 +89,7 @@ public class MissionPanel extends JPanel {
 
 		messagePanel = new JPanel();
 		messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(messagePanel);
+		topPanel.add(messagePanel, BorderLayout.SOUTH);
 
 		messageLabel = new JLabel(" ");
 		messagePanel.add(messageLabel);
