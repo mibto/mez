@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -164,9 +165,9 @@ public class PositionPanel extends JPanel {
 	}
 
 	public void setComboBoxItems(HashMap<Integer, String> missionList) {
-		for (int i = 0; i < missionList.size(); i++) {
-			missionComboBox.addItem(new missionComboBoxItem(i, missionList
-					.get(i)));
+		for (Entry<Integer, String> entry : missionList.entrySet()) {
+			
+			missionComboBox.addItem(new missionComboBoxItem(entry.getKey(), entry.getValue()));
 		}
 		missionComboBox.setSelectedIndex(0);
 	}
@@ -174,6 +175,16 @@ public class PositionPanel extends JPanel {
 	public Integer getSelectedMission() {
 		return ((missionComboBoxItem) missionComboBox.getSelectedItem())
 				.getId();
+	}
+	
+	public void addPositionListEntry(PositionListEntry positionListEntry){
+		listPanel.add(positionListEntry);
+		listPanel.revalidate();
+	}
+	
+	public void removePositionListEntry(PositionListEntry positionListEntry){
+		listPanel.remove(positionListEntry);
+		listPanel.revalidate();
 	}
 
 	private void cleanFields() {
