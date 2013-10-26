@@ -28,12 +28,13 @@ public class MainView extends JFrame {
 		getContentPane().setLayout(new CardLayout(0, 0));
 		setMinimumSize(new Dimension(1000, 600));
 		
+		/*
 		try {
 			UIManager
 					.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		tabbedPaneMain = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add("Main", tabbedPaneMain);
