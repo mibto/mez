@@ -2,7 +2,9 @@ package ch.bli.mez.model.dao;
 
 import java.util.List;
 
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.SessionManager;
@@ -21,7 +23,7 @@ public class EmployeeDAO {
   public List<Employee> findAll() {
     Transaction tx = session.beginTransaction();
     List<Employee> employees = session.createQuery(
-        "from Employee e order by e.firstName").list();
+        "from Employee e where isActive=true order by e.firstName").list();
     session.flush();
     tx.commit();
     return employees;

@@ -1,5 +1,6 @@
 package ch.bli.mez.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +15,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "mission")
 public class Mission {
+
+  @Column(name = "mission_id")
   private Integer id;
   private String missionName;
   private String comment;
@@ -65,6 +68,7 @@ public class Mission {
     this.isOrgan = isOrgan;
   }
 
+  @Column(nullable = false)
   public boolean getIsActive() {
     return isActive;
   }

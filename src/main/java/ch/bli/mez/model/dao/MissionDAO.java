@@ -2,7 +2,9 @@ package ch.bli.mez.model.dao;
 
 import java.util.List;
 
-import org.hibernate.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.SessionManager;
@@ -19,14 +21,15 @@ public class MissionDAO {
   }
 
   public List<Mission> findAll() {
-	Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery("from "  + Mission.class.getName()).list();
+    Transaction tx = session.beginTransaction();
+    List<Mission> missions = session.createQuery(
+        "from " + Mission.class.getName() + " where isActive=true ").list();
     session.flush();
     tx.commit();
     return missions;
   }
 
-  public void addMission(Mission mission){
+  public void addMission(Mission mission) {
     Transaction tx = session.beginTransaction();
     try {
       session.save(mission);
@@ -39,7 +42,7 @@ public class MissionDAO {
   }
 
   public Mission getMission(Integer id) {
-	Transaction tx = session.beginTransaction();
+    Transaction tx = session.beginTransaction();
     Mission mission = (Mission) session.load(Mission.class, id);
     session.flush();
     tx.commit();

@@ -6,33 +6,32 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import ch.bli.mez.model.Position;
 import ch.bli.mez.model.SessionManager;
+import ch.bli.mez.model.TimeEntry;
 
 @SuppressWarnings("unchecked")
-public class PositionDAO {
+public class TimeEntryDAO {
 
   private SessionFactory sessionFactory;
   private Session session;
 
-  public PositionDAO() {
+  public TimeEntryDAO() {
     sessionFactory = SessionManager.getSessionFactory();
     session = sessionFactory.openSession();
   }
 
-  public List<Position> findAll() {
+  public List<TimeEntry> findAll() {
     Transaction tx = session.beginTransaction();
-    List<Position> positions = session.createQuery(
-        "from " + Position.class.getName() + " where isActive=true ").list();
+    List<TimeEntry> timeEntries = session.createQuery("from TimeEntry").list();
     session.flush();
     tx.commit();
-    return positions;
+    return timeEntries;
   }
 
-  public void addPosition(Position position) {
+  public void addTimeEntry(TimeEntry timeEntry) {
     Transaction tx = session.beginTransaction();
     try {
-      session.save(position);
+      session.save(timeEntry);
       session.flush();
       tx.commit();
     } catch (IllegalArgumentException ex) {
@@ -41,18 +40,18 @@ public class PositionDAO {
     }
   }
 
-  public Position getPosition(Integer id) {
+  public TimeEntry getTimeEntry(Integer id) {
     Transaction tx = session.beginTransaction();
-    Position position = (Position) session.load(Position.class, id);
+    TimeEntry timeEntry = (TimeEntry) session.load(TimeEntry.class, id);
     session.flush();
     tx.commit();
-    return position;
+    return timeEntry;
   }
 
-  public void updatePosition(Position position) {
+  public void updateTimeEntry(TimeEntry timeEntry) {
     Transaction tx = session.beginTransaction();
     try {
-      session.update(position);
+      session.update(timeEntry);
       session.flush();
       tx.commit();
     } catch (Exception ex) {
@@ -60,11 +59,11 @@ public class PositionDAO {
     }
   }
 
-  public void deletePosition(Integer id) {
+  public void deleteTimeEntry(Integer id) {
     Transaction tx = session.beginTransaction();
-    Position position = (Position) session.load(Position.class, id);
-    if (null != position) {
-      session.delete(position);
+    TimeEntry timeEntry = (TimeEntry) session.load(TimeEntry.class, id);
+    if (null != timeEntry) {
+      session.delete(timeEntry);
     }
     tx.commit();
   }

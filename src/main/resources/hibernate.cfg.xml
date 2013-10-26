@@ -17,6 +17,6 @@
         <mapping class="ch.bli.mez.model.Employee"/>
         <mapping class="ch.bli.mez.model.Position"/>
         <mapping class="ch.bli.mez.model.Mission"/>
-        
+        <mapping class="ch.bli.mez.model.TimeEntry"/>
     </session-factory>
 </hibernate-configuration>

@@ -9,82 +9,89 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
 @Entity
 @Table(name = "position")
 public class Position {
-	
-	private Integer id;
-	private String positionName;
-    private String comment;
-	private boolean isOrganDefault;
-	private Set<Mission> missions = new HashSet<Mission>();
 
-	public Position() {
+  @Column(name = "position_id")
+  private Integer id;
+  private String positionName;
+  private String comment;
+  private boolean isOrganDefault;
+  private Set<Mission> missions = new HashSet<Mission>();
+  private Boolean isActive = true;
 
-	}
+  public Position() {
 
-	@Id 
-    @GeneratedValue(generator="increment") 
-    @GenericGenerator(name="increment", strategy = "increment")  
-	@Column(name="position_id", unique = true, nullable = false)
-	public Integer getId() {
-		return id;
-	}
+  }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  @Column(name = "position_id", unique = true, nullable = false)
+  public Integer getId() {
+    return id;
+  }
 
-	public String getPositionName() {
-		return positionName;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
+  public String getPositionName() {
+    return positionName;
+  }
 
-	public String getComment() {
-		return comment;
-	}
+  public void setPositionName(String positionName) {
+    this.positionName = positionName;
+  }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+  public String getComment() {
+    return comment;
+  }
 
-	public boolean isOrganDefault() {
-		return isOrganDefault;
-	}
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
 
-	public void setOrganDefault(boolean isOrganDefault) {
-		this.isOrganDefault = isOrganDefault;
-	}
+  public boolean isOrganDefault() {
+    return isOrganDefault;
+  }
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "position_mission", joinColumns = { 
-			@JoinColumn(name = "position_id", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "mission_id", 
-					nullable = false, updatable = false) })
-	public Set<Mission> getMissions() {
-		return missions;
-	}
+  public void setOrganDefault(boolean isOrganDefault) {
+    this.isOrganDefault = isOrganDefault;
+  }
 
-	public void setMissions(Set<Mission> missions) {
-		this.missions = missions;
-	}
-	
-	public void addMission(Mission mission){
-		missions.add(mission);
-	}
-	
-	public void addMissions(Set<Mission> missions){
-		this.missions.addAll(missions);
-	}
+  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinTable(name = "position_mission", joinColumns = { @JoinColumn(name = "position_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "mission_id", nullable = false, updatable = false) })
+  public Set<Mission> getMissions() {
+    return missions;
+  }
+
+  public void setMissions(Set<Mission> missions) {
+    this.missions = missions;
+  }
+
+  public void addMission(Mission mission) {
+    missions.add(mission);
+  }
+
+  public void addMissions(Set<Mission> missions) {
+    this.missions.addAll(missions);
+  }
+
+  @Column(nullable = false)
+  public Boolean getIsActive() {
+    return isActive;
+  }
+
+  public void setIsActive(Boolean isActive) {
+    this.isActive = isActive;
+  }
 }

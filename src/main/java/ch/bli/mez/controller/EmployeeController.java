@@ -90,7 +90,8 @@ public class EmployeeController {
           Employee safeEmployee = new Employee();
           safeEmployee = updateEmployee(safeEmployee, form);
           model.addEmployee(safeEmployee);
-          view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
+          view.addTab(
+              safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
               createEmployeePanel(safeEmployee, false));
           form.cleanFields();
           form.showConfirmation(safeEmployee.getFirstName() + " "
