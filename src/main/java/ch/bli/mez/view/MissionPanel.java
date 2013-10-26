@@ -2,7 +2,6 @@ package ch.bli.mez.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,44 +46,49 @@ public class MissionPanel extends JPanel {
 		northPanel.add(topPanel);
 		
 		JPanel entryPanel = new JPanel();
-		entryPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.X_AXIS));
 		topPanel.add(entryPanel, BorderLayout.CENTER);
 
 		JPanel missionNamePanel = new JPanel();
 		missionNamePanel.setLayout(new BoxLayout(missionNamePanel,
 				BoxLayout.Y_AXIS));
+		missionNamePanel.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(missionNamePanel);
 
-		JLabel nameLabel = new JLabel("Auftragsname:");
-		nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JLabel nameLabel = new JLabel("Auftragsname");
+		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		missionNamePanel.add(nameLabel);
 
 		missionNameTextField = new JTextField();
 		missionNameTextField.setColumns(10);
-		missionNameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		missionNameTextField.setAlignmentX(LEFT_ALIGNMENT);
 		missionNamePanel.add(missionNameTextField);
 
 		JPanel missionCommentPanel = new JPanel();
 		missionCommentPanel.setLayout(new BoxLayout(missionCommentPanel,
 				BoxLayout.Y_AXIS));
+		missionCommentPanel.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(missionCommentPanel);
 
-		JLabel commentLabel = new JLabel("Kommentar:");
-		commentLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		JLabel commentLabel = new JLabel("Kommentar");
+		commentLabel.setAlignmentX(LEFT_ALIGNMENT);
 		missionCommentPanel.add(commentLabel);
 
 		commentTextField = new JTextField();
 		commentTextField.setColumns(25);
-		commentTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
+		commentTextField.setAlignmentX(LEFT_ALIGNMENT);
 		missionCommentPanel.add(commentTextField);
 
 		isOrganCheckBox = new JCheckBox("Orgel-Code", true);
+		isOrganCheckBox.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(isOrganCheckBox);
 
-		addButton = new JButton("Hinzufügen");
+		addButton = new JButton("Speichern");
+		addButton.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(addButton);
 
-		clearButton = new JButton("Leeren");
+		clearButton = new JButton("Felder leeren");
+		clearButton.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(clearButton);
 
 		messagePanel = new JPanel();
