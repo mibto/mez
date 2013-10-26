@@ -150,8 +150,8 @@ public class EmployeePanel extends JPanel {
 		btnSave.setBounds(25, 373, 89, 23);
 		layeredPane.add(btnSave);
 		
-		btnDelete = new JButton("Löschen");
-		btnDelete.setBounds(125, 373, 89, 23);
+		btnDelete = new JButton("Deaktivieren");
+		btnDelete.setBounds(125, 373, 120, 23);
 		layeredPane.add(btnDelete);
 	}
 	
@@ -159,11 +159,11 @@ public class EmployeePanel extends JPanel {
 		btnSave.addActionListener(actionListener);
 	}
 	
-	public void setDeleteEmployeeListener(ActionListener actionListener) {
+	public void setStatusButtonListener(ActionListener actionListener) {
 		btnDelete.addActionListener(actionListener);
 	}
 	
-	public void setDeleteButtonName(String value){
+	public void setStatusButtonName(String value){
 		btnDelete.setName(value);
 	}
 	
@@ -171,7 +171,7 @@ public class EmployeePanel extends JPanel {
 		return btnDelete.getName();
 	}
 	
-	public void hideDeleteButton(){
+	public void hideStatusButton(){
 		btnDelete.setVisible(false);
 	}
 	

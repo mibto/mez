@@ -1,5 +1,7 @@
 package ch.bli.mez.model;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +25,7 @@ public class Employee {
     private String mobileNumber;
     private String homeNumber;
     private String email;
+    private boolean isActive;
     
     public Employee(){
       
@@ -110,4 +113,14 @@ public class Employee {
     public void setHomeNumber(String homeNumber) {
       this.homeNumber = homeNumber;
     }
+    
+    public void setIsActive(boolean isActive){
+    	this.isActive = isActive;
+    }
+    
+    @Column(name="isActive", columnDefinition = "boolean default true")
+	public boolean getIsActive() {
+		return isActive;
+	}
+    
 }

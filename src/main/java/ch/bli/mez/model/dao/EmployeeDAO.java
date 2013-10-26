@@ -22,8 +22,8 @@ public class EmployeeDAO {
     Transaction tx = session.beginTransaction();
     List<Employee> employees = session.createQuery(
         "from Employee e order by e.firstName").list();
-    session.flush();
     tx.commit();
+    session.flush();
     return employees;
   }
 
