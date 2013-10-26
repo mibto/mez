@@ -9,6 +9,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeListener;
 
+import ch.bli.mez.view.employee.EmployeeView;
+import ch.bli.mez.view.management.ManagementView;
+
 /**
  * MainFrame beinhaltet die oberen Tabs, ursprünglich "Zeiten erfassen", "Mitarbeiter verwalten", "Auswertungen", "Verwaltung"
  * @author dave

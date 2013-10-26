@@ -1,6 +1,6 @@
 package ch.bli.mez.controller;
 
-import ch.bli.mez.view.ManagementView;
+import ch.bli.mez.view.management.ManagementView;
 
 public class ManagementController {
   private ManagementView view;

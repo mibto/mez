@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ch.bli.mez.view.EmployeePanel;
+import ch.bli.mez.view.employee.EmployeePanel;
 
 public class EmployeeControllerTest {
 

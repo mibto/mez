@@ -1,6 +1,6 @@
 package ch.bli.mez.controller;
 
-import ch.bli.mez.view.PositionPanel;
+import ch.bli.mez.view.management.PositionPanel;
 
 public class PositionController {
 	

@@ -1,4 +1,4 @@
-package ch.bli.mez.view;
+package ch.bli.mez.view.employee;
 
 import java.awt.CardLayout;
 

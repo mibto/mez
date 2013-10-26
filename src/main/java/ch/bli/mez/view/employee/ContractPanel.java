@@ -1,4 +1,4 @@
-package ch.bli.mez.view;
+package ch.bli.mez.view.employee;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

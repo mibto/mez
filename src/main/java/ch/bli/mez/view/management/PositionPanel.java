@@ -1,4 +1,4 @@
-package ch.bli.mez.view;
+package ch.bli.mez.view.management;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -198,7 +198,6 @@ public class PositionPanel extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					saveButton.doClick();
-					System.out.println(getSelectedMission());
 				}
 			}
 		};

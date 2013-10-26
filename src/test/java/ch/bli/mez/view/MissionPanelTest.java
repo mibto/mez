@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.bli.mez.view.management.MissionPanel;
+
 /**
  * Prüft ob die Klasse MissionPanel vorhanden ist
  * 

@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.dao.MissionDAO;
-import ch.bli.mez.view.MissionListEntry;
-import ch.bli.mez.view.MissionPanel;
+import ch.bli.mez.view.management.MissionListEntry;
+import ch.bli.mez.view.management.MissionPanel;
 
 /**
  * @author Michael Brodmann
