@@ -62,16 +62,6 @@ public class MainView extends JFrame {
   }
 
   /**
-   * @@@Auskommentieren, sobald Klasse TimeMgmtView erstellt ist Panel
-   *                     "Zeiten erfassen" ausgeben
-   * 
-   * @return TimeMgmtView das aktuell eingesetzte "Zeiten erfassen" Panel
-   */
-  // public TimeMgmtView getTimeMgmtPanel() {
-  // return tabbedPaneMain.getTabComponentAt(0);
-  // }
-
-  /**
    * Panel "Mitarbeiter verwalten" setzen
    * 
    * @param employeeView

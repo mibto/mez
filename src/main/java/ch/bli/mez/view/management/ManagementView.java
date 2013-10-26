@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
 
 public class ManagementView extends JPanel {
 
@@ -19,5 +20,9 @@ public class ManagementView extends JPanel {
 
   public void addTab(String name, JPanel jpanel) {
     tabbedPane.addTab(name, jpanel);
+  }
+  
+  public void setTabListener(ChangeListener changeListener){
+	  tabbedPane.addChangeListener(changeListener);
   }
 }

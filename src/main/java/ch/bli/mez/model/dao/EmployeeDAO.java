@@ -26,6 +26,7 @@ public class EmployeeDAO {
         "from Employee e where isActive=true order by e.firstName").list();
     session.flush();
     tx.commit();
+    session.flush();
     return employees;
   }
 

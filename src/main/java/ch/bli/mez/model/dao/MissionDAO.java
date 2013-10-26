@@ -17,39 +17,44 @@ public class MissionDAO {
 
   public MissionDAO() {
     sessionFactory = SessionManager.getSessionFactory();
-    session = sessionFactory.openSession();
   }
 
   public List<Mission> findAll() {
+    session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery(
         "from " + Mission.class.getName() + " where isActive=true ").list();
     session.flush();
     tx.commit();
+    session.close();
     return missions;
   }
 
   public void addMission(Mission mission) {
+    session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     try {
       session.save(mission);
-      session.flush();
       tx.commit();
     } catch (IllegalArgumentException ex) {
       tx.rollback();
       throw ex;
+    } finally {
+      session.close();
     }
   }
 
   public Mission getMission(Integer id) {
+    session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     Mission mission = (Mission) session.load(Mission.class, id);
-    session.flush();
     tx.commit();
+    session.close();
     return mission;
   }
 
   public void updateMission(Mission mission) {
+    session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     try {
       session.update(mission);
@@ -57,15 +62,40 @@ public class MissionDAO {
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
+    } finally {
+      session.close();
     }
   }
 
   public void deleteMission(Integer id) {
+    session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     Mission mission = (Mission) session.load(Mission.class, id);
     if (null != mission) {
       session.delete(mission);
     }
     tx.commit();
+    session.close();
+  }
+
+  public List<Mission> getOrganMissions() {
+    session = sessionFactory.openSession();
+    Transaction tx = session.beginTransaction();
+    List<Mission> organMissions = session.createQuery(
+        "from " + Mission.class.getName() + " m where m.isOrgan = true").list();
+    tx.commit();
+    session.close();
+    return organMissions;
+  }
+
+  public List<Mission> getNotOrganMissions() {
+    session = sessionFactory.openSession();
+    Transaction tx = session.beginTransaction();
+    List<Mission> notOrganMissions = session.createQuery(
+        "from " + Mission.class.getName() + " m where m.isOrgan = false")
+        .list();
+    tx.commit();
+    session.close();
+    return notOrganMissions;
   }
 }
