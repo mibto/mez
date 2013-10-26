@@ -76,13 +76,14 @@ public class MissionController {
 			public void actionPerformed(ActionEvent event) {
 				if(!missionListEntry.getMissionName().equals("")){
 				mission.setMissionName(missionListEntry.getMissionName());
-				mission.setComment(missionListEntry.getComment());
-				mission.setIsOrgan(missionListEntry.getIsOrgan());
-				model.updateMission(mission);
 				missionListEntry.showSuccess();
 			} else {
 				missionListEntry.showError();
+				missionListEntry.setMissionName(mission.getMissionName());
 			}
+				mission.setComment(missionListEntry.getComment());
+				mission.setIsOrgan(missionListEntry.getIsOrgan());
+				model.updateMission(mission);
 			}
 		}));
 
