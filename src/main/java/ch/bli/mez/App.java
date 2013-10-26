@@ -1,6 +1,10 @@
 package ch.bli.mez;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import ch.bli.mez.controller.MainController;
+import ch.bli.mez.model.SessionManager;
 /**
  * Started die App
  * @author mike
@@ -13,5 +17,8 @@ public class App {
 	public static void main(String[] args) {
 		MainController mainController = new MainController();
 		mainController.showView();
+		SessionFactory sessionFactory = SessionManager.getSessionFactory();
+	    Session session = sessionFactory.openSession();
+	    session.close();
 	}
 }
