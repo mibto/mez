@@ -17,55 +17,72 @@ public class PositionDAO {
 
   public PositionDAO() {
     sessionFactory = SessionManager.getSessionFactory();
-    session = sessionFactory.openSession();
   }
 
   public List<Position> findAll() {
+	  session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
         "from " + Position.class.getName() + " where isActive=true ").list();
-    session.flush();
     tx.commit();
+    session.close();
     return positions;
   }
 
   public void addPosition(Position position) {
+		 session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     try {
       session.save(position);
-      session.flush();
       tx.commit();
     } catch (IllegalArgumentException ex) {
       tx.rollback();
       throw ex;
+    } finally {
+    	session.close();
     }
   }
 
   public Position getPosition(Integer id) {
+		 session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     Position position = (Position) session.load(Position.class, id);
-    session.flush();
     tx.commit();
+    session.close();
     return position;
   }
 
   public void updatePosition(Position position) {
+	 session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     try {
       session.update(position);
-      session.flush();
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();
+    } finally {
+    	session.close();
     }
   }
 
   public void deletePosition(Integer id) {
+	session = sessionFactory.openSession();
     Transaction tx = session.beginTransaction();
     Position position = (Position) session.load(Position.class, id);
     if (null != position) {
       session.delete(position);
     }
     tx.commit();
+    session.close();
   }
+  
+  public List<Position> getOrganPositions() {
+	    session = sessionFactory.openSession();
+	    Transaction tx = session.beginTransaction();
+	    List<Position> organPositions = session.createQuery(
+	        "from " + Position.class.getName() + " p where p.organDefault = true").list();
+	    tx.commit();
+	    session.close();
+	    return organPositions;
+	  }
 }

@@ -5,11 +5,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
+import ch.bli.mez.view.management.MissionListEntry;
+import ch.bli.mez.view.management.PositionListEntry;
 import ch.bli.mez.view.management.PositionPanel;
 
 
@@ -25,21 +26,78 @@ public class PositionController {
 		this.missionModel = new MissionDAO();
 		setActionListeners();
 		// addPositionEntrys();
-		setComboBoxItems();
 	}
 	
 	public PositionPanel getView(){
 		return view;
 	}
 	
-	private void setComboBoxItems(){
+	private void addPositionEntrys() {
+		for (Position position : model.findAll()) {
+			view.addPositionListEntry(createPositionListEntry(position));
+		}
+	}
+	
+	private PositionListEntry createPositionListEntry(final Position position) {
+		final PositionListEntry positionListEntry = new PositionListEntry(position.getIsActive());
+
+		positionListEntry.setNumber(position.getNumber());
+		positionListEntry.setPositionName(position.getPositionName());
+		positionListEntry.setComment(position.getComment());
+		if (position.isOrganDefault()){
+			positionListEntry.setMission("Orgeln");
+		}
+		else {
+			Mission mission = (Mission) position.getMissions().toArray()[0];
+			positionListEntry.setMission(mission.getMissionName());
+		}
+
+		setPositionListEntryActionListeners(positionListEntry, position);
+
+		return positionListEntry;
+	}
+	
+	private void setPositionListEntryActionListeners(
+			final PositionListEntry positionListEntry, final Position position) {
+
+		positionListEntry.setSaveButtonListener((new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if(!positionListEntry.getPositionName().equals("")){
+				position.setMissionName(positionListEntry.getPositonName());
+				positionListEntry.showSuccess();
+			} else {
+				positionListEntry.showError();
+				positionListEntry.setMissionName(position.getPositionName());
+			}
+				position.setComment(positionListEntry.getPosition());
+				position.setNumber(positionListEntry.getNumber());
+				model.updatePosition(position);
+			}
+		}));
+
+		positionListEntry.setStatusButtonListener((new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				if (position.getIsActive()){
+					position.setIsActive(false);
+					model.updatePosition(position);
+					positionListEntry.setInactive();
+				}
+				else {
+					position.setIsActive(true);
+					model.updatePosition(position);
+					positionListEntry.setActive();
+				}
+			}
+		}));
+	}
+	
+	public void setComboBoxItems(){
 		HashMap<Integer, String> items = new HashMap<Integer, String>();
 		items.put(0, "Orgeln");
 		List<Mission> missionsNotOrgan = missionModel.getNotOrganMissions();
 		for (Mission mission: missionsNotOrgan){
 			items.put(mission.getId(), mission.getMissionName());
 		}
-		System.out.println(items);
 		view.setComboBoxItems(items);
 	}
 	
@@ -59,7 +117,7 @@ public class PositionController {
 						position.addMission(mission);
 					}
 					model.addPosition(position);
-					// view.addPositionListEntry(createPositionListEntry(position, isOrganDefault));
+					// view.addPositionListEntry(createPositionListEntry(position));
 					view.showConfirmation(position.getPositionName());
 				} else {
 					view.showNameError();
@@ -67,5 +125,4 @@ public class PositionController {
 			}
 		});
 	}
-
 }

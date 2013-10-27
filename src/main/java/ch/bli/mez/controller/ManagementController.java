@@ -1,5 +1,9 @@
 package ch.bli.mez.controller;
 
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.bli.mez.view.management.ManagementView;
 
 public class ManagementController {
@@ -13,6 +17,7 @@ public class ManagementController {
     this.positionController = new PositionController();
     // weitere Controller hier instanzieren
     setTabs();
+    setListener();
   }
   
   public ManagementView getView(){
@@ -32,4 +37,16 @@ public class ManagementController {
     view.addTab("Positionen Verwalten", positionController.getView());
     // Weitere views für die Tabs hier setzen.
    }
+  
+  private void setListener() {
+	    view.setTabListener(new ChangeListener() {
+	      public void stateChanged(ChangeEvent e) {
+	        // Für andere Panels das selbe. Zeit erfassen noch besprechen wann die
+	        // Liste geladen werden soll.
+	        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1) {
+	          positionController.setComboBoxItems();
+	        }
+	      }
+	    });
+	  }
 }

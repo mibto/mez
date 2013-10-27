@@ -58,7 +58,6 @@ public class MissionDAO {
     Transaction tx = session.beginTransaction();
     try {
       session.update(mission);
-      session.flush();
       tx.commit();
     } catch (Exception ex) {
       tx.rollback();

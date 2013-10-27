@@ -28,12 +28,9 @@ public class Position {
   private String comment;
   private boolean isOrganDefault;
   private Boolean isActive = true;
-
-  public void setOrganDefault(boolean isOrganDefault) {
-    this.isOrganDefault = isOrganDefault;
-  }
-
   private Set<Mission> missions = new HashSet<Mission>();
+  
+  public Position(){}
 
   public Position(Integer number, String positionName, String comment,
       boolean isOrganDefault) {
@@ -75,7 +72,7 @@ public class Position {
     return isOrganDefault;
   }
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "position_mission", joinColumns = { @JoinColumn(name = "position_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "mission_id", nullable = false, updatable = false) })
   public Set<Mission> getMissions() {
     return missions;
@@ -89,14 +86,13 @@ public class Position {
     missions.add(mission);
   }
 
-  /*
-   * Merge conflict public void addMissions(Set<Mission> missions) {
-   * this.missions.addAll(missions); }
-   */
   public void addMissions(List<Mission> missions) {
     this.missions.addAll(missions);
   }
 
+  public void removeMission(Mission mission){
+	  this.missions.remove(mission);
+  }
   public Integer getNumber() {
     return number;
   }
@@ -105,7 +101,7 @@ public class Position {
     this.number = number;
   }
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "boolean default true")
   public Boolean getIsActive() {
     return isActive;
   }
@@ -113,4 +109,8 @@ public class Position {
   public void setIsActive(Boolean isActive) {
     this.isActive = isActive;
   }
+  
+  public void setOrganDefault(boolean isOrganDefault) {
+	    this.isOrganDefault = isOrganDefault;
+	  }
 }

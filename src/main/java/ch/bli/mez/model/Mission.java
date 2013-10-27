@@ -1,6 +1,7 @@
 package ch.bli.mez.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class Mission {
   private String comment;
   private boolean isOrgan;
   private boolean isActive = true;
-  private Set<Position> positions = new HashSet<Position>(0);
+  private Set<Position> positions = new HashSet<Position>();
 
   public Mission() {
 
@@ -84,7 +85,7 @@ public class Mission {
     this.isActive = isActive;
   }
 
-  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "missions")
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "missions")
   public Set<Position> getPositions() {
     return this.positions;
   }
@@ -94,10 +95,17 @@ public class Mission {
   }
 
   public void addPosition(Position position) {
-    positions.add(position);
+	  position.addMission(this);
   }
 
-  public void addPositions(Set<Position> positions) {
-    this.positions.addAll(positions);
+  public void addPositions(List<Position> organPositions) {
+	for (Position position: organPositions){
+		position.addMission(this);
+	}
+  }
+  public void clearPositions(){
+	  for (Position position : positions){
+		  position.removeMission(this);
+	  }
   }
 }

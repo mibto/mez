@@ -115,7 +115,7 @@ public class Employee {
     this.homeNumber = homeNumber;
   }
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "boolean default true")
   public Boolean getIsActive() {
     return isActive;
   }

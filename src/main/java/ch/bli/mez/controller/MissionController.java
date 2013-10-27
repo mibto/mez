@@ -2,9 +2,12 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import ch.bli.mez.model.Mission;
+import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
+import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.management.MissionListEntry;
 import ch.bli.mez.view.management.MissionPanel;
 
@@ -17,10 +20,12 @@ public class MissionController {
 
 	private MissionPanel view;
 	private MissionDAO model;
+	private PositionDAO positionModel;
 
 	public MissionController() {
 		this.view = new MissionPanel();
 		this.model = new MissionDAO();
+		this.positionModel = new PositionDAO();
 		addMissionEntrys();
 		setActionListeners();
 	}
@@ -41,6 +46,13 @@ public class MissionController {
 				if (!view.getMissionName().equals("")) {
 					Mission mission = new Mission(view.getMissionName(), view
 							.getComment(), view.getIsOrgan());
+					if(view.getIsOrgan()){
+						List<Position> organPositions = positionModel.getOrganPositions();
+						mission.addPositions(organPositions);
+						for (Position position : organPositions){
+							positionModel.updatePosition(position);
+						}
+					}
 					model.addMission(mission);
 					view.addMissionListEntry(createMissionListEntry(mission));
 					view.showConfirmation(mission.getMissionName());
@@ -82,7 +94,21 @@ public class MissionController {
 				missionListEntry.setMissionName(mission.getMissionName());
 			}
 				mission.setComment(missionListEntry.getComment());
-				mission.setIsOrgan(missionListEntry.getIsOrgan());
+				if (missionListEntry.getIsOrgan() ^ mission.getIsOrgan()){
+					mission.setIsOrgan(missionListEntry.getIsOrgan());
+					// clear not working yet
+					mission.clearPositions();
+					for (Position position : mission.getPositions()){
+						positionModel.updatePosition(position);
+					}
+					if (missionListEntry.getIsOrgan()){
+						List<Position> organPositions = positionModel.getOrganPositions();
+						mission.addPositions(organPositions);
+						for (Position position : organPositions){
+							positionModel.updatePosition(position);
+						}
+					}
+				}
 				model.updateMission(mission);
 			}
 		}));
