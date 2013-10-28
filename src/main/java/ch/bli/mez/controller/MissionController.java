@@ -61,16 +61,10 @@ public class MissionController {
 				}
 			}
 		});
-
-//		view.setClearMissionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				view.cleanFields();
-//			}
-//		});
 	}
 
 	private MissionListEntry createMissionListEntry(final Mission mission) {
-		final MissionListEntry missionListEntry = new MissionListEntry();
+		final MissionListEntry missionListEntry = new MissionListEntry(mission.getIsActive());
 
 		missionListEntry.setMissionName(mission.getMissionName());
 		missionListEntry.setComment(mission.getComment());
@@ -114,10 +108,19 @@ public class MissionController {
 		}));
 
 		missionListEntry
-				.setDeleteMissionEntryListListener((new ActionListener() {
+				.setStatusMissionEntryListListener((new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
-						model.deleteMission(mission.getId());
-						view.removeMissionListEntry(missionListEntry);
+						if (mission.getIsActive()){
+							mission.setIsActive(false);
+							model.updateMission(mission);
+							missionListEntry.setActive(false);
+						}
+						else {
+							mission.setIsActive(true);
+							model.updateMission(mission);
+							missionListEntry.setActive(true);
+						}
+						
 					}
 				}));
 	}

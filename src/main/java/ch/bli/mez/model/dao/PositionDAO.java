@@ -20,12 +20,8 @@ public class PositionDAO {
   }
 
   public List<Position> findAll() {
-	  session = sessionFactory.openSession();
-    Transaction tx = session.beginTransaction();
-    List<Position> positions = session.createQuery(
-        "from " + Position.class.getName() + " where isActive=true ").list();
-    tx.commit();
-    session.close();
+	  List<Position> positions = getActivePositions();
+	  positions.addAll(getInactivePositions());
     return positions;
   }
 
@@ -85,4 +81,24 @@ public class PositionDAO {
 	    session.close();
 	    return organPositions;
 	  }
+  
+  public List<Position> getActivePositions() {
+	  session = sessionFactory.openSession();
+    Transaction tx = session.beginTransaction();
+    List<Position> positions = session.createQuery(
+        "from " + Position.class.getName() + " where isActive=true ").list();
+    tx.commit();
+    session.close();
+    return positions;
+  }
+  
+  public List<Position> getInactivePositions() {
+	  session = sessionFactory.openSession();
+    Transaction tx = session.beginTransaction();
+    List<Position> positions = session.createQuery(
+        "from " + Position.class.getName() + " where isActive=false ").list();
+    tx.commit();
+    session.close();
+    return positions;
+  }
 }

@@ -17,24 +17,24 @@ public class MissionListEntry extends JPanel {
 
 	private static final long serialVersionUID = -2823140194213618642L;
 
-	private JTextField missionNameTextField;
+	private JTextField nameTextField;
 	private JTextField commentTextField;
 
 	private JCheckBox isOrganCheckBox;
 
 	private JButton saveButton;
-	private JButton deleteButton;
+	private JButton statusButton;
 	private Color backGroundColor;
 
 	/**
 	 * Create the panel.
 	 */
-	public MissionListEntry() {
+	public MissionListEntry(boolean isActive) {
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		missionNameTextField = new JTextField();
-		missionNameTextField.setColumns(10);
-		add(missionNameTextField);
+		nameTextField = new JTextField();
+		nameTextField.setColumns(10);
+		add(nameTextField);
 		
 
 		commentTextField = new JTextField();
@@ -47,11 +47,23 @@ public class MissionListEntry extends JPanel {
 		saveButton = new JButton("Speichern");
 		add(saveButton);
 
-		deleteButton = new JButton("Löschen");
-		add(deleteButton);
+		statusButton = new JButton("Löschen");
+		add(statusButton);
 
 		backGroundColor = getBackground();
+		setActive(isActive);
 		addGuiFeatureListener();
+	}
+	
+	public void setActive(boolean status){
+		if(status){
+			statusButton.setText("Deaktivieren");
+		} else {
+			statusButton.setText("Aktivieren");
+		}
+		nameTextField.setEnabled(status);
+		commentTextField.setEnabled(status);
+		saveButton.setEnabled(status);
 	}
 
 	public void showSuccess() {
@@ -77,12 +89,12 @@ public class MissionListEntry extends JPanel {
 		saveButton.addActionListener(actionListener);
 	}
 
-	public void setDeleteMissionEntryListListener(ActionListener actionListener) {
-		deleteButton.addActionListener(actionListener);
+	public void setStatusMissionEntryListListener(ActionListener actionListener) {
+		statusButton.addActionListener(actionListener);
 	}
 
 	public String getMissionName() {
-		return missionNameTextField.getText();
+		return nameTextField.getText();
 	}
 
 	public String getComment() {
@@ -94,7 +106,7 @@ public class MissionListEntry extends JPanel {
 	}
 
 	public void setMissionName(String missionName) {
-		this.missionNameTextField.setText(missionName);
+		this.nameTextField.setText(missionName);
 	}
 
 	public void setComment(String value) {
@@ -117,7 +129,7 @@ public class MissionListEntry extends JPanel {
 				}
 			}
 		};
-		missionNameTextField.addKeyListener(enterKeyListener);
+		nameTextField.addKeyListener(enterKeyListener);
 		commentTextField.addKeyListener(enterKeyListener);
 	}
 }

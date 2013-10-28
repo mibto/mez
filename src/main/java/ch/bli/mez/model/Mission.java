@@ -27,7 +27,7 @@ public class Mission {
   private String missionName;
   private String comment;
   private boolean isOrgan;
-  private boolean isActive = true;
+  private boolean isActive;
   private Set<Position> positions = new HashSet<Position>();
 
   public Mission() {
@@ -38,6 +38,7 @@ public class Mission {
     this.missionName = missionName;
     this.comment = comment;
     this.isOrgan = isOrgan;
+    this.isActive = true;
   }
 
   @Id

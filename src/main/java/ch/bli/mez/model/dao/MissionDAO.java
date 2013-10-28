@@ -20,13 +20,8 @@ public class MissionDAO {
   }
 
   public List<Mission> findAll() {
-    session = sessionFactory.openSession();
-    Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery(
-        "from " + Mission.class.getName() + " where isActive=true ").list();
-    session.flush();
-    tx.commit();
-    session.close();
+	  List<Mission> missions = getActiveMissions();
+	  missions.addAll(getInactiveMissions());
     return missions;
   }
 
@@ -97,4 +92,26 @@ public class MissionDAO {
     session.close();
     return notOrganMissions;
   }
+  
+  public List<Mission> getActiveMissions() {
+	    session = sessionFactory.openSession();
+	    Transaction tx = session.beginTransaction();
+	    List<Mission> missions = session.createQuery(
+	        "from " + Mission.class.getName() + " where isActive=true ").list();
+	    session.flush();
+	    tx.commit();
+	    session.close();
+	    return missions;
+	  }
+  
+  public List<Mission> getInactiveMissions() {
+	    session = sessionFactory.openSession();
+	    Transaction tx = session.beginTransaction();
+	    List<Mission> missions = session.createQuery(
+	        "from " + Mission.class.getName() + " where isActive=false ").list();
+	    session.flush();
+	    tx.commit();
+	    session.close();
+	    return missions;
+	  }
 }
