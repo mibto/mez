@@ -66,6 +66,7 @@ public class EmployeeController {
   }
 
   public Employee updateEmployee(Employee employee, EmployeePanel form) {
+	  if(!form.getPlz().equals(""))
     employee.setPlz(Integer.parseInt(form.getPlz()));
     employee.setFirstName(form.getFirstname());
     employee.setLastName(form.getLastname());

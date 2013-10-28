@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -153,6 +155,8 @@ public class EmployeePanel extends JPanel {
 		btnDelete = new JButton("Deaktivieren");
 		btnDelete.setBounds(125, 373, 120, 23);
 		layeredPane.add(btnDelete);
+		
+		addGuiFeatureListener();
 	}
 	
 	public void setSaveEmployeeListener(ActionListener actionListener) {
@@ -344,5 +348,27 @@ public class EmployeePanel extends JPanel {
 	
 	public JButton getBtnDelete() {
 		return btnDelete;
+	}
+	
+	private void addGuiFeatureListener(){
+		KeyListener enterKeyListener = new KeyListener() {
+			public void keyTyped(KeyEvent arg0) {
+			}
+			public void keyReleased(KeyEvent arg0) {
+			}
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					btnSave.doClick();
+				}
+			}
+		};
+		lastname.addKeyListener(enterKeyListener);
+		firstname.addKeyListener(enterKeyListener);
+		street.addKeyListener(enterKeyListener);
+		city.addKeyListener(enterKeyListener);
+		plz.addKeyListener(enterKeyListener);
+		homeNumber.addKeyListener(enterKeyListener);
+		mobileNumber.addKeyListener(enterKeyListener);
+		email.addKeyListener(enterKeyListener);
 	}
 }
