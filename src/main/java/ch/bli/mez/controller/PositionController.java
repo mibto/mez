@@ -9,7 +9,6 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.view.management.MissionListEntry;
 import ch.bli.mez.view.management.PositionListEntry;
 import ch.bli.mez.view.management.PositionPanel;
 
@@ -25,7 +24,7 @@ public class PositionController {
 		this.model = new PositionDAO();
 		this.missionModel = new MissionDAO();
 		setActionListeners();
-		// addPositionEntrys();
+		addPositionEntrys();
 	}
 	
 	public PositionPanel getView(){
@@ -40,8 +39,9 @@ public class PositionController {
 	
 	private PositionListEntry createPositionListEntry(final Position position) {
 		final PositionListEntry positionListEntry = new PositionListEntry(position.getIsActive());
-
-		positionListEntry.setNumber(position.getNumber());
+		if(position.getNumber() != null){
+			positionListEntry.setNumber(String.valueOf(position.getNumber()));
+		}
 		positionListEntry.setPositionName(position.getPositionName());
 		positionListEntry.setComment(position.getComment());
 		if (position.isOrganDefault()){
@@ -62,16 +62,22 @@ public class PositionController {
 
 		positionListEntry.setSaveButtonListener((new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				try{
+					position.setNumber(Integer.valueOf(positionListEntry.getNumber()));
+				}
+				catch (NumberFormatException e){
+				}
+				finally{
 				if(!positionListEntry.getPositionName().equals("")){
-				position.setMissionName(positionListEntry.getPositonName());
+				position.setPositionName(positionListEntry.getPositionName());
 				positionListEntry.showSuccess();
 			} else {
 				positionListEntry.showError();
-				positionListEntry.setMissionName(position.getPositionName());
+				positionListEntry.setPositionName(position.getPositionName());
 			}
-				position.setComment(positionListEntry.getPosition());
-				position.setNumber(positionListEntry.getNumber());
+				position.setComment(positionListEntry.getComment());
 				model.updatePosition(position);
+			}
 			}
 		}));
 
@@ -80,12 +86,12 @@ public class PositionController {
 				if (position.getIsActive()){
 					position.setIsActive(false);
 					model.updatePosition(position);
-					positionListEntry.setInactive();
+					positionListEntry.setActive(false);
 				}
 				else {
 					position.setIsActive(true);
 					model.updatePosition(position);
-					positionListEntry.setActive();
+					positionListEntry.setActive(true);
 				}
 			}
 		}));
@@ -106,8 +112,14 @@ public class PositionController {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!view.getPositionName().equals("")) {
 					Boolean isOrganDefault = view.getSelectedMission() == 0;
-					Position position = new Position(Integer.parseInt(view.getNumber()), view.getPositionName(), view
-							.getComment(), isOrganDefault);
+					Position position = null;
+					try{
+						position = new Position(Integer.parseInt(view.getNumber()), view.getPositionName(), view
+								.getComment(), isOrganDefault);
+					} catch (NumberFormatException e) {
+						position = new Position(null, view.getPositionName(), view
+								.getComment(), isOrganDefault);
+					} finally {
 					if (isOrganDefault){
 						List<Mission> organMissions = missionModel.getOrganMissions();
 						position.addMissions(organMissions);
@@ -117,8 +129,9 @@ public class PositionController {
 						position.addMission(mission);
 					}
 					model.addPosition(position);
-					// view.addPositionListEntry(createPositionListEntry(position));
+					 view.addPositionListEntry(createPositionListEntry(position));
 					view.showConfirmation(position.getPositionName());
+					}
 				} else {
 					view.showNameError();
 				}

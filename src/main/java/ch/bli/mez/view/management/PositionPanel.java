@@ -23,7 +23,7 @@ public class PositionPanel extends JPanel {
 
 	private static final long serialVersionUID = -8686804124961218430L;
 
-	private JComboBox<missionComboBoxItem> missionComboBox;
+	private JComboBox missionComboBox;
 
 	private JTextField numberTextField;
 	private JTextField nameTextField;
@@ -55,7 +55,7 @@ public class PositionPanel extends JPanel {
 		JLabel missionLabel = new JLabel("Auftrag");
 		missionChoosePanel.add(missionLabel);
 
-		missionComboBox = new JComboBox<missionComboBoxItem>();
+		missionComboBox = new JComboBox();
 		missionChoosePanel.add(missionComboBox);
 
 		JPanel entryPanel = new JPanel();
