@@ -88,9 +88,11 @@ public class MissionController {
 				missionListEntry.setMissionName(mission.getMissionName());
 			}
 				mission.setComment(missionListEntry.getComment());
+				System.out.println(missionListEntry.getIsOrgan());
 				if (missionListEntry.getIsOrgan() ^ mission.getIsOrgan()){
 					mission.setIsOrgan(missionListEntry.getIsOrgan());
 					// clear not working yet
+					System.out.println(missionListEntry.getIsOrgan());
 					mission.clearPositions();
 					for (Position position : mission.getPositions()){
 						positionModel.updatePosition(position);

@@ -64,6 +64,7 @@ public class MissionListEntry extends JPanel {
 		nameTextField.setEnabled(status);
 		commentTextField.setEnabled(status);
 		saveButton.setEnabled(status);
+		isOrganCheckBox.setEnabled(status);
 	}
 
 	public void showSuccess() {
