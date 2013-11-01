@@ -1,7 +1,5 @@
 package ch.bli.mez;
 
-import org.hibernate.Session;
-
 import ch.bli.mez.controller.MainController;
 import ch.bli.mez.model.SessionManager;
 /**

@@ -18,7 +18,6 @@ public class MissionDAO {
     Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery(
         "FROM " + Mission.class.getName() + " AS m ORDER BY m.isActive DESC").list();
-    System.out.println(missions);
     tx.commit();
     return missions;
   }
