@@ -16,6 +16,7 @@ public class EmployeeView extends JPanel {
   public EmployeeView(SearchPanel searchPanel) {
 
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+    tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 
     this.setLayout(new BorderLayout());
     this.add(searchPanel, BorderLayout.NORTH);

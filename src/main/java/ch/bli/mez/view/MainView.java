@@ -33,7 +33,7 @@ public class MainView extends JFrame {
 
     try {
       UIManager
-          .setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+          .setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
     } catch (Exception e) {
       e.printStackTrace();
     }
