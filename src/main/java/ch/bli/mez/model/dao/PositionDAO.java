@@ -37,7 +37,15 @@ public class PositionDAO {
   public Position getPosition(Integer id) {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    Position position = (Position) session.load(Position.class, id);
+    Position position = (Position) session.get(Position.class, id);
+    tx.commit();
+    return position;
+  }
+  
+  public Position getPositionByPositionName(String positionName) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    Position position = (Position) session.createQuery("FROM " + Position.class.getName() + " WHERE positionName = " + positionName);
     tx.commit();
     return position;
   }

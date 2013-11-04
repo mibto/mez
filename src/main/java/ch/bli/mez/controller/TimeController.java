@@ -2,13 +2,16 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.TimeEntry;
 import ch.bli.mez.model.dao.EmployeeDAO;
+import ch.bli.mez.model.dao.MissionDAO;
+import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
 import ch.bli.mez.view.time.TimeListEntry;
 import ch.bli.mez.view.time.TimePanel;
@@ -19,12 +22,20 @@ public class TimeController {
   private EmployeeDAO modelemployee;
   private TimeView view;
   private TimeEntryDAO model;
+  private MissionDAO missionModel;
+  private PositionDAO positionModel;
   private final SearchController searchController;
+  private List<Position> positions;
+  private List<Mission> missions; 
 
   public TimeController() {
     this.model = new TimeEntryDAO();
+    this.missionModel = new MissionDAO();
+    this.positionModel = new PositionDAO();
     this.modelemployee = new EmployeeDAO();
     this.searchController = new SearchController();
+    this.positions = positionModel.findAll();
+    this.missions = missionModel.findAll();
 
     this.view = new TimeView(searchController.getSearchPanel());
     addTabs();
@@ -43,9 +54,7 @@ public class TimeController {
 
   private TimePanel createTimePanel(Employee employee) {
     TimePanel form = new TimePanel();
-    TimeEntry timeEntry = new TimeEntry();
-    timeEntry.setEmployee(employee);
-    setFormActionListeners(timeEntry, form);
+    setFormActionListeners(form, employee);
 
     addTimeEntrys(employee, form);
 
@@ -53,8 +62,7 @@ public class TimeController {
   }
 
   private void addTimeEntrys(Employee employee, TimePanel timePanel) {
-    // TODO
-    for (TimeEntry timeEntry : model.findAll()) {
+    for (TimeEntry timeEntry : model.findAll(employee)) {
       timePanel.addTimeListEntry(createTimeListEntry(timeEntry));
     }
   }
@@ -72,16 +80,17 @@ public class TimeController {
     return timeListEntry;
   }
 
-  public void setFormActionListeners(final TimeEntry timeEntry,
-      final TimePanel form) {
+  public void setFormActionListeners(final TimePanel form, final Employee employee) {
     form.setSaveTimeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
 
         if (!validateFields(form)) {
           return;
         }
-
-        model.updateTimeEntry(updateTimeEntry(timeEntry, form));
+        TimeEntry timeEntry = new TimeEntry();
+        timeEntry.setEmployee(employee);
+        updateTimeEntry(timeEntry, form);
+        model.addTimeEntry(timeEntry);
         form.showConfirmation("Der Zeiteintrag vom" + timeEntry.getDate()
             + " wurde gespeichert");
 
@@ -109,16 +118,45 @@ public class TimeController {
       }
     });
   }
+  
+  private Calendar createDate(String date){
+    String splittedDate[] = date.split("\\.");
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]));
+    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]));
+    calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
+    return calendar;
+  }
+  
+  private Mission findMissionByName(String missionName){
+    for (Mission mission : missions) {
+      if(mission.getMissionName().equals(missionName)){
+        return mission;
+      }
+    }
+    return null;
+  }
+  
+  private Position findPositionByName(String positionName){
+    for (Position position: positions){
+      if(position.getPositionName().equals(positionName)){
+        return position;
+      }
+    }
+    return null;
+  }
 
   public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimePanel form) {
     timeEntry.setWorktime(Integer.parseInt(form.getWorktime()));
-    // TODO
-    // timeEntry.setDate(form.getDate());
-    timeEntry.setDate(new Date());
-    // TODO
-    timeEntry.setMission(new Mission());
-    // TODO
-    timeEntry.setPosition(new Position());
+    timeEntry.setDate(createDate(form.getDate()));
+    Position position = findPositionByName(form.getPosition());
+    Mission mission = findMissionByName(form.getMission());
+    if(position != null){
+      timeEntry.setPosition(position);
+    }
+    if(mission != null){
+      timeEntry.setMission(mission);
+    }
     return timeEntry;
   }
 

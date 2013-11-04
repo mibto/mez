@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.SessionManager;
 import ch.bli.mez.model.TimeEntry;
 
@@ -13,10 +14,10 @@ public class TimeEntryDAO {
 
   public TimeEntryDAO() {}
 
-  public List<TimeEntry> findAll() {
+  public List<TimeEntry> findAll(Employee employee) {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<TimeEntry> timeEntries = session.createQuery("from TimeEntry").list();
+    List<TimeEntry> timeEntries = session.createQuery("FROM TimeEntry WHERE employee_id = " + employee.getId()).list();
     tx.commit();
     return timeEntries;
   }

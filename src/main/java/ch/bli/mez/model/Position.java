@@ -52,7 +52,8 @@ public class Position {
   public void setId(Integer id) {
     this.id = id;
   }
-
+  
+  @Column(unique = true, nullable = false)
   public String getPositionName() {
     return positionName;
   }

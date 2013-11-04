@@ -1,6 +1,6 @@
 package ch.bli.mez.model;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +18,7 @@ public class TimeEntry {
 
   @Column(name = "timeEntry_id")
   private Integer id;
-  private Date date;
+  private Calendar date;
   private Integer worktime; // in minutes
   private Mission mission;
   private Position position;
@@ -49,12 +49,12 @@ public class TimeEntry {
     this.isActive = isActive;
   }
 
-  public Date getDate() {
+  public Calendar getDate() {
     return date;
   }
 
-  public void setDate(Date date) {
-    this.date = date;
+  public void setDate(Calendar cal) {
+    this.date = cal;
   }
 
   public Integer getWorktime() {
