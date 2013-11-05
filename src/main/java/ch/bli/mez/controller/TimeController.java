@@ -100,12 +100,13 @@ public class TimeController {
         }
         TimeEntry timeEntry = new TimeEntry();
         timeEntry.setEmployee(employee);
-        updateTimeEntry(timeEntry, form);
-        model.addTimeEntry(timeEntry);
-        form.showConfirmation("Der Zeiteintrag vom" + timeEntry.getDate()
-            + " wurde gespeichert");
-
-        form.cleanFields();
+        if (updateTimeEntry(timeEntry, form) != null){
+          model.addTimeEntry(timeEntry);
+          form.showConfirmation("Der Zeiteintrag wurde gespeichert");
+          form.cleanFields();
+        } else {
+          form.showErrorMessage("Position oder Auftrag nicht vorhanden");
+        }
       }
     });
   }
@@ -164,9 +165,13 @@ public class TimeController {
     Mission mission = findMissionByName(form.getMission());
     if(position != null){
       timeEntry.setPosition(position);
+    } else {
+      return null;
     }
     if(mission != null){
       timeEntry.setMission(mission);
+    } else {
+      return null;
     }
     return timeEntry;
   }
