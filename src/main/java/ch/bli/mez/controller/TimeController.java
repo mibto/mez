@@ -2,7 +2,9 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ch.bli.mez.model.Employee;
@@ -51,6 +53,11 @@ public class TimeController {
           createTimePanel(employee));
     }
   }
+  
+  public void update(){
+    this.positions = positionModel.findAll();
+    this.missions = missionModel.findAll();
+  }
 
   private TimePanel createTimePanel(Employee employee) {
     TimePanel form = new TimePanel();
@@ -71,7 +78,11 @@ public class TimeController {
     final TimeListEntry timeListEntry = new TimeListEntry();
 
     timeListEntry.setMission(timeEntry.getMission().getMissionName());
-    timeListEntry.setDate(timeEntry.getDate().toString());
+    Calendar calendar = timeEntry.getDate();
+    Date date = calendar.getTime();
+    SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
+    String date1 = format1.format(date);  
+    timeListEntry.setDate(date1);
     timeListEntry.setPosition(timeEntry.getPosition().getPositionName());
     timeListEntry.setWorktime(timeEntry.getWorktime().toString());
 
@@ -123,7 +134,7 @@ public class TimeController {
     String splittedDate[] = date.split("\\.");
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]));
-    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]));
+    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1])-1);
     calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
     return calendar;
   }
@@ -137,9 +148,9 @@ public class TimeController {
     return null;
   }
   
-  private Position findPositionByName(String positionName){
+  private Position findPositionByNumber(String number){
     for (Position position: positions){
-      if(position.getPositionName().equals(positionName)){
+      if(position.getNumber().equals(Integer.parseInt(number))){
         return position;
       }
     }
@@ -149,7 +160,7 @@ public class TimeController {
   public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimePanel form) {
     timeEntry.setWorktime(Integer.parseInt(form.getWorktime()));
     timeEntry.setDate(createDate(form.getDate()));
-    Position position = findPositionByName(form.getPosition());
+    Position position = findPositionByNumber(form.getPosition());
     Mission mission = findMissionByName(form.getMission());
     if(position != null){
       timeEntry.setPosition(position);
