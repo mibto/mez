@@ -16,7 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class TimePanel extends JPanel {
+import ch.bli.mez.controller.TimeInterface;
+
+public class TimePanel extends JPanel implements TimeInterface {
 
   private static final long serialVersionUID = -1084526692534142942L;
 
@@ -109,9 +111,9 @@ public class TimePanel extends JPanel {
     positionTextField.setBackground(new Color(255, 255, 255));
     missionTextField.setBackground(new Color(255, 255, 255));
     worktimeTextField.setBackground(new Color(255, 255, 255));
-    setDate("");
-    setPosition("");
-    setMission("");
+    // setDate("");
+    // setPosition("");
+    // setMission("");
     setWorktime("");
   }
 
@@ -228,6 +230,16 @@ public class TimePanel extends JPanel {
     worktimeTextField.addKeyListener(enterKeyListener);
     positionTextField.addKeyListener(enterKeyListener);
     dateTextField.addKeyListener(enterKeyListener);
+  }
+
+  public void showSuccess() {
+    // TODO Auto-generated method stub
+
+  }
+
+  public void showError() {
+    // TODO Auto-generated method stub
+
   }
 
 }

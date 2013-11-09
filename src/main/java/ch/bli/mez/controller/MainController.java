@@ -41,9 +41,9 @@ public class MainController {
             && timeController == null) {
           timeController = new TimeController();
           mainView.setTimePanel(timeController.getView());
-        } else if(((JTabbedPane) e.getSource()).getSelectedIndex() == 0){
+        } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
           timeController.update();
-        }        
+        }
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1
             && employeeController == null) {
           employeeController = new EmployeeController();

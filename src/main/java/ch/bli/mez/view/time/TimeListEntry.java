@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class TimeListEntry extends JPanel {
+import ch.bli.mez.controller.TimeInterface;
+
+public class TimeListEntry extends JPanel implements TimeInterface {
 
   private static final long serialVersionUID = 9171774652563879025L;
 
@@ -99,9 +101,10 @@ public class TimeListEntry extends JPanel {
   }
 
   private void hideTextFieldError(final JTextField field) {
+    field.setBackground(new Color(255, 0, 0));
     Timer timer = new Timer(1800, new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
-        field.setBackground(new Color(255, 0, 0));
+        field.setBackground(new Color(255, 255, 255));
       }
     });
     timer.setRepeats(false);
@@ -158,6 +161,11 @@ public class TimeListEntry extends JPanel {
     worktimeTextField.addKeyListener(enterKeyListener);
     positionTextField.addKeyListener(enterKeyListener);
     dateTextField.addKeyListener(enterKeyListener);
+  }
+
+  public void showErrorMessage(String message) {
+    // TODO Auto-generated method stub
+
   }
 
 }
