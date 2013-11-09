@@ -41,74 +41,49 @@ public class PositionPanel extends JPanel {
 
 		// EntryPanel (north)
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		northPanel.add(topPanel);
 
-		JPanel missionChoosePanel = new JPanel();
-		missionChoosePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(missionChoosePanel, BorderLayout.NORTH);
-
+		JPanel missionChooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(missionChooserPanel, BorderLayout.NORTH);
+		
 		JLabel missionLabel = new JLabel("Auftrag");
-		missionChoosePanel.add(missionLabel);
+		missionChooserPanel.add(missionLabel);
 
 		missionComboBox = new JComboBox<missionComboBoxItem>();
-		missionChoosePanel.add(missionComboBox);
+		missionChooserPanel.add(missionComboBox);
+		
+		JPanel fieldsPanel = new JPanel();
+		topPanel.add(fieldsPanel, BorderLayout.CENTER);
 
-		JPanel entryPanel = new JPanel();
-		entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.X_AXIS));
-		topPanel.add(entryPanel, BorderLayout.CENTER);
-
-		JPanel numberPanel = new JPanel();
-		numberPanel.setLayout(new BoxLayout(numberPanel, BoxLayout.Y_AXIS));
-		numberPanel.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(numberPanel);
-
-		JLabel numberLabel = new JLabel("ID");
-		numberLabel.setAlignmentX(LEFT_ALIGNMENT);
-		numberPanel.add(numberLabel);
+		JLabel numberLabel = new JLabel("Position");
+		fieldsPanel.add(numberLabel);
 
 		numberTextField = new JTextField();
-		numberTextField.setAlignmentX(LEFT_ALIGNMENT);
 		numberTextField.setColumns(4);
-		numberPanel.add(numberTextField);
+		fieldsPanel.add(numberTextField);
 
-		JPanel namePanel = new JPanel();
-		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
-		namePanel.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(namePanel);
-
-		JLabel nameLabel = new JLabel("Name der Position");
-		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		namePanel.add(nameLabel);
+		JLabel nameLabel = new JLabel("Name");
+		fieldsPanel.add(nameLabel);
 
 		nameTextField = new JTextField();
-		nameTextField.setAlignmentX(LEFT_ALIGNMENT);
 		nameTextField.setColumns(10);
-		namePanel.add(nameTextField);
-
-		JPanel commentPanel = new JPanel();
-		commentPanel.setLayout(new BoxLayout(commentPanel, BoxLayout.Y_AXIS));
-		commentPanel.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(commentPanel);
+		fieldsPanel.add(nameTextField);
 
 		JLabel commentLabel = new JLabel("Kommentar");
-		commentLabel.setAlignmentX(LEFT_ALIGNMENT);
-		commentPanel.add(commentLabel);
+		fieldsPanel.add(commentLabel);
 
 		commentTextField = new JTextField();
-		commentTextField.setAlignmentX(LEFT_ALIGNMENT);
 		commentTextField.setColumns(25);
-		commentPanel.add(commentTextField);
+		fieldsPanel.add(commentTextField);
 
 		saveButton = new JButton("Speichern");
-		saveButton.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(saveButton);
+		fieldsPanel.add(saveButton);
 
-		JPanel messagePanel = new JPanel();
+		JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(messagePanel, BorderLayout.SOUTH);
 
 		messageLabel = new JLabel(" ");
@@ -116,11 +91,10 @@ public class PositionPanel extends JPanel {
 
 		// ListPanel (center)
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
 		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.PAGE_AXIS));
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		centerPanel.add((listPanel));
 
 		addGuiFeatureListener();
@@ -134,7 +108,7 @@ public class PositionPanel extends JPanel {
 
 	public void showNameError() {
 		messageLabel.setForeground(new Color(255, 0, 0));
-		messageLabel.setText("Auftragsname darf nicht leer sein");
+		messageLabel.setText("Name darf nicht leer sein");
 		hideMessage();
 	}
 

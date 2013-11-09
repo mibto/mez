@@ -2,7 +2,6 @@ package ch.bli.mez.view.time;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,8 +39,8 @@ public class TimePanel extends JPanel {
 
     setLayout(new BorderLayout());
 
+    // EntryPanel (north)
     JPanel northPanel = new JPanel();
-    northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
     add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
     JPanel topPanel = new JPanel();
@@ -49,66 +48,37 @@ public class TimePanel extends JPanel {
     northPanel.add(topPanel);
 
     JPanel entryPanel = new JPanel();
-    entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.X_AXIS));
     topPanel.add(entryPanel, BorderLayout.CENTER);
 
-    JPanel timeDatePanel = new JPanel();
-    timeDatePanel.setLayout(new BoxLayout(timeDatePanel, BoxLayout.Y_AXIS));
-    timeDatePanel.setAlignmentY(BOTTOM_ALIGNMENT);
-    entryPanel.add(timeDatePanel);
-
     JLabel dateLabel = new JLabel("Datum");
-    dateLabel.setAlignmentX(LEFT_ALIGNMENT);
-    timeDatePanel.add(dateLabel);
+    entryPanel.add(dateLabel);
 
     dateTextField = new JTextField();
     dateTextField.setColumns(10);
-    dateTextField.setAlignmentX(LEFT_ALIGNMENT);
-    timeDatePanel.add(dateTextField);
-
-    JPanel timeMissionPanel = new JPanel();
-    timeMissionPanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-    entryPanel.add(timeMissionPanel);
-    timeMissionPanel
-        .setLayout(new BoxLayout(timeMissionPanel, BoxLayout.Y_AXIS));
+    entryPanel.add(dateTextField);
 
     JLabel missionLabel = new JLabel("Auftrag");
-    timeMissionPanel.add(missionLabel);
+    entryPanel.add(missionLabel);
 
     missionTextField = new JTextField();
-    timeMissionPanel.add(missionTextField);
     missionTextField.setColumns(10);
-
-    JPanel timePositionPanel = new JPanel();
-    timePositionPanel.setLayout(new BoxLayout(timePositionPanel,
-        BoxLayout.Y_AXIS));
-    timePositionPanel.setAlignmentY(BOTTOM_ALIGNMENT);
-    entryPanel.add(timePositionPanel);
+    entryPanel.add(missionTextField);
 
     JLabel positionLabel = new JLabel("Position");
-    positionLabel.setAlignmentX(LEFT_ALIGNMENT);
-    timePositionPanel.add(positionLabel);
+    entryPanel.add(positionLabel);
 
     positionTextField = new JTextField();
-    positionTextField.setColumns(25);
-    positionTextField.setAlignmentX(LEFT_ALIGNMENT);
-    timePositionPanel.add(positionTextField);
-
-    JPanel timeWorktimePanel = new JPanel();
-    timeWorktimePanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-    entryPanel.add(timeWorktimePanel);
-    timeWorktimePanel.setLayout(new BoxLayout(timeWorktimePanel,
-        BoxLayout.Y_AXIS));
+    positionTextField.setColumns(10);
+    entryPanel.add(positionTextField);
 
     JLabel worktimeLabel = new JLabel("Zeit");
-    timeWorktimePanel.add(worktimeLabel);
+    entryPanel.add(worktimeLabel);
 
     worktimeTextField = new JTextField();
-    timeWorktimePanel.add(worktimeTextField);
-    worktimeTextField.setColumns(10);
+    worktimeTextField.setColumns(5);
+    entryPanel.add(worktimeTextField);
 
     addButton = new JButton("Speichern");
-    addButton.setAlignmentY(BOTTOM_ALIGNMENT);
     entryPanel.add(addButton);
 
     messagePanel = new JPanel();
@@ -118,12 +88,12 @@ public class TimePanel extends JPanel {
     messageLabel = new JLabel(" ");
     messagePanel.add(messageLabel);
 
+    // ListPanel (center)
     JPanel centerPanel = new JPanel();
-    centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
     add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
     listPanel = new JPanel();
-    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.PAGE_AXIS));
+    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
     centerPanel.add((listPanel));
 
     addGuiFeatureListener();

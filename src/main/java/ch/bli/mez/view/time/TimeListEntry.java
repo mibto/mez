@@ -33,15 +33,15 @@ public class TimeListEntry extends JPanel {
     add(dateTextField);
 
     missionTextField = new JTextField();
-    missionTextField.setColumns(25);
+    missionTextField.setColumns(10);
     add(missionTextField);
 
     positionTextField = new JTextField();
-    positionTextField.setColumns(25);
+    positionTextField.setColumns(10);
     add(positionTextField);
 
     worktimeTextField = new JTextField();
-    worktimeTextField.setColumns(25);
+    worktimeTextField.setColumns(5);
     add(worktimeTextField);
 
     saveButton = new JButton("Speichern");

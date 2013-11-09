@@ -1,43 +1,46 @@
 package ch.bli.mez.view.employee;
 
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Rectangle;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 
 public class EmployeePanel extends JPanel {
 
-	private static final long serialVersionUID = -1774268602344482972L;
-	
-	private JTextField lastname;
-	private JTextField firstname;
-	private JTextField street;
-	private JTextField city;
-	private JTextField plz;
-	private JTextField homeNumber;
-	private JTextField mobileNumber;
-	private JTextField email;
-	
-	private JLabel plzError;
-	private JLabel lastNameError;
-	private JLabel firstNameError;
-	
-	private JLabel confirmation;
-	
-	private JButton btnSave;
-	private JButton btnDelete;
+	private static final long serialVersionUID = 2105749706100780883L;
 
-	private JLayeredPane layeredPane = new JLayeredPane();
+	private JTextField lastnameTextField;
+	private JTextField firstnameTextField;
+	private JTextField streetTextField;
+	private JTextField cityTextField;
+	private JTextField plzTextField;
+	private JTextField homeNumberTextField;
+	private JTextField mobileNumberTextField;
+	private JTextField emailTextField;
+	
+	private JLabel messageLabel;
+	
+	private JButton saveButton;
+	private JButton statusButton;
+	
+	private JPanel centerPanel;
+
 	
 	/**
 	 * Create the panel for employees
@@ -46,182 +49,68 @@ public class EmployeePanel extends JPanel {
 	 * 
 	 */
 	public EmployeePanel() {
-		setLayout(new CardLayout(0, 0));
 		
-		add(layeredPane, "name_13971428008795");
+		setLayout(new BorderLayout());
 		
-		confirmation = new JLabel("xxyy gespeichert...");
-		confirmation.setBounds(25, 4, 210, 14);
-		layeredPane.add(confirmation);
-		confirmation.setForeground(new Color(34,139,34));
-		confirmation.setVisible(false);
+		JPanel northPanel = new JPanel();
+		add(new JScrollPane(northPanel), BorderLayout.NORTH);
 		
-		JLabel lbllastname = new JLabel("Name");
-		lbllastname.setBounds(25, 78, 111, 14);
-		lbllastname.setFont(lbllastname.getFont().deriveFont(Font.BOLD));
-		layeredPane.add(lbllastname);
+		JPanel topPanel = new JPanel(new BorderLayout());
+		northPanel.add(topPanel);
 		
-		lastname = new JTextField();
-		lastname.setBounds(133, 73, 196, 30);
-		layeredPane.add(lastname);
-		lastname.setColumns(10);
+		topPanel.add(createEntryPanel(), BorderLayout.CENTER);
 		
-		lastNameError = new JLabel("Dieses Feld muss ausgefüllt werden.");
-		lastNameError.setBounds(345, 78, 240, 14);
-		lastNameError.setForeground(Color.red);
-		lastNameError.setVisible(false);
-		layeredPane.add(lastNameError);
-		
-		JLabel lblfirstname = new JLabel("Vorname");
-		lblfirstname.setBounds(25, 37, 111, 14);
-		lblfirstname.setFont(lblfirstname.getFont().deriveFont(Font.BOLD));
-		layeredPane.add(lblfirstname);
-		
-		firstname = new JTextField();
-		firstname.setBounds(133, 32, 196, 30);
-		layeredPane.add(firstname);
-		firstname.setColumns(10);
-		
-		firstNameError = new JLabel("Dieses Feld muss ausgefüllt werden.");
-		firstNameError.setBounds(345, 37, 240, 14);
-		firstNameError.setForeground(Color.red);
-		firstNameError.setVisible(false);
-		layeredPane.add(firstNameError);
-		
-		JLabel lblstreet = new JLabel("Strasse");
-		lblstreet.setBounds(25, 119, 111, 14);
-		layeredPane.add(lblstreet);
-		
-		street = new JTextField();
-		street.setBounds(133, 114, 196, 30);
-		layeredPane.add(street);
-		street.setColumns(10);
+		JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		topPanel.add(messagePanel, BorderLayout.SOUTH);
 
-		JLabel lblcity = new JLabel("Ort");
-		lblcity.setBounds(25, 201, 111, 14);
-		layeredPane.add(lblcity);
+		messageLabel = new JLabel(" ");
+		messagePanel.add(messageLabel);
 		
-		city = new JTextField();
-		city.setBounds(133, 196, 196, 30);
-		layeredPane.add(city);
-		city.setColumns(10);
-		
-		JLabel lblplz = new JLabel("PLZ");
-		lblplz.setBounds(25, 160, 111, 14);
-		layeredPane.add(lblplz);
-		
-		plz = new JTextField();
-		plz.setBounds(133, 155, 196, 30);
-		layeredPane.add(plz);
-		plz.setColumns(10);
-		
-		plzError = new JLabel("Bitte eine Zahl eingeben.");
-		plzError.setBounds(345, 160, 160, 14);
-		plzError.setForeground(Color.red);
-		plzError.setVisible(false);
-		layeredPane.add(plzError);
-
-		JLabel lblhomeNumber = new JLabel("Festnetz Tel.Nr.");
-		lblhomeNumber.setBounds(24, 242, 112, 14);
-		layeredPane.add(lblhomeNumber);
-		
-		homeNumber = new JTextField();
-		homeNumber.setBounds(133, 237, 196, 30);
-		layeredPane.add(homeNumber);
-		homeNumber.setColumns(10);
-		
-		JLabel lblmobileNumber = new JLabel("Natel Tel.Nr.");
-		lblmobileNumber.setBounds(25, 283, 111, 14);
-		layeredPane.add(lblmobileNumber);
-		
-		mobileNumber = new JTextField();
-		mobileNumber.setBounds(133, 278, 196, 30);
-		layeredPane.add(mobileNumber);
-		mobileNumber.setColumns(10);
-		
-		JLabel lblemail = new JLabel("E-Mail");
-		lblemail.setBounds(24, 324, 112, 14);
-		layeredPane.add(lblemail);
-		
-		email = new JTextField();
-		email.setBounds(133, 319, 196, 30);
-		layeredPane.add(email);
-		email.setColumns(10);
-		
-		btnSave = new JButton("Speichern");
-		btnSave.setBounds(25, 373, 89, 23);
-		layeredPane.add(btnSave);
-		
-		btnDelete = new JButton("Deaktivieren");
-		btnDelete.setBounds(125, 373, 120, 23);
-		layeredPane.add(btnDelete);
+		// ListPanel (center)
+		centerPanel = new JPanel();
+		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 		
 		addGuiFeatureListener();
 	}
 	
-	public void setSaveEmployeeListener(ActionListener actionListener) {
-		btnSave.addActionListener(actionListener);
+	/**
+	 * 
+	 * @param contractPanel contractPanel wird im Center des EmployeePanels eingefügt.
+	 *  Layout des ParentPanel ist der default JPanel Layout
+	 */
+	public void addContractPanel(ContractPanel contractPanel){
+		centerPanel.add(contractPanel);
 	}
-	
-	public void setStatusButtonListener(ActionListener actionListener) {
-		btnDelete.addActionListener(actionListener);
-	}
-	
-	public void setStatusButtonName(String value){
-		btnDelete.setName(value);
-	}
-	
-	public String getDeleteButtonName(){
-		return btnDelete.getName();
-	}
-	
-	public void hideStatusButton(){
-		btnDelete.setVisible(false);
-	}
-	
-	public void showPlzError(){
-		plz.setBackground(new Color(255,90,90));
-		plzError.setVisible(true);
-	}
-	
-	private void hidePlzError(){
-		plz.setBackground(new Color(255,255,255));
-		plzError.setVisible(false);
-	}
-	
-	public void showFirstNameError(){
-		firstname.setBackground(new Color(255,90,90));
-		firstNameError.setVisible(true);
-	}
-	
-	private void hideFirstNameError(){
-		firstname.setBackground(new Color(255,255,255));
-		firstNameError.setVisible(false);
-	}
-	
-	public void showLastNameError(){
-		lastname.setBackground(new Color(255,90,90));
-		lastNameError.setVisible(true);
-	}
-	
-	private void hideLastNameError(){
-		lastname.setBackground(new Color(255,255,255));
-		lastNameError.setVisible(false);
-	}
-	
+
+	/**
+	 * 
+	 * @param name Vor- und Nachname des Mitarbeiters. Meldung wird generisch
+	 * 	erstellt: "'name' wurde gespeichert."
+	 */
 	public void showConfirmation(String name){
-		confirmation.setText(name + " wurde gespeichert.");
-		confirmation.setVisible(true);
+		messageLabel.setForeground(new Color(0, 128, 0));
+		messageLabel.setText(name + " wurde gespeichert.");
+		hideMessage();
 	}
 	
-	public void hideConfirmation() {
-		confirmation.setVisible(false);
+	/**
+	 * 
+	 * @param errorFieldName fehlerhaftes Feld. Fehlermeldung wird generisch
+	 * 	mit dem Feldname erstellt: "'errorFieldName' ist nicht gültig!"
+	 */
+	public void showError(String errorFieldName){
+		messageLabel.setForeground(new Color(255, 0, 0));
+		messageLabel.setText(errorFieldName + " ist nicht gültig!");
+		hideMessage();
 	}
-	
-	public void hideErrors(){
-		hideFirstNameError();
-		hideLastNameError();
-		hidePlzError();
+
+	private void hideMessage(){
+		Timer timer = new Timer(1800, new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				messageLabel.setText(" ");
+			}});
+		timer.setRepeats(false);
+		timer.start();
 	}
 	
 	public void cleanFields(){
@@ -235,119 +124,179 @@ public class EmployeePanel extends JPanel {
 		setEmail("");
 	}
 	
+	public void hideStatusButton(){
+		statusButton.setVisible(false);
+	}
 	
-	/**
-	 * Ein JPanel auf diesem Panel platzieren. Zukünftig für Ferientage oder verträge.
-	 * @param panel JPanel
-	 * @param coordinates Rectangle koordinaten
-	 */
-	public void addAnotherPanel(JPanel panel, Rectangle coordinates){
-		panel.setBounds(coordinates);
-		this.layeredPane.add(panel);
+	
+	// getter & setter
+	public void setStatusButtonName(String value){
+		statusButton.setName(value);
+	}
+	
+	public String getStatusButtonName(){
+		return statusButton.getName();
 	}
 	
 	public String getFirstname(){
-		return firstname.getText();
+		return firstnameTextField.getText();
 	}
 	
 	public String getLastname(){
-		return lastname.getText();
+		return lastnameTextField.getText();
 	}
 	
 	public String getStreet(){
-		return street.getText();
+		return streetTextField.getText();
 	}
 	
 	public String getCity(){
-		return city.getText();
+		return cityTextField.getText();
 	}
 	
 	public String getPlz(){
-		return plz.getText();
+		return plzTextField.getText();
 	}
 	
 	public String getMobileNumber(){
-		return mobileNumber.getText();
+		return mobileNumberTextField.getText();
 	}
 	
 	public String getHomeNumber(){
-		return homeNumber.getText();
+		return homeNumberTextField.getText();
 	}
 	
 	public String getEmail(){
-		return email.getText();
-	}
-	
-	public JTextField getlastname() {
-		return lastname;
+		return emailTextField.getText();
 	}
 
 	public void setLastname(String value) {
-		this.lastname.setText(value);
-	}
-
-	public JTextField getfirstname() {
-		return firstname;
+		this.lastnameTextField.setText(value);
 	}
 
 	public void setFirstname(String value) {
-		this.firstname.setText(value);
-	}
-
-	public JTextField getstreet() {
-		return street;
+		this.firstnameTextField.setText(value);
 	}
 
 	public void setStreet(String value) {
-		this.street.setText(value);
-	}
-
-	public JTextField getcity() {
-		return city;
+		this.streetTextField.setText(value);
 	}
 
 	public void setCity(String value) {
-		this.city.setText(value);
-	}
-
-	public JTextField getplz() {
-		return plz;
+		this.cityTextField.setText(value);
 	}
 
 	public void setPlz(String value) {
-		this.plz.setText(value);
-	}
-
-	public JTextField gethomeNumber() {
-		return homeNumber;
+		this.plzTextField.setText(value);
 	}
 
 	public void setHomeNumber(String value) {
-		this.homeNumber.setText(value);
-	}
-
-	public JTextField getmobileNumber() {
-		return mobileNumber;
+		this.homeNumberTextField.setText(value);
 	}
 
 	public void setMobileNumber(String value) {
-		this.mobileNumber.setText(value);
-	}
-
-	public JTextField getemail() {
-		return email;
+		this.mobileNumberTextField.setText(value);
 	}
 
 	public void setEmail(String value) {
-		this.email.setText(value);
+		this.emailTextField.setText(value);
+	}
+
+	
+	// setListeners
+	public void setSaveEmployeeListener(ActionListener actionListener) {
+		saveButton.addActionListener(actionListener);
 	}
 	
-	public JButton getBtnSave() {
-		return btnSave;
+	public void setStatusButtonListener(ActionListener actionListener) {
+		statusButton.addActionListener(actionListener);
 	}
 	
-	public JButton getBtnDelete() {
-		return btnDelete;
+	
+	// internal methods
+	private JPanel createEntryPanel(){
+		JPanel entryPanel = new JPanel();
+		entryPanel.setLayout(new GridBagLayout());
+		entryPanel.setPreferredSize(new Dimension(600, 162));
+		
+		// distance between first & second column of fields
+		addPersonalComponent(entryPanel, new JPanel(), 2, 0, 1, 1.0);
+		
+		JLabel lbllastname = new JLabel("Name");
+		lbllastname.setFont(lbllastname.getFont().deriveFont(Font.BOLD));
+		addPersonalComponent(entryPanel, lbllastname, 0, 0, 1, 0);
+		
+		lastnameTextField = new JTextField();
+		addPersonalComponent(entryPanel, lastnameTextField, 1, 0, 1, 1.0);
+
+		JLabel lblfirstname = new JLabel("Vorname");
+		lblfirstname.setFont(lblfirstname.getFont().deriveFont(Font.BOLD));
+		addPersonalComponent(entryPanel, lblfirstname, 3, 0, 1, 0);
+		
+		firstnameTextField = new JTextField();
+		addPersonalComponent(entryPanel, firstnameTextField, 4, 0, 1, 1.0);
+		
+		JLabel lblstreet = new JLabel("Strasse");
+		addPersonalComponent(entryPanel, lblstreet, 0, 1, 1, 0);
+		
+		streetTextField = new JTextField();
+		addPersonalComponent(entryPanel, streetTextField, 1, 1, 1, 1.0);
+
+		JLabel lblplz = new JLabel("PLZ");
+		addPersonalComponent(entryPanel, lblplz, 0, 2, 1, 0);
+		
+		plzTextField = new JTextField();
+		plzTextField.setColumns(4);
+		addPersonalComponent(entryPanel, plzTextField, 1, 2, 1, 1.0);
+		
+		JLabel lblcity = new JLabel("Ort");
+		addPersonalComponent(entryPanel, lblcity, 3, 2, 1, 0);
+		
+		cityTextField = new JTextField();
+		cityTextField.setColumns(10);
+		addPersonalComponent(entryPanel, cityTextField, 4, 2, 2, 1.0);
+
+		JLabel lblhomeNumber = new JLabel("Festnetz");
+		addPersonalComponent(entryPanel, lblhomeNumber, 0, 3, 1, 0);
+		
+		homeNumberTextField = new JTextField();
+		homeNumberTextField.setColumns(10);
+		addPersonalComponent(entryPanel, homeNumberTextField, 1, 3, 1, 1.0);
+		
+		JLabel lblmobileNumber = new JLabel("Handy");
+		addPersonalComponent(entryPanel, lblmobileNumber, 3, 3, 1, 0);
+		
+		mobileNumberTextField = new JTextField();
+		mobileNumberTextField.setColumns(10);
+		addPersonalComponent(entryPanel, mobileNumberTextField, 4, 3, 1, 1.0);
+		
+		JLabel lblemail = new JLabel("E-Mail");
+		addPersonalComponent(entryPanel, lblemail, 0, 4, 1, 0);
+		
+		emailTextField = new JTextField();
+		emailTextField.setColumns(20);
+		addPersonalComponent(entryPanel, emailTextField, 1, 4, 4, 1.0);
+		
+		saveButton = new JButton("Speichern");
+		addPersonalComponent(entryPanel, saveButton, 4, 5, 1, 0);
+		
+		statusButton = new JButton("Deaktivieren");
+		addPersonalComponent(entryPanel, statusButton, 1, 5, 1, 0);
+		
+		return entryPanel;
+	}
+	
+	private void addPersonalComponent(JPanel panel, Component component, int x, int y, int width, double weightx) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridx = x;
+		constraints.gridy = y;
+		constraints.gridwidth = width;
+		constraints.gridheight = 1;
+		constraints.weightx = weightx;
+		constraints.weighty = 0;
+		((GridBagLayout) panel.getLayout()).setConstraints(component, constraints);
+		panel.add(component);
 	}
 	
 	private void addGuiFeatureListener(){
@@ -358,17 +307,17 @@ public class EmployeePanel extends JPanel {
 			}
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					btnSave.doClick();
+					saveButton.doClick();
 				}
 			}
 		};
-		lastname.addKeyListener(enterKeyListener);
-		firstname.addKeyListener(enterKeyListener);
-		street.addKeyListener(enterKeyListener);
-		city.addKeyListener(enterKeyListener);
-		plz.addKeyListener(enterKeyListener);
-		homeNumber.addKeyListener(enterKeyListener);
-		mobileNumber.addKeyListener(enterKeyListener);
-		email.addKeyListener(enterKeyListener);
+		lastnameTextField.addKeyListener(enterKeyListener);
+		firstnameTextField.addKeyListener(enterKeyListener);
+		streetTextField.addKeyListener(enterKeyListener);
+		cityTextField.addKeyListener(enterKeyListener);
+		plzTextField.addKeyListener(enterKeyListener);
+		homeNumberTextField.addKeyListener(enterKeyListener);
+		mobileNumberTextField.addKeyListener(enterKeyListener);
+		emailTextField.addKeyListener(enterKeyListener);
 	}
 }

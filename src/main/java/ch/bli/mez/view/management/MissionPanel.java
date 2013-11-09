@@ -36,8 +36,8 @@ public class MissionPanel extends JPanel {
 
 		setLayout(new BorderLayout());
 		
+		// EntryPanel (north)
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
 		JPanel topPanel = new JPanel();
@@ -45,60 +45,40 @@ public class MissionPanel extends JPanel {
 		northPanel.add(topPanel);
 		
 		JPanel entryPanel = new JPanel();
-		entryPanel.setLayout(new BoxLayout(entryPanel, BoxLayout.X_AXIS));
 		topPanel.add(entryPanel, BorderLayout.CENTER);
 
-		JPanel missionNamePanel = new JPanel();
-		missionNamePanel.setLayout(new BoxLayout(missionNamePanel,
-				BoxLayout.Y_AXIS));
-		missionNamePanel.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(missionNamePanel);
-
 		JLabel nameLabel = new JLabel("Auftragsname");
-		nameLabel.setAlignmentX(LEFT_ALIGNMENT);
-		missionNamePanel.add(nameLabel);
+		entryPanel.add(nameLabel);
 
 		missionNameTextField = new JTextField();
 		missionNameTextField.setColumns(10);
-		missionNameTextField.setAlignmentX(LEFT_ALIGNMENT);
-		missionNamePanel.add(missionNameTextField);
-
-		JPanel missionCommentPanel = new JPanel();
-		missionCommentPanel.setLayout(new BoxLayout(missionCommentPanel,
-				BoxLayout.Y_AXIS));
-		missionCommentPanel.setAlignmentY(BOTTOM_ALIGNMENT);
-		entryPanel.add(missionCommentPanel);
+		entryPanel.add(missionNameTextField);
 
 		JLabel commentLabel = new JLabel("Kommentar");
-		commentLabel.setAlignmentX(LEFT_ALIGNMENT);
-		missionCommentPanel.add(commentLabel);
+		entryPanel.add(commentLabel);
 
 		commentTextField = new JTextField();
 		commentTextField.setColumns(25);
-		commentTextField.setAlignmentX(LEFT_ALIGNMENT);
-		missionCommentPanel.add(commentTextField);
+		entryPanel.add(commentTextField);
 
 		isOrganCheckBox = new JCheckBox("Orgel-Code", true);
-		isOrganCheckBox.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(isOrganCheckBox);
 
 		addButton = new JButton("Speichern");
-		addButton.setAlignmentY(BOTTOM_ALIGNMENT);
 		entryPanel.add(addButton);
 
-		messagePanel = new JPanel();
-		messagePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		topPanel.add(messagePanel, BorderLayout.SOUTH);
 
 		messageLabel = new JLabel(" ");
 		messagePanel.add(messageLabel);
 
+		// ListPanel (center)
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
 		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.PAGE_AXIS));
+		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 		centerPanel.add((listPanel));
 
 		addGuiFeatureListener();

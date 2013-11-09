@@ -82,8 +82,6 @@ public class EmployeeController {
       final EmployeePanel form, final Boolean newEmployee) {
     form.setSaveEmployeeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        form.hideErrors();
-        form.hideConfirmation();
         if (!validateFields(form)) {
           return;
         }
@@ -125,18 +123,18 @@ public class EmployeeController {
   public boolean validateFields(EmployeePanel panel) {
     boolean valid = true;
     if (panel.getFirstname().equals("")) {
-      panel.showFirstNameError();
+      panel.showError("Vorname");
       valid = false;
     }
     if (panel.getLastname().equals("")) {
-      panel.showLastNameError();
+      panel.showError("Nachname");
       valid = false;
     }
     try {
       if (!panel.getPlz().equals(""))
         Integer.parseInt(panel.getPlz());
     } catch (NumberFormatException e) {
-      panel.showPlzError();
+      panel.showError("PLZ");
       valid = false;
     }
     return valid;
