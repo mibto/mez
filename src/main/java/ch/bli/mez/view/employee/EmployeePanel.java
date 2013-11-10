@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import javax.swing.border.EtchedBorder;
 
 
 public class EmployeePanel extends JPanel {
@@ -46,13 +44,7 @@ public class EmployeePanel extends JPanel {
 	private JPanel contractContentPanel;
 	private JPanel holidayContentPanel;
 
-	
-	/**
-	 * Create the panel for employees
-	 * 
-	 * Panels for the contracts and timetransfers are separated
-	 * 
-	 */
+
 	public EmployeePanel() {
 		
 		setLayout(new BorderLayout());
@@ -79,8 +71,7 @@ public class EmployeePanel extends JPanel {
 		centerPanel.add(centerLeftPanel);
 		
 		JPanel holidayTitlePanel = new JPanel();
-		holidayTitlePanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		centerLeftPanel.add(holidayTitlePanel, BorderLayout.NORTH);
+		centerLeftPanel.add(new JScrollPane(holidayTitlePanel), BorderLayout.NORTH);
 		
 		JLabel holidayTitleLabel = new JLabel("Ferien");
 		holidayTitlePanel.add(holidayTitleLabel);
@@ -95,8 +86,7 @@ public class EmployeePanel extends JPanel {
 		centerPanel.add(centerRightPanel);
 		
 		JPanel contractTitlePanel = new JPanel();
-		contractTitlePanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		centerRightPanel.add(contractTitlePanel, BorderLayout.NORTH);
+		centerRightPanel.add(new JScrollPane(contractTitlePanel), BorderLayout.NORTH);
 		
 		JLabel contractTitleLabel = new JLabel("Verträge");
 		contractTitlePanel.add(contractTitleLabel);
@@ -257,7 +247,7 @@ public class EmployeePanel extends JPanel {
 		entryPanel.setLayout(new GridBagLayout());
 		entryPanel.setPreferredSize(new Dimension(600, 162));
 		
-		// distance between first & second column of fields
+		// helpPanel to create distance between first & second column
 		addPersonalComponent(entryPanel, new JPanel(), 2, 0, 1, 1.0);
 		
 		JLabel lbllastname = new JLabel("Name");
