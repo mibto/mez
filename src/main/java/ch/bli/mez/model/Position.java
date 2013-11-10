@@ -23,7 +23,7 @@ public class Position {
 
   @Column(name = "position_id")
   private Integer id;
-  private Integer number;
+  private String code;
   private String positionName;
   private String comment;
   private boolean isOrganDefault;
@@ -32,12 +32,12 @@ public class Position {
   
   public Position(){}
 
-  public Position(Integer number, String positionName, String comment,
+  public Position(String code, String positionName, String comment,
       boolean isOrganDefault) {
     this.positionName = positionName;
     this.comment = comment;
     this.isOrganDefault = isOrganDefault;
-    this.setNumber(number);
+    this.setCode(code);
     this.isActive = true;
   }
 
@@ -95,12 +95,14 @@ public class Position {
   public void removeMission(Mission mission){
 	  this.missions.remove(mission);
   }
-  public Integer getNumber() {
-    return number;
+  
+  @Column(unique = true)
+  public String getCode() {
+    return code;
   }
 
-  public void setNumber(Integer number) {
-    this.number = number;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   @Column(nullable = false, columnDefinition = "boolean default true")

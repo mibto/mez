@@ -25,7 +25,7 @@ public class PositionPanel extends JPanel {
 
 	private JComboBox<missionComboBoxItem> missionComboBox;
 
-	private JTextField numberTextField;
+	private JTextField codeTextField;
 	private JTextField nameTextField;
 	private JTextField commentTextField;
 
@@ -62,9 +62,9 @@ public class PositionPanel extends JPanel {
 		JLabel numberLabel = new JLabel("Position");
 		fieldsPanel.add(numberLabel);
 
-		numberTextField = new JTextField();
-		numberTextField.setColumns(4);
-		fieldsPanel.add(numberTextField);
+		codeTextField = new JTextField();
+		codeTextField.setColumns(4);
+		fieldsPanel.add(codeTextField);
 
 		JLabel nameLabel = new JLabel("Name");
 		fieldsPanel.add(nameLabel);
@@ -126,8 +126,8 @@ public class PositionPanel extends JPanel {
 		saveButton.addActionListener(actionListener);
 	}
 
-	public String getNumber() {
-		return numberTextField.getText();
+	public String getCode() {
+		return codeTextField.getText();
 	}
 
 	public String getPositionName() {
@@ -163,7 +163,7 @@ public class PositionPanel extends JPanel {
 	}
 
 	private void cleanFields() {
-		numberTextField.setText("");
+		codeTextField.setText("");
 		nameTextField.setText("");
 		commentTextField.setText("");
 	}
@@ -187,7 +187,7 @@ public class PositionPanel extends JPanel {
 				}
 			}
 		};
-		numberTextField.addKeyListener(enterKeyListener);
+		codeTextField.addKeyListener(enterKeyListener);
 		nameTextField.addKeyListener(enterKeyListener);
 		commentTextField.addKeyListener(enterKeyListener);
 	}

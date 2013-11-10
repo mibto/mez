@@ -95,8 +95,8 @@ public class TimeController {
     SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
     String date1 = format1.format(date);
     timeListEntry.setDate(date1);
-    timeListEntry.setPosition(Integer.toString(timeEntry.getPosition()
-        .getNumber()));
+    timeListEntry.setPosition(timeEntry.getPosition()
+        .getCode());
     timeListEntry.setWorktime(parseMinutesToWorkTime(timeEntry.getWorktime()));
 
     setTimeListEntryActionListeners(timeListEntry, timeEntry);
@@ -123,8 +123,8 @@ public class TimeController {
       SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
       String date1 = format1.format(date);
       form.setDate(date1);
-      form.setPosition(Integer.toString(timeEntries.get(0).getPosition()
-          .getNumber()));
+      form.setPosition(timeEntries.get(0).getPosition()
+          .getCode());
     }
   }
 
@@ -196,9 +196,9 @@ public class TimeController {
     return null;
   }
 
-  private Position findPositionByNumber(String number) {
+  private Position findPositionByCode(String code) {
     for (Position position : positions) {
-      if (position.getNumber().equals(Integer.parseInt(number))) {
+      if (position.getCode().equals(code)) {
         return position;
       }
     }
@@ -208,7 +208,7 @@ public class TimeController {
   public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeInterface form) {
     timeEntry.setWorktime(parseWorkTimeToMinutes(form.getWorktime()));
     timeEntry.setDate(createDate(form.getDate()));
-    Position position = findPositionByNumber(form.getPosition());
+    Position position = findPositionByCode(form.getPosition());
     Mission mission = findMissionByName(form.getMission());
 
     if (position != null) {
@@ -240,7 +240,7 @@ public class TimeController {
       valid = false;
     }
     if (panel.getPosition().equals("")
-        || findPositionByNumber(panel.getPosition()) == null) {
+        || findPositionByCode(panel.getPosition()) == null) {
       panel.showPositionError();
       errortext = errortext + "Position ";
       valid = false;

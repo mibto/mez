@@ -16,7 +16,7 @@ public class PositionListEntry extends JPanel {
 
 	private static final long serialVersionUID = 7585160645657478969L;
 	
-	private JTextField numberTextField;
+	private JTextField codeTextField;
 	private JTextField nameTextField;
 	private JTextField commentTextField;
 	private JTextField missionTextField;
@@ -30,9 +30,9 @@ public class PositionListEntry extends JPanel {
 		
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		numberTextField = new JTextField();
-		numberTextField.setColumns(4);
-		add(numberTextField);
+		codeTextField = new JTextField();
+		codeTextField.setColumns(4);
+		add(codeTextField);
 		
 		nameTextField = new JTextField();
 		nameTextField.setColumns(10);
@@ -64,7 +64,7 @@ public class PositionListEntry extends JPanel {
 		} else {
 			statusButton.setText("Aktivieren");
 		}
-		numberTextField.setEnabled(status);
+		codeTextField.setEnabled(status);
 		nameTextField.setEnabled(status);
 		commentTextField.setEnabled(status);
 		saveButton.setEnabled(status);
@@ -91,8 +91,12 @@ public class PositionListEntry extends JPanel {
 	
 	
 	// Getter & Setter
-	public void setNumber(String number){
-		numberTextField.setText(number);
+	public void setCode(String code){
+		codeTextField.setText(code);
+	}
+	
+	public String getCode() {
+	  return codeTextField.getText();
 	}
 	
 	public void setPositionName(String name){
@@ -105,10 +109,6 @@ public class PositionListEntry extends JPanel {
 	
 	public void setMission(String mission){
 		missionTextField.setText(mission);
-	}
-	
-	public String getNumber(){
-		return numberTextField.getText();
 	}
 	
 	public String getPositionName(){
@@ -141,10 +141,8 @@ public class PositionListEntry extends JPanel {
 				}
 			}
 		};
-		numberTextField.addKeyListener(enterKeyListener);
+		codeTextField.addKeyListener(enterKeyListener);
 		nameTextField.addKeyListener(enterKeyListener);
 		commentTextField.addKeyListener(enterKeyListener);
 	}
-	
-
 }

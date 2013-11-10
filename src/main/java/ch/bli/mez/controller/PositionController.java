@@ -39,8 +39,8 @@ public class PositionController {
   private PositionListEntry createPositionListEntry(final Position position) {
     final PositionListEntry positionListEntry = new PositionListEntry(
         position.getIsActive());
-    if (position.getNumber() != null) {
-      positionListEntry.setNumber(String.valueOf(position.getNumber()));
+    if (position.getCode() != null) {
+      positionListEntry.setCode(position.getCode());
     }
     positionListEntry.setPositionName(position.getPositionName());
     positionListEntry.setComment(position.getComment());
@@ -62,7 +62,7 @@ public class PositionController {
     positionListEntry.setSaveButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         try {
-          position.setNumber(Integer.valueOf(positionListEntry.getNumber()));
+          position.setCode(positionListEntry.getCode());
         } catch (NumberFormatException e) {
         } finally {
           if (!positionListEntry.getPositionName().equals("")) {
@@ -110,7 +110,7 @@ public class PositionController {
           Boolean isOrganDefault = view.getSelectedMission() == 0;
           Position position = null;
           try {
-            position = new Position(Integer.parseInt(view.getNumber()), view
+            position = new Position(view.getCode(), view
                 .getPositionName(), view.getComment(), isOrganDefault);
           } catch (NumberFormatException e) {
             position = new Position(null, view.getPositionName(), view
