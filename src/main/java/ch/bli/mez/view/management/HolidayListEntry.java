@@ -22,6 +22,8 @@ public class HolidayListEntry extends JPanel {
 
 	private JButton saveButton;
 	
+	private KeyListener enterKeyListener;
+	
 	private Color backGroundColor;
 
 	/**
@@ -71,7 +73,16 @@ public class HolidayListEntry extends JPanel {
 	public void setSaveListener(ActionListener actionListener) {
 		saveButton.addActionListener(actionListener);
 	}
+	
+	/**
+	 * @return the enterKeyListener which is used for the textfields
+	 */
+	public KeyListener getEnterKeyListener(){
+		return enterKeyListener;
+	}
 
+	
+	// getter & setter
 	public String getYear() {
 		return yearTextField.getText();
 	}
@@ -98,7 +109,7 @@ public class HolidayListEntry extends JPanel {
 	
 	// internal methods
 	private void addGuiFeatureListener(){
-		KeyListener enterKeyListener = new KeyListener() {
+		enterKeyListener = new KeyListener() {
 			public void keyTyped(KeyEvent arg0) {
 			}
 			public void keyReleased(KeyEvent arg0) {
