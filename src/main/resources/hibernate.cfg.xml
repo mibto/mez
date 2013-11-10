@@ -18,5 +18,6 @@
         <mapping class="ch.bli.mez.model.Position"/>
         <mapping class="ch.bli.mez.model.Mission"/>
         <mapping class="ch.bli.mez.model.TimeEntry"/>
+        <mapping class="ch.bli.mez.model.Holiday"/>
     </session-factory>
 </hibernate-configuration>

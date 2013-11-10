@@ -10,11 +10,13 @@ public class ManagementController {
   private ManagementView view;
   private MissionController missionController;
   private PositionController positionController;
+  private HolidayController holidayController;
   
   public ManagementController(){
     this.view = new ManagementView();
     this.missionController = new MissionController();
     this.positionController = new PositionController();
+    this.holidayController = new HolidayController();
     // weitere Controller hier instanzieren
     setTabs();
     setListener();
@@ -33,8 +35,9 @@ public class ManagementController {
   }
   
   private void setTabs() {
-    view.addTab("Aufträge Verwalten", missionController.getView());
-    view.addTab("Positionen Verwalten", positionController.getView());
+    view.addTab("Aufträge verwalten", missionController.getView());
+    view.addTab("Positionen verwalten", positionController.getView());
+    view.addTab("Ferien verwalten", holidayController.getView());
     // Weitere views für die Tabs hier setzen.
    }
   
