@@ -7,6 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
@@ -28,7 +32,7 @@ public class TimeController {
   private PositionDAO positionModel;
   private final SearchController searchController;
   private List<Position> positions;
-  private List<Mission> missions; 
+  private List<Mission> missions;
 
   public TimeController() {
     this.model = new TimeEntryDAO();
@@ -40,6 +44,7 @@ public class TimeController {
     this.missions = missionModel.findAll();
 
     this.view = new TimeView(searchController.getSearchPanel());
+    setListener();
     addTabs();
   }
 
@@ -48,15 +53,22 @@ public class TimeController {
   }
 
   private void addTabs() {
+    view.removeAllTab();
     for (Employee employee : modelemployee.findAll()) {
-      view.addTab(employee.getFirstName() + " " + employee.getLastName(),
-          createTimePanel(employee));
+      addAdditionalTab(employee);
     }
   }
-  
-  public void update(){
+
+  public void addAdditionalTab(Employee employee) {
+    view.addTab(employee.getFirstName() + " " + employee.getLastName(),
+        createTimePanel(employee));
+  }
+
+  public void update() {
     this.positions = positionModel.findAll();
     this.missions = missionModel.findAll();
+
+    addTabs();
   }
 
   private TimePanel createTimePanel(Employee employee) {
@@ -64,7 +76,7 @@ public class TimeController {
     setFormActionListeners(form, employee);
 
     addTimeEntrys(employee, form);
-
+    preFillTimeEntry(employee, form);
     return form;
   }
 
@@ -81,17 +93,43 @@ public class TimeController {
     Calendar calendar = timeEntry.getDate();
     Date date = calendar.getTime();
     SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
-    String date1 = format1.format(date);  
+    String date1 = format1.format(date);
     timeListEntry.setDate(date1);
-    timeListEntry.setPosition(timeEntry.getPosition().getPositionName());
-    timeListEntry.setWorktime(timeEntry.getWorktime().toString());
+    timeListEntry.setPosition(Integer.toString(timeEntry.getPosition()
+        .getNumber()));
+    timeListEntry.setWorktime(parseMinutesToWorkTime(timeEntry.getWorktime()));
 
     setTimeListEntryActionListeners(timeListEntry, timeEntry);
 
     return timeListEntry;
   }
 
-  public void setFormActionListeners(final TimePanel form, final Employee employee) {
+  /**
+   * Füllt die Eingabefelder für einen Mitarbeiter mit dem entsprechenden
+   * Zeiteintrag aus (meistens der aktuellste bzw. letzte)
+   * 
+   * @param timeEntry
+   */
+  private void preFillTimeEntry(Employee employee, TimePanel form) {
+
+    // TODO
+    // Wie am besten letzter Eintrag im TimeEntry finden??
+    List<TimeEntry> timeEntries = model.findAll(employee);
+
+    if (timeEntries.size() != 0) {
+      form.setMission(timeEntries.get(0).getMission().getMissionName());
+      Calendar calendar = timeEntries.get(0).getDate();
+      Date date = calendar.getTime();
+      SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
+      String date1 = format1.format(date);
+      form.setDate(date1);
+      form.setPosition(Integer.toString(timeEntries.get(0).getPosition()
+          .getNumber()));
+    }
+  }
+
+  public void setFormActionListeners(final TimePanel form,
+      final Employee employee) {
     form.setSaveTimeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
 
@@ -100,12 +138,12 @@ public class TimeController {
         }
         TimeEntry timeEntry = new TimeEntry();
         timeEntry.setEmployee(employee);
-        if (updateTimeEntry(timeEntry, form) != null){
+
+        if (updateTimeEntry(timeEntry, form) != null) {
           model.addTimeEntry(timeEntry);
+          form.addTimeListEntry(createTimeListEntry(timeEntry));
           form.showConfirmation("Der Zeiteintrag wurde gespeichert");
           form.cleanFields();
-        } else {
-          form.showErrorMessage("Position oder Auftrag nicht vorhanden");
         }
       }
     });
@@ -120,55 +158,65 @@ public class TimeController {
         if (!validateFields(timeListEntry)) {
           return;
         }
+        TimeEntry timeEntry = new TimeEntry();
 
-        timeEntry.setDate(timeEntry.getDate());
-        timeEntry.setMission(timeEntry.getMission());
-        timeEntry.setPosition(timeEntry.getPosition());
-        timeEntry.setWorktime(timeEntry.getWorktime());
-        timeListEntry.showSuccess();
-        model.updateTimeEntry(timeEntry);
+        timeEntry.setWorktime(parseWorkTimeToMinutes(timeListEntry
+            .getWorktime()));
+        if (updateTimeEntry(timeEntry, timeListEntry) != null) {
+          model.updateTimeEntry(timeEntry);
+          timeListEntry.showSuccess();
+        }
+
+      }
+    });
+
+    timeListEntry.setDeleteTimeEntryListListener(new ActionListener() {
+      public void actionPerformed(ActionEvent event) {
+        // TODO
+        model.deleteTimeEntry(timeEntry.getId());
       }
     });
   }
-  
-  private Calendar createDate(String date){
+
+  private Calendar createDate(String date) {
     String splittedDate[] = date.split("\\.");
     Calendar calendar = Calendar.getInstance();
     calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]));
-    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1])-1);
+    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]) - 1);
     calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
     return calendar;
   }
-  
-  private Mission findMissionByName(String missionName){
+
+  private Mission findMissionByName(String missionName) {
     for (Mission mission : missions) {
-      if(mission.getMissionName().equals(missionName)){
+      if (mission.getMissionName().equals(missionName)) {
         return mission;
       }
     }
     return null;
   }
-  
-  private Position findPositionByNumber(String number){
-    for (Position position: positions){
-      if(position.getNumber().equals(Integer.parseInt(number))){
+
+  private Position findPositionByNumber(String number) {
+    for (Position position : positions) {
+      if (position.getNumber().equals(Integer.parseInt(number))) {
         return position;
       }
     }
     return null;
   }
 
-  public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimePanel form) {
-    timeEntry.setWorktime(Integer.parseInt(form.getWorktime()));
+  public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeInterface form) {
+    timeEntry.setWorktime(parseWorkTimeToMinutes(form.getWorktime()));
     timeEntry.setDate(createDate(form.getDate()));
     Position position = findPositionByNumber(form.getPosition());
     Mission mission = findMissionByName(form.getMission());
-    if(position != null){
+
+    if (position != null) {
       timeEntry.setPosition(position);
     } else {
       return null;
     }
-    if(mission != null){
+    if (mission != null) {
       timeEntry.setMission(mission);
     } else {
       return null;
@@ -176,35 +224,7 @@ public class TimeController {
     return timeEntry;
   }
 
-  // TODO
-  public boolean validateFields(TimeListEntry panel) {
-    boolean valid = true;
-
-    if (panel.getDate().equals("")) {
-      panel.showDateError();
-      valid = false;
-    }
-    if (panel.getMission().equals("")) {
-      panel.showMissionError();
-      valid = false;
-    }
-    if (panel.getPosition().equals("")) {
-      panel.showPositionError();
-      valid = false;
-    }
-
-    try {
-      if (!panel.getWorktime().equals(""))
-        Integer.parseInt(panel.getWorktime());
-    } catch (NumberFormatException e) {
-      panel.showWorktimeError();
-      valid = false;
-    }
-
-    return valid;
-  }
-
-  public boolean validateFields(TimePanel panel) {
+  public boolean validateFields(TimeInterface panel) {
     boolean valid = true;
     String errortext = "Die Felder ";
 
@@ -213,26 +233,22 @@ public class TimeController {
       errortext = errortext + "Datum ";
       valid = false;
     }
-    if (panel.getMission().equals("")) {
+    if (panel.getMission().equals("")
+        || findMissionByName(panel.getMission()) == null) {
       panel.showMissionError();
       errortext = errortext + "Auftrag ";
       valid = false;
     }
-    if (panel.getPosition().equals("")) {
+    if (panel.getPosition().equals("")
+        || findPositionByNumber(panel.getPosition()) == null) {
       panel.showPositionError();
       errortext = errortext + "Position ";
       valid = false;
     }
 
-    try {
-      if (!panel.getWorktime().equals("")) {
-        Integer.parseInt(panel.getWorktime());
-      } else {
-        panel.showWorktimeError();
-        errortext = errortext + "Zeit ";
-        valid = false;
-      }
-    } catch (NumberFormatException e) {
+    if (panel.getWorktime().equals("")
+        || (panel.getWorktime().matches("[0-9]*[:,.]{1}[0-9]{2}") || panel
+            .getWorktime().matches("[0-9]*")) == false) {
       panel.showWorktimeError();
       errortext = errortext + "Zeit ";
       valid = false;
@@ -244,5 +260,60 @@ public class TimeController {
     }
 
     return valid;
+  }
+
+  /**
+   * Nimmt die Zeit im Format 1:30, 0:00 oder auch nur Minuten entgegen. Es wird
+   * hier mit RegEx gearbeitet.
+   * 
+   * @param worktime
+   *          , Eingabefeld des Formulars
+   * @return Worktime in Minuten
+   */
+  private Integer parseWorkTimeToMinutes(String worktime) {
+    Integer workminutes = 0;
+
+    if (worktime != null) {
+      if (worktime.matches("[0-9]*")) {
+        workminutes = Integer.parseInt(worktime);
+      } else if (worktime.matches("[0-9]*[:,.]{1}[0-9]{2}")) {
+        String workhours[] = worktime.split("[:,.]");
+        workminutes = Integer.parseInt(workhours[0]) * 60
+            + Integer.parseInt(workhours[1]);
+      }
+    }
+
+    return workminutes;
+
+  }
+
+  private String parseMinutesToWorkTime(Integer workminutes) {
+    String worktime = "";
+
+    if ((workminutes / 60) > 0) {
+      worktime = worktime + (workminutes / 60);
+    } else {
+      worktime = "0";
+    }
+
+    worktime = worktime + ":";
+
+    if (workminutes % 60 < 10) {
+      worktime = (workminutes / 60) + ":0" + workminutes % 60;
+    } else {
+      worktime = (workminutes / 60) + ":" + workminutes % 60;
+    }
+
+    return worktime;
+  }
+
+  private void setListener() {
+    view.setTabListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1) {
+          // TODO not used so far..
+        }
+      }
+    });
   }
 }

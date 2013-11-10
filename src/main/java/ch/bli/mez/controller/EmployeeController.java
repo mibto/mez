@@ -32,13 +32,13 @@ public class EmployeeController {
   private void addTabs() {
     view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
     for (Employee employee : model.findAll()) {
-       addEmployeeTab(employee);
+      addEmployeeTab(employee);
     }
   }
-  
-  private void addEmployeeTab(Employee employee){
-	  view.addTab(employee.getFirstName() + " " + employee.getLastName(),
-	          createEmployeePanel(employee, false));
+
+  private void addEmployeeTab(Employee employee) {
+    view.addTab(employee.getFirstName() + " " + employee.getLastName(),
+        createEmployeePanel(employee, false));
   }
 
   private EmployeePanel createNewEmployeeTab() {
@@ -66,8 +66,8 @@ public class EmployeeController {
   }
 
   public Employee updateEmployee(Employee employee, EmployeePanel form) {
-	  if(!form.getPlz().equals(""))
-    employee.setPlz(Integer.parseInt(form.getPlz()));
+    if (!form.getPlz().equals(""))
+      employee.setPlz(Integer.parseInt(form.getPlz()));
     employee.setFirstName(form.getFirstname());
     employee.setLastName(form.getLastname());
     employee.setStreet(form.getStreet());
@@ -106,14 +106,13 @@ public class EmployeeController {
 
     form.setStatusButtonListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        if (employee.getIsActive()){
-        	employee.setIsActive(false);
-        	form.setStatusButtonName("Aktivieren");
-        }
-        else {
-        	employee.setIsActive(true);
-        	form.setStatusButtonName("Deaktivieren");
-        	view.removeTab(view.getSelectedIndex());
+        if (employee.getIsActive()) {
+          employee.setIsActive(false);
+          form.setStatusButtonName("Aktivieren");
+        } else {
+          employee.setIsActive(true);
+          form.setStatusButtonName("Deaktivieren");
+          view.removeTab(view.getSelectedIndex());
         }
         model.updateEmployee(employee);
       }

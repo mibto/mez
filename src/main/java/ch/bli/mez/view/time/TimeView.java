@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeListener;
 
 import ch.bli.mez.view.SearchPanel;
 
@@ -33,6 +34,10 @@ public class TimeView extends JPanel {
     tabbedPane.addTab(name, employeePanel);
   }
 
+  public void removeAllTab() {
+    tabbedPane.removeAll();
+  }
+
   public void removeTab(int value) {
     tabbedPane.remove(value);
   }
@@ -41,4 +46,7 @@ public class TimeView extends JPanel {
     return tabbedPane.getSelectedIndex();
   }
 
+  public void setTabListener(ChangeListener changeListener) {
+    tabbedPane.addChangeListener(changeListener);
+  }
 }
