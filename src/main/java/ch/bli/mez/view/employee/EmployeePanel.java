@@ -8,17 +8,21 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.border.EtchedBorder;
 
 
 public class EmployeePanel extends JPanel {
@@ -39,7 +43,8 @@ public class EmployeePanel extends JPanel {
 	private JButton saveButton;
 	private JButton statusButton;
 	
-	private JPanel centerPanel;
+	private JPanel contractContentPanel;
+	private JPanel holidayContentPanel;
 
 	
 	/**
@@ -66,24 +71,57 @@ public class EmployeePanel extends JPanel {
 		messageLabel = new JLabel(" ");
 		messagePanel.add(messageLabel);
 		
-		// ListPanel (center)
-		centerPanel = new JPanel();
-		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
+		JPanel centerPanel = new JPanel(new GridLayout(1, 0));
+		add(centerPanel, BorderLayout.CENTER);
+		
+		// HolidayPanel
+		JPanel centerLeftPanel = new JPanel(new BorderLayout());
+		centerPanel.add(centerLeftPanel);
+		
+		JPanel holidayTitlePanel = new JPanel();
+		holidayTitlePanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		centerLeftPanel.add(holidayTitlePanel, BorderLayout.NORTH);
+		
+		JLabel holidayTitleLabel = new JLabel("Ferien");
+		holidayTitlePanel.add(holidayTitleLabel);
+		
+		holidayContentPanel = new JPanel();
+		holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel, BoxLayout.X_AXIS));
+		centerLeftPanel.add(new JScrollPane(holidayContentPanel), BorderLayout.CENTER);
+		
+		
+		// ContractPanel (center)
+		JPanel centerRightPanel = new JPanel(new BorderLayout());
+		centerPanel.add(centerRightPanel);
+		
+		JPanel contractTitlePanel = new JPanel();
+		contractTitlePanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		centerRightPanel.add(contractTitlePanel, BorderLayout.NORTH);
+		
+		JLabel contractTitleLabel = new JLabel("Verträge");
+		contractTitlePanel.add(contractTitleLabel);
+		
+		contractContentPanel = new JPanel();
+		centerRightPanel.add(new JScrollPane(contractContentPanel), BorderLayout.CENTER);
+
 		
 		addGuiFeatureListener();
 	}
 	
 	/**
-	 * 
 	 * @param contractPanel contractPanel wird im Center des EmployeePanels eingefügt.
 	 *  Layout des ParentPanel ist der default JPanel Layout
 	 */
 	public void addContractPanel(ContractPanel contractPanel){
-		centerPanel.add(contractPanel);
+		contractContentPanel.add(contractPanel);
 	}
+	
+	public void addEmployeeHolidayListEntry(EmployeeHolidayListEntry employeeHolidayListEntry){
+		holidayContentPanel.add(employeeHolidayListEntry);
+	}
+	
 
 	/**
-	 * 
 	 * @param name Vor- und Nachname des Mitarbeiters. Meldung wird generisch
 	 * 	erstellt: "'name' wurde gespeichert."
 	 */
