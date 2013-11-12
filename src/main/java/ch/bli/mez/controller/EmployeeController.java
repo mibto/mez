@@ -28,6 +28,10 @@ public class EmployeeController {
   public EmployeeView getView() {
     return view;
   }
+  
+  public void setView(EmployeeView employeeView){
+    this.view = employeeView;
+  }
 
   private void addTabs() {
     view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
@@ -80,6 +84,7 @@ public class EmployeeController {
 
   public void setFormActionListeners(final Employee employee,
       final EmployeePanel form, final Boolean newEmployee) {
+
     form.setSaveEmployeeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (!validateFields(form)) {
@@ -130,8 +135,9 @@ public class EmployeeController {
       valid = false;
     }
     try {
-      if (!panel.getPlz().equals(""))
+      if (!panel.getPlz().equals("")){
         Integer.parseInt(panel.getPlz());
+      }
     } catch (NumberFormatException e) {
       panel.showError("PLZ");
       valid = false;
