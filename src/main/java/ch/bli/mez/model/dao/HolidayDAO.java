@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.SessionManager;
 
@@ -63,7 +64,7 @@ public class HolidayDAO {
 	  
 	  /**
 	   * @param year das gesuchte Jahr
-	   * @return das globale Holiday Objekt (jene mit zugewiesene Mitarbeiter werden ignoriert)
+	   * @return das globale Holiday Objekt (jene mit zugewiesene Employee werden ignoriert)
 	   */
 	  public Holiday getGlobalHolidayByYear(Integer year) {
 		    Session session = SessionManager.getSessionManager().getSession();
@@ -72,7 +73,38 @@ public class HolidayDAO {
 		        "from " + Holiday.class.getName() + " h where h.year=" + year + " AND h.employee IS null").uniqueResult();
 		    tx.commit();
 		    return holiday;
-		  }
+	  }
+	  
+	  /**
+	   * @param year das gesuchte Jahr
+	   * @param employee der betroffene Employee
+	   * @return Wenn der Employee einen eigenen Eintrag für das gesuchte Jahr hat wird dieses Objekt, ansonsten wird das
+	   * 	globale Holiday Objekt für das gesuchte Jahr zurückgegeben
+	   */
+	  public Holiday getEmployeeHolidayByYear(Integer year, Employee employee){
+		  Session session = SessionManager.getSessionManager().getSession();
+		  Transaction tx = session.beginTransaction();
+		  Holiday holiday = (Holiday) session.createQuery(
+				  "from " + Holiday.class.getName() + " h WHERE h.year=" + year + " AND (h.employee IS null OR h.employee=" + employee.getId() +
+				  ") GROUP BY year ORDER by year DESC").uniqueResult();
+		  tx.commit();
+		  return holiday;
+	  }
+	  
+	  /**
+	   * @param employee concerned employee
+	   * @param year first year of work
+	   * @return a List of relevent Holidays for this employee (for filling out the HolidayPanel in EmployeePanel
+	   */
+	  public List<Holiday> getEmployeeHolidays(Employee employee, Integer year){
+		    Session session = SessionManager.getSessionManager().getSession();
+		    Transaction tx = session.beginTransaction();
+		    List<Holiday> holidays = session.createQuery(
+		        "from " + Holiday.class.getName() + " h WHERE h.employee IS null OR h.employee=" + employee.getId() +
+		        " GROUP BY year ORDER by year DESC").list();
+		    tx.commit();
+		    return holidays;
+	  }
 
 	  public void updateHoliday(Holiday holiday) {
 	    Session session = SessionManager.getSessionManager().getSession();

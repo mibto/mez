@@ -27,6 +27,7 @@ public class Holiday {
 	private Integer publicHolidays;
 	private Integer preWorkdays;
 	private Employee employee;
+	private Integer holidays;
 	
 	public Holiday(){
 		
@@ -75,6 +76,14 @@ public class Holiday {
 
 	public void setPreworkdays(Integer preworkdays) {
 		this.preWorkdays = preworkdays;
+	}
+	
+	public Integer getHolidays(){
+		return holidays;
+	}
+	
+	public void setHolidays(Integer holidays){
+		this.holidays = holidays;
 	}
 	
 	@ManyToOne(cascade = CascadeType.ALL)
