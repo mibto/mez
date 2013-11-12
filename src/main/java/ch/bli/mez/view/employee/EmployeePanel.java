@@ -76,9 +76,12 @@ public class EmployeePanel extends JPanel {
 		JLabel holidayTitleLabel = new JLabel("Ferien");
 		holidayTitlePanel.add(holidayTitleLabel);
 		
+		JPanel holidayHelpPanel = new JPanel();
+		centerLeftPanel.add(new JScrollPane(holidayHelpPanel), BorderLayout.CENTER);
+		
 		holidayContentPanel = new JPanel();
-		holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel, BoxLayout.X_AXIS));
-		centerLeftPanel.add(new JScrollPane(holidayContentPanel), BorderLayout.CENTER);
+		holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel, BoxLayout.Y_AXIS));
+		holidayHelpPanel.add(holidayContentPanel);
 		
 		
 		// ContractPanel (center)
@@ -91,8 +94,11 @@ public class EmployeePanel extends JPanel {
 		JLabel contractTitleLabel = new JLabel("Verträge");
 		contractTitlePanel.add(contractTitleLabel);
 		
+		JPanel contractHelpPanel = new JPanel();
+		centerRightPanel.add(new JScrollPane(contractHelpPanel), BorderLayout.CENTER);
+		
 		contractContentPanel = new JPanel();
-		centerRightPanel.add(new JScrollPane(contractContentPanel), BorderLayout.CENTER);
+		contractHelpPanel.add(contractContentPanel);
 
 		
 		addGuiFeatureListener();
