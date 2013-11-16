@@ -2,7 +2,6 @@ package ch.bli.mez.model;
 
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -65,7 +64,7 @@ public class TimeEntry {
     this.worktime = worktime;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   public Mission getMission() {
     return mission;
   }
@@ -74,7 +73,7 @@ public class TimeEntry {
     this.mission = mission;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   public Position getPosition() {
     return position;
   }
@@ -83,7 +82,7 @@ public class TimeEntry {
     this.position = position;
   }
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   public Employee getEmployee() {
     return employee;
   }

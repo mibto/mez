@@ -42,8 +42,12 @@ public class TimeView extends JPanel {
     tabbedPane.remove(value);
   }
 
-  public int getSelectedIndex() {
-    return tabbedPane.getSelectedIndex();
+  // public int getSelectedIndex() {
+  // return tabbedPane.getSelectedIndex();
+  // }
+
+  public TimePanel getSelectedTabComponent() {
+    return (TimePanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
   }
 
   public void setTabListener(ChangeListener changeListener) {
