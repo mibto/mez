@@ -179,13 +179,6 @@ public class TimeListEntry extends JPanel {
     timer.start();
   }
 
-  /*
-   * Hide whole panel, for delete
-   */
-  public void deletePanel() {
-    setVisible(false);
-  }
-
   public void cleanFields() {
     worktimeTextField.setText("");
   }

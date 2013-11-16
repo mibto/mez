@@ -61,11 +61,11 @@ public class TimePanel extends JPanel {
     listPanel.repaint();
   }
 
-  // private void removeMissionListEntry(TimeListEntry timeListEntry) {
-  // listPanel.remove(timeListEntry);
-  // listPanel.revalidate();
-  // listPanel.repaint();
-  // }
+  public void removeTimeListEntry(TimeListEntry timeListEntry) {
+    listPanel.remove(timeListEntry);
+    listPanel.revalidate();
+    listPanel.repaint();
+  }
 
   /*
    * Listet alle Zeiten auf

@@ -99,6 +99,13 @@ public class TimeController {
   }
 
   /*
+   * Löscht aus aktiven employee-Panel ein Listenelement
+   */
+  private void removeTimeEntryInList(TimeListEntry timeListEntry) {
+    view.getSelectedTabComponent().removeTimeListEntry(timeListEntry);
+  }
+
+  /*
    * Erstellt ein Panel mit einem Zetieintrag isNewTimeEntry: false =
    * Listenelement, true = für Kopf
    */
@@ -192,7 +199,7 @@ public class TimeController {
     timeListEntry.setDeleteTimeEntryListListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         model.deleteTimeEntry(timeListEntry.getId());
-        timeListEntry.deletePanel();
+        removeTimeEntryInList(timeListEntry);
       }
     });
   }
