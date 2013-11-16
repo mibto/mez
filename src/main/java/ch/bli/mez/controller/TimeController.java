@@ -149,32 +149,27 @@ public class TimeController {
 
     timeListEntry.setSaveTimeEntryListListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
+        TimeEntry timeEntry = new TimeEntry();
+        timeEntry.setEmployee(employee);
 
         if (!timeListEntry.validateFields()) {
           return;
         }
 
         if (isNewTimeEntry) {
-          TimeEntry timeEntry = new TimeEntry();
-          timeEntry.setEmployee(employee);
-
           if (updateTimeEntry(timeEntry, timeListEntry) != null) {
             model.addTimeEntry(timeEntry);
+
             timeListEntry.showSuccess();
             timeListEntry.cleanFields();
             addAdditionalTimeEntryInList(timeEntry, employee);
           }
-
         } else {
-          if (!timeListEntry.validateFields()) {
-            return;
-          }
-          TimeEntry timeEntry = new TimeEntry();
-
-          timeEntry.setWorktime(timeListEntry.getWorktime());
           if (updateTimeEntry(timeEntry, timeListEntry) != null) {
             model.updateTimeEntry(timeEntry);
+
             timeListEntry.showSuccess();
+            timeListEntry.setWorktime(timeEntry.getWorktime());
           }
         }
       }
@@ -182,8 +177,11 @@ public class TimeController {
 
     timeListEntry.setDeleteTimeEntryListListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        model.deleteTimeEntry(timeListEntry.getId());
-        removeTimeEntryInList(timeListEntry);
+        if (timeListEntry.showMessageWarning()) {
+          model.deleteTimeEntry(timeListEntry.getId());
+          removeTimeEntryInList(timeListEntry);
+        }
+
       }
     });
   }
@@ -215,12 +213,12 @@ public class TimeController {
    * Mit GUI Error ausgabe (das erste Validate passiert im Gui)
    */
   public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeListEntry form) {
-    timeEntry.setWorktime(form.getWorktime());
     timeEntry.setDate(form.getDate());
-    Mission mission = findMissionByName(form.getMission());
+    timeEntry.setWorktime(form.getWorktime());
 
     // TODO
     // Die Position muss von der Mission abhängig sein
+    Mission mission = findMissionByName(form.getMission());
     Position position = findPositionByCode(form.getPosition());
     if (mission != null) {
       timeEntry.setMission(mission);

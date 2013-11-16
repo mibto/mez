@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -44,7 +45,7 @@ public class TimeListEntry extends JPanel {
    *          True = Header False = Liste
    */
   public TimeListEntry() {
-    setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
     datePanel = new JPanel();
     add(datePanel);
@@ -53,18 +54,9 @@ public class TimeListEntry extends JPanel {
     datePanel.add(dateLabel);
 
     dateTextField = new JTextField();
+    dateTextField.setToolTipText("Datumsformat: 01.01.2014 oder 01.01.14");
     datePanel.add(dateTextField);
     dateTextField.setColumns(10);
-
-    positionPanel = new JPanel();
-    add(positionPanel);
-
-    positionLaben = new JLabel("Position");
-    positionPanel.add(positionLaben);
-
-    missionTextField = new JTextField();
-    positionPanel.add(missionTextField);
-    missionTextField.setColumns(10);
 
     missionPanel = new JPanel();
     add(missionPanel);
@@ -72,8 +64,19 @@ public class TimeListEntry extends JPanel {
     auftragLabel = new JLabel("Auftrag");
     missionPanel.add(auftragLabel);
 
+    missionTextField = new JTextField();
+    missionPanel.add(missionTextField);
+    missionTextField.setColumns(10);
+
+    positionPanel = new JPanel();
+    add(positionPanel);
+
+    positionLaben = new JLabel("Position");
+    positionPanel.add(positionLaben);
+
     positionTextField = new JTextField();
-    missionPanel.add(positionTextField);
+    positionTextField.setToolTipText("Position ist vom Auftrag abhängig.");
+    positionPanel.add(positionTextField);
     positionTextField.setColumns(10);
 
     timePanel = new JPanel();
@@ -230,6 +233,22 @@ public class TimeListEntry extends JPanel {
    */
   public void setWorktime(Integer worktime) {
     this.worktimeTextField.setText(parseMinutesToWorkTime(worktime));
+  }
+
+  public Boolean showMessageWarning() {
+    Object[] options = { "Ja", "Nein" };
+    int choice = JOptionPane.showOptionDialog(this,
+        "Zeiteintrag wirklich löschen?\n\n Datum: " + parseCalendar(getDate())
+            + "\n Auftrag: " + getMission() + "\n Position: " + getPosition()
+            + "\n Zeit: " + parseMinutesToWorkTime(getWorktime()),
+        "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+
+    if (choice == JOptionPane.YES_OPTION) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private void addGuiFeatureListener() {
