@@ -78,8 +78,7 @@ public class HolidayDAO {
 	  /**
 	   * @param year das gesuchte Jahr
 	   * @param employee der betroffene Employee
-	   * @return Wenn der Employee einen eigenen Eintrag für das gesuchte Jahr hat wird dieses Objekt, ansonsten wird das
-	   * 	globale Holiday Objekt für das gesuchte Jahr zurückgegeben
+	   * @return Wenn der Employee einen eigenen Eintrag für das gesuchte Jahr hat wird dieses Objekt
 	   */
 	  public Holiday getEmployeeHolidayByYear(Integer year, Employee employee){
 		  Session session = SessionManager.getSessionManager().getSession();
@@ -98,9 +97,9 @@ public class HolidayDAO {
 	  public List<Holiday> getEmployeeHolidays(Employee employee, Integer year){
 		    Session session = SessionManager.getSessionManager().getSession();
 		    Transaction tx = session.beginTransaction();
-		    List<Holiday> holidays = session.createQuery(
-		        "from " + Holiday.class.getName() + " h WHERE h.employee IS null OR h.employee=" + employee.getId() +
-		        " GROUP BY year ORDER by year DESC").list();
+		    List<Holiday> holidays = session.createSQLQuery(
+		        "select * from (select * from holiday h WHERE h.employee_id IS null OR h.employee_id=" + employee.getId() +
+		        " ORDER BY h.employee_id) GROUP BY year ORDER BY year DESC").addEntity(Holiday.class).list();
 		    tx.commit();
 		    return holidays;
 	  }
