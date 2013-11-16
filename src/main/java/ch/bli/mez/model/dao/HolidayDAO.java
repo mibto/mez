@@ -85,8 +85,7 @@ public class HolidayDAO {
 		  Session session = SessionManager.getSessionManager().getSession();
 		  Transaction tx = session.beginTransaction();
 		  Holiday holiday = (Holiday) session.createQuery(
-				  "from " + Holiday.class.getName() + " h WHERE h.year=" + year + " AND (h.employee IS null OR h.employee=" + employee.getId() +
-				  ") GROUP BY year ORDER by year DESC").uniqueResult();
+				  "from " + Holiday.class.getName() + " h WHERE h.year=" + year + " AND h.employee=" + employee.getId()).uniqueResult();
 		  tx.commit();
 		  return holiday;
 	  }

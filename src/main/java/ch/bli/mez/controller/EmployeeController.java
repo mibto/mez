@@ -125,7 +125,8 @@ public class EmployeeController {
           }
           form.showConfirmation(employee.getFirstName() + " "
               + employee.getLastName());
-        } else {
+        }
+        else {
           Employee safeEmployee = new Employee();
           try {
             safeEmployee = updateEmployee(safeEmployee, form, true);
@@ -146,32 +147,43 @@ public class EmployeeController {
       public void actionPerformed(ActionEvent event) {
         if (employee.getIsActive()) {
           employee.setIsActive(false);
-          form.setStatusButtonName("Aktivieren");
+          view.removeTab(view.getSelectedIndex());
         } else {
           employee.setIsActive(true);
           form.setStatusButtonName("Deaktivieren");
-          view.removeTab(view.getSelectedIndex());
         }
         model.updateEmployee(employee);
       }
     });
   }
   
-  private void setEmployeeHolidayListEntryListener(final EmployeeHolidayListEntry employeeHolidayListEntry, final Employee employee, final Holiday globalHoliday){
+  private void setEmployeeHolidayListEntryListener(final EmployeeHolidayListEntry employeeHolidayListEntry,
+      final Employee employee, final Holiday globalHoliday){
 	  employeeHolidayListEntry.setSaveListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			Holiday holiday = holidayModel.getEmployeeHolidayByYear(globalHoliday.getYear(), employee);
+		  Holiday holiday = globalHoliday;
+		  Holiday employeeHoliday = holidayModel.getEmployeeHolidayByYear(globalHoliday.getYear(), employee);
+		  if (employeeHoliday != null){
+		    holiday = employeeHoliday;
+		  }
+		  // TODO: public Holiday updateHoliday(employeeHolidayListEntry, employee, holiday) in eigene Methode
+		  // holidayModel.updateHoliday(updateHoliday)
+		  // Test existiert
 			int holidays = -1;
 			int publicHolidays;
 			int preWorkdays;
 			try{
+			  // TODO: employeeHolidayListEntry.validateFields(holiday), muss true oder false zurück geben, felder nur auslesen
+			  // falls valid, sonst return!
 				if (!(employeeHolidayListEntry.getHolidays().equals("") && holiday.getHolidays() == null)){
 					holidays = Integer.valueOf(employeeHolidayListEntry.getHolidays());
 				}
 				publicHolidays = Integer.valueOf(employeeHolidayListEntry.getPublicHolidays());
 				preWorkdays = Integer.valueOf(employeeHolidayListEntry.getPreWorkdays());
-				if ((holidays < -1 || publicHolidays < 0 || preWorkdays < 0) || ((publicHolidays == holiday.getPublicHolidays() && preWorkdays == holiday.getPreworkdays()) && 
-						((holiday.getHolidays() == null && holidays == -1) || (holiday.getHolidays() != null && holiday.getHolidays() == holidays)))){
+				if ((holidays < -1 || publicHolidays < 0 || preWorkdays < 0) ||
+				    ((publicHolidays == holiday.getPublicHolidays() && preWorkdays == holiday.getPreworkdays()) && 
+						((holiday.getHolidays() == null && holidays == -1) ||
+						(holiday.getHolidays() != null && holiday.getHolidays() == holidays)))){
 					throw new NumberFormatException("keine Zahl darf negativ sein UND es muss mindestens ein Feld geändert worden sein");
 				}
 			} catch (NumberFormatException exeption){
@@ -183,6 +195,8 @@ public class EmployeeController {
 				employeeHolidayListEntry.showError();
 				return;
 			}
+			// TODO: if(newHoliday){holiday = new Holiday(), holidayModel.addHoliday(holiday)} danach get und set (Reihenfolge: PublicHolidays, PreWorkdays, Holidays)
+			// Test existiert
 			if (holiday.getEmployee() != null){
 				if (holidays != -1){
 					holiday.setHolidays(holidays);
