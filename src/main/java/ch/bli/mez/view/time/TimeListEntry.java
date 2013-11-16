@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -183,8 +186,8 @@ public class TimeListEntry extends JPanel {
     worktimeTextField.setText("");
   }
 
-  public String getDate() {
-    return dateTextField.getText();
+  public Calendar getDate() {
+    return createDate(dateTextField.getText());
   }
 
   public String getPosition() {
@@ -195,8 +198,11 @@ public class TimeListEntry extends JPanel {
     return missionTextField.getText();
   }
 
-  public String getWorktime() {
-    return worktimeTextField.getText();
+  /*
+   * in Minutes
+   */
+  public Integer getWorktime() {
+    return parseWorkTimeToMinutes(worktimeTextField.getText());
   }
 
   public Integer getId() {
@@ -207,8 +213,8 @@ public class TimeListEntry extends JPanel {
     this.id = id;
   }
 
-  public void setDate(String date) {
-    this.dateTextField.setText(date);
+  public void setDate(Calendar calendar) {
+    this.dateTextField.setText(parseCalendar(calendar));
   }
 
   public void setPosition(String position) {
@@ -219,8 +225,11 @@ public class TimeListEntry extends JPanel {
     this.missionTextField.setText(mission);
   }
 
-  public void setWorktime(String worktime) {
-    this.worktimeTextField.setText(worktime);
+  /*
+   * in Minutes
+   */
+  public void setWorktime(Integer worktime) {
+    this.worktimeTextField.setText(parseMinutesToWorkTime(worktime));
   }
 
   private void addGuiFeatureListener() {
@@ -246,22 +255,6 @@ public class TimeListEntry extends JPanel {
 
   }
 
-  // private void addGuiFeatureListener() {
-  // KeyListener enterKeyListener = new KeyListener() {
-  // public void keyTyped(KeyEvent arg0) {
-  // }
-  //
-  // public void keyReleased(KeyEvent arg0) {
-  // }
-  //
-  // public void keyPressed(KeyEvent arg0) {
-  // if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-  // addButton.doClick();
-  // }
-  // }
-  // };
-  // }
-
   public boolean validateFields() {
     boolean valid = true;
 
@@ -278,9 +271,9 @@ public class TimeListEntry extends JPanel {
       valid = false;
     }
 
-    if (getWorktime().equals("")
-        || (getWorktime().matches("[0-9]*[:,.]{1}[0-9]{2}") || getWorktime()
-            .matches("[0-9]*")) == false) {
+    if (worktimeTextField.getText().equals("")
+        || (worktimeTextField.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktimeTextField
+            .getText().matches("[0-9]*")) == false) {
       showWorktimeError();
       valid = false;
     }
@@ -290,6 +283,72 @@ public class TimeListEntry extends JPanel {
     }
 
     return valid;
+  }
+
+  /*
+   * Nimmt die Zeit im Format 1:30, 0:00 oder auch nur Minuten entgegen. Es wird
+   * hier mit RegEx gearbeitet.
+   * 
+   * @param worktime , Eingabefeld des Formulars
+   * 
+   * @return Worktime in Minuten
+   */
+  private Integer parseWorkTimeToMinutes(String worktime) {
+    Integer workminutes = 0;
+    if (worktime != null) {
+      if (worktime.matches("[0-9]*")) {
+        workminutes = Integer.parseInt(worktime);
+      } else if (worktime.matches("[0-9]*[:,.]{1}[0-9]{2}")) {
+        String workhours[] = worktime.split("[:,.]");
+        workminutes = Integer.parseInt(workhours[0]) * 60
+            + Integer.parseInt(workhours[1]);
+      }
+    }
+    return workminutes;
+  }
+
+  /*
+   * Übersetzt Minuten ins stundenformat xx:xx
+   */
+  private String parseMinutesToWorkTime(Integer workminutes) {
+    String worktime = "";
+    if ((workminutes / 60) > 0) {
+      worktime = worktime + (workminutes / 60);
+    } else {
+      worktime = "0";
+    }
+    worktime = worktime + ":";
+    if (workminutes % 60 < 10) {
+      worktime = (workminutes / 60) + ":0" + workminutes % 60;
+    } else {
+      worktime = (workminutes / 60) + ":" + workminutes % 60;
+    }
+    return worktime;
+  }
+
+  /*
+   * Aus String ein Calendar erstellen
+   */
+  private Calendar createDate(String date) {
+    String splittedDate[] = date.split("\\.");
+    Calendar calendar = Calendar.getInstance();
+    if (Integer.parseInt(splittedDate[2]) < 100) {
+      calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]) + 2000);
+    } else {
+      calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]));
+    }
+    calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]) - 1);
+    calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
+    return calendar;
+  }
+
+  /*
+   * Format Calendar auf String umwandeln (anzeigetyp)
+   */
+  private String parseCalendar(Calendar calendar) {
+    Date date = calendar.getTime();
+    SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
+    return format1.format(date);
   }
 
 }
