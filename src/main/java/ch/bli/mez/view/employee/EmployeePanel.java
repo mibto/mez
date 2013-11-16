@@ -23,6 +23,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 public class EmployeePanel extends JPanel {
 
@@ -166,9 +168,9 @@ public class EmployeePanel extends JPanel {
 	}
 	
 	public boolean validateFields(){
-	  // @Ste: to implement, Git an test dafür..
+	  throw new NotImplementedException();
+	  //TODO: to implement, Git an test dafür..
 	  // wänn öpis nöd guta isch direkt fähler azeiga.
-	  return false;
 	}
 	
 	public void hideStatusButton(){
