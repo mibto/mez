@@ -1,6 +1,6 @@
 package ch.bli.mez.controller;
 
-import static org.mockito.Mockito.*;
+import org.mockito.Mockito.*;
 
 import java.io.InvalidObjectException;
 

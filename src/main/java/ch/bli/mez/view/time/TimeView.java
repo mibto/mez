@@ -20,11 +20,12 @@ public class TimeView extends JPanel {
 
   private JTabbedPane tabbedPane;
 
-  public TimeView(SearchPanel searchPanel) {
+  public TimeView() {
 
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
     this.setLayout(new BorderLayout());
+    JPanel searchPanel = new SearchPanel();
     this.add(searchPanel, BorderLayout.NORTH);
     this.add(tabbedPane, BorderLayout.CENTER);
 

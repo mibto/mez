@@ -13,9 +13,10 @@ public class EmployeeView extends JPanel {
 
   private JTabbedPane tabbedPane;
 
-  public EmployeeView(SearchPanel searchPanel) {
+  public EmployeeView() {
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
     this.setLayout(new BorderLayout());
+    JPanel searchPanel = new SearchPanel();
     this.add(searchPanel, BorderLayout.NORTH);
     this.add(tabbedPane, BorderLayout.CENTER);
   }

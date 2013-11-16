@@ -27,7 +27,6 @@ public class TimeController {
   private TimeEntryDAO model;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
-  private final SearchController searchController;
   private List<Position> positions;
   private List<Mission> missions;
 
@@ -36,11 +35,10 @@ public class TimeController {
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
     this.modelemployee = new EmployeeDAO();
-    this.searchController = new SearchController();
     this.positions = positionModel.findAll();
     this.missions = missionModel.findAll();
 
-    this.view = new TimeView(searchController.getSearchPanel());
+    this.view = new TimeView();
     addTabs();
   }
 
