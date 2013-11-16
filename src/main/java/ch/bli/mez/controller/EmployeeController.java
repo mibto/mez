@@ -2,8 +2,7 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JTabbedPane;
+import java.io.InvalidObjectException;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
@@ -80,19 +79,23 @@ public class EmployeeController {
     return form;
   }
 
-  public Employee updateEmployee(Employee employee, EmployeePanel form) {
-    if (!form.getPlz().equals(""))
-      employee.setPlz(Integer.parseInt(form.getPlz()));
-    employee.setFirstName(form.getFirstname());
-    employee.setLastName(form.getLastname());
-    employee.setStreet(form.getStreet());
-    employee.setCity(form.getCity());
-    employee.setMobileNumber(form.getMobileNumber());
-    employee.setHomeNumber(form.getHomeNumber());
-    employee.setEmail(form.getEmail());
-    int index = ((JTabbedPane) form.getParent()).indexOfComponent(form);
-    ((JTabbedPane) form.getParent()).setTitleAt(index, employee.getFirstName() + " " + employee.getLastName());
-    return employee;
+  public Employee updateEmployee(Employee employee, EmployeePanel form, Boolean newEmployee) throws InvalidObjectException {
+    if (form.validateFields()){
+      if (!form.getPlz().equals("")){
+        employee.setPlz(Integer.parseInt(form.getPlz()));}
+      employee.setFirstName(form.getFirstname());
+      employee.setLastName(form.getLastname());
+      employee.setStreet(form.getStreet());
+      employee.setCity(form.getCity());
+      employee.setMobileNumber(form.getMobileNumber());
+      employee.setHomeNumber(form.getHomeNumber());
+      employee.setEmail(form.getEmail());
+      if (!newEmployee){
+        form.updateTabName();      
+      }
+      return employee;
+      }
+      throw new InvalidObjectException("Employee invalid");
   }
   
   private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee employee, Integer year){
@@ -109,21 +112,26 @@ public class EmployeeController {
 	  }
   }
 
-  public void setFormActionListeners(final Employee employee,
+  private void setFormActionListeners(final Employee employee,
       final EmployeePanel form, final Boolean newEmployee) {
 
     form.setSaveEmployeeListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        if (!validateFields(form)) {
-          return;
-        }
         if (!newEmployee) {
-          model.updateEmployee(updateEmployee(employee, form));
+          try {
+            model.updateEmployee(updateEmployee(employee, form, false));
+          } catch (InvalidObjectException e) {
+            return;
+          }
           form.showConfirmation(employee.getFirstName() + " "
               + employee.getLastName());
         } else {
           Employee safeEmployee = new Employee();
-          safeEmployee = updateEmployee(safeEmployee, form);
+          try {
+            safeEmployee = updateEmployee(safeEmployee, form, true);
+          } catch (InvalidObjectException e) {
+            return;
+          }
           model.addEmployee(safeEmployee);
           view.addTab(
               safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
@@ -193,26 +201,5 @@ public class EmployeeController {
 			employeeHolidayListEntry.showSuccess();
 		}
 	});
-  }
-
-  public boolean validateFields(EmployeePanel panel) {
-    boolean valid = true;
-    if (panel.getFirstname().equals("")) {
-      panel.showError("Vorname");
-      valid = false;
-    }
-    if (panel.getLastname().equals("")) {
-      panel.showError("Nachname");
-      valid = false;
-    }
-    try {
-      if (!panel.getPlz().equals("")){
-        Integer.parseInt(panel.getPlz());
-      }
-    } catch (NumberFormatException e) {
-      panel.showError("PLZ");
-      valid = false;
-    }
-    return valid;
   }
 }

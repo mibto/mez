@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -156,6 +157,18 @@ public class EmployeePanel extends JPanel {
 		setMobileNumber("");
 		setHomeNumber("");
 		setEmail("");
+	}
+	
+	public void updateTabName(){
+	  JTabbedPane parent = (JTabbedPane)getParent();
+	  parent.setTitleAt(parent.indexOfComponent(this),
+	      getFirstname() + " " + getLastname());
+	}
+	
+	public boolean validateFields(){
+	  // @Ste: to implement, Git an test dafür..
+	  // wänn öpis nöd guta isch direkt fähler azeiga.
+	  return false;
 	}
 	
 	public void hideStatusButton(){
