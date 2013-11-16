@@ -34,8 +34,8 @@ public class EmployeeController {
   public EmployeeView getView() {
     return view;
   }
-  
-  public void setView(EmployeeView employeeView){
+
+  public void setView(EmployeeView employeeView) {
     this.view = employeeView;
   }
 
@@ -72,17 +72,19 @@ public class EmployeeController {
     form.setHomeNumber(employee.getHomeNumber());
     form.setMobileNumber(employee.getMobileNumber());
     form.setStreet(employee.getStreet());
-    if (! isNewEmployee){
-//TODO create a year query from the contract
-    	createEmployeeHolidayListEntries(form, employee, 2000);
+    if (!isNewEmployee) {
+      // TODO create a year query from the contract
+      createEmployeeHolidayListEntries(form, employee, 2000);
     }
     return form;
   }
 
-  public Employee updateEmployee(Employee employee, EmployeePanel form, Boolean newEmployee) throws InvalidObjectException {
-    if (form.validateFields()){
-      if (!form.getPlz().equals("")){
-        employee.setPlz(Integer.parseInt(form.getPlz()));}
+  public Employee updateEmployee(Employee employee, EmployeePanel form,
+      Boolean newEmployee) throws InvalidObjectException {
+    if (form.validateFields()) {
+      if (!form.getPlz().equals("")) {
+        employee.setPlz(Integer.parseInt(form.getPlz()));
+      }
       employee.setFirstName(form.getFirstname());
       employee.setLastName(form.getLastname());
       employee.setStreet(form.getStreet());
@@ -90,26 +92,32 @@ public class EmployeeController {
       employee.setMobileNumber(form.getMobileNumber());
       employee.setHomeNumber(form.getHomeNumber());
       employee.setEmail(form.getEmail());
-      if (!newEmployee){
-        form.updateTabName();      
+      if (!newEmployee) {
+        form.updateTabName();
       }
       return employee;
-      }
-      throw new InvalidObjectException("Employee invalid");
+    }
+    throw new InvalidObjectException("Employee invalid");
+
   }
-  
-  private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee employee, Integer year){
-	  for (Holiday holiday : holidayModel.getEmployeeHolidays(employee, year)){
-		  EmployeeHolidayListEntry employeeHolidaylistEntry = new EmployeeHolidayListEntry();
-		  employeeHolidaylistEntry.setYear(String.valueOf(holiday.getYear()));
-		  if (holiday.getHolidays() != null){
-			  employeeHolidaylistEntry.setHolidays(String.valueOf(holiday.getHolidays()));
-		  }
-		  employeeHolidaylistEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-		  employeeHolidaylistEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
-		  panel.addEmployeeHolidayListEntry(employeeHolidaylistEntry);
-		  setEmployeeHolidayListEntryListener(employeeHolidaylistEntry, employee, holiday);
-	  }
+
+  private void createEmployeeHolidayListEntries(EmployeePanel panel,
+      Employee employee, Integer year) {
+    for (Holiday holiday : holidayModel.getEmployeeHolidays(employee, year)) {
+      EmployeeHolidayListEntry employeeHolidaylistEntry = new EmployeeHolidayListEntry();
+      employeeHolidaylistEntry.setYear(String.valueOf(holiday.getYear()));
+      if (holiday.getHolidays() != null) {
+        employeeHolidaylistEntry.setHolidays(String.valueOf(holiday
+            .getHolidays()));
+      }
+      employeeHolidaylistEntry.setPublicHolidays(String.valueOf(holiday
+          .getPublicHolidays()));
+      employeeHolidaylistEntry.setPreWorkdays(String.valueOf(holiday
+          .getPreworkdays()));
+      panel.addEmployeeHolidayListEntry(employeeHolidaylistEntry);
+      setEmployeeHolidayListEntryListener(employeeHolidaylistEntry, employee,
+          holiday);
+    }
   }
 
   private void setFormActionListeners(final Employee employee,
@@ -142,6 +150,7 @@ public class EmployeeController {
         }
       }
     });
+
     form.setStatusButtonListener(new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (employee.getIsActive()) {
@@ -156,50 +165,62 @@ public class EmployeeController {
       }
     });
   }
-  
-  private void setEmployeeHolidayListEntryListener(final EmployeeHolidayListEntry employeeHolidayListEntry, final Employee employee, final Holiday globalHoliday){
-	  employeeHolidayListEntry.setSaveListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			Holiday holiday = holidayModel.getEmployeeHolidayByYear(globalHoliday.getYear(), employee);
-			int holidays = -1;
-			int publicHolidays;
-			int preWorkdays;
-			try{
-				if (!(employeeHolidayListEntry.getHolidays().equals("") && holiday.getHolidays() == null)){
-					holidays = Integer.valueOf(employeeHolidayListEntry.getHolidays());
-				}
-				publicHolidays = Integer.valueOf(employeeHolidayListEntry.getPublicHolidays());
-				preWorkdays = Integer.valueOf(employeeHolidayListEntry.getPreWorkdays());
-				if ((holidays < -1 || publicHolidays < 0 || preWorkdays < 0) || ((publicHolidays == holiday.getPublicHolidays() && preWorkdays == holiday.getPreworkdays()) && 
-						((holiday.getHolidays() == null && holidays == -1) || (holiday.getHolidays() != null && holiday.getHolidays() == holidays)))){
-					throw new NumberFormatException("keine Zahl darf negativ sein UND es muss mindestens ein Feld geändert worden sein");
-				}
-			} catch (NumberFormatException exeption){
-				employeeHolidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-				employeeHolidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
-				if (holiday.getHolidays() != null){
-					employeeHolidayListEntry.setHolidays(String.valueOf(holiday.getHolidays()));
-				}
-				employeeHolidayListEntry.showError();
-				return;
-			}
-			if (holiday.getEmployee() != null){
-				if (holidays != -1){
-					holiday.setHolidays(holidays);
-				}
-				holiday.setPublicHolidays(publicHolidays);
-				holiday.setPreworkdays(preWorkdays);
-				holidayModel.updateHoliday(holiday);
-			} else {
-				holiday = new Holiday(holiday.getYear(), publicHolidays, preWorkdays);
-				if (holidays != -1){
-					holiday.setHolidays(holidays);
-				}
-				holiday.setEmployee(employee);
-				holidayModel.addHoliday(holiday);
-			}
-			employeeHolidayListEntry.showSuccess();
-		}
-	});
+
+  private void setEmployeeHolidayListEntryListener(
+      final EmployeeHolidayListEntry employeeHolidayListEntry,
+      final Employee employee, final Holiday globalHoliday) {
+    employeeHolidayListEntry.setSaveListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        Holiday holiday = holidayModel.getEmployeeHolidayByYear(
+            globalHoliday.getYear(), employee);
+        int holidays = -1;
+        int publicHolidays;
+        int preWorkdays;
+        try {
+          if (!(employeeHolidayListEntry.getHolidays().equals("") && holiday
+              .getHolidays() == null)) {
+            holidays = Integer.valueOf(employeeHolidayListEntry.getHolidays());
+          }
+          publicHolidays = Integer.valueOf(employeeHolidayListEntry
+              .getPublicHolidays());
+          preWorkdays = Integer.valueOf(employeeHolidayListEntry
+              .getPreWorkdays());
+          if ((holidays < -1 || publicHolidays < 0 || preWorkdays < 0)
+              || ((publicHolidays == holiday.getPublicHolidays() && preWorkdays == holiday
+                  .getPreworkdays()) && ((holiday.getHolidays() == null && holidays == -1) || (holiday
+                  .getHolidays() != null && holiday.getHolidays() == holidays)))) {
+            throw new NumberFormatException(
+                "keine Zahl darf negativ sein UND es muss mindestens ein Feld geändert worden sein");
+          }
+        } catch (NumberFormatException exeption) {
+          employeeHolidayListEntry.setPublicHolidays(String.valueOf(holiday
+              .getPublicHolidays()));
+          employeeHolidayListEntry.setPreWorkdays(String.valueOf(holiday
+              .getPreworkdays()));
+          if (holiday.getHolidays() != null) {
+            employeeHolidayListEntry.setHolidays(String.valueOf(holiday
+                .getHolidays()));
+          }
+          employeeHolidayListEntry.showError();
+          return;
+        }
+        if (holiday.getEmployee() != null) {
+          if (holidays != -1) {
+            holiday.setHolidays(holidays);
+          }
+          holiday.setPublicHolidays(publicHolidays);
+          holiday.setPreworkdays(preWorkdays);
+          holidayModel.updateHoliday(holiday);
+        } else {
+          holiday = new Holiday(holiday.getYear(), publicHolidays, preWorkdays);
+          if (holidays != -1) {
+            holiday.setHolidays(holidays);
+          }
+          holiday.setEmployee(employee);
+          holidayModel.addHoliday(holiday);
+        }
+        employeeHolidayListEntry.showSuccess();
+      }
+    });
   }
 }
