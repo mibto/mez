@@ -20,11 +20,12 @@ public class TimeView extends JPanel {
 
   private JTabbedPane tabbedPane;
 
-  public TimeView(SearchPanel searchPanel) {
+  public TimeView() {
 
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 
     this.setLayout(new BorderLayout());
+    JPanel searchPanel = new SearchPanel();
     this.add(searchPanel, BorderLayout.NORTH);
     this.add(tabbedPane, BorderLayout.CENTER);
 
@@ -42,8 +43,12 @@ public class TimeView extends JPanel {
     tabbedPane.remove(value);
   }
 
-  public int getSelectedIndex() {
-    return tabbedPane.getSelectedIndex();
+  // public int getSelectedIndex() {
+  // return tabbedPane.getSelectedIndex();
+  // }
+
+  public TimePanel getSelectedTabComponent() {
+    return (TimePanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
   }
 
   public void setTabListener(ChangeListener changeListener) {

@@ -53,7 +53,7 @@ public class MissionController {
 							positionModel.updatePosition(position);
 						}
 					}
-					model.addMission(mission);
+					safeNewMission(mission);
 					view.addMissionListEntry(createMissionListEntry(mission));
 					view.showConfirmation(mission.getMissionName());
 				} else {
@@ -61,6 +61,14 @@ public class MissionController {
 				}
 			}
 		});
+	}
+	
+	public void safeNewMission(Mission mission){
+	  model.addMission(mission);
+	}
+	
+	public void updateMission(Mission mission){
+	  model.updateMission(mission);
 	}
 
 	private MissionListEntry createMissionListEntry(final Mission mission) {
@@ -102,7 +110,7 @@ public class MissionController {
 						}
 					}
 				}
-				model.updateMission(mission);
+				updateMission(mission);
 			}
 		}));
 
@@ -111,12 +119,12 @@ public class MissionController {
 					public void actionPerformed(ActionEvent event) {
 						if (mission.getIsActive()){
 							mission.setIsActive(false);
-							model.updateMission(mission);
+							updateMission(mission);
 							missionListEntry.setActive(false);
 						}
 						else {
 							mission.setIsActive(true);
-							model.updateMission(mission);
+							updateMission(mission);
 							missionListEntry.setActive(true);
 						}
 						

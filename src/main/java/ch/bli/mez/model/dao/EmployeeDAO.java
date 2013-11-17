@@ -2,6 +2,7 @@ package ch.bli.mez.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,7 +10,7 @@ import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.SessionManager;
 
 @SuppressWarnings("unchecked")
-public class EmployeeDAO {
+public class EmployeeDAO implements Searchable{
 
   public EmployeeDAO() {}
 
@@ -61,5 +62,12 @@ public class EmployeeDAO {
       session.delete(employee);
     }
     tx.commit();
+  }
+
+  public List<Employee> findByKeywords(String keywords) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria crit = session.createCriteria(Employee.class);
+    crit.setMaxResults(50);
+    return crit.list();
   }
 }
