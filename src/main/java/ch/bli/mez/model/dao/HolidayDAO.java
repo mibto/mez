@@ -99,7 +99,7 @@ public class HolidayDAO {
 		    Transaction tx = session.beginTransaction();
 		    List<Holiday> holidays = session.createSQLQuery(
 		        "select * from (select * from holiday h WHERE h.employee_id IS null OR h.employee_id=" + employee.getId() +
-		        " ORDER BY h.employee_id) GROUP BY year ORDER BY year DESC").addEntity(Holiday.class).list();
+		        " ORDER BY h.employee_id) a WHERE a.year>=" + year + " GROUP BY year ORDER BY year DESC").addEntity(Holiday.class).list();
 		    tx.commit();
 		    return holidays;
 	  }

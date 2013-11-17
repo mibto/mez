@@ -25,10 +25,13 @@ public class ContractController {
 	private ContractDAO model;
 	private Employee employee;
 	
-	public ContractController(Employee employee){
+	private ActionListener holidayRefreshListener;
+	
+	public ContractController(Employee employee, ActionListener listener){
 		this.view = new ContractPanel();
 		this.model = new ContractDAO();
 		this.employee = employee;
+		this.holidayRefreshListener = listener;
 		addEntrys(employee);
 		setActionListeners();
 	}
@@ -119,6 +122,7 @@ public class ContractController {
 				model.addContract(contract);
 				view.addContractListEntry(createContractListEntry(contract));
 				view.showConfirmation("Der Vertrag wurde erfolgreich erstellt");
+				holidayRefreshListener.actionPerformed(arg0);
 			}
 		});
 	}
@@ -152,10 +156,8 @@ public class ContractController {
 					contract.setEndDate(endDate);
 				}
 				model.updateContract(contract);
-				contractListEntry.setWorkquota(String.valueOf(workquota));
-				contractListEntry.setStartDate(createStringDate(startDate));
-				contractListEntry.setEndDate(createStringDate(endDate));
 				contractListEntry.showSuccess();
+				holidayRefreshListener.actionPerformed(e);
 			}
 		});
 		contractListEntry.setDeleteListener(new ActionListener() {
@@ -166,6 +168,7 @@ public class ContractController {
 				}
 				model.deleteContract(contract.getId());
 				contractListEntry.getParent().remove(contractListEntry);
+				holidayRefreshListener.actionPerformed(e);
 			}
 		});
 	}

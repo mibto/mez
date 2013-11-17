@@ -3,9 +3,11 @@ package ch.bli.mez.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InvalidObjectException;
+import java.util.Calendar;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
+import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.HolidayDAO;
 import ch.bli.mez.view.employee.ContractPanel;
@@ -97,7 +99,7 @@ public class EmployeeController {
   }
   
   private ContractPanel createHolidayContract(EmployeePanel panel, Employee employee){
-	  ContractController controller = new ContractController(employee);
+	  ContractController controller = new ContractController(employee, createHolidayRefreshListener(panel, employee));
 	  if (controller.contractsExists()){
 		  createEmployeeHolidayListEntries(panel, employee, controller.getStartYear());
 	  }
@@ -222,5 +224,22 @@ public class EmployeeController {
         employeeHolidayListEntry.showSuccess();
       }
     });
+  }
+  
+  private ActionListener createHolidayRefreshListener(final EmployeePanel panel, final Employee employee){
+	  ActionListener listener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			panel.setVisible(false);
+			panel.removeEmployeeHolidayListEntries();
+			ContractDAO contractDAO = new ContractDAO();
+			try {
+				createEmployeeHolidayListEntries(panel, employee, contractDAO.getEmployeeContracts(employee).get(0).getStartDate().get(Calendar.YEAR));				
+			} catch (IndexOutOfBoundsException exception) {				
+				panel.setVisible(true);
+			}
+			panel.setVisible(true);
+		}
+	};
+	return listener;
   }
 }
