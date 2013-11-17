@@ -9,6 +9,7 @@ import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.HolidayDAO;
+import ch.bli.mez.view.employee.ContractPanel;
 import ch.bli.mez.view.employee.EmployeeHolidayListEntry;
 import ch.bli.mez.view.employee.EmployeePanel;
 import ch.bli.mez.view.employee.EmployeeView;
@@ -21,7 +22,9 @@ import ch.bli.mez.view.employee.EmployeeView;
 public class EmployeeController {
   private EmployeeView view;
   private EmployeeDAO model;
+  
   private HolidayDAO holidayModel;
+  
   private final SearchController searchController;
 
   public EmployeeController() {
@@ -70,8 +73,7 @@ public class EmployeeController {
     form.setMobileNumber(employee.getMobileNumber());
     form.setStreet(employee.getStreet());
     if (! isNewEmployee){
-//TODO create a year query from the contract
-    	createEmployeeHolidayListEntries(form, employee, 2000);
+    	form.addContractPanel(createHolidayContract(form, employee));
     }
     return form;
   }
@@ -89,6 +91,14 @@ public class EmployeeController {
     int index = ((JTabbedPane) form.getParent()).indexOfComponent(form);
     ((JTabbedPane) form.getParent()).setTitleAt(index, employee.getFirstName() + " " + employee.getLastName());
     return employee;
+  }
+  
+  private ContractPanel createHolidayContract(EmployeePanel panel, Employee employee){
+	  ContractController controller = new ContractController(employee);
+	  if (controller.contractsExists()){
+		  createEmployeeHolidayListEntries(panel, employee, controller.getStartYear());
+	  }
+	  return controller.getView();
   }
   
   private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee employee, Integer year){

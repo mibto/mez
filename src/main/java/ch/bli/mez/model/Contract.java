@@ -83,7 +83,7 @@ public class Contract {
 		this.workquota = workquota;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	public Employee getEmployee(){
 		return employee;
 	}
