@@ -89,7 +89,6 @@ public class PositionListEntry extends JPanel {
 		timer.start();
 	}
 	
-	
 	// Getter & Setter
 	public void setCode(String code){
 		codeTextField.setText(code);
