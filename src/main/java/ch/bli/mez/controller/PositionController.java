@@ -134,4 +134,8 @@ public class PositionController {
       }
     });
   }
+
+  public void setModel(PositionDAO positionModel) {
+    this.model = positionModel;
+  }
 }
