@@ -4,7 +4,6 @@ import static org.mockito.Mockito.*;
 
 import java.io.InvalidObjectException;
 
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +12,8 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.exceptions.verification.WantedButNotInvoked;
 import org.mockito.runners.*;
-
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
@@ -134,12 +133,12 @@ public class EmployeeControllerTest {
     inOrder.verify(holidayModel).updateHoliday(holiday);
   }
 	
-	@Test (expected=InvalidObjectException.class)
+	@Test (expected=WantedButNotInvoked.class)
   public void updateInvalidHolidayTest() throws InvalidObjectException{
 	  EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
 	  Holiday holiday = Mockito.mock(Holiday.class);
     
-    when(holidayPanel.validateFields(holiday)).thenReturn(false);
+    when(holidayPanel.validateFields()).thenReturn(false);
     employeeController.updateHoliday(holidayPanel, employee, holiday);
     verify(holidayPanel).validate();
   }

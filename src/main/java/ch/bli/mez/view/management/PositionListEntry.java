@@ -148,4 +148,9 @@ public class PositionListEntry extends JPanel {
   public Boolean validateFields() {
     return null;
   }
+
+  public Object getSelectedMission() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

@@ -16,7 +16,6 @@ import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
-import ch.bli.mez.view.employee.EmployeeView;
 import ch.bli.mez.view.time.TimeListEntry;
 import ch.bli.mez.view.time.TimePanel;
 import ch.bli.mez.view.time.TimeView;

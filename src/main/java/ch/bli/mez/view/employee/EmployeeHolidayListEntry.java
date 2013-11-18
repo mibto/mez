@@ -2,7 +2,6 @@ package ch.bli.mez.view.employee;
 
 import javax.swing.JTextField;
 
-import ch.bli.mez.model.Holiday;
 import ch.bli.mez.view.management.HolidayListEntry;
 
 /**
@@ -35,5 +34,10 @@ public class EmployeeHolidayListEntry extends HolidayListEntry {
 	private void addGuiFeatureListener(){
 		holidaysTextField.addKeyListener(getEnterKeyListener());
 	}
+
+  public Object validateFields() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }

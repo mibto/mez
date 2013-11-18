@@ -2,10 +2,9 @@ package ch.bli.mez.controller;
 
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
@@ -21,7 +20,7 @@ import ch.bli.mez.view.management.PositionListEntry;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PositionControllerTest {
-  static PositionController instance;
+  private PositionController instance;
   
   @Mock
   static Position position;
@@ -46,6 +45,7 @@ public class PositionControllerTest {
     positionModel = null;
   }
   
+  @Test
   public void updatePostitionTest(){
     // Case 1: existing Position changes, valid
     when(positionListEntry.validateFields()).thenReturn(true);

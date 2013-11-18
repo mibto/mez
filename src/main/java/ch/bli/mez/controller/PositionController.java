@@ -138,4 +138,14 @@ public class PositionController {
   public void setModel(PositionDAO positionModel) {
     this.model = positionModel;
   }
+
+  public void updatePosition(Position position,
+      PositionListEntry positionListEntry, boolean b) {
+    // TODO Auto-generated method stub
+  }
+
+  public Object makePosition() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
