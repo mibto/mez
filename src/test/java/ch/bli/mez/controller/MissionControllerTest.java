@@ -165,4 +165,23 @@ public class MissionControllerTest {
     verify(missionListEntry, never()).getMissionName();
 	}
 	
+	@Test
+  public void updatePositionsTest(){
+    // Case1: Mission is not organ
+	  PositionDAO positionModel = Mockito.mock(PositionDAO.class);
+    instance.setPositionModel(positionModel);
+	  
+    instance.updatePositions(mission, false);
+    
+    verify(mission).clearPositions();
+    verify(positionModel, never()).getOrganPositions();
+    
+    reset(mission, positionModel, missionModel);
+    
+    // Case2: Mission is organ
+    instance.updatePositions(mission, true);
+    verify(mission).clearPositions();
+    verify(positionModel).getOrganPositions();
+    verify(mission).addPositions(new ArrayList<Position>());
+	}
 }
