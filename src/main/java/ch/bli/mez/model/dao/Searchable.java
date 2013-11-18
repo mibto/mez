@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Searchable {
   
-  public List<?> findByKeywords(String keywords);
+  public List<?> findByKeywords(String url);
 
 }

@@ -24,16 +24,12 @@ public class TimeController {
   private TimeEntryDAO model;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
-  private List<Position> positions;
-  private List<Mission> missions;
 
   public TimeController() {
     this.model = new TimeEntryDAO();
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
     this.modelemployee = new EmployeeDAO();
-    this.positions = positionModel.findAll();
-    this.missions = missionModel.findAll();
 
     this.view = new TimeView();
     addTabs();
@@ -56,9 +52,6 @@ public class TimeController {
   }
 
   public void update() {
-    this.positions = positionModel.findAll();
-    this.missions = missionModel.findAll();
-
     addTabs();
   }
 
@@ -181,27 +174,16 @@ public class TimeController {
           model.deleteTimeEntry(timeListEntry.getId());
           removeTimeEntryInList(timeListEntry);
         }
-
       }
     });
   }
 
   private Mission findMissionByName(String missionName) {
-    for (Mission mission : missions) {
-      if (mission.getMissionName().equals(missionName)) {
-        return mission;
-      }
-    }
-    return null;
+    return missionModel.findByMissionName(missionName);
   }
 
   private Position findPositionByCode(String code) {
-    for (Position position : positions) {
-      if (position.getCode().equals(code)) {
-        return position;
-      }
-    }
-    return null;
+    return positionModel.findByCode(code);
   }
 
   /*

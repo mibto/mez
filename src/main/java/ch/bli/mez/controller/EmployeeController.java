@@ -3,6 +3,7 @@ package ch.bli.mez.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InvalidObjectException;
+import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
@@ -27,6 +28,14 @@ public class EmployeeController {
     this.holidayModel = new HolidayDAO();
     this.view = new EmployeeView();
     addTabs();
+    test();
+  }
+  
+  private void test(){
+    List<Employee> results = model.findByKeywords("name=bla");
+    for (Employee employee : results) {
+      System.out.println(employee.getLastName());
+    }
   }
 
   public EmployeeView getView() {

@@ -2,8 +2,10 @@ package ch.bli.mez.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.SessionManager;
@@ -96,5 +98,17 @@ public class PositionDAO {
         "from " + Position.class.getName() + " where isActive=false ").list();
     tx.commit();
     return positions;
+  }
+
+  public Position findByCode(String code) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(Position.class);
+    criteria.add(Restrictions.eq("code", code));
+    Position position = (Position) criteria.list().get(0);
+    if(position != null){
+    return position;
+    } else {
+      return null;
+    }
   }
 }
