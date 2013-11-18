@@ -85,6 +85,16 @@ public class MissionListEntry extends JPanel {
 		timer.setRepeats(false);
 		timer.start();
 	}
+	
+	 public boolean validateFields(String missionName){
+	    if (getMissionName().equals("")){
+	      showError();
+	      setMissionName(missionName);
+	      return false;
+	    }
+	    showSuccess();
+	    return true;
+	  }
 
 	public void setSaveMissionEntryListListener(ActionListener actionListener) {
 		saveButton.addActionListener(actionListener);

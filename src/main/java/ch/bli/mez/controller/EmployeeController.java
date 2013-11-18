@@ -3,12 +3,15 @@ package ch.bli.mez.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.InvalidObjectException;
+import java.util.Calendar;
 import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
+import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.HolidayDAO;
+import ch.bli.mez.view.employee.ContractPanel;
 import ch.bli.mez.view.employee.EmployeeHolidayListEntry;
 import ch.bli.mez.view.employee.EmployeePanel;
 import ch.bli.mez.view.employee.EmployeeView;
@@ -77,9 +80,8 @@ public class EmployeeController {
     form.setHomeNumber(employee.getHomeNumber());
     form.setMobileNumber(employee.getMobileNumber());
     form.setStreet(employee.getStreet());
-    if (!isNewEmployee) {
-      // TODO create a year query from the contract
-      createEmployeeHolidayListEntries(form, employee, 2000);
+    if (! isNewEmployee){
+    	form.addContractPanel(createHolidayContract(form, employee));
     }
     return form;
   }
@@ -104,19 +106,27 @@ public class EmployeeController {
     }
     throw new InvalidObjectException("Employee invalid");
   }
-
-  private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee employee, Integer year) {
-    for (Holiday holiday : holidayModel.getEmployeeHolidays(employee, year)) {
-      EmployeeHolidayListEntry employeeHolidaylistEntry = new EmployeeHolidayListEntry();
-      employeeHolidaylistEntry.setYear(String.valueOf(holiday.getYear()));
-      if (holiday.getHolidays() != null) {
-        employeeHolidaylistEntry.setHolidays(String.valueOf(holiday.getHolidays()));
-      }
-      employeeHolidaylistEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-      employeeHolidaylistEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
-      panel.addEmployeeHolidayListEntry(employeeHolidaylistEntry);
-      setEmployeeHolidayListEntryListener(employeeHolidaylistEntry, employee, holiday);
-    }
+  
+  private ContractPanel createHolidayContract(EmployeePanel panel, Employee employee){
+	  ContractController controller = new ContractController(employee, createHolidayRefreshListener(panel, employee));
+	  if (controller.contractsExists()){
+		  createEmployeeHolidayListEntries(panel, employee, controller.getStartYear());
+	  }
+	  return controller.getView();
+  }
+  
+  private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee employee, Integer year){
+	  for (Holiday holiday : holidayModel.getEmployeeHolidays(employee, year)){
+		  EmployeeHolidayListEntry employeeHolidaylistEntry = new EmployeeHolidayListEntry();
+		  employeeHolidaylistEntry.setYear(String.valueOf(holiday.getYear()));
+		  if (holiday.getHolidays() != null){
+			  employeeHolidaylistEntry.setHolidays(String.valueOf(holiday.getHolidays()));
+		  }
+		  employeeHolidaylistEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+		  employeeHolidaylistEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+		  panel.addEmployeeHolidayListEntry(employeeHolidaylistEntry);
+		  setEmployeeHolidayListEntryListener(employeeHolidaylistEntry, employee, holiday);
+	  }
   }
 
   public void setFormActionListeners(final Employee employee, final EmployeePanel form, final Boolean newEmployee) {
@@ -223,5 +233,22 @@ public class EmployeeController {
         employeeHolidayListEntry.showSuccess();
       }
     });
+  }
+  
+  private ActionListener createHolidayRefreshListener(final EmployeePanel panel, final Employee employee){
+	  ActionListener listener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			panel.setVisible(false);
+			panel.removeEmployeeHolidayListEntries();
+			ContractDAO contractDAO = new ContractDAO();
+			try {
+				createEmployeeHolidayListEntries(panel, employee, contractDAO.getEmployeeContracts(employee).get(0).getStartDate().get(Calendar.YEAR));				
+			} catch (IndexOutOfBoundsException exception) {				
+				panel.setVisible(true);
+			}
+			panel.setVisible(true);
+		}
+	};
+	return listener;
   }
 }

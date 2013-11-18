@@ -43,8 +43,9 @@ public class EmployeePanel extends JPanel {
 	private JButton saveButton;
 	private JButton statusButton;
 	
-	private JPanel contractContentPanel;
 	private JPanel holidayContentPanel;
+	
+	private JPanel centerRightPanel;
 
 
 	public EmployeePanel() {
@@ -87,7 +88,7 @@ public class EmployeePanel extends JPanel {
 		
 		
 		// ContractPanel (center)
-		JPanel centerRightPanel = new JPanel(new BorderLayout());
+		centerRightPanel = new JPanel(new BorderLayout());
 		centerPanel.add(centerRightPanel);
 		
 		JPanel contractTitlePanel = new JPanel();
@@ -96,26 +97,19 @@ public class EmployeePanel extends JPanel {
 		JLabel contractTitleLabel = new JLabel("Verträge");
 		contractTitlePanel.add(contractTitleLabel);
 		
-		JPanel contractHelpPanel = new JPanel();
-		centerRightPanel.add(new JScrollPane(contractHelpPanel), BorderLayout.CENTER);
-		
-		contractContentPanel = new JPanel();
-		contractHelpPanel.add(contractContentPanel);
-
-		
 		addGuiFeatureListener();
 	}
 	
-	/**
-	 * @param contractPanel contractPanel wird im Center des EmployeePanels eingefügt.
-	 *  Layout des ParentPanel ist der default JPanel Layout
-	 */
 	public void addContractPanel(ContractPanel contractPanel){
-		contractContentPanel.add(contractPanel);
+		centerRightPanel.add(new JScrollPane(contractPanel), BorderLayout.CENTER);
 	}
 	
 	public void addEmployeeHolidayListEntry(EmployeeHolidayListEntry employeeHolidayListEntry){
 		holidayContentPanel.add(employeeHolidayListEntry);
+	}
+	
+	public void removeEmployeeHolidayListEntries(){
+		holidayContentPanel.removeAll();
 	}
 	
 
