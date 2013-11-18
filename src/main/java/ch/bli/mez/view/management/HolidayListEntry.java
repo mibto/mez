@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import ch.bli.mez.model.Holiday;
+
 public class HolidayListEntry extends JPanel {
 
 	private static final long serialVersionUID = -2823140194213618642L;
@@ -123,4 +125,9 @@ public class HolidayListEntry extends JPanel {
 		publicHolidaysTextField.addKeyListener(enterKeyListener);
 		preWorkdaysTextField.addKeyListener(enterKeyListener);
 	}
+	
+ public Boolean validateFields(Holiday holiday) {
+   // TODO Auto-generated method stub
+   return null;
+ }
 }

@@ -144,4 +144,8 @@ public class PositionListEntry extends JPanel {
 		nameTextField.addKeyListener(enterKeyListener);
 		commentTextField.addKeyListener(enterKeyListener);
 	}
+
+  public Boolean validateFields() {
+    return null;
+  }
 }

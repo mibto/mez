@@ -161,7 +161,9 @@ public class EmployeePanel extends JPanel {
 	}
 	
 	public boolean validateFields(){
-	  //TODO: implement
+	  if (getPlz().equals("")){
+	    return false;
+	  }
 	  return true;
 	}
 	

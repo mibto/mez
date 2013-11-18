@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeListener;
 
-import ch.bli.mez.view.SearchPanel;
+import ch.bli.mez.view.employee.EmployeeSearchPanel;
 
 /**
  * GUI für den Tab "Zeiten erfassen"
@@ -19,23 +19,23 @@ public class TimeView extends JPanel {
   private static final long serialVersionUID = -9040213583757030012L;
 
   private JTabbedPane tabbedPane;
+  private EmployeeSearchPanel searchPanel;
 
   public TimeView() {
-
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-
-    this.setLayout(new BorderLayout());
-    JPanel searchPanel = new SearchPanel();
-    this.add(searchPanel, BorderLayout.NORTH);
-    this.add(tabbedPane, BorderLayout.CENTER);
-
+    build();
   }
-
+  
+  private void build(){
+    this.setLayout(new BorderLayout());
+    this.add(tabbedPane, BorderLayout.CENTER);
+  }
+  
   public void addTab(String name, JPanel employeePanel) {
     tabbedPane.addTab(name, employeePanel);
   }
 
-  public void removeAllTab() {
+  public void removeAllTabs() {
     tabbedPane.removeAll();
   }
 
@@ -43,15 +43,20 @@ public class TimeView extends JPanel {
     tabbedPane.remove(value);
   }
 
-  // public int getSelectedIndex() {
-  // return tabbedPane.getSelectedIndex();
-  // }
-
   public TimePanel getSelectedTabComponent() {
     return (TimePanel) tabbedPane.getComponentAt(tabbedPane.getSelectedIndex());
   }
 
   public void setTabListener(ChangeListener changeListener) {
     tabbedPane.addChangeListener(changeListener);
+  }
+  
+  public EmployeeSearchPanel getSearchPanel(){
+    return this.searchPanel;
+  }
+
+  public void setSearchPanel(EmployeeSearchPanel searchPanel) {
+    this.searchPanel = searchPanel;
+    this.add(searchPanel, BorderLayout.NORTH);
   }
 }

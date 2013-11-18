@@ -5,32 +5,46 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import ch.bli.mez.view.SearchPanel;
-
 public class EmployeeView extends JPanel {
 
   private static final long serialVersionUID = 8767516928379563985L;
 
   private JTabbedPane tabbedPane;
+  private EmployeeSearchPanel searchPanel;
 
   public EmployeeView() {
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+    build();
+  }
+  
+  private void build(){
     this.setLayout(new BorderLayout());
-    JPanel searchPanel = new SearchPanel();
-    this.add(searchPanel, BorderLayout.NORTH);
     this.add(tabbedPane, BorderLayout.CENTER);
   }
 
   public void addTab(String name, JPanel employeePanel) {
     tabbedPane.addTab(name, employeePanel);
   }
-  
+
   public void removeTab(int value) {
-	    tabbedPane.remove(value);
-	}
+    tabbedPane.remove(value);
+  }
   
+  public void removeAllTabs(){
+    tabbedPane.removeAll();
+  }
+
   public int getSelectedIndex() {
-	  return tabbedPane.getSelectedIndex();
-	}
+    return tabbedPane.getSelectedIndex();
+  }
   
+  public EmployeeSearchPanel getSearchPanel(){
+    return this.searchPanel;
+  }
+
+  public void setSearchPanel(EmployeeSearchPanel searchPanel) {
+    this.searchPanel = searchPanel;
+    this.add(searchPanel, BorderLayout.NORTH);
+  }
+
 }

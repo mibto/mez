@@ -2,9 +2,10 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.InvalidObjectException;
 import java.util.Calendar;
-import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
@@ -14,6 +15,7 @@ import ch.bli.mez.model.dao.HolidayDAO;
 import ch.bli.mez.view.employee.ContractPanel;
 import ch.bli.mez.view.employee.EmployeeHolidayListEntry;
 import ch.bli.mez.view.employee.EmployeePanel;
+import ch.bli.mez.view.employee.EmployeeSearchPanel;
 import ch.bli.mez.view.employee.EmployeeView;
 
 /**
@@ -25,21 +27,14 @@ public class EmployeeController {
   private EmployeeView view;
   private EmployeeDAO model;
   private HolidayDAO holidayModel;
+  private EmployeeSearchPanel searchPanel;
 
   public EmployeeController() {
     this.model = new EmployeeDAO();
     this.holidayModel = new HolidayDAO();
-    this.view = new EmployeeView();
+    setView(new EmployeeView());
     addTabs();
-    test();
-  }
-  
-  private void test(){
-    List<Employee> results = model.findByKeywords("name=bla");
-    for (Employee employee : results) {
-      System.out.println(employee.getLastName());
-    }
-  }
+  }  
 
   public EmployeeView getView() {
     return view;
@@ -47,8 +42,29 @@ public class EmployeeController {
 
   public void setView(EmployeeView employeeView) {
     this.view = employeeView;
+    this.searchPanel = new EmployeeSearchPanel();
+    this.view.setSearchPanel(searchPanel);
+    searchPanel.setKeyListener(createSearchKeyListener());
   }
-
+  
+  private KeyListener createSearchKeyListener(){
+    return new KeyListener() {
+      public void keyTyped(KeyEvent e) {}
+      public void keyReleased(KeyEvent e) {
+        addTabs(searchPanel.getSearchText());
+      }
+      public void keyPressed(KeyEvent e) {}
+    };
+  }
+  
+  private void addTabs(String employeeName){
+    view.removeAllTabs();
+    view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
+    for(Employee employee: model.findByKeywords("name=" + employeeName)){
+      addEmployeeTab(employee);
+    }
+  }
+  
   private void addTabs() {
     view.addTab("Neuer Mitarbeiter", createNewEmployeeTab());
     for (Employee employee : model.findAll()) {
@@ -89,9 +105,7 @@ public class EmployeeController {
   public Employee updateEmployee(Employee employee, EmployeePanel form, Boolean newEmployee)
       throws InvalidObjectException {
     if (form.validateFields()) {
-      if (!form.getPlz().equals("")) {
-        employee.setPlz(Integer.parseInt(form.getPlz()));
-      }
+      employee.setPlz(Integer.parseInt(form.getPlz()));
       employee.setFirstName(form.getFirstname());
       employee.setLastName(form.getLastname());
       employee.setStreet(form.getStreet());
@@ -250,5 +264,11 @@ public class EmployeeController {
 		}
 	};
 	return listener;
+  }
+
+  public void updateHoliday(EmployeeHolidayListEntry holidayPanel,
+      Employee employee, Holiday holiday) {
+    // TODO Auto-generated method stub
+    
   }
 }

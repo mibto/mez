@@ -139,7 +139,7 @@ public class EmployeeControllerTest {
 	  EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
 	  Holiday holiday = Mockito.mock(Holiday.class);
     
-    when(holidayPanel.validateFields()).thenReturn(false);
+    when(holidayPanel.validateFields(holiday)).thenReturn(false);
     employeeController.updateHoliday(holidayPanel, employee, holiday);
     verify(holidayPanel).validate();
   }

@@ -2,6 +2,8 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,40 +15,66 @@ import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
+import ch.bli.mez.view.employee.EmployeeSearchPanel;
+import ch.bli.mez.view.employee.EmployeeView;
 import ch.bli.mez.view.time.TimeListEntry;
 import ch.bli.mez.view.time.TimePanel;
 import ch.bli.mez.view.time.TimeView;
 
 public class TimeController {
 
-  private EmployeeDAO modelemployee;
+  private EmployeeDAO employeeModel;
   private TimeView view;
   private TimeEntryDAO model;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
+  private EmployeeSearchPanel searchPanel;
 
   public TimeController() {
     this.model = new TimeEntryDAO();
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
-    this.modelemployee = new EmployeeDAO();
-
-    this.view = new TimeView();
+    this.employeeModel = new EmployeeDAO();
+    setView(new TimeView());
     addTabs();
   }
 
   public TimeView getView() {
     return view;
   }
-
-  private void addTabs() {
-    view.removeAllTab();
-    for (Employee employee : modelemployee.findAll()) {
-      addAdditionalTab(employee);
+  
+  public void setView(TimeView timeView) {
+    this.view = timeView;
+    this.searchPanel = new EmployeeSearchPanel();
+    this.view.setSearchPanel(searchPanel);
+    searchPanel.setKeyListener(createSearchKeyListener());
+  }
+  
+  private KeyListener createSearchKeyListener(){
+    return new KeyListener() {
+      public void keyTyped(KeyEvent e) {}
+      public void keyReleased(KeyEvent e) {
+        addTabs(searchPanel.getSearchText());
+      }
+      public void keyPressed(KeyEvent e) {}
+    };
+  }
+  
+  private void addTabs(String employeeName){
+    view.removeAllTabs();
+    for(Employee employee: employeeModel.findByKeywords("name=" + employeeName)){
+      addEmployeeTab(employee);
     }
   }
 
-  public void addAdditionalTab(Employee employee) {
+  private void addTabs() {
+    view.removeAllTabs();
+    for (Employee employee : employeeModel.findAll()) {
+      addEmployeeTab(employee);
+    }
+  }
+
+  public void addEmployeeTab(Employee employee) {
     view.addTab(employee.getFirstName() + " " + employee.getLastName(),
         createTimePanel(employee));
   }

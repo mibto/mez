@@ -2,6 +2,7 @@ package ch.bli.mez.view.employee;
 
 import javax.swing.JTextField;
 
+import ch.bli.mez.model.Holiday;
 import ch.bli.mez.view.management.HolidayListEntry;
 
 /**
