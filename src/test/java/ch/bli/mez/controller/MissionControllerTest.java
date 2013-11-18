@@ -1,6 +1,7 @@
 package ch.bli.mez.controller;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class MissionControllerTest {
     inOrder.verify(mission).setIsOrgan(true);
     inOrder.verify(mission).clearPositions();
     inOrder.verify(positionModel).getOrganPositions();
-    inOrder.verify(mission).addPositions(new ArrayList<Position>());
+    inOrder.verify(mission).addPositions(anyListOf(Position.class));
     inOrder.verify(missionModel).addMission(mission);
 
     //Case 4: invalid
@@ -182,6 +183,6 @@ public class MissionControllerTest {
     instance.updatePositions(mission, true);
     verify(mission).clearPositions();
     verify(positionModel).getOrganPositions();
-    verify(mission).addPositions(new ArrayList<Position>());
+    verify(mission).addPositions(anyListOf(Position.class));
 	}
 }
