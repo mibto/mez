@@ -16,8 +16,8 @@ public class EmployeeView extends JPanel {
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
     build();
   }
-  
-  private void build(){
+
+  private void build() {
     this.setLayout(new BorderLayout());
     this.add(tabbedPane, BorderLayout.CENTER);
   }
@@ -29,16 +29,16 @@ public class EmployeeView extends JPanel {
   public void removeTab(int value) {
     tabbedPane.remove(value);
   }
-  
-  public void removeAllTabs(){
+
+  public void removeAllTabs() {
     tabbedPane.removeAll();
   }
 
   public int getSelectedIndex() {
     return tabbedPane.getSelectedIndex();
   }
-  
-  public EmployeeSearchPanel getSearchPanel(){
+
+  public EmployeeSearchPanel getSearchPanel() {
     return this.searchPanel;
   }
 

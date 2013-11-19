@@ -11,8 +11,8 @@ public class ManagementController {
   private MissionController missionController;
   private PositionController positionController;
   private HolidayController holidayController;
-  
-  public ManagementController(){
+
+  public ManagementController() {
     this.view = new ManagementView();
     this.missionController = new MissionController();
     this.positionController = new PositionController();
@@ -21,35 +21,35 @@ public class ManagementController {
     setTabs();
     setListener();
   }
-  
-  public ManagementView getView(){
+
+  public ManagementView getView() {
     return view;
   }
-  
-  public MissionController getMissionController(){
+
+  public MissionController getMissionController() {
     return missionController;
   }
-  
-  public PositionController getPositionController(){
-	  return positionController;
+
+  public PositionController getPositionController() {
+    return positionController;
   }
-  
+
   private void setTabs() {
     view.addTab("Aufträge verwalten", missionController.getView());
     view.addTab("Positionen verwalten", positionController.getView());
     view.addTab("Ferien verwalten", holidayController.getView());
     // Weitere views für die Tabs hier setzen.
-   }
-  
+  }
+
   private void setListener() {
-	    view.setTabListener(new ChangeListener() {
-	      public void stateChanged(ChangeEvent e) {
-	        // Für andere Panels das selbe. Zeit erfassen noch besprechen wann die
-	        // Liste geladen werden soll.
-	        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1) {
-	          positionController.setComboBoxItems();
-	        }
-	      }
-	    });
-	  }
+    view.setTabListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        // Für andere Panels das selbe. Zeit erfassen noch besprechen wann die
+        // Liste geladen werden soll.
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1) {
+          positionController.setComboBoxItems();
+        }
+      }
+    });
+  }
 }

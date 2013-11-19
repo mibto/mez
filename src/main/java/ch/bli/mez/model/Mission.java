@@ -97,17 +97,18 @@ public class Mission {
   }
 
   public void addPosition(Position position) {
-	  position.addMission(this);
+    position.addMission(this);
   }
 
   public void addPositions(List<Position> organPositions) {
-	for (Position position: organPositions){
-		position.addMission(this);
-	}
+    for (Position position : organPositions) {
+      position.addMission(this);
+    }
   }
-  public void clearPositions(){
-	  for (Position position : positions){
-		  position.removeMission(this);
-	  }
+
+  public void clearPositions() {
+    for (Position position : positions) {
+      position.removeMission(this);
+    }
   }
 }

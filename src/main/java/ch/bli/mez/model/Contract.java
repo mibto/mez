@@ -23,72 +23,74 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "contract")
 public class Contract {
 
-	@Column(name = "contract_id")
-	private Integer id;
-	private Calendar startDate;
-	private Calendar endDate;
-	private Integer workquota;
-	private Employee employee;
-	
-	public Contract() {}
+  @Column(name = "contract_id")
+  private Integer id;
+  private Calendar startDate;
+  private Calendar endDate;
+  private Integer workquota;
+  private Employee employee;
 
-	public Contract(Employee employee, Calendar startDate, Integer workquota) {
-		this.employee = employee;
-		this.startDate = startDate;
-		this.workquota = workquota;
-	}
-	
-	public Contract(Employee employee, Calendar startDate, Calendar endDate, Integer workquota) {
-		this.employee = employee;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.workquota = workquota;
-	}
+  public Contract() {
+  }
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(name = "contract_id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-	
-	public void setId(Integer id){
-		this.id = id;
-	}
-	
-	@Column(nullable = false)
-	public Calendar getStartDate() {
-		return startDate;
-	}
+  public Contract(Employee employee, Calendar startDate, Integer workquota) {
+    this.employee = employee;
+    this.startDate = startDate;
+    this.workquota = workquota;
+  }
 
-	public void setStartDate(Calendar startDate) {
-		this.startDate = startDate;
-	}
+  public Contract(Employee employee, Calendar startDate, Calendar endDate,
+      Integer workquota) {
+    this.employee = employee;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.workquota = workquota;
+  }
 
-	public Calendar getEndDate() {
-		return endDate;
-	}
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  @Column(name = "contract_id", unique = true, nullable = false)
+  public Integer getId() {
+    return this.id;
+  }
 
-	public void setEndDate(Calendar endDate) {
-		this.endDate = endDate;
-	}
-	
-	@Column(nullable = false)
-	public Integer getWorkquota() {
-		return workquota;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	public void setWorkquota(Integer workquota) {
-		this.workquota = workquota;
-	}
+  @Column(nullable = false)
+  public Calendar getStartDate() {
+    return startDate;
+  }
 
-	@ManyToOne(cascade = CascadeType.DETACH)
-	public Employee getEmployee(){
-		return employee;
-	}
-	
-	public void setEmployee(Employee employee){
-		this.employee = employee;
-	}
+  public void setStartDate(Calendar startDate) {
+    this.startDate = startDate;
+  }
+
+  public Calendar getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Calendar endDate) {
+    this.endDate = endDate;
+  }
+
+  @Column(nullable = false)
+  public Integer getWorkquota() {
+    return workquota;
+  }
+
+  public void setWorkquota(Integer workquota) {
+    this.workquota = workquota;
+  }
+
+  @ManyToOne(cascade = CascadeType.DETACH)
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 }

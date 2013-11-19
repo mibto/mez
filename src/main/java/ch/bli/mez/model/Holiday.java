@@ -21,77 +21,77 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "holiday")
 public class Holiday {
 
-	@Column(name = "holiday_id")
-	private Integer id;
-	private Integer year;
-	private Integer publicHolidays;
-	private Integer preWorkdays;
-	private Employee employee;
-	private Integer holidays;
-	
-	public Holiday(){
-		
-	}
+  @Column(name = "holiday_id")
+  private Integer id;
+  private Integer year;
+  private Integer publicHolidays;
+  private Integer preWorkdays;
+  private Employee employee;
+  private Integer holidays;
 
-	public Holiday(Integer year, Integer publicHolidays, Integer preworkdays) {
-		this.year = year;
-		this.publicHolidays = publicHolidays;
-		this.preWorkdays = preworkdays;
-	}
+  public Holiday() {
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	@GenericGenerator(name = "increment", strategy = "increment")
-	@Column(name = "holiday_id", unique = true, nullable = false)
-	public Integer getId() {
-		return this.id;
-	}
-	
-	public void setId(Integer id){
-		this.id = id;
-	}
+  }
 
-	@Column(unique = true, nullable = false)
-	public Integer getYear() {
-		return year;
-	}
-	
-	public void setYear(Integer year){
-		this.year = year;
-	}
+  public Holiday(Integer year, Integer publicHolidays, Integer preworkdays) {
+    this.year = year;
+    this.publicHolidays = publicHolidays;
+    this.preWorkdays = preworkdays;
+  }
 
-	@Column(nullable = false)
-	public Integer getPublicHolidays() {
-		return publicHolidays;
-	}
+  @Id
+  @GeneratedValue(generator = "increment")
+  @GenericGenerator(name = "increment", strategy = "increment")
+  @Column(name = "holiday_id", unique = true, nullable = false)
+  public Integer getId() {
+    return this.id;
+  }
 
-	public void setPublicHolidays(Integer holidays) {
-		this.publicHolidays = holidays;
-	}
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-	@Column(nullable = false)
-	public Integer getPreworkdays() {
-		return preWorkdays;
-	}
+  @Column(unique = true, nullable = false)
+  public Integer getYear() {
+    return year;
+  }
 
-	public void setPreworkdays(Integer preworkdays) {
-		this.preWorkdays = preworkdays;
-	}
-	
-	public Integer getHolidays(){
-		return holidays;
-	}
-	
-	public void setHolidays(Integer holidays){
-		this.holidays = holidays;
-	}
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	public Employee getEmployee(){
-		return employee;
-	}
-	
-	public void setEmployee(Employee employee){
-		this.employee = employee;
-	}
+  public void setYear(Integer year) {
+    this.year = year;
+  }
+
+  @Column(nullable = false)
+  public Integer getPublicHolidays() {
+    return publicHolidays;
+  }
+
+  public void setPublicHolidays(Integer holidays) {
+    this.publicHolidays = holidays;
+  }
+
+  @Column(nullable = false)
+  public Integer getPreworkdays() {
+    return preWorkdays;
+  }
+
+  public void setPreworkdays(Integer preworkdays) {
+    this.preWorkdays = preworkdays;
+  }
+
+  public Integer getHolidays() {
+    return holidays;
+  }
+
+  public void setHolidays(Integer holidays) {
+    this.holidays = holidays;
+  }
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 }

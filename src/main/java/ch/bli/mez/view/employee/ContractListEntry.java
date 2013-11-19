@@ -14,121 +14,124 @@ import javax.swing.Timer;
 
 public class ContractListEntry extends JPanel {
 
-	private static final long serialVersionUID = -2823140194213618642L;
+  private static final long serialVersionUID = -2823140194213618642L;
 
-	private JTextField workquotaTextField;
-	private JTextField startDateTextField;
-	private JTextField endDateTextField;
+  private JTextField workquotaTextField;
+  private JTextField startDateTextField;
+  private JTextField endDateTextField;
 
-	private JButton saveButton;
-	private JButton deleteButton;
-	
-	private KeyListener enterKeyListener;
-	
-	private Color backGroundColor;
+  private JButton saveButton;
+  private JButton deleteButton;
 
-	/**
-	 * Create the panel.
-	 */
-	public ContractListEntry() {
-		
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+  private KeyListener enterKeyListener;
 
-		workquotaTextField = new JTextField(3);
-		add(workquotaTextField);
-		
-		startDateTextField = new JTextField(7);
-		add(startDateTextField);
-		
-		endDateTextField = new JTextField(7);
-		add(endDateTextField);
+  private Color backGroundColor;
 
-		saveButton = new JButton("Speichern");
-		add(saveButton);
-		
-		deleteButton = new JButton("Löschen");
-		add(deleteButton);
+  /**
+   * Create the panel.
+   */
+  public ContractListEntry() {
 
-		backGroundColor = getBackground();
-		
-		addGuiFeatureListener();
-	}
+    setLayout(new FlowLayout(FlowLayout.LEFT));
 
-	public void showSuccess() {
-		setBackground(new Color(150, 255, 150));
-		hideConfirmation();
-	}
-	
-	public void showError() {
-		setBackground(new Color(255, 150, 150));
-		hideConfirmation();
-	}
-	
-	private void hideConfirmation(){
-		Timer timer = new Timer(900, new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				setBackground(backGroundColor);
-			}});
-		timer.setRepeats(false);
-		timer.start();
-	}
+    workquotaTextField = new JTextField(3);
+    add(workquotaTextField);
 
-	public void setSaveListener(ActionListener actionListener) {
-		saveButton.addActionListener(actionListener);
-	}
-	
-	public void setDeleteListener(ActionListener actionListener){
-		deleteButton.addActionListener(actionListener);
-	}
-	
-	/**
-	 * @return the enterKeyListener which is used for the textfields
-	 */
-	public KeyListener getEnterKeyListener(){
-		return enterKeyListener;
-	}
+    startDateTextField = new JTextField(7);
+    add(startDateTextField);
 
-	
-	// getter & setter
-	public String getWorkquota() {
-		return workquotaTextField.getText();
-	}
+    endDateTextField = new JTextField(7);
+    add(endDateTextField);
 
-	public void setWorkquota(String workquota) {
-		this.workquotaTextField.setText(workquota);
-	}
+    saveButton = new JButton("Speichern");
+    add(saveButton);
 
-	public String getStartDate() {
-		return startDateTextField.getText();
-	}
+    deleteButton = new JButton("Löschen");
+    add(deleteButton);
 
-	public void setStartDate(String startDate) {
-		this.startDateTextField.setText(startDate);
-	}
+    backGroundColor = getBackground();
 
-	public String getEndDate() {
-		return endDateTextField.getText();
-	}
+    addGuiFeatureListener();
+  }
 
-	public void setEndDate(String endDate) {
-		this.endDateTextField.setText(endDate);;
-	}
-	
-	// internal methods
-	private void addGuiFeatureListener(){
-		enterKeyListener = new KeyListener() {
-			public void keyTyped(KeyEvent arg0) {
-			}
-			public void keyReleased(KeyEvent arg0) {
-			}
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					saveButton.doClick();
-				}
-			}
-		};
-		workquotaTextField.addKeyListener(enterKeyListener);
-		startDateTextField.addKeyListener(enterKeyListener);
-		endDateTextField.addKeyListener(enterKeyListener);
-	}
+  public void showSuccess() {
+    setBackground(new Color(150, 255, 150));
+    hideConfirmation();
+  }
+
+  public void showError() {
+    setBackground(new Color(255, 150, 150));
+    hideConfirmation();
+  }
+
+  private void hideConfirmation() {
+    Timer timer = new Timer(900, new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        setBackground(backGroundColor);
+      }
+    });
+    timer.setRepeats(false);
+    timer.start();
+  }
+
+  public void setSaveListener(ActionListener actionListener) {
+    saveButton.addActionListener(actionListener);
+  }
+
+  public void setDeleteListener(ActionListener actionListener) {
+    deleteButton.addActionListener(actionListener);
+  }
+
+  /**
+   * @return the enterKeyListener which is used for the textfields
+   */
+  public KeyListener getEnterKeyListener() {
+    return enterKeyListener;
+  }
+
+  // getter & setter
+  public String getWorkquota() {
+    return workquotaTextField.getText();
+  }
+
+  public void setWorkquota(String workquota) {
+    this.workquotaTextField.setText(workquota);
+  }
+
+  public String getStartDate() {
+    return startDateTextField.getText();
+  }
+
+  public void setStartDate(String startDate) {
+    this.startDateTextField.setText(startDate);
+  }
+
+  public String getEndDate() {
+    return endDateTextField.getText();
+  }
+
+  public void setEndDate(String endDate) {
+    this.endDateTextField.setText(endDate);
+    ;
+  }
+
+  // internal methods
+  private void addGuiFeatureListener() {
+    enterKeyListener = new KeyListener() {
+      public void keyTyped(KeyEvent arg0) {
+      }
+
+      public void keyReleased(KeyEvent arg0) {
+      }
+
+      public void keyPressed(KeyEvent arg0) {
+        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+          saveButton.doClick();
+        }
+      }
+    };
+    workquotaTextField.addKeyListener(enterKeyListener);
+    startDateTextField.addKeyListener(enterKeyListener);
+    endDateTextField.addKeyListener(enterKeyListener);
+  }
 }

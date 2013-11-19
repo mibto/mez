@@ -41,27 +41,32 @@ public class TimeController {
   public TimeView getView() {
     return view;
   }
-  
+
   public void setView(TimeView timeView) {
     this.view = timeView;
     this.searchPanel = new EmployeeSearchPanel();
     this.view.setSearchPanel(searchPanel);
     searchPanel.setKeyListener(createSearchKeyListener());
   }
-  
-  private KeyListener createSearchKeyListener(){
+
+  private KeyListener createSearchKeyListener() {
     return new KeyListener() {
-      public void keyTyped(KeyEvent e) {}
+      public void keyTyped(KeyEvent e) {
+      }
+
       public void keyReleased(KeyEvent e) {
         addTabs(searchPanel.getSearchText());
       }
-      public void keyPressed(KeyEvent e) {}
+
+      public void keyPressed(KeyEvent e) {
+      }
     };
   }
-  
-  private void addTabs(String employeeName){
+
+  private void addTabs(String employeeName) {
     view.removeAllTabs();
-    for(Employee employee: employeeModel.findByKeywords("name=" + employeeName)){
+    for (Employee employee : employeeModel.findByKeywords("name="
+        + employeeName)) {
       addEmployeeTab(employee);
     }
   }

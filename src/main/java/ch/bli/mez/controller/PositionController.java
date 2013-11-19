@@ -110,8 +110,8 @@ public class PositionController {
           Boolean isOrganDefault = view.getSelectedMission() == 0;
           Position position = null;
           try {
-            position = new Position(view.getCode(), view
-                .getPositionName(), view.getComment(), isOrganDefault);
+            position = new Position(view.getCode(), view.getPositionName(),
+                view.getComment(), isOrganDefault);
           } catch (NumberFormatException e) {
             position = new Position(null, view.getPositionName(), view
                 .getComment(), isOrganDefault);

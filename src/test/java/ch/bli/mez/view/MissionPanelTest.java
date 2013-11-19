@@ -1,6 +1,6 @@
 package ch.bli.mez.view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,25 +15,25 @@ import ch.bli.mez.view.management.MissionPanel;
  * @version 1.0
  */
 public class MissionPanelTest {
-	
-	private MissionPanel instance;
 
-	@Before
-	public void setUp() throws Exception {
-		this.instance = new MissionPanel();
-	}
+  private MissionPanel instance;
 
-	@After
-	public void tearDown() throws Exception {
-		this.instance = null;
-	}
+  @Before
+  public void setUp() throws Exception {
+    this.instance = new MissionPanel();
+  }
 
-	/*
-	 * Prüft ob die Instanz erstellt wurde
-	 */
-	@Test
-	public void checkInstance() {
-		assertNotNull(instance);
-	}
+  @After
+  public void tearDown() throws Exception {
+    this.instance = null;
+  }
+
+  /*
+   * Prüft ob die Instanz erstellt wurde
+   */
+  @Test
+  public void checkInstance() {
+    assertNotNull(instance);
+  }
 
 }

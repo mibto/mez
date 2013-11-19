@@ -19,156 +19,157 @@ import javax.swing.Timer;
 
 public class MissionPanel extends JPanel {
 
-	private static final long serialVersionUID = -7537968850748849818L;
+  private static final long serialVersionUID = -7537968850748849818L;
 
-	private JTextField missionNameTextField;
-	private JTextField commentTextField;
-	private JCheckBox isOrganCheckBox;
+  private JTextField missionNameTextField;
+  private JTextField commentTextField;
+  private JCheckBox isOrganCheckBox;
 
-	private JPanel messagePanel;
-	private JLabel messageLabel;
+  private JPanel messagePanel;
+  private JLabel messageLabel;
 
-	private JButton addButton;
+  private JButton addButton;
 
-	private JPanel listPanel;
+  private JPanel listPanel;
 
-	public MissionPanel() {
+  public MissionPanel() {
 
-		setLayout(new BorderLayout());
-		
-		// EntryPanel (north)
-		JPanel northPanel = new JPanel();
-		add(new JScrollPane(northPanel), BorderLayout.NORTH);
+    setLayout(new BorderLayout());
 
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-		northPanel.add(topPanel);
-		
-		JPanel entryPanel = new JPanel();
-		topPanel.add(entryPanel, BorderLayout.CENTER);
+    // EntryPanel (north)
+    JPanel northPanel = new JPanel();
+    add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
-		JLabel nameLabel = new JLabel("Auftragsname");
-		entryPanel.add(nameLabel);
+    JPanel topPanel = new JPanel();
+    topPanel.setLayout(new BorderLayout());
+    northPanel.add(topPanel);
 
-		missionNameTextField = new JTextField();
-		missionNameTextField.setColumns(10);
-		entryPanel.add(missionNameTextField);
+    JPanel entryPanel = new JPanel();
+    topPanel.add(entryPanel, BorderLayout.CENTER);
 
-		JLabel commentLabel = new JLabel("Kommentar");
-		entryPanel.add(commentLabel);
+    JLabel nameLabel = new JLabel("Auftragsname");
+    entryPanel.add(nameLabel);
 
-		commentTextField = new JTextField();
-		commentTextField.setColumns(25);
-		entryPanel.add(commentTextField);
+    missionNameTextField = new JTextField();
+    missionNameTextField.setColumns(10);
+    entryPanel.add(missionNameTextField);
 
-		isOrganCheckBox = new JCheckBox("Orgel-Code", true);
-		entryPanel.add(isOrganCheckBox);
+    JLabel commentLabel = new JLabel("Kommentar");
+    entryPanel.add(commentLabel);
 
-		addButton = new JButton("Speichern");
-		entryPanel.add(addButton);
+    commentTextField = new JTextField();
+    commentTextField.setColumns(25);
+    entryPanel.add(commentTextField);
 
-		messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(messagePanel, BorderLayout.SOUTH);
+    isOrganCheckBox = new JCheckBox("Orgel-Code", true);
+    entryPanel.add(isOrganCheckBox);
 
-		messageLabel = new JLabel(" ");
-		messagePanel.add(messageLabel);
+    addButton = new JButton("Speichern");
+    entryPanel.add(addButton);
 
-		// ListPanel (center)
-		JPanel centerPanel = new JPanel();
-		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
+    messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    topPanel.add(messagePanel, BorderLayout.SOUTH);
 
-		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		centerPanel.add((listPanel));
+    messageLabel = new JLabel(" ");
+    messagePanel.add(messageLabel);
 
-		addGuiFeatureListener();
-	}
+    // ListPanel (center)
+    JPanel centerPanel = new JPanel();
+    add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
-	public void setSaveMissionListener(ActionListener actionListener) {
-		addButton.addActionListener(actionListener);
-	}
+    listPanel = new JPanel();
+    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+    centerPanel.add((listPanel));
 
-	public void cleanFields() {
-		missionNameTextField.setBackground(new Color(255, 255, 255));
-		setMissionName("");
-		setComment("");
-	}
-	
-	public void showConfirmation(String name) {
-		messageLabel.setForeground(new Color(0, 128, 0));
-		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
-		hideMessage();
-	}
+    addGuiFeatureListener();
+  }
 
-	public void showNameError() {
-		messageLabel.setForeground(new Color(255, 0, 0));
-		messageLabel.setText("Auftragsname darf nicht leer sein");
-		hideMessage();
-	}
-	
-	private void hideMessage(){
-		Timer timer = new Timer(1800, new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				messageLabel.setText(" ");
-			}});
-		timer.setRepeats(false);
-		timer.start();
-	}
+  public void setSaveMissionListener(ActionListener actionListener) {
+    addButton.addActionListener(actionListener);
+  }
 
-	public String getMissionName() {
-		return missionNameTextField.getText();
-	}
+  public void cleanFields() {
+    missionNameTextField.setBackground(new Color(255, 255, 255));
+    setMissionName("");
+    setComment("");
+  }
 
-	public String getComment() {
-		return commentTextField.getText();
-	}
+  public void showConfirmation(String name) {
+    messageLabel.setForeground(new Color(0, 128, 0));
+    messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
+    hideMessage();
+  }
 
-	public void setMissionName(String missionName) {
-		this.missionNameTextField.setText(missionName);
-	}
+  public void showNameError() {
+    messageLabel.setForeground(new Color(255, 0, 0));
+    messageLabel.setText("Auftragsname darf nicht leer sein");
+    hideMessage();
+  }
 
-	public void setComment(String value) {
-		commentTextField.setText(value);
-	}
+  private void hideMessage() {
+    Timer timer = new Timer(1800, new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        messageLabel.setText(" ");
+      }
+    });
+    timer.setRepeats(false);
+    timer.start();
+  }
 
-	public void addMissionListEntry(MissionListEntry missionListEntry) {
-		listPanel.add(missionListEntry);
-		listPanel.revalidate();
-	}
+  public String getMissionName() {
+    return missionNameTextField.getText();
+  }
 
-	public void removeMissionListEntry(MissionListEntry missionListEntry) {
-		listPanel.remove(missionListEntry);
-		listPanel.revalidate();
-	}
+  public String getComment() {
+    return commentTextField.getText();
+  }
 
-	public boolean getIsOrgan() {
-		if (isOrganCheckBox.isSelected()) {
-			return true;
-		}
-		return false;
-	}
+  public void setMissionName(String missionName) {
+    this.missionNameTextField.setText(missionName);
+  }
 
-	private void addGuiFeatureListener() {
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cleanFields();
-				isOrganCheckBox.setSelected(true);
-			}
-		});
-		KeyListener enterKeyListener = new KeyListener() {
-			public void keyTyped(KeyEvent e) {
-			}
+  public void setComment(String value) {
+    commentTextField.setText(value);
+  }
 
-			public void keyReleased(KeyEvent e) {
-			}
+  public void addMissionListEntry(MissionListEntry missionListEntry) {
+    listPanel.add(missionListEntry);
+    listPanel.revalidate();
+  }
 
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					addButton.doClick();
-				}
-			}
-		};
-		missionNameTextField.addKeyListener(enterKeyListener);
-		commentTextField.addKeyListener(enterKeyListener);
-	}
+  public void removeMissionListEntry(MissionListEntry missionListEntry) {
+    listPanel.remove(missionListEntry);
+    listPanel.revalidate();
+  }
+
+  public boolean getIsOrgan() {
+    if (isOrganCheckBox.isSelected()) {
+      return true;
+    }
+    return false;
+  }
+
+  private void addGuiFeatureListener() {
+    addButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        cleanFields();
+        isOrganCheckBox.setSelected(true);
+      }
+    });
+    KeyListener enterKeyListener = new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+      }
+
+      public void keyReleased(KeyEvent e) {
+      }
+
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          addButton.doClick();
+        }
+      }
+    };
+    missionNameTextField.addKeyListener(enterKeyListener);
+    commentTextField.addKeyListener(enterKeyListener);
+  }
 }

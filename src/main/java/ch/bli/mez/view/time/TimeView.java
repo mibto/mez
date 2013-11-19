@@ -25,12 +25,12 @@ public class TimeView extends JPanel {
     this.tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
     build();
   }
-  
-  private void build(){
+
+  private void build() {
     this.setLayout(new BorderLayout());
     this.add(tabbedPane, BorderLayout.CENTER);
   }
-  
+
   public void addTab(String name, JPanel employeePanel) {
     tabbedPane.addTab(name, employeePanel);
   }
@@ -50,8 +50,8 @@ public class TimeView extends JPanel {
   public void setTabListener(ChangeListener changeListener) {
     tabbedPane.addChangeListener(changeListener);
   }
-  
-  public EmployeeSearchPanel getSearchPanel(){
+
+  public EmployeeSearchPanel getSearchPanel() {
     return this.searchPanel;
   }
 

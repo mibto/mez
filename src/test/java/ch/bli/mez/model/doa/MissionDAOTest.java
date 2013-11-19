@@ -24,105 +24,107 @@ import ch.bli.mez.model.dao.MissionDAO;
  * @version 1.0
  */
 public class MissionDAOTest {
-	
-	private static MissionDAO instance;
-	private Mission mission;
-	
-	@BeforeClass
-	public static void beforeEverything(){
-		instance = new MissionDAO();		
-	}
-	
-	@AfterClass
-	public static void cleanUp(){
-		instance = null;
-	}
-	
-	@Before
-	public void setUp(){
-		this.mission = new Mission("Orgelx", "comment", true);
-	}
 
-	@After
-	public void tearDown(){
-		this.mission = null;
-	}
-	
-	/*
-	 * Prüft ob die Instanzen erstellt wurden
-	 */
-	@Test
-	public void checkInstance() {
-		assertNotNull(instance);
-		assertNotNull(mission);
-	}
-	
-	/*
-	 * Prüft ob eine Mission korrekt abgespeichert und wieder gelöscht wird
-	 */
-	@Test(expected=ObjectNotFoundException.class)
-	public void saveMission(){
-		instance.addMission(mission);
-		assertEquals(mission, instance.getMission(mission.getId()));
-		instance.deleteMission(mission.getId());
-		instance.getMission(mission.getId());
-	}
-	
-	/*
-	 * Prüft, dass eine Mission nicht doppelt gespeichert werden kann
-	 */
-	@Test
-	public void duplicateMission(){
-		instance.addMission(mission);
-		int begin = instance.findAll().size();
-		instance.addMission(mission);
-		assertEquals(begin, instance.findAll().size());
-		instance.deleteMission(mission.getId());
-	}
-	
-	/* 
-	 * Exceptions werden abgefangen und ein rollback ausgeführt.
-	 * Hier wäre ein mock test nützlich um zu testen, ob der rollback ausgeführt wird.
-	 */
-	@Test
-	public void missionHasId(){
-		instance.addMission(mission);
-		List<Mission> myMissions = instance.findAll();
-		assertNotNull(myMissions.get(0).getId());
-	}
+  private static MissionDAO instance;
+  private Mission mission;
 
-	/*
-	 * Prüft ob eine als null gespeicherte Mission nicht gespeichert wird
-	 */
-	@Test(expected=IllegalArgumentException.class)
-	public void addNullMission(){
-		instance.addMission(null);
-	}
+  @BeforeClass
+  public static void beforeEverything() {
+    instance = new MissionDAO();
+  }
 
-	/*
-	 * Prüft ob die Mission updated werden kann
-	 */
-	@Test
-	public void updateMission(){
-		instance.addMission(mission);
-		mission.setMissionName("KeineOrgel");
-		mission.setIsOrgan(false);
-		instance.updateMission(mission);
-		assertFalse("Orgelx".equals(instance.getMission(mission.getId()).getMissionName()));
-		assertEquals(mission, instance.getMission(mission.getId()));
-		instance.deleteMission(mission.getId());
-	}
-	
-	/*
-	 * Prüft ob die Mission ohne Änderungen korrekt updated wird
-	 */
-	@Test
-	public void updateWithoutModificationMission(){
-		instance.addMission(mission);
-		instance.updateMission(mission);
-		assertTrue("Orgelx".equals(instance.getMission(mission.getId()).getMissionName()));
-		assertEquals(mission, instance.getMission(mission.getId()));
-		instance.deleteMission(mission.getId());
-	}
+  @AfterClass
+  public static void cleanUp() {
+    instance = null;
+  }
+
+  @Before
+  public void setUp() {
+    this.mission = new Mission("Orgelx", "comment", true);
+  }
+
+  @After
+  public void tearDown() {
+    this.mission = null;
+  }
+
+  /*
+   * Prüft ob die Instanzen erstellt wurden
+   */
+  @Test
+  public void checkInstance() {
+    assertNotNull(instance);
+    assertNotNull(mission);
+  }
+
+  /*
+   * Prüft ob eine Mission korrekt abgespeichert und wieder gelöscht wird
+   */
+  @Test(expected = ObjectNotFoundException.class)
+  public void saveMission() {
+    instance.addMission(mission);
+    assertEquals(mission, instance.getMission(mission.getId()));
+    instance.deleteMission(mission.getId());
+    instance.getMission(mission.getId());
+  }
+
+  /*
+   * Prüft, dass eine Mission nicht doppelt gespeichert werden kann
+   */
+  @Test
+  public void duplicateMission() {
+    instance.addMission(mission);
+    int begin = instance.findAll().size();
+    instance.addMission(mission);
+    assertEquals(begin, instance.findAll().size());
+    instance.deleteMission(mission.getId());
+  }
+
+  /*
+   * Exceptions werden abgefangen und ein rollback ausgeführt. Hier wäre ein
+   * mock test nützlich um zu testen, ob der rollback ausgeführt wird.
+   */
+  @Test
+  public void missionHasId() {
+    instance.addMission(mission);
+    List<Mission> myMissions = instance.findAll();
+    assertNotNull(myMissions.get(0).getId());
+  }
+
+  /*
+   * Prüft ob eine als null gespeicherte Mission nicht gespeichert wird
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void addNullMission() {
+    instance.addMission(null);
+  }
+
+  /*
+   * Prüft ob die Mission updated werden kann
+   */
+  @Test
+  public void updateMission() {
+    instance.addMission(mission);
+    mission.setMissionName("KeineOrgel");
+    mission.setIsOrgan(false);
+    instance.updateMission(mission);
+    assertFalse("Orgelx".equals(instance.getMission(mission.getId())
+        .getMissionName()));
+    assertEquals(mission, instance.getMission(mission.getId()));
+    instance.deleteMission(mission.getId());
+  }
+
+  /*
+   * Prüft ob die Mission ohne Änderungen korrekt updated wird
+   */
+  @Test
+  public void updateWithoutModificationMission() {
+    instance.addMission(mission);
+    instance.updateMission(mission);
+    assertTrue("Orgelx".equals(instance.getMission(mission.getId())
+        .getMissionName()));
+    assertEquals(mission, instance.getMission(mission.getId()));
+    instance.deleteMission(mission.getId());
+  }
 
 }

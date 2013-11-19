@@ -29,8 +29,9 @@ public class Position {
   private boolean isOrganDefault;
   private Boolean isActive;
   private Set<Mission> missions = new HashSet<Mission>();
-  
-  public Position(){}
+
+  public Position() {
+  }
 
   public Position(String code, String positionName, String comment,
       boolean isOrganDefault) {
@@ -52,7 +53,7 @@ public class Position {
   public void setId(Integer id) {
     this.id = id;
   }
-  
+
   @Column(unique = true, nullable = false)
   public String getPositionName() {
     return positionName;
@@ -92,10 +93,10 @@ public class Position {
     this.missions.addAll(missions);
   }
 
-  public void removeMission(Mission mission){
-	  this.missions.remove(mission);
+  public void removeMission(Mission mission) {
+    this.missions.remove(mission);
   }
-  
+
   @Column(unique = true)
   public String getCode() {
     return code;
@@ -113,8 +114,8 @@ public class Position {
   public void setIsActive(Boolean isActive) {
     this.isActive = isActive;
   }
-  
+
   public void setOrganDefault(boolean isOrganDefault) {
-	    this.isOrganDefault = isOrganDefault;
-	  }
+    this.isOrganDefault = isOrganDefault;
+  }
 }

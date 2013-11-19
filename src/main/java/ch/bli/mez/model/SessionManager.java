@@ -19,23 +19,24 @@ public class SessionManager {
 
   private Session session = null;
 
-  private SessionManager(){
+  private SessionManager() {
     configuration = new Configuration().configure();
     properties = configuration.getProperties();
-    serviceRegistry = new ServiceRegistryBuilder().applySettings(properties).buildServiceRegistry();
+    serviceRegistry = new ServiceRegistryBuilder().applySettings(properties)
+        .buildServiceRegistry();
     sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     session = sessionFactory.openSession();
   }
 
-  public static SessionManager getSessionManager(){
-    if (sessionManager == null){
+  public static SessionManager getSessionManager() {
+    if (sessionManager == null) {
       sessionManager = new SessionManager();
     }
-    return sessionManager;       
+    return sessionManager;
   }
 
-  public Session getSession(){
-    if(!session.isOpen()){
+  public Session getSession() {
+    if (!session.isOpen()) {
       session = sessionFactory.openSession();
     }
     return session;

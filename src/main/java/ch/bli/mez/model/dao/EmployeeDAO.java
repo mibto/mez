@@ -14,9 +14,10 @@ import ch.bli.mez.model.SessionManager;
 import ch.bli.mez.util.Keyword;
 
 @SuppressWarnings("unchecked")
-public class EmployeeDAO implements Searchable{
+public class EmployeeDAO implements Searchable {
 
-  public EmployeeDAO() {}
+  public EmployeeDAO() {
+  }
 
   public List<Employee> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
@@ -72,12 +73,14 @@ public class EmployeeDAO implements Searchable{
     Criteria criteria = createCriteria(Keyword.getKeywords(url));
     return criteria.list();
   }
-  
-  private Criteria createCriteria(Map<String, String> keywords){
+
+  private Criteria createCriteria(Map<String, String> keywords) {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(Employee.class);
-    Criterion firstName = Restrictions.like("firstName", keywords.get("name")+"%");
-    Criterion lastName = Restrictions.like("lastName", keywords.get("name")+"%");
+    Criterion firstName = Restrictions.like("firstName", keywords.get("name")
+        + "%");
+    Criterion lastName = Restrictions.like("lastName", keywords.get("name")
+        + "%");
     criteria.add(Restrictions.or(firstName, lastName));
     return criteria;
   }

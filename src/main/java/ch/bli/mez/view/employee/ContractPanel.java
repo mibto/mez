@@ -23,167 +23,171 @@ import javax.swing.Timer;
  */
 public class ContractPanel extends JPanel {
 
-	private static final long serialVersionUID = -4040659975448618036L;
-	
-	private JTextField workquotaTextField;
-	private JTextField startDateTextField;
-	private JTextField endDateTextField;
+  private static final long serialVersionUID = -4040659975448618036L;
 
-	private JLabel messageLabel;
+  private JTextField workquotaTextField;
+  private JTextField startDateTextField;
+  private JTextField endDateTextField;
 
-	private JButton addButton;
+  private JLabel messageLabel;
 
-	private JPanel listPanel;
+  private JButton addButton;
 
-	public ContractPanel() {
+  private JPanel listPanel;
 
-		setLayout(new BorderLayout());
-		
-		// EntryPanel (north)
-		JPanel northPanel = new JPanel();
-		add(new JScrollPane(northPanel), BorderLayout.NORTH);
+  public ContractPanel() {
 
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-		northPanel.add(topPanel);
-		
-		JPanel entryPanel = new JPanel();
-		topPanel.add(entryPanel, BorderLayout.CENTER);
+    setLayout(new BorderLayout());
 
-		JLabel workquotaLabel = new JLabel("Pensum");
-		entryPanel.add(workquotaLabel);
+    // EntryPanel (north)
+    JPanel northPanel = new JPanel();
+    add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
-		workquotaTextField = new JTextField(3);
-		entryPanel.add(workquotaTextField);
+    JPanel topPanel = new JPanel();
+    topPanel.setLayout(new BorderLayout());
+    northPanel.add(topPanel);
 
-		JLabel startDateLabel = new JLabel("Start");
-		entryPanel.add(startDateLabel);
+    JPanel entryPanel = new JPanel();
+    topPanel.add(entryPanel, BorderLayout.CENTER);
 
-		startDateTextField = new JTextField(7);
-		entryPanel.add(startDateTextField);
-		
-		JLabel endDateLabel = new JLabel("Ende");
-		entryPanel.add(endDateLabel);
+    JLabel workquotaLabel = new JLabel("Pensum");
+    entryPanel.add(workquotaLabel);
 
-		endDateTextField = new JTextField(7);
-		entryPanel.add(endDateTextField);
+    workquotaTextField = new JTextField(3);
+    entryPanel.add(workquotaTextField);
 
-		addButton = new JButton("Speichern");
-		entryPanel.add(addButton);
+    JLabel startDateLabel = new JLabel("Start");
+    entryPanel.add(startDateLabel);
 
-		JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(messagePanel, BorderLayout.SOUTH);
+    startDateTextField = new JTextField(7);
+    entryPanel.add(startDateTextField);
 
-		messageLabel = new JLabel(" ");
-		messagePanel.add(messageLabel);
+    JLabel endDateLabel = new JLabel("Ende");
+    entryPanel.add(endDateLabel);
 
-		// ListPanel (center)
-		JPanel centerPanel = new JPanel();
-		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
+    endDateTextField = new JTextField(7);
+    entryPanel.add(endDateTextField);
 
-		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		centerPanel.add((listPanel));
+    addButton = new JButton("Speichern");
+    entryPanel.add(addButton);
 
-		addGuiFeatureListener();
-	}
+    JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    topPanel.add(messagePanel, BorderLayout.SOUTH);
 
-	public void cleanFields() {
-		setWorkquota("");
-		setStartDate("");
-		setEndDate("");
-	}
-	
-	/**
-	 * @param confirmationMessage the confirmation message to be displayed
-	 */
-	public void showConfirmation(String confirmationMessage) {
-		messageLabel.setForeground(new Color(0, 128, 0));
-		messageLabel.setText(confirmationMessage);
-		hideMessage();
-	}
+    messageLabel = new JLabel(" ");
+    messagePanel.add(messageLabel);
 
-	/**
-	 * @param errorMessage the error message to be displayed
-	 */
-	public void showError(String errorMessage) {
-		messageLabel.setForeground(new Color(255, 0, 0));
-		messageLabel.setText(errorMessage);
-		hideMessage();
-	}
-	
-	private void hideMessage(){
-		Timer timer = new Timer(1800, new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				messageLabel.setText(" ");
-			}});
-		timer.setRepeats(false);
-		timer.start();
-	}
+    // ListPanel (center)
+    JPanel centerPanel = new JPanel();
+    add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
-	public void addContractListEntry(ContractListEntry contractListEntry) {
-		listPanel.add(contractListEntry);
-		listPanel.revalidate();
-	}
+    listPanel = new JPanel();
+    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+    centerPanel.add((listPanel));
 
-	public void removeContractListEntry(ContractListEntry contractListEntry) {
-		listPanel.remove(contractListEntry);
-		listPanel.revalidate();
-	}
-	
-	
-	// getter & setter
-	public String getWorkquota() {
-		return workquotaTextField.getText();
-	}
+    addGuiFeatureListener();
+  }
 
-	public void setWorkquota(String workquota) {
-		this.workquotaTextField.setText(workquota);
-	}
+  public void cleanFields() {
+    setWorkquota("");
+    setStartDate("");
+    setEndDate("");
+  }
 
-	public String getStartDate() {
-		return startDateTextField.getText();
-	}
+  /**
+   * @param confirmationMessage
+   *          the confirmation message to be displayed
+   */
+  public void showConfirmation(String confirmationMessage) {
+    messageLabel.setForeground(new Color(0, 128, 0));
+    messageLabel.setText(confirmationMessage);
+    hideMessage();
+  }
 
-	public void setStartDate(String startDate) {
-		this.startDateTextField.setText(startDate);
-	}
+  /**
+   * @param errorMessage
+   *          the error message to be displayed
+   */
+  public void showError(String errorMessage) {
+    messageLabel.setForeground(new Color(255, 0, 0));
+    messageLabel.setText(errorMessage);
+    hideMessage();
+  }
 
-	public String getEndDate() {
-		return endDateTextField.getText();
-	}
+  private void hideMessage() {
+    Timer timer = new Timer(1800, new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        messageLabel.setText(" ");
+      }
+    });
+    timer.setRepeats(false);
+    timer.start();
+  }
 
-	public void setEndDate(String endDate) {
-		this.endDateTextField.setText(endDate);;
-	}
+  public void addContractListEntry(ContractListEntry contractListEntry) {
+    listPanel.add(contractListEntry);
+    listPanel.revalidate();
+  }
 
-	// setListeners
-	public void setSaveListener(ActionListener actionListener) {
-		addButton.addActionListener(actionListener);
-	}
+  public void removeContractListEntry(ContractListEntry contractListEntry) {
+    listPanel.remove(contractListEntry);
+    listPanel.revalidate();
+  }
 
-	
-	// internal methods
-	private void addGuiFeatureListener() {
-		addButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cleanFields();
-			}
-		});
-		KeyListener enterKeyListener = new KeyListener() {
-			public void keyTyped(KeyEvent e) {
-			}
-			public void keyReleased(KeyEvent e) {
-			}
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					addButton.doClick();
-				}
-			}
-		};
-		workquotaTextField.addKeyListener(enterKeyListener);
-		startDateTextField.addKeyListener(enterKeyListener);
-		endDateTextField.addKeyListener(enterKeyListener);
-	}
+  // getter & setter
+  public String getWorkquota() {
+    return workquotaTextField.getText();
+  }
+
+  public void setWorkquota(String workquota) {
+    this.workquotaTextField.setText(workquota);
+  }
+
+  public String getStartDate() {
+    return startDateTextField.getText();
+  }
+
+  public void setStartDate(String startDate) {
+    this.startDateTextField.setText(startDate);
+  }
+
+  public String getEndDate() {
+    return endDateTextField.getText();
+  }
+
+  public void setEndDate(String endDate) {
+    this.endDateTextField.setText(endDate);
+    ;
+  }
+
+  // setListeners
+  public void setSaveListener(ActionListener actionListener) {
+    addButton.addActionListener(actionListener);
+  }
+
+  // internal methods
+  private void addGuiFeatureListener() {
+    addButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        cleanFields();
+      }
+    });
+    KeyListener enterKeyListener = new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+      }
+
+      public void keyReleased(KeyEvent e) {
+      }
+
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          addButton.doClick();
+        }
+      }
+    };
+    workquotaTextField.addKeyListener(enterKeyListener);
+    startDateTextField.addKeyListener(enterKeyListener);
+    endDateTextField.addKeyListener(enterKeyListener);
+  }
 
 }

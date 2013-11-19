@@ -13,13 +13,15 @@ import ch.bli.mez.model.SessionManager;
 @SuppressWarnings("unchecked")
 public class PositionDAO {
 
-  public PositionDAO() {}
+  public PositionDAO() {
+  }
 
   public List<Position> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
-        "FROM " + Position.class.getName() + " AS p ORDER BY p.isActive DESC").list();
+        "FROM " + Position.class.getName() + " AS p ORDER BY p.isActive DESC")
+        .list();
     tx.commit();
     return positions;
   }
@@ -43,11 +45,12 @@ public class PositionDAO {
     tx.commit();
     return position;
   }
-  
+
   public Position getPositionByPositionName(String positionName) {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    Position position = (Position) session.createQuery("FROM " + Position.class.getName() + " WHERE positionName = " + positionName);
+    Position position = (Position) session.createQuery("FROM "
+        + Position.class.getName() + " WHERE positionName = " + positionName);
     tx.commit();
     return position;
   }
@@ -72,16 +75,17 @@ public class PositionDAO {
     }
     tx.commit();
   }
-  
+
   public List<Position> getOrganPositions() {
-      Session session = SessionManager.getSessionManager().getSession();
-	    Transaction tx = session.beginTransaction();
-	    List<Position> organPositions = session.createQuery(
-	        "from " + Position.class.getName() + " p where p.organDefault = true").list();
-	    tx.commit();
-	    return organPositions;
-	  }
-  
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<Position> organPositions = session.createQuery(
+        "from " + Position.class.getName() + " p where p.organDefault = true")
+        .list();
+    tx.commit();
+    return organPositions;
+  }
+
   public List<Position> getActivePositions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
@@ -90,7 +94,7 @@ public class PositionDAO {
     tx.commit();
     return positions;
   }
-  
+
   public List<Position> getInactivePositions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
@@ -105,8 +109,8 @@ public class PositionDAO {
     Criteria criteria = session.createCriteria(Position.class);
     criteria.add(Restrictions.eq("code", code));
     Position position = (Position) criteria.list().get(0);
-    if(position != null){
-    return position;
+    if (position != null) {
+      return position;
     } else {
       return null;
     }

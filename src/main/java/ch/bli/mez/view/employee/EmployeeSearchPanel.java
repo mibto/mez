@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -17,44 +18,44 @@ import javax.swing.JTextField;
  */
 public class EmployeeSearchPanel extends JPanel {
 
-	private static final long serialVersionUID = 5735685030723299266L;
-	private JTextField txtSearch;
+  private static final long serialVersionUID = 5735685030723299266L;
+  private JTextField txtSearch;
 
-	public EmployeeSearchPanel() {
-		txtSearch = new JTextField();
-		initializePanel();
-	}
+  public EmployeeSearchPanel() {
+    txtSearch = new JTextField();
+    initializePanel();
+  }
 
-	private void initializePanel() {
-		JPanel panel = new JPanel();
-		initializeTextField();
-		panel.add(txtSearch);
-		this.setLayout(new BorderLayout());
-		this.add(panel, BorderLayout.WEST);
-	}
+  private void initializePanel() {
+    JPanel panel = new JPanel();
+    initializeTextField();
+    panel.add(txtSearch);
+    this.setLayout(new BorderLayout());
+    this.add(panel, BorderLayout.WEST);
+  }
 
-	/**
-	 * GUI interne Listener werden hier hinzugefügt
-	 */
-	public void initializeTextField() {
-		txtSearch.setText("search...");
-		txtSearch.setColumns(10);
-		txtSearch.addFocusListener(new FocusListener() {
+  /**
+   * GUI interne Listener werden hier hinzugefügt
+   */
+  public void initializeTextField() {
+    txtSearch.setText("search...");
+    txtSearch.setColumns(10);
+    txtSearch.addFocusListener(new FocusListener() {
 
-			public void focusLost(FocusEvent e) {
-			}
+      public void focusLost(FocusEvent e) {
+      }
 
-			public void focusGained(FocusEvent e) {
-				txtSearch.setText(null);
-			}
-		});
-	}
-	
-	public String getSearchText(){
-	  return txtSearch.getText();
-	}
-	
- public void setKeyListener(KeyListener keyListener){
-   txtSearch.addKeyListener(keyListener);
- }
+      public void focusGained(FocusEvent e) {
+        txtSearch.setText(null);
+      }
+    });
+  }
+
+  public String getSearchText() {
+    return txtSearch.getText();
+  }
+
+  public void setKeyListener(KeyListener keyListener) {
+    txtSearch.addKeyListener(keyListener);
+  }
 }

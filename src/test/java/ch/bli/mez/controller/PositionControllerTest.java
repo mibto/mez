@@ -1,6 +1,13 @@
 package ch.bli.mez.controller;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,42 +28,42 @@ import ch.bli.mez.view.management.PositionListEntry;
 @RunWith(MockitoJUnitRunner.class)
 public class PositionControllerTest {
   private PositionController instance;
-  
+
   @Mock
   static Position position;
-  
+
   @Mock
   static PositionDAO positionModel;
-  
+
   @Mock
   static PositionListEntry positionListEntry;
-  
+
   @Before
-  public void setUp(){
+  public void setUp() {
     instance = new PositionController();
     MockitoAnnotations.initMocks(this);
     instance.setModel(positionModel);
   }
-  
+
   @After
-  public void tearDown(){
+  public void tearDown() {
     instance = null;
     position = null;
     positionModel = null;
   }
-  
+
   @Test
-  public void updatePostitionTest(){
+  public void updatePostitionTest() {
     // Case 1: existing Position changes, valid
     when(positionListEntry.validateFields()).thenReturn(true);
     when(positionListEntry.getPositionName()).thenReturn("PositionName");
     when(positionListEntry.getComment()).thenReturn("");
     when(positionListEntry.getCode()).thenReturn("A4");
-    
+
     instance.updatePosition(position, positionListEntry, false);
-    
+
     InOrder inOrder = inOrder(position, positionListEntry, positionModel);
-    
+
     inOrder.verify(positionListEntry).validateFields();
     inOrder.verify(positionListEntry).getPositionName();
     inOrder.verify(position).setPositionName("PositionName");
@@ -65,24 +72,24 @@ public class PositionControllerTest {
     inOrder.verify(positionListEntry).getCode();
     inOrder.verify(position).setCode("A4");
     inOrder.verify(positionModel).updatePosition(position);
-    
+
     // Case 2: new Position which is the same for all organs, valid
     reset(position, positionListEntry, positionModel);
-    
+
     MissionDAO missionModel = Mockito.mock(MissionDAO.class);
     PositionController mySpy = spy(instance);
-    
+
     when(positionListEntry.validateFields()).thenReturn(true);
     when(positionListEntry.getPositionName()).thenReturn("PositionName");
     when(positionListEntry.getComment()).thenReturn("");
     when(positionListEntry.getCode()).thenReturn("A4");
     when(positionListEntry.getSelectedMission()).thenReturn("0");
     when(mySpy.makePosition()).thenReturn(position);
-    
+
     mySpy.updatePosition(position, positionListEntry, true);
-    
+
     inOrder = inOrder(position, positionListEntry, positionModel, mySpy);
-    
+
     inOrder.verify(positionListEntry).validateFields();
     inOrder.verify(mySpy).makePosition();
     inOrder.verify(positionListEntry).getPositionName();
@@ -96,21 +103,21 @@ public class PositionControllerTest {
     inOrder.verify(missionModel).getOrganMissions();
     inOrder.verify(position).addMissions(anyListOf(Mission.class));
     inOrder.verify(positionModel).updatePosition(position);
-    
+
     // Case 3: new Position which is not on missionOrgan, valid
     reset(position, positionListEntry, positionModel, missionModel, mySpy);
-    
+
     when(positionListEntry.validateFields()).thenReturn(true);
     when(positionListEntry.getPositionName()).thenReturn("PositionName");
     when(positionListEntry.getComment()).thenReturn("");
     when(positionListEntry.getCode()).thenReturn("A4");
     when(positionListEntry.getSelectedMission()).thenReturn(1);
     when(mySpy.makePosition()).thenReturn(position);
-    
+
     mySpy.updatePosition(position, positionListEntry, true);
-    
+
     inOrder = inOrder(position, positionListEntry, positionModel, mySpy);
-    
+
     inOrder.verify(positionListEntry).validateFields();
     inOrder.verify(mySpy).makePosition();
     inOrder.verify(positionListEntry).getPositionName();

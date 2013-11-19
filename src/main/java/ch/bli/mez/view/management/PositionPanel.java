@@ -21,194 +21,194 @@ import javax.swing.Timer;
 
 public class PositionPanel extends JPanel {
 
-	private static final long serialVersionUID = -8686804124961218430L;
+  private static final long serialVersionUID = -8686804124961218430L;
 
-	private JComboBox<missionComboBoxItem> missionComboBox;
+  private JComboBox<missionComboBoxItem> missionComboBox;
 
-	private JTextField codeTextField;
-	private JTextField nameTextField;
-	private JTextField commentTextField;
+  private JTextField codeTextField;
+  private JTextField nameTextField;
+  private JTextField commentTextField;
 
-	private JButton saveButton;
+  private JButton saveButton;
 
-	private JLabel messageLabel;
+  private JLabel messageLabel;
 
-	private JPanel listPanel;
+  private JPanel listPanel;
 
-	public PositionPanel() {
+  public PositionPanel() {
 
-		setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-		// EntryPanel (north)
-		JPanel northPanel = new JPanel();
-		add(new JScrollPane(northPanel), BorderLayout.NORTH);
+    // EntryPanel (north)
+    JPanel northPanel = new JPanel();
+    add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
-		JPanel topPanel = new JPanel();
-		topPanel.setLayout(new BorderLayout());
-		northPanel.add(topPanel);
+    JPanel topPanel = new JPanel();
+    topPanel.setLayout(new BorderLayout());
+    northPanel.add(topPanel);
 
-		JPanel missionChooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(missionChooserPanel, BorderLayout.NORTH);
-		
-		JLabel missionLabel = new JLabel("Auftrag");
-		missionChooserPanel.add(missionLabel);
+    JPanel missionChooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    topPanel.add(missionChooserPanel, BorderLayout.NORTH);
 
-		missionComboBox = new JComboBox<missionComboBoxItem>();
-		missionChooserPanel.add(missionComboBox);
-		
-		JPanel fieldsPanel = new JPanel();
-		topPanel.add(fieldsPanel, BorderLayout.CENTER);
+    JLabel missionLabel = new JLabel("Auftrag");
+    missionChooserPanel.add(missionLabel);
 
-		JLabel numberLabel = new JLabel("Position");
-		fieldsPanel.add(numberLabel);
+    missionComboBox = new JComboBox<missionComboBoxItem>();
+    missionChooserPanel.add(missionComboBox);
 
-		codeTextField = new JTextField();
-		codeTextField.setColumns(4);
-		fieldsPanel.add(codeTextField);
+    JPanel fieldsPanel = new JPanel();
+    topPanel.add(fieldsPanel, BorderLayout.CENTER);
 
-		JLabel nameLabel = new JLabel("Name");
-		fieldsPanel.add(nameLabel);
+    JLabel numberLabel = new JLabel("Position");
+    fieldsPanel.add(numberLabel);
 
-		nameTextField = new JTextField();
-		nameTextField.setColumns(10);
-		fieldsPanel.add(nameTextField);
+    codeTextField = new JTextField();
+    codeTextField.setColumns(4);
+    fieldsPanel.add(codeTextField);
 
-		JLabel commentLabel = new JLabel("Kommentar");
-		fieldsPanel.add(commentLabel);
+    JLabel nameLabel = new JLabel("Name");
+    fieldsPanel.add(nameLabel);
 
-		commentTextField = new JTextField();
-		commentTextField.setColumns(25);
-		fieldsPanel.add(commentTextField);
+    nameTextField = new JTextField();
+    nameTextField.setColumns(10);
+    fieldsPanel.add(nameTextField);
 
-		saveButton = new JButton("Speichern");
-		fieldsPanel.add(saveButton);
+    JLabel commentLabel = new JLabel("Kommentar");
+    fieldsPanel.add(commentLabel);
 
-		JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		topPanel.add(messagePanel, BorderLayout.SOUTH);
+    commentTextField = new JTextField();
+    commentTextField.setColumns(25);
+    fieldsPanel.add(commentTextField);
 
-		messageLabel = new JLabel(" ");
-		messagePanel.add(messageLabel);
+    saveButton = new JButton("Speichern");
+    fieldsPanel.add(saveButton);
 
-		// ListPanel (center)
-		JPanel centerPanel = new JPanel();
-		add(new JScrollPane(centerPanel), BorderLayout.CENTER);
+    JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    topPanel.add(messagePanel, BorderLayout.SOUTH);
 
-		listPanel = new JPanel();
-		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-		centerPanel.add((listPanel));
+    messageLabel = new JLabel(" ");
+    messagePanel.add(messageLabel);
 
-		addGuiFeatureListener();
-	}
+    // ListPanel (center)
+    JPanel centerPanel = new JPanel();
+    add(new JScrollPane(centerPanel), BorderLayout.CENTER);
 
-	public void showConfirmation(String name) {
-		messageLabel.setForeground(new Color(0, 128, 0));
-		messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
-		hideMessage();
-	}
+    listPanel = new JPanel();
+    listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
+    centerPanel.add((listPanel));
 
-	public void showNameError() {
-		messageLabel.setForeground(new Color(255, 0, 0));
-		messageLabel.setText("Name darf nicht leer sein");
-		hideMessage();
-	}
+    addGuiFeatureListener();
+  }
 
-	private void hideMessage() {
-		Timer timer = new Timer(1800, new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				messageLabel.setText(" ");
-			}
-		});
-		timer.setRepeats(false);
-		timer.start();
-	}
+  public void showConfirmation(String name) {
+    messageLabel.setForeground(new Color(0, 128, 0));
+    messageLabel.setText(name + " wurde zur Liste hinzugefügt!");
+    hideMessage();
+  }
 
-	public void setSaveButtonListener(ActionListener actionListener) {
-		saveButton.addActionListener(actionListener);
-	}
+  public void showNameError() {
+    messageLabel.setForeground(new Color(255, 0, 0));
+    messageLabel.setText("Name darf nicht leer sein");
+    hideMessage();
+  }
 
-	public String getCode() {
-		return codeTextField.getText();
-	}
+  private void hideMessage() {
+    Timer timer = new Timer(1800, new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        messageLabel.setText(" ");
+      }
+    });
+    timer.setRepeats(false);
+    timer.start();
+  }
 
-	public String getPositionName() {
-		return nameTextField.getText();
-	}
+  public void setSaveButtonListener(ActionListener actionListener) {
+    saveButton.addActionListener(actionListener);
+  }
 
-	public String getComment() {
-		return commentTextField.getText();
-	}
+  public String getCode() {
+    return codeTextField.getText();
+  }
 
-	public void setComboBoxItems(HashMap<Integer, String> missionList) {
-		missionComboBox.removeAllItems();
-		for (Entry<Integer, String> entry : missionList.entrySet()) {
-			
-			missionComboBox.addItem(new missionComboBoxItem(entry.getKey(), entry.getValue()));
-		}
-		missionComboBox.setSelectedIndex(0);
-	}
+  public String getPositionName() {
+    return nameTextField.getText();
+  }
 
-	public Integer getSelectedMission() {
-		return ((missionComboBoxItem) missionComboBox.getSelectedItem())
-				.getId();
-	}
-	
-	public void addPositionListEntry(PositionListEntry positionListEntry){
-		listPanel.add(positionListEntry);
-		listPanel.revalidate();
-	}
-	
-	public void removePositionListEntry(PositionListEntry positionListEntry){
-		listPanel.remove(positionListEntry);
-		listPanel.revalidate();
-	}
+  public String getComment() {
+    return commentTextField.getText();
+  }
 
-	private void cleanFields() {
-		codeTextField.setText("");
-		nameTextField.setText("");
-		commentTextField.setText("");
-	}
+  public void setComboBoxItems(HashMap<Integer, String> missionList) {
+    missionComboBox.removeAllItems();
+    for (Entry<Integer, String> entry : missionList.entrySet()) {
 
-	private void addGuiFeatureListener() {
-		saveButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cleanFields();
-			}
-		});
-		KeyListener enterKeyListener = new KeyListener() {
-			public void keyTyped(KeyEvent e) {
-			}
+      missionComboBox.addItem(new missionComboBoxItem(entry.getKey(), entry
+          .getValue()));
+    }
+    missionComboBox.setSelectedIndex(0);
+  }
 
-			public void keyReleased(KeyEvent e) {
-			}
+  public Integer getSelectedMission() {
+    return ((missionComboBoxItem) missionComboBox.getSelectedItem()).getId();
+  }
 
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					saveButton.doClick();
-				}
-			}
-		};
-		codeTextField.addKeyListener(enterKeyListener);
-		nameTextField.addKeyListener(enterKeyListener);
-		commentTextField.addKeyListener(enterKeyListener);
-	}
+  public void addPositionListEntry(PositionListEntry positionListEntry) {
+    listPanel.add(positionListEntry);
+    listPanel.revalidate();
+  }
 
-	public class missionComboBoxItem {
-		private Integer id;
-		private String name;
+  public void removePositionListEntry(PositionListEntry positionListEntry) {
+    listPanel.remove(positionListEntry);
+    listPanel.revalidate();
+  }
 
-		public missionComboBoxItem(Integer id, String name) {
-			this.id = id;
-			this.name = name;
-		}
+  private void cleanFields() {
+    codeTextField.setText("");
+    nameTextField.setText("");
+    commentTextField.setText("");
+  }
 
-		public Integer getId() {
-			return id;
-		}
+  private void addGuiFeatureListener() {
+    saveButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent arg0) {
+        cleanFields();
+      }
+    });
+    KeyListener enterKeyListener = new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+      }
 
-		@Override
-		public String toString() {
-			return name;
-		}
+      public void keyReleased(KeyEvent e) {
+      }
 
-	}
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          saveButton.doClick();
+        }
+      }
+    };
+    codeTextField.addKeyListener(enterKeyListener);
+    nameTextField.addKeyListener(enterKeyListener);
+    commentTextField.addKeyListener(enterKeyListener);
+  }
+
+  public class missionComboBoxItem {
+    private Integer id;
+    private String name;
+
+    public missionComboBoxItem(Integer id, String name) {
+      this.id = id;
+      this.name = name;
+    }
+
+    public Integer getId() {
+      return id;
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
+
+  }
 }
