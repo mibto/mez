@@ -161,9 +161,14 @@ public class EmployeePanel extends JPanel {
 	}
 	
 	public boolean validateFields(){
-	  if (getPlz().equals("")){
+	  if(getFirstname().equals("")){
+	    showError("Vorname");
 	    return false;
 	  }
+   if(getLastname().equals("")){
+     showError("Nachname");
+     return false;
+   }
 	  return true;
 	}
 	

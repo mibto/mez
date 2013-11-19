@@ -105,7 +105,9 @@ public class EmployeeController {
   public Employee updateEmployee(Employee employee, EmployeePanel form, Boolean newEmployee)
       throws InvalidObjectException {
     if (form.validateFields()) {
-      employee.setPlz(Integer.parseInt(form.getPlz()));
+      if (!form.getPlz().equals("")){
+        employee.setPlz(Integer.parseInt(form.getPlz()));
+      }
       employee.setFirstName(form.getFirstname());
       employee.setLastName(form.getLastname());
       employee.setStreet(form.getStreet());
