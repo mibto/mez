@@ -142,8 +142,7 @@ public class PositionPanel extends JPanel {
     missionComboBox.removeAllItems();
     for (Entry<Integer, String> entry : missionList.entrySet()) {
 
-      missionComboBox.addItem(new missionComboBoxItem(entry.getKey(), entry
-          .getValue()));
+      missionComboBox.addItem(new missionComboBoxItem(entry.getKey(), entry.getValue()));
     }
     missionComboBox.setSelectedIndex(0);
   }

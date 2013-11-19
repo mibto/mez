@@ -40,8 +40,7 @@ public class HolidayController {
     final HolidayListEntry holidayListEntry = new HolidayListEntry();
 
     holidayListEntry.setYear(String.valueOf(holiday.getYear()));
-    holidayListEntry.setPublicHolidays(String.valueOf(holiday
-        .getPublicHolidays()));
+    holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
     holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
 
     setHolidayListEntryActionListeners(holidayListEntry, holiday);
@@ -55,8 +54,7 @@ public class HolidayController {
         int year;
         int publicHolidays;
         int preWorkdays;
-        if (view.getYear().equals("") || view.getPublicHolidays().equals("")
-            || view.getPreWorkdays().equals("")) {
+        if (view.getYear().equals("") || view.getPublicHolidays().equals("") || view.getPreWorkdays().equals("")) {
           view.showError("Die Eingabe ist nicht gültig, es darf kein Feld leer stehen");
           return;
         } else if (view.getYear().length() != 4) {
@@ -79,36 +77,27 @@ public class HolidayController {
         Holiday holiday = new Holiday(year, publicHolidays, preWorkdays);
         model.addHoliday(holiday);
         view.addHolidayListEntry(createHolidayListEntry(holiday));
-        view.showConfirmation("Eintrag für das Jahr " + holiday.getYear()
-            + " eingefügt");
+        view.showConfirmation("Eintrag für das Jahr " + holiday.getYear() + " eingefügt");
       }
     });
   }
 
-  private void setHolidayListEntryActionListeners(
-      final HolidayListEntry holidayListEntry, final Holiday holiday) {
+  private void setHolidayListEntryActionListeners(final HolidayListEntry holidayListEntry, final Holiday holiday) {
     holidayListEntry.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        if (holidayListEntry.getPublicHolidays().equals("")
-            || holidayListEntry.getPreWorkdays().equals("")) {
+        if (holidayListEntry.getPublicHolidays().equals("") || holidayListEntry.getPreWorkdays().equals("")) {
           holidayListEntry.showError();
-          holidayListEntry.setPublicHolidays(String.valueOf(holiday
-              .getPublicHolidays()));
-          holidayListEntry.setPreWorkdays(String.valueOf(holiday
-              .getPreworkdays()));
+          holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+          holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
           return;
         } else {
           try {
-            holiday.setPublicHolidays(Integer.parseInt(holidayListEntry
-                .getPublicHolidays()));
-            holiday.setPreworkdays(Integer.parseInt(holidayListEntry
-                .getPreWorkdays()));
+            holiday.setPublicHolidays(Integer.parseInt(holidayListEntry.getPublicHolidays()));
+            holiday.setPreworkdays(Integer.parseInt(holidayListEntry.getPreWorkdays()));
           } catch (NumberFormatException exception) {
             holidayListEntry.showError();
-            holidayListEntry.setPublicHolidays(String.valueOf(holiday
-                .getPublicHolidays()));
-            holidayListEntry.setPreWorkdays(String.valueOf(holiday
-                .getPreworkdays()));
+            holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+            holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
             return;
           }
         }

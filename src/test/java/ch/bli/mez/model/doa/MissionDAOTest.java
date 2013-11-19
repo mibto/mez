@@ -108,8 +108,7 @@ public class MissionDAOTest {
     mission.setMissionName("KeineOrgel");
     mission.setIsOrgan(false);
     instance.updateMission(mission);
-    assertFalse("Orgelx".equals(instance.getMission(mission.getId())
-        .getMissionName()));
+    assertFalse("Orgelx".equals(instance.getMission(mission.getId()).getMissionName()));
     assertEquals(mission, instance.getMission(mission.getId()));
     instance.deleteMission(mission.getId());
   }
@@ -121,8 +120,7 @@ public class MissionDAOTest {
   public void updateWithoutModificationMission() {
     instance.addMission(mission);
     instance.updateMission(mission);
-    assertTrue("Orgelx".equals(instance.getMission(mission.getId())
-        .getMissionName()));
+    assertTrue("Orgelx".equals(instance.getMission(mission.getId()).getMissionName()));
     assertEquals(mission, instance.getMission(mission.getId()));
     instance.deleteMission(mission.getId());
   }

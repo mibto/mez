@@ -22,8 +22,7 @@ public class EmployeeDAO implements Searchable {
   public List<Employee> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Employee> employees = session.createQuery(
-        "from Employee e where isActive=true order by e.firstName").list();
+    List<Employee> employees = session.createQuery("from Employee e where isActive=true order by e.firstName").list();
     tx.commit();
     return employees;
   }
@@ -77,10 +76,8 @@ public class EmployeeDAO implements Searchable {
   private Criteria createCriteria(Map<String, String> keywords) {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(Employee.class);
-    Criterion firstName = Restrictions.like("firstName", keywords.get("name")
-        + "%");
-    Criterion lastName = Restrictions.like("lastName", keywords.get("name")
-        + "%");
+    Criterion firstName = Restrictions.like("firstName", keywords.get("name") + "%");
+    Criterion lastName = Restrictions.like("lastName", keywords.get("name") + "%");
     criteria.add(Restrictions.or(firstName, lastName));
     return criteria;
   }

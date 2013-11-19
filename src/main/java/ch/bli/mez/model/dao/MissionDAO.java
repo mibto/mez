@@ -19,8 +19,7 @@ public class MissionDAO {
   public List<Mission> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery(
-        "FROM " + Mission.class.getName() + " AS m ORDER BY m.isActive DESC")
+    List<Mission> missions = session.createQuery("FROM " + Mission.class.getName() + " AS m ORDER BY m.isActive DESC")
         .list();
     tx.commit();
     return missions;
@@ -82,8 +81,8 @@ public class MissionDAO {
   public List<Mission> getOrganMissions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> organMissions = session.createQuery(
-        "from " + Mission.class.getName() + " m where m.isOrgan = true").list();
+    List<Mission> organMissions = session.createQuery("from " + Mission.class.getName() + " m where m.isOrgan = true")
+        .list();
     tx.commit();
     return organMissions;
   }
@@ -92,8 +91,7 @@ public class MissionDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Mission> notOrganMissions = session.createQuery(
-        "from " + Mission.class.getName() + " m where m.isOrgan = false")
-        .list();
+        "from " + Mission.class.getName() + " m where m.isOrgan = false").list();
     tx.commit();
     return notOrganMissions;
   }
@@ -101,8 +99,7 @@ public class MissionDAO {
   public List<Mission> getActiveMissions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery(
-        "from " + Mission.class.getName() + " where isActive=true ").list();
+    List<Mission> missions = session.createQuery("from " + Mission.class.getName() + " where isActive=true ").list();
     tx.commit();
     return missions;
   }
@@ -110,8 +107,7 @@ public class MissionDAO {
   public List<Mission> getInactiveMissions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery(
-        "from " + Mission.class.getName() + " where isActive=false ").list();
+    List<Mission> missions = session.createQuery("from " + Mission.class.getName() + " where isActive=false ").list();
     tx.commit();
     return missions;
   }

@@ -20,8 +20,7 @@ public class PositionDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
-        "FROM " + Position.class.getName() + " AS p ORDER BY p.isActive DESC")
-        .list();
+        "FROM " + Position.class.getName() + " AS p ORDER BY p.isActive DESC").list();
     tx.commit();
     return positions;
   }
@@ -49,8 +48,8 @@ public class PositionDAO {
   public Position getPositionByPositionName(String positionName) {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    Position position = (Position) session.createQuery("FROM "
-        + Position.class.getName() + " WHERE positionName = " + positionName);
+    Position position = (Position) session.createQuery("FROM " + Position.class.getName() + " WHERE positionName = "
+        + positionName);
     tx.commit();
     return position;
   }
@@ -80,8 +79,7 @@ public class PositionDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Position> organPositions = session.createQuery(
-        "from " + Position.class.getName() + " p where p.organDefault = true")
-        .list();
+        "from " + Position.class.getName() + " p where p.organDefault = true").list();
     tx.commit();
     return organPositions;
   }
@@ -89,8 +87,7 @@ public class PositionDAO {
   public List<Position> getActivePositions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Position> positions = session.createQuery(
-        "from " + Position.class.getName() + " where isActive=true ").list();
+    List<Position> positions = session.createQuery("from " + Position.class.getName() + " where isActive=true ").list();
     tx.commit();
     return positions;
   }
@@ -98,8 +95,8 @@ public class PositionDAO {
   public List<Position> getInactivePositions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Position> positions = session.createQuery(
-        "from " + Position.class.getName() + " where isActive=false ").list();
+    List<Position> positions = session.createQuery("from " + Position.class.getName() + " where isActive=false ")
+        .list();
     tx.commit();
     return positions;
   }

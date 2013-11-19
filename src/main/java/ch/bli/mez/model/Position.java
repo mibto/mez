@@ -33,8 +33,7 @@ public class Position {
   public Position() {
   }
 
-  public Position(String code, String positionName, String comment,
-      boolean isOrganDefault) {
+  public Position(String code, String positionName, String comment, boolean isOrganDefault) {
     this.positionName = positionName;
     this.comment = comment;
     this.isOrganDefault = isOrganDefault;

@@ -88,8 +88,7 @@ public class EmployeeControllerTest {
 
   @Test
   public void updateHolidayTest() throws InvalidObjectException {
-    EmployeeHolidayListEntry holidayPanel = Mockito
-        .mock(EmployeeHolidayListEntry.class);
+    EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
     Holiday holiday = Mockito.mock(Holiday.class);
     HolidayDAO holidayModel = Mockito.mock(HolidayDAO.class);
 
@@ -141,8 +140,7 @@ public class EmployeeControllerTest {
 
   @Test(expected = WantedButNotInvoked.class)
   public void updateInvalidHolidayTest() throws InvalidObjectException {
-    EmployeeHolidayListEntry holidayPanel = Mockito
-        .mock(EmployeeHolidayListEntry.class);
+    EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
     Holiday holiday = Mockito.mock(Holiday.class);
 
     when(holidayPanel.validateFields()).thenReturn(false);

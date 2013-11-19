@@ -37,20 +37,17 @@ public class MainController {
       public void stateChanged(ChangeEvent e) {
         // Für andere Panels das selbe. Zeit erfassen noch besprechen wann die
         // Liste geladen werden soll.
-        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0
-            && timeController == null) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0 && timeController == null) {
           timeController = new TimeController();
           mainView.setTimePanel(timeController.getView());
         } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
           timeController.update();
         }
-        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1
-            && employeeController == null) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1 && employeeController == null) {
           employeeController = new EmployeeController();
           mainView.setEmployeePanel(employeeController.getView());
         }
-        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 3
-            && managementController == null) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 3 && managementController == null) {
           managementController = new ManagementController();
           mainView.setManagementPanel(managementController.getView());
         }

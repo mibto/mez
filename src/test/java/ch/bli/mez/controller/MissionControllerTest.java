@@ -139,8 +139,7 @@ public class MissionControllerTest {
     MissionController mySpy = spy(instance);
     when(mySpy.makeMission()).thenReturn(mission);
 
-    inOrder = inOrder(missionListEntry, mission, missionModel, positionModel,
-        mySpy);
+    inOrder = inOrder(missionListEntry, mission, missionModel, positionModel, mySpy);
 
     mySpy.updateMission(mission, missionListEntry, true);
 

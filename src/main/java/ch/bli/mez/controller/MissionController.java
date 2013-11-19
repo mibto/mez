@@ -56,8 +56,7 @@ public class MissionController {
     view.setSaveMissionListener(new ActionListener() {
       public void actionPerformed(ActionEvent arg0) {
         if (!view.getMissionName().equals("")) {
-          Mission mission = new Mission(view.getMissionName(), view
-              .getComment(), view.getIsOrgan());
+          Mission mission = new Mission(view.getMissionName(), view.getComment(), view.getIsOrgan());
           if (view.getIsOrgan()) {
             List<Position> organPositions = positionModel.getOrganPositions();
             mission.addPositions(organPositions);
@@ -76,8 +75,7 @@ public class MissionController {
     model.addMission(mission);
   }
 
-  public void updateMission(Mission mission, MissionListEntry form,
-      boolean isNewMission) {
+  public void updateMission(Mission mission, MissionListEntry form, boolean isNewMission) {
     if (form.validateFields(mission.getMissionName())) {
       if (isNewMission) {
         mission = makeMission();
@@ -110,8 +108,7 @@ public class MissionController {
   }
 
   private MissionListEntry createMissionListEntry(final Mission mission) {
-    final MissionListEntry missionListEntry = new MissionListEntry(
-        mission.getIsActive());
+    final MissionListEntry missionListEntry = new MissionListEntry(mission.getIsActive());
 
     missionListEntry.setMissionName(mission.getMissionName());
     missionListEntry.setComment(mission.getComment());
@@ -122,8 +119,7 @@ public class MissionController {
     return missionListEntry;
   }
 
-  private void setMissionListEntryActionListeners(
-      final MissionListEntry missionListEntry, final Mission mission) {
+  private void setMissionListEntryActionListeners(final MissionListEntry missionListEntry, final Mission mission) {
 
     missionListEntry.setSaveMissionEntryListListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {

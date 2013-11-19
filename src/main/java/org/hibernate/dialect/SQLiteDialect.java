@@ -45,22 +45,16 @@ public class SQLiteDialect extends Dialect {
     registerColumnType(Types.BOOLEAN, "boolean");
 
     // registerFunction( "abs", new StandardSQLFunction("abs") );
-    registerFunction("concat", new VarArgsSQLFunction(
-        StandardBasicTypes.STRING, "", "||", ""));
+    registerFunction("concat", new VarArgsSQLFunction(StandardBasicTypes.STRING, "", "||", ""));
     // registerFunction( "length", new StandardSQLFunction("length",
     // StandardBasicTypes.LONG) );
     // registerFunction( "lower", new StandardSQLFunction("lower") );
-    registerFunction("mod", new SQLFunctionTemplate(StandardBasicTypes.INTEGER,
-        "?1 % ?2"));
-    registerFunction("quote", new StandardSQLFunction("quote",
-        StandardBasicTypes.STRING));
-    registerFunction("random", new NoArgSQLFunction("random",
-        StandardBasicTypes.INTEGER));
+    registerFunction("mod", new SQLFunctionTemplate(StandardBasicTypes.INTEGER, "?1 % ?2"));
+    registerFunction("quote", new StandardSQLFunction("quote", StandardBasicTypes.STRING));
+    registerFunction("random", new NoArgSQLFunction("random", StandardBasicTypes.INTEGER));
     registerFunction("round", new StandardSQLFunction("round"));
-    registerFunction("substr", new StandardSQLFunction("substr",
-        StandardBasicTypes.STRING));
-    registerFunction("substring", new SQLFunctionTemplate(
-        StandardBasicTypes.STRING, "substr(?1, ?2, ?3)"));
+    registerFunction("substr", new StandardSQLFunction("substr", StandardBasicTypes.STRING));
+    registerFunction("substring", new SQLFunctionTemplate(StandardBasicTypes.STRING, "substr(?1, ?2, ?3)"));
     registerFunction("trim", new AbstractAnsiTrimEmulationFunction() {
       protected SQLFunction resolveBothSpaceTrimFunction() {
         return new SQLFunctionTemplate(StandardBasicTypes.STRING, "trim(?1)");
@@ -79,18 +73,15 @@ public class SQLiteDialect extends Dialect {
       }
 
       protected SQLFunction resolveBothTrimFunction() {
-        return new SQLFunctionTemplate(StandardBasicTypes.STRING,
-            "trim(?1, ?2)");
+        return new SQLFunctionTemplate(StandardBasicTypes.STRING, "trim(?1, ?2)");
       }
 
       protected SQLFunction resolveLeadingTrimFunction() {
-        return new SQLFunctionTemplate(StandardBasicTypes.STRING,
-            "ltrim(?1, ?2)");
+        return new SQLFunctionTemplate(StandardBasicTypes.STRING, "ltrim(?1, ?2)");
       }
 
       protected SQLFunction resolveTrailingTrimFunction() {
-        return new SQLFunctionTemplate(StandardBasicTypes.STRING,
-            "rtrim(?1, ?2)");
+        return new SQLFunctionTemplate(StandardBasicTypes.STRING, "rtrim(?1, ?2)");
       }
     });
     // registerFunction( "upper", new StandardSQLFunction("upper") );
@@ -134,8 +125,8 @@ public class SQLiteDialect extends Dialect {
   }
 
   protected String getLimitString(String query, boolean hasOffset) {
-    return new StringBuffer(query.length() + 20).append(query)
-        .append(hasOffset ? " limit ? offset ?" : " limit ?").toString();
+    return new StringBuffer(query.length() + 20).append(query).append(hasOffset ? " limit ? offset ?" : " limit ?")
+        .toString();
   }
 
   public boolean supportsTemporaryTables() {
@@ -187,20 +178,16 @@ public class SQLiteDialect extends Dialect {
   }
 
   public String getDropForeignKeyString() {
-    throw new UnsupportedOperationException(
-        "No drop foreign key syntax supported by SQLiteDialect");
+    throw new UnsupportedOperationException("No drop foreign key syntax supported by SQLiteDialect");
   }
 
-  public String getAddForeignKeyConstraintString(String constraintName,
-      String[] foreignKey, String referencedTable, String[] primaryKey,
-      boolean referencesPrimaryKey) {
-    throw new UnsupportedOperationException(
-        "No add foreign key syntax supported by SQLiteDialect");
+  public String getAddForeignKeyConstraintString(String constraintName, String[] foreignKey, String referencedTable,
+      String[] primaryKey, boolean referencesPrimaryKey) {
+    throw new UnsupportedOperationException("No add foreign key syntax supported by SQLiteDialect");
   }
 
   public String getAddPrimaryKeyConstraintString(String constraintName) {
-    throw new UnsupportedOperationException(
-        "No add primary key syntax supported by SQLiteDialect");
+    throw new UnsupportedOperationException("No add primary key syntax supported by SQLiteDialect");
   }
 
   public boolean supportsIfExistsBeforeTableName() {

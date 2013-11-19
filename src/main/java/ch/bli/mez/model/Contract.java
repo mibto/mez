@@ -39,8 +39,7 @@ public class Contract {
     this.workquota = workquota;
   }
 
-  public Contract(Employee employee, Calendar startDate, Calendar endDate,
-      Integer workquota) {
+  public Contract(Employee employee, Calendar startDate, Calendar endDate, Integer workquota) {
     this.employee = employee;
     this.startDate = startDate;
     this.endDate = endDate;

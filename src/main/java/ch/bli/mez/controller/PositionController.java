@@ -37,8 +37,7 @@ public class PositionController {
   }
 
   private PositionListEntry createPositionListEntry(final Position position) {
-    final PositionListEntry positionListEntry = new PositionListEntry(
-        position.getIsActive());
+    final PositionListEntry positionListEntry = new PositionListEntry(position.getIsActive());
     if (position.getCode() != null) {
       positionListEntry.setCode(position.getCode());
     }
@@ -56,8 +55,7 @@ public class PositionController {
     return positionListEntry;
   }
 
-  private void setPositionListEntryActionListeners(
-      final PositionListEntry positionListEntry, final Position position) {
+  private void setPositionListEntryActionListeners(final PositionListEntry positionListEntry, final Position position) {
 
     positionListEntry.setSaveButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
@@ -110,18 +108,15 @@ public class PositionController {
           Boolean isOrganDefault = view.getSelectedMission() == 0;
           Position position = null;
           try {
-            position = new Position(view.getCode(), view.getPositionName(),
-                view.getComment(), isOrganDefault);
+            position = new Position(view.getCode(), view.getPositionName(), view.getComment(), isOrganDefault);
           } catch (NumberFormatException e) {
-            position = new Position(null, view.getPositionName(), view
-                .getComment(), isOrganDefault);
+            position = new Position(null, view.getPositionName(), view.getComment(), isOrganDefault);
           } finally {
             if (isOrganDefault) {
               List<Mission> organMissions = missionModel.getOrganMissions();
               position.addMissions(organMissions);
             } else {
-              Mission mission = missionModel.getMission(view
-                  .getSelectedMission());
+              Mission mission = missionModel.getMission(view.getSelectedMission());
               position.addMission(mission);
             }
             model.addPosition(position);
@@ -139,8 +134,7 @@ public class PositionController {
     this.model = positionModel;
   }
 
-  public void updatePosition(Position position,
-      PositionListEntry positionListEntry, boolean b) {
+  public void updatePosition(Position position, PositionListEntry positionListEntry, boolean b) {
     // TODO Auto-generated method stub
   }
 

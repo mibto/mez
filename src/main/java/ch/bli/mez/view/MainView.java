@@ -44,8 +44,7 @@ public class MainView extends JFrame {
 
     // Tab Platzhalter hinzufügen
     tabbedPaneMain.insertTab("Zeiten erfassen", null, new JPanel(), null, 0);
-    tabbedPaneMain.insertTab("Mitarbeiter verwalten", null, new JPanel(), null,
-        1);
+    tabbedPaneMain.insertTab("Mitarbeiter verwalten", null, new JPanel(), null, 1);
     tabbedPaneMain.insertTab("Auswertungen", null, new JPanel(), null, 2);
     tabbedPaneMain.insertTab("Verwaltung", null, new JPanel(), null, 3);
   }

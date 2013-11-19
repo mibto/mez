@@ -237,11 +237,9 @@ public class TimeListEntry extends JPanel {
 
   public Boolean showMessageWarning() {
     Object[] options = { "Ja", "Nein" };
-    int choice = JOptionPane.showOptionDialog(this,
-        "Zeiteintrag wirklich löschen?\n\n Datum: " + parseCalendar(getDate())
-            + "\n Auftrag: " + getMission() + "\n Position: " + getPosition()
-            + "\n Zeit: " + parseMinutesToWorkTime(getWorktime()),
-        "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
+    int choice = JOptionPane.showOptionDialog(this, "Zeiteintrag wirklich löschen?\n\n Datum: "
+        + parseCalendar(getDate()) + "\n Auftrag: " + getMission() + "\n Position: " + getPosition() + "\n Zeit: "
+        + parseMinutesToWorkTime(getWorktime()), "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
         JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 
     if (choice == JOptionPane.YES_OPTION) {
@@ -291,8 +289,8 @@ public class TimeListEntry extends JPanel {
     }
 
     if (worktimeTextField.getText().equals("")
-        || (worktimeTextField.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktimeTextField
-            .getText().matches("[0-9]*")) == false) {
+        || (worktimeTextField.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktimeTextField.getText().matches(
+            "[0-9]*")) == false) {
       showWorktimeError();
       valid = false;
     }
@@ -319,8 +317,7 @@ public class TimeListEntry extends JPanel {
         workminutes = Integer.parseInt(worktime);
       } else if (worktime.matches("[0-9]*[:,.]{1}[0-9]{2}")) {
         String workhours[] = worktime.split("[:,.]");
-        workminutes = Integer.parseInt(workhours[0]) * 60
-            + Integer.parseInt(workhours[1]);
+        workminutes = Integer.parseInt(workhours[0]) * 60 + Integer.parseInt(workhours[1]);
       }
     }
     return workminutes;

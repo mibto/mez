@@ -41,8 +41,7 @@ public class ContractController {
   }
 
   public int getStartYear() {
-    return model.getEmployeeContracts(employee).get(0).getStartDate()
-        .get(Calendar.YEAR);
+    return model.getEmployeeContracts(employee).get(0).getStartDate().get(Calendar.YEAR);
   }
 
   public boolean contractsExists() {
@@ -79,8 +78,7 @@ public class ContractController {
     return simpleDateFormat.format(calendar.getTime());
   }
 
-  private Calendar createCalendarDate(String dateString)
-      throws NumberFormatException {
+  private Calendar createCalendarDate(String dateString) throws NumberFormatException {
     if (dateString.equals("")) {
       return null;
     }
@@ -128,15 +126,13 @@ public class ContractController {
     });
   }
 
-  private void setContractListEntryListeners(
-      final ContractListEntry contractListEntry, final Contract contract) {
+  private void setContractListEntryListeners(final ContractListEntry contractListEntry, final Contract contract) {
     contractListEntry.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int workquota;
         Calendar startDate;
         Calendar endDate;
-        if (contractListEntry.getWorkquota().equals("")
-            || contractListEntry.getStartDate().equals("")) {
+        if (contractListEntry.getWorkquota().equals("") || contractListEntry.getStartDate().equals("")) {
           showErrorContractListEntry(contractListEntry, contract);
           return;
         }
@@ -164,8 +160,7 @@ public class ContractController {
     });
     contractListEntry.setDeleteListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        if (JOptionPane.showConfirmDialog(null,
-            "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
+        if (JOptionPane.showConfirmDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
             JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != 0) {
           return;
         }
@@ -176,8 +171,7 @@ public class ContractController {
     });
   }
 
-  private void showErrorContractListEntry(
-      final ContractListEntry contractListEntry, final Contract contract) {
+  private void showErrorContractListEntry(final ContractListEntry contractListEntry, final Contract contract) {
     contractListEntry.showError();
     contractListEntry.setWorkquota(String.valueOf(contract.getWorkquota()));
     contractListEntry.setStartDate(createStringDate(contract.getStartDate()));

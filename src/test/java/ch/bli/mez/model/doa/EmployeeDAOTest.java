@@ -96,8 +96,7 @@ public class EmployeeDAOTest {
     employee.setPlz(9876);
     employee.setCity("Basel");
     instance.updateEmployee(employee);
-    assertFalse("Hans".equals(instance.getEmployee(employee.getId())
-        .getFirstName()));
+    assertFalse("Hans".equals(instance.getEmployee(employee.getId()).getFirstName()));
     assertEquals(employee, instance.getEmployee(employee.getId()));
     instance.deleteEmployee(employee.getId());
   }
@@ -109,8 +108,7 @@ public class EmployeeDAOTest {
   public void updateWithoutModificationEmployee() {
     instance.addEmployee(employee);
     instance.updateEmployee(employee);
-    assertTrue("Hans".equals(instance.getEmployee(employee.getId())
-        .getFirstName()));
+    assertTrue("Hans".equals(instance.getEmployee(employee.getId()).getFirstName()));
     assertEquals(employee, instance.getEmployee(employee.getId()));
     instance.deleteEmployee(employee.getId());
   }

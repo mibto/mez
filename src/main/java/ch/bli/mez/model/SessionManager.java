@@ -22,8 +22,7 @@ public class SessionManager {
   private SessionManager() {
     configuration = new Configuration().configure();
     properties = configuration.getProperties();
-    serviceRegistry = new ServiceRegistryBuilder().applySettings(properties)
-        .buildServiceRegistry();
+    serviceRegistry = new ServiceRegistryBuilder().applySettings(properties).buildServiceRegistry();
     sessionFactory = configuration.buildSessionFactory(serviceRegistry);
     session = sessionFactory.openSession();
   }

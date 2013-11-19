@@ -18,8 +18,7 @@ public class ContractDAO {
   public List<Contract> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Contract> contracts = session.createQuery(
-        "from Contract c order by c.employee").list();
+    List<Contract> contracts = session.createQuery("from Contract c order by c.employee").list();
     tx.commit();
     return contracts;
   }
@@ -28,8 +27,7 @@ public class ContractDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Contract> contracts = session.createQuery(
-        "from Contract c WHERE c.employee=" + employee.getId()
-            + " order by c.startDate DESC").list();
+        "from Contract c WHERE c.employee=" + employee.getId() + " order by c.startDate DESC").list();
     tx.commit();
     return contracts;
   }

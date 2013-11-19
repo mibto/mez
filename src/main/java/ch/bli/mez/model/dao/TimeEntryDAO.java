@@ -19,8 +19,7 @@ public class TimeEntryDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<TimeEntry> timeEntries = session.createQuery(
-        "FROM TimeEntry WHERE employee_id = " + employee.getId()
-            + " order by date").list();
+        "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date").list();
     tx.commit();
     return timeEntries;
   }

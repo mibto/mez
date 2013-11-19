@@ -80,8 +80,7 @@ public class EmployeePanel extends JPanel {
     centerLeftPanel.add(new JScrollPane(holidayHelpPanel), BorderLayout.CENTER);
 
     holidayContentPanel = new JPanel();
-    holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel,
-        BoxLayout.Y_AXIS));
+    holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel, BoxLayout.Y_AXIS));
     holidayHelpPanel.add(holidayContentPanel);
 
     // ContractPanel (center)
@@ -89,8 +88,7 @@ public class EmployeePanel extends JPanel {
     centerPanel.add(centerRightPanel);
 
     JPanel contractTitlePanel = new JPanel();
-    centerRightPanel.add(new JScrollPane(contractTitlePanel),
-        BorderLayout.NORTH);
+    centerRightPanel.add(new JScrollPane(contractTitlePanel), BorderLayout.NORTH);
 
     JLabel contractTitleLabel = new JLabel("Verträge");
     contractTitlePanel.add(contractTitleLabel);
@@ -102,8 +100,7 @@ public class EmployeePanel extends JPanel {
     centerRightPanel.add(new JScrollPane(contractPanel), BorderLayout.CENTER);
   }
 
-  public void addEmployeeHolidayListEntry(
-      EmployeeHolidayListEntry employeeHolidayListEntry) {
+  public void addEmployeeHolidayListEntry(EmployeeHolidayListEntry employeeHolidayListEntry) {
     holidayContentPanel.add(employeeHolidayListEntry);
   }
 
@@ -157,8 +154,7 @@ public class EmployeePanel extends JPanel {
 
   public void updateTabName() {
     JTabbedPane parent = (JTabbedPane) getParent();
-    parent.setTitleAt(parent.indexOfComponent(this), getFirstname() + " "
-        + getLastname());
+    parent.setTitleAt(parent.indexOfComponent(this), getFirstname() + " " + getLastname());
   }
 
   public boolean validateFields() {
@@ -332,8 +328,7 @@ public class EmployeePanel extends JPanel {
     return entryPanel;
   }
 
-  private void addPersonalComponent(JPanel panel, Component component, int x,
-      int y, int width, double weightx) {
+  private void addPersonalComponent(JPanel panel, Component component, int x, int y, int width, double weightx) {
     GridBagConstraints constraints = new GridBagConstraints();
     constraints.fill = GridBagConstraints.HORIZONTAL;
     constraints.gridx = x;

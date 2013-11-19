@@ -65,8 +65,7 @@ public class TimeController {
 
   private void addTabs(String employeeName) {
     view.removeAllTabs();
-    for (Employee employee : employeeModel.findByKeywords("name="
-        + employeeName)) {
+    for (Employee employee : employeeModel.findByKeywords("name=" + employeeName)) {
       addEmployeeTab(employee);
     }
   }
@@ -79,8 +78,7 @@ public class TimeController {
   }
 
   public void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getFirstName() + " " + employee.getLastName(),
-        createTimePanel(employee));
+    view.addTab(employee.getFirstName() + " " + employee.getLastName(), createTimePanel(employee));
   }
 
   public void update() {
@@ -112,10 +110,8 @@ public class TimeController {
   /*
    * Fügt dem aktiven employee-Panel ein neues Listenelement hinzu
    */
-  private void addAdditionalTimeEntryInList(TimeEntry timeEntry,
-      Employee employee) {
-    view.getSelectedTabComponent().addAdditionalTimeListEntry(
-        createTimeListEntry(timeEntry, employee, false));
+  private void addAdditionalTimeEntryInList(TimeEntry timeEntry, Employee employee) {
+    view.getSelectedTabComponent().addAdditionalTimeListEntry(createTimeListEntry(timeEntry, employee, false));
   }
 
   /*
@@ -129,8 +125,7 @@ public class TimeController {
    * Erstellt ein Panel mit einem Zeiteintrag. false = Listenelement, true = für
    * Kopf
    */
-  private TimeListEntry createTimeListEntry(TimeEntry timeEntry,
-      Employee employee, Boolean isNewTimeEntry) {
+  private TimeListEntry createTimeListEntry(TimeEntry timeEntry, Employee employee, Boolean isNewTimeEntry) {
 
     TimeListEntry timeListEntry = new TimeListEntry();
 
@@ -168,8 +163,7 @@ public class TimeController {
    * Setzt alle Listeners vom Panel "TimeListEntry" (Speicher- und
    * Delete-Button)
    */
-  private void setTimeListEntryActionListeners(
-      final TimeListEntry timeListEntry, final Employee employee,
+  private void setTimeListEntryActionListeners(final TimeListEntry timeListEntry, final Employee employee,
       final Boolean isNewTimeEntry) {
 
     timeListEntry.setSaveTimeEntryListListener(new ActionListener() {
