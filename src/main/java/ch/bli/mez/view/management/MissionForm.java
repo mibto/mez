@@ -17,9 +17,7 @@ public class MissionForm extends JPanel {
 
   private JTextField missionName;
   private JTextField comment;
-
   private JCheckBox isOrgan;
-
   private JButton saveButton;
   private JButton statusButton;
 
@@ -27,6 +25,11 @@ public class MissionForm extends JPanel {
    * Create the panel.
    */
   public MissionForm(boolean isActive) {
+    build();
+    setActive(isActive);
+  }
+  
+  private void build(){
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
     JLabel nameLabel = new JLabel("Auftragsname");
@@ -48,21 +51,23 @@ public class MissionForm extends JPanel {
 
     saveButton = new JButton("Speichern");
     this.add(saveButton);
+    
+    statusButton = new JButton();
+    this.add(statusButton);
 
-    setActive(isActive);
     addGuiFeatureListener();
   }
 
-  public void setActive(boolean status) {
-    if (status) {
+  public void setActive(boolean isActive) {
+    if (isActive) {
       statusButton.setText("Deaktivieren");
     } else {
       statusButton.setText("Aktivieren");
     }
-    missionName.setEnabled(status);
-    comment.setEnabled(status);
-    saveButton.setEnabled(status);
-    isOrgan.setEnabled(status);
+    missionName.setEnabled(isActive);
+    comment.setEnabled(isActive);
+    saveButton.setEnabled(isActive);
+    isOrgan.setEnabled(isActive);
   }
 
   public void cleanFields() {
