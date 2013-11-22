@@ -23,7 +23,7 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.view.management.MissionListEntry;
+import ch.bli.mez.view.management.MissionForm;
 import ch.bli.mez.view.management.MissionPanel;
 
 /**
@@ -46,7 +46,7 @@ public class MissionControllerTest {
   static MissionPanel missionPanel;
 
   @Mock
-  static MissionListEntry missionListEntry;
+  static MissionForm missionForm;
 
   @Mock
   static MissionDAO missionModel;
@@ -62,7 +62,7 @@ public class MissionControllerTest {
   @After
   public void tearDown() throws Exception {
     this.instance = null;
-    missionListEntry = null;
+    missionForm = null;
     missionPanel = null;
     mission = null;
   }
@@ -79,45 +79,45 @@ public class MissionControllerTest {
   @Test
   public void updateMissionTest() {
     // Case 1: valid, existing Organ, stays Organ
-    when(missionListEntry.getMissionName()).thenReturn("Name");
-    when(missionListEntry.getComment()).thenReturn("Kommentar");
-    when(missionListEntry.validateFields("Name")).thenReturn(true);
-    when(missionListEntry.getIsOrgan()).thenReturn(true);
+    when(missionForm.getMissionName()).thenReturn("Name");
+    when(missionForm.getComment()).thenReturn("Kommentar");
+    when(missionForm.validateFields("Name")).thenReturn(true);
+    when(missionForm.getIsOrgan()).thenReturn(true);
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
 
-    instance.updateMission(mission, missionListEntry, false);
+    instance.updateMission(mission, missionForm, false);
 
-    InOrder inOrder = inOrder(missionListEntry, mission, missionModel);
+    InOrder inOrder = inOrder(missionForm, mission, missionModel);
 
-    inOrder.verify(missionListEntry).validateFields("Name");
-    inOrder.verify(missionListEntry).getMissionName();
+    inOrder.verify(missionForm).validateFields("Name");
+    inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
-    inOrder.verify(missionListEntry).getComment();
+    inOrder.verify(missionForm).getComment();
     inOrder.verify(mission).setComment("Kommentar");
-    inOrder.verify(missionListEntry).getIsOrgan();
+    inOrder.verify(missionForm).getIsOrgan();
     inOrder.verify(mission).getIsOrgan();
     inOrder.verify(missionModel).updateMission(mission);
 
     // Case 2: valid, existing Organ turns to nonOrgan mission
-    reset(mission, missionListEntry, missionModel);
+    reset(mission, missionForm, missionModel);
 
-    when(missionListEntry.getMissionName()).thenReturn("Name");
-    when(missionListEntry.getComment()).thenReturn("Kommentar");
-    when(missionListEntry.validateFields("Name")).thenReturn(true);
-    when(missionListEntry.getIsOrgan()).thenReturn(false);
+    when(missionForm.getMissionName()).thenReturn("Name");
+    when(missionForm.getComment()).thenReturn("Kommentar");
+    when(missionForm.validateFields("Name")).thenReturn(true);
+    when(missionForm.getIsOrgan()).thenReturn(false);
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
 
-    instance.updateMission(mission, missionListEntry, false);
-    inOrder = inOrder(missionListEntry, mission, missionModel);
+    instance.updateMission(mission, missionForm, false);
+    inOrder = inOrder(missionForm, mission, missionModel);
 
-    inOrder.verify(missionListEntry).validateFields("Name");
-    inOrder.verify(missionListEntry).getMissionName();
+    inOrder.verify(missionForm).validateFields("Name");
+    inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
-    inOrder.verify(missionListEntry).getComment();
+    inOrder.verify(missionForm).getComment();
     inOrder.verify(mission).setComment("Kommentar");
-    inOrder.verify(missionListEntry).getIsOrgan();
+    inOrder.verify(missionForm).getIsOrgan();
     inOrder.verify(mission).getIsOrgan();
     inOrder.verify(mission).setIsOrgan(false);
     inOrder.verify(mission).clearPositions();
@@ -127,29 +127,29 @@ public class MissionControllerTest {
     PositionDAO positionModel = Mockito.mock(PositionDAO.class);
     instance.setPositionModel(positionModel);
 
-    reset(mission, missionListEntry, missionModel);
+    reset(mission, missionForm, missionModel);
 
-    when(missionListEntry.getIsOrgan()).thenReturn(true);
+    when(missionForm.getIsOrgan()).thenReturn(true);
     when(mission.getIsOrgan()).thenReturn(false);
-    when(missionListEntry.getMissionName()).thenReturn("Name");
-    when(missionListEntry.getComment()).thenReturn("Kommentar");
-    when(missionListEntry.validateFields("")).thenReturn(true);
+    when(missionForm.getMissionName()).thenReturn("Name");
+    when(missionForm.getComment()).thenReturn("Kommentar");
+    when(missionForm.validateFields("")).thenReturn(true);
     when(mission.getMissionName()).thenReturn("");
 
     MissionController mySpy = spy(instance);
     when(mySpy.makeMission()).thenReturn(mission);
 
-    inOrder = inOrder(missionListEntry, mission, missionModel, positionModel, mySpy);
+    inOrder = inOrder(missionForm, mission, missionModel, positionModel, mySpy);
 
-    mySpy.updateMission(mission, missionListEntry, true);
+    mySpy.updateMission(mission, missionForm, true);
 
-    inOrder.verify(missionListEntry).validateFields("");
+    inOrder.verify(missionForm).validateFields("");
     inOrder.verify(mySpy).makeMission();
-    inOrder.verify(missionListEntry).getMissionName();
+    inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
-    inOrder.verify(missionListEntry).getComment();
+    inOrder.verify(missionForm).getComment();
     inOrder.verify(mission).setComment("Kommentar");
-    inOrder.verify(missionListEntry).getIsOrgan();
+    inOrder.verify(missionForm).getIsOrgan();
     inOrder.verify(mission).getIsOrgan();
     inOrder.verify(mission).setIsOrgan(true);
     inOrder.verify(mission).clearPositions();
@@ -158,14 +158,14 @@ public class MissionControllerTest {
     inOrder.verify(missionModel).addMission(mission);
 
     // Case 4: invalid
-    reset(mission, missionListEntry, missionModel);
-    when(missionListEntry.validateFields("")).thenReturn(false);
+    reset(mission, missionForm, missionModel);
+    when(missionForm.validateFields("")).thenReturn(false);
     when(mission.getMissionName()).thenReturn("");
 
-    instance.updateMission(mission, missionListEntry, true);
+    instance.updateMission(mission, missionForm, true);
 
-    verify(missionListEntry).validateFields("");
-    verify(missionListEntry, never()).getMissionName();
+    verify(missionForm).validateFields("");
+    verify(missionForm, never()).getMissionName();
   }
 
   @Test

@@ -7,41 +7,41 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.bli.mez.view.employee.EmployeePanel;
+import ch.bli.mez.view.employee.EmployeeForm;
 
 public class EmployeePanelTest {
 
-  static EmployeePanel employeePanel;
+  static EmployeeForm employeeForm;
 
   @Before
   public void setUp() throws Exception {
-    employeePanel = new EmployeePanel();
+    employeeForm = new EmployeeForm();
   }
 
   @After
   public void tearDown() throws Exception {
-    employeePanel = null;
+    employeeForm = null;
   }
 
   @Test
   public void validateFieldsTest() {
 
     // Case1: Required fields empty, PLZ correct
-    employeePanel.setPlz("8880");
-    assertFalse(employeePanel.validateFields());
+    employeeForm.setPlz("8880");
+    assertFalse(employeeForm.validateFields());
 
     // Case2: Everything correct
-    employeePanel.setFirstname("Vorname");
-    employeePanel.setLastname("Nachname");
-    assertTrue(employeePanel.validateFields());
+    employeeForm.setFirstname("Vorname");
+    employeeForm.setLastname("Nachname");
+    assertTrue(employeeForm.validateFields());
 
     // Case3: Required fields correct, PLZ alphanumeric (fail)
-    employeePanel.setPlz("88u0");
-    assertFalse(employeePanel.validateFields());
+    employeeForm.setPlz("88u0");
+    assertFalse(employeeForm.validateFields());
 
     // Case4: Required fields correct, PLZ empty (correct)
-    employeePanel.setPlz("");
-    assertTrue(employeePanel.validateFields());
+    employeeForm.setPlz("");
+    assertTrue(employeeForm.validateFields());
   }
 
 }

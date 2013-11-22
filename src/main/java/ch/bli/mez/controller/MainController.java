@@ -15,41 +15,39 @@ public class MainController {
 
   private EmployeeController employeeController;
   private ManagementController managementController;
-  private TimeController timeController;
-  private final MainView mainView;
+  private TimeEntryController timeEntryController;
+  private final MainView view;
 
   public MainController() {
-    this.mainView = new MainView();
-    this.managementController = null;
-    this.employeeController = null;
-    this.timeController = null;
+    view = new MainView();
+    managementController = null;
+    employeeController = null;
+    timeEntryController = null;
     setListener();
-    mainView.setTimePanel(new TimeController().getView());
+    view.setTimeEntryPanel(new TimeEntryController().getView());
   }
 
   public void showView() {
-    mainView.pack();
-    mainView.setVisible(true);
+    view.pack();
+    view.setVisible(true);
   }
 
   private void setListener() {
-    mainView.setTabChangeListener(new ChangeListener() {
+    view.setTabChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
-        // Für andere Panels das selbe. Zeit erfassen noch besprechen wann die
-        // Liste geladen werden soll.
-        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0 && timeController == null) {
-          timeController = new TimeController();
-          mainView.setTimePanel(timeController.getView());
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0 && timeEntryController == null) {
+          timeEntryController = new TimeEntryController();
+          view.setTimeEntryPanel(timeEntryController.getView());
         } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
-          timeController.update();
+          timeEntryController.updateTimeView();
         }
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1 && employeeController == null) {
           employeeController = new EmployeeController();
-          mainView.setEmployeePanel(employeeController.getView());
+          view.setEmployeePanel(employeeController.getView());
         }
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 3 && managementController == null) {
           managementController = new ManagementController();
-          mainView.setManagementPanel(managementController.getView());
+          view.setManagementPanel(managementController.getView());
         }
       }
     });

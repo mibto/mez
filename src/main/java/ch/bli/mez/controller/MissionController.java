@@ -8,7 +8,7 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.view.management.MissionListEntry;
+import ch.bli.mez.view.management.MissionForm;
 import ch.bli.mez.view.management.MissionPanel;
 
 /**
@@ -75,7 +75,7 @@ public class MissionController {
     model.addMission(mission);
   }
 
-  public void updateMission(Mission mission, MissionListEntry form, boolean isNewMission) {
+  public void updateMission(Mission mission, MissionForm form, boolean isNewMission) {
     if (form.validateFields(mission.getMissionName())) {
       if (isNewMission) {
         mission = makeMission();
@@ -107,36 +107,36 @@ public class MissionController {
     }
   }
 
-  private MissionListEntry createMissionListEntry(final Mission mission) {
-    final MissionListEntry missionListEntry = new MissionListEntry(mission.getIsActive());
+  private MissionForm createMissionListEntry(final Mission mission) {
+    final MissionForm missionForm = new MissionForm(mission.getIsActive());
 
-    missionListEntry.setMissionName(mission.getMissionName());
-    missionListEntry.setComment(mission.getComment());
-    missionListEntry.setIsOrgan(mission.getIsOrgan());
+    missionForm.setMissionName(mission.getMissionName());
+    missionForm.setComment(mission.getComment());
+    missionForm.setIsOrgan(mission.getIsOrgan());
 
-    setMissionListEntryActionListeners(missionListEntry, mission);
+    setMissionListEntryActionListeners(missionForm, mission);
 
-    return missionListEntry;
+    return missionForm;
   }
 
-  private void setMissionListEntryActionListeners(final MissionListEntry missionListEntry, final Mission mission) {
+  private void setMissionListEntryActionListeners(final MissionForm missionForm, final Mission mission) {
 
-    missionListEntry.setSaveMissionEntryListListener((new ActionListener() {
+    missionForm.setSaveMissionEntryListListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        updateMission(mission, missionListEntry, false);
+        updateMission(mission, missionForm, false);
       }
     }));
 
-    missionListEntry.setStatusMissionEntryListListener((new ActionListener() {
+    missionForm.setStatusMissionEntryListListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (mission.getIsActive()) {
           mission.setIsActive(false);
           model.updateMission(mission);
-          missionListEntry.setActive(false);
+          missionForm.setActive(false);
         } else {
           mission.setIsActive(true);
           model.updateMission(mission);
-          missionListEntry.setActive(true);
+          missionForm.setActive(true);
         }
 
       }

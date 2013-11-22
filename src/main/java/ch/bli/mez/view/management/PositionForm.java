@@ -8,29 +8,31 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class MissionListEntry extends JPanel {
+public class PositionForm extends JPanel {
 
-  private static final long serialVersionUID = -2823140194213618642L;
+  private static final long serialVersionUID = 7585160645657478969L;
 
+  private JTextField codeTextField;
   private JTextField nameTextField;
   private JTextField commentTextField;
-
-  private JCheckBox isOrganCheckBox;
+  private JTextField missionTextField;
 
   private JButton saveButton;
   private JButton statusButton;
+
   private Color backGroundColor;
 
-  /**
-   * Create the panel.
-   */
-  public MissionListEntry(boolean isActive) {
+  public PositionForm(boolean isActive) {
+
     setLayout(new FlowLayout(FlowLayout.LEFT));
+
+    codeTextField = new JTextField();
+    codeTextField.setColumns(4);
+    add(codeTextField);
 
     nameTextField = new JTextField();
     nameTextField.setColumns(10);
@@ -40,13 +42,15 @@ public class MissionListEntry extends JPanel {
     commentTextField.setColumns(25);
     add(commentTextField);
 
-    isOrganCheckBox = new JCheckBox("Orgel-Code");
-    add(isOrganCheckBox);
+    missionTextField = new JTextField();
+    missionTextField.setColumns(10);
+    missionTextField.setEnabled(false);
+    add(missionTextField);
 
     saveButton = new JButton("Speichern");
     add(saveButton);
 
-    statusButton = new JButton("Löschen");
+    statusButton = new JButton();
     add(statusButton);
 
     backGroundColor = getBackground();
@@ -60,10 +64,10 @@ public class MissionListEntry extends JPanel {
     } else {
       statusButton.setText("Aktivieren");
     }
+    codeTextField.setEnabled(status);
     nameTextField.setEnabled(status);
     commentTextField.setEnabled(status);
     saveButton.setEnabled(status);
-    isOrganCheckBox.setEnabled(status);
   }
 
   public void showSuccess() {
@@ -86,25 +90,28 @@ public class MissionListEntry extends JPanel {
     timer.start();
   }
 
-  public boolean validateFields(String missionName) {
-    if (getMissionName().equals("")) {
-      showError();
-      setMissionName(missionName);
-      return false;
-    }
-    showSuccess();
-    return true;
+  // Getter & Setter
+  public void setCode(String code) {
+    codeTextField.setText(code);
   }
 
-  public void setSaveMissionEntryListListener(ActionListener actionListener) {
-    saveButton.addActionListener(actionListener);
+  public String getCode() {
+    return codeTextField.getText();
   }
 
-  public void setStatusMissionEntryListListener(ActionListener actionListener) {
-    statusButton.addActionListener(actionListener);
+  public void setPositionName(String name) {
+    nameTextField.setText(name);
   }
 
-  public String getMissionName() {
+  public void setComment(String comment) {
+    commentTextField.setText(comment);
+  }
+
+  public void setMission(String mission) {
+    missionTextField.setText(mission);
+  }
+
+  public String getPositionName() {
     return nameTextField.getText();
   }
 
@@ -112,20 +119,13 @@ public class MissionListEntry extends JPanel {
     return commentTextField.getText();
   }
 
-  public boolean getIsOrgan() {
-    return isOrganCheckBox.isSelected();
+  // setListeners
+  public void setSaveButtonListener(ActionListener actionListener) {
+    saveButton.addActionListener(actionListener);
   }
 
-  public void setMissionName(String missionName) {
-    this.nameTextField.setText(missionName);
-  }
-
-  public void setComment(String value) {
-    commentTextField.setText(value);
-  }
-
-  public void setIsOrgan(boolean value) {
-    isOrganCheckBox.setSelected(value);
+  public void setStatusButtonListener(ActionListener actionListener) {
+    statusButton.addActionListener(actionListener);
   }
 
   private void addGuiFeatureListener() {
@@ -142,7 +142,17 @@ public class MissionListEntry extends JPanel {
         }
       }
     };
+    codeTextField.addKeyListener(enterKeyListener);
     nameTextField.addKeyListener(enterKeyListener);
     commentTextField.addKeyListener(enterKeyListener);
+  }
+
+  public Boolean validateFields() {
+    return null;
+  }
+
+  public Object getSelectedMission() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

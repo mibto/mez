@@ -2,19 +2,19 @@ package ch.bli.mez.view.employee;
 
 import javax.swing.JTextField;
 
-import ch.bli.mez.view.management.HolidayListEntry;
+import ch.bli.mez.view.management.HolidayForm;
 
 /**
  * @author dave
  * @version 1.0
  */
-public class EmployeeHolidayListEntry extends HolidayListEntry {
+public class EmployeeHolidayForm extends HolidayForm {
 
   private static final long serialVersionUID = -3988811507879670389L;
 
   private JTextField holidaysTextField;
 
-  public EmployeeHolidayListEntry() {
+  public EmployeeHolidayForm() {
 
     holidaysTextField = new JTextField(3);
     super.add(holidaysTextField, 1);

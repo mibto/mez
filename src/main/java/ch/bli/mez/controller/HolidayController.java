@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.HolidayDAO;
-import ch.bli.mez.view.management.HolidayListEntry;
+import ch.bli.mez.view.management.HolidayForm;
 import ch.bli.mez.view.management.HolidayPanel;
 
 /**
@@ -32,20 +32,20 @@ public class HolidayController {
 
   private void addEntrys() {
     for (Holiday holiday : model.getGlobalHoliday()) {
-      view.addHolidayListEntry(createHolidayListEntry(holiday));
+      view.addHolidayListEntry(createHolidayForm(holiday));
     }
   }
 
-  private HolidayListEntry createHolidayListEntry(final Holiday holiday) {
-    final HolidayListEntry holidayListEntry = new HolidayListEntry();
+  private HolidayForm createHolidayForm(final Holiday holiday) {
+    final HolidayForm holidayForm = new HolidayForm();
 
-    holidayListEntry.setYear(String.valueOf(holiday.getYear()));
-    holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-    holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+    holidayForm.setYear(String.valueOf(holiday.getYear()));
+    holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+    holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
 
-    setHolidayListEntryActionListeners(holidayListEntry, holiday);
+    setHolidayFormActionListeners(holidayForm, holiday);
 
-    return holidayListEntry;
+    return holidayForm;
   }
 
   private void setActionListeners() {
@@ -76,33 +76,33 @@ public class HolidayController {
         }
         Holiday holiday = new Holiday(year, publicHolidays, preWorkdays);
         model.addHoliday(holiday);
-        view.addHolidayListEntry(createHolidayListEntry(holiday));
+        view.addHolidayListEntry(createHolidayForm(holiday));
         view.showConfirmation("Eintrag für das Jahr " + holiday.getYear() + " eingefügt");
       }
     });
   }
 
-  private void setHolidayListEntryActionListeners(final HolidayListEntry holidayListEntry, final Holiday holiday) {
-    holidayListEntry.setSaveListener(new ActionListener() {
+  private void setHolidayFormActionListeners(final HolidayForm holidayForm, final Holiday holiday) {
+    holidayForm.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        if (holidayListEntry.getPublicHolidays().equals("") || holidayListEntry.getPreWorkdays().equals("")) {
-          holidayListEntry.showError();
-          holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-          holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+        if (holidayForm.getPublicHolidays().equals("") || holidayForm.getPreWorkdays().equals("")) {
+          holidayForm.showError();
+          holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+          holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
           return;
         } else {
           try {
-            holiday.setPublicHolidays(Integer.parseInt(holidayListEntry.getPublicHolidays()));
-            holiday.setPreworkdays(Integer.parseInt(holidayListEntry.getPreWorkdays()));
+            holiday.setPublicHolidays(Integer.parseInt(holidayForm.getPublicHolidays()));
+            holiday.setPreworkdays(Integer.parseInt(holidayForm.getPreWorkdays()));
           } catch (NumberFormatException exception) {
-            holidayListEntry.showError();
-            holidayListEntry.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-            holidayListEntry.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+            holidayForm.showError();
+            holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+            holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
             return;
           }
         }
         model.updateHoliday(holiday);
-        holidayListEntry.showSuccess();
+        holidayForm.showSuccess();
       }
     });
   }

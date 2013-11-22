@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class TimePanel extends JPanel {
+public class TimeEntryPanel extends JPanel {
   private static final long serialVersionUID = -1084526692534142942L;
 
   private JPanel timeEntryPanel;
@@ -18,7 +18,7 @@ public class TimePanel extends JPanel {
   /**
    * Create the panel.
    */
-  public TimePanel() {
+  public TimeEntryPanel() {
 
     setLayout(new BorderLayout());
 
@@ -47,28 +47,33 @@ public class TimePanel extends JPanel {
   /*
    * Setzt die obere eingabeListe
    */
-  public void addHeadInput(TimeListEntry timeListEntry) {
-    timeListEntry.showAsHeader();
-    timeEntryPanel.add(timeListEntry);
+  public void addHeadInput(TimeEntryForm timeEntryForm) {
+    timeEntryForm.showAsHeader();
+    timeEntryPanel.add(timeEntryForm);
   }
 
-  public void addAdditionalTimeListEntry(TimeListEntry timeListEntry) {
-    timeListEntry.showAsListEntry();
-    listPanel.add(timeListEntry);
+  public void addAdditionalTimeListEntry(TimeEntryForm timeEntryForm) {
+    //timeListEntry.showAsListEntry();
+    listPanel.add(timeEntryForm);
     listPanel.repaint();
   }
 
-  public void removeTimeListEntry(TimeListEntry timeListEntry) {
-    listPanel.remove(timeListEntry);
+  public void removeTimeListEntry(TimeEntryForm timeEntryForm) {
+    listPanel.remove(timeEntryForm);
   }
 
   /*
    * Listet alle Zeiten auf
    */
-  public void addTimeListEntrys(List<TimeListEntry> entrys) {
-    for (TimeListEntry entry : entrys) {
+  public void addTimeListEntrys(List<TimeEntryForm> entrys) {
+    for (TimeEntryForm entry : entrys) {
       addAdditionalTimeListEntry(entry);
     }
+  }
+
+  public void addInputTimeListEntry() {
+    // TODO Auto-generated method stub
+    
   }
   
   

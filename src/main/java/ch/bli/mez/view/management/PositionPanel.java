@@ -151,13 +151,13 @@ public class PositionPanel extends JPanel {
     return ((missionComboBoxItem) missionComboBox.getSelectedItem()).getId();
   }
 
-  public void addPositionListEntry(PositionListEntry positionListEntry) {
-    listPanel.add(positionListEntry);
+  public void addPositionListEntry(PositionForm positionForm) {
+    listPanel.add(positionForm);
     listPanel.revalidate();
   }
 
-  public void removePositionListEntry(PositionListEntry positionListEntry) {
-    listPanel.remove(positionListEntry);
+  public void removePositionListEntry(PositionForm positionForm) {
+    listPanel.remove(positionForm);
     listPanel.revalidate();
   }
 

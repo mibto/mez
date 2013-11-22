@@ -10,10 +10,10 @@ import java.util.List;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.EmployeeDAO;
-import ch.bli.mez.view.employee.EmployeeHolidayListEntry;
-import ch.bli.mez.view.employee.EmployeePanel;
+import ch.bli.mez.view.EmployeeTabbedView;
+import ch.bli.mez.view.employee.EmployeeForm;
+import ch.bli.mez.view.employee.EmployeeHolidayForm;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
-import ch.bli.mez.view.employee.EmployeeView;
 
 /**
  * @author leandrafinger
@@ -21,25 +21,25 @@ import ch.bli.mez.view.employee.EmployeeView;
  * @version 2.0
  */
 public class EmployeeController {
-  private EmployeeView view;
+  private EmployeeTabbedView view;
   private EmployeeDAO model;
   private EmployeeSearchPanel searchPanel;
 
   public EmployeeController() {
-    this.model = new EmployeeDAO();
-    setView(new EmployeeView());
+    model = new EmployeeDAO();
+    setView(new EmployeeTabbedView());
     addTabs();
   }
 
-  public EmployeeView getView() {
+  public EmployeeTabbedView getView() {
     return view;
   }
 
-  public void setView(EmployeeView employeeView) {
-    this.view = employeeView;
-    this.searchPanel = new EmployeeSearchPanel();
-    this.view.setSearchPanel(searchPanel);
+  public void setView(EmployeeTabbedView employeeView) {
+    view = employeeView;
+    searchPanel = new EmployeeSearchPanel();
     searchPanel.setKeyListener(createSearchKeyListener());
+    view.setEmployeeSearchPanel(searchPanel);
   }
 
   private KeyListener createSearchKeyListener() {
@@ -81,65 +81,65 @@ public class EmployeeController {
     view.addTab(employee.getFirstName() + " " + employee.getLastName(), createEmployeePanel(employee, false));
   }
 
-  private EmployeePanel createNewEmployeePanel() {
+  private EmployeeForm createNewEmployeePanel() {
     Employee employee = new Employee();
-    EmployeePanel employeePanel = createEmployeePanel(employee, true);
-    employeePanel.hideStatusButton();
-    return employeePanel;
+    EmployeeForm employeeForm = createEmployeePanel(employee, true);
+    employeeForm.hideStatusButton();
+    return employeeForm;
   }
 
-  private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
-    EmployeePanel employeePanel = new EmployeePanel();
-    setEmployeePanelActionListeners(employee, employeePanel, isNewEmployee);
+  private EmployeeForm createEmployeePanel(Employee employee, Boolean isNewEmployee) {
+    EmployeeForm employeeForm = new EmployeeForm();
+    setEmployeePanelActionListeners(employee, employeeForm, isNewEmployee);
 
-    employeePanel.setFirstname(employee.getFirstName());
-    employeePanel.setLastname(employee.getLastName());
-    employeePanel.setCity(employee.getCity());
+    employeeForm.setFirstname(employee.getFirstName());
+    employeeForm.setLastname(employee.getLastName());
+    employeeForm.setCity(employee.getCity());
     if (employee.getPlz() != 0)
-      employeePanel.setPlz(employee.getPlz().toString());
-    employeePanel.setEmail(employee.getEmail());
-    employeePanel.setHomeNumber(employee.getHomeNumber());
-    employeePanel.setMobileNumber(employee.getMobileNumber());
-    employeePanel.setStreet(employee.getStreet());
+      employeeForm.setPlz(employee.getPlz().toString());
+    employeeForm.setEmail(employee.getEmail());
+    employeeForm.setHomeNumber(employee.getHomeNumber());
+    employeeForm.setMobileNumber(employee.getMobileNumber());
+    employeeForm.setStreet(employee.getStreet());
     if (!isNewEmployee) {
       // employeePanel.addContractPanel(createHolidayContract(employeePanel,
       // employee));
     }
-    return employeePanel;
+    return employeeForm;
   }
 
-  public Employee updateEmployee(Employee employee, EmployeePanel employeePanel) throws InvalidObjectException {
-    if (employeePanel.validateFields()) {
-      if (!employeePanel.getPlz().equals("")) {
-        employee.setPlz(Integer.parseInt(employeePanel.getPlz()));
+  public Employee updateEmployee(Employee employee, EmployeeForm employeeForm) throws InvalidObjectException {
+    if (employeeForm.validateFields()) {
+      if (!employeeForm.getPlz().equals("")) {
+        employee.setPlz(Integer.parseInt(employeeForm.getPlz()));
       }
-      employee.setFirstName(employeePanel.getFirstname());
-      employee.setLastName(employeePanel.getLastname());
-      employee.setStreet(employeePanel.getStreet());
-      employee.setCity(employeePanel.getCity());
-      employee.setMobileNumber(employeePanel.getMobileNumber());
-      employee.setHomeNumber(employeePanel.getHomeNumber());
-      employee.setEmail(employeePanel.getEmail());
+      employee.setFirstName(employeeForm.getFirstname());
+      employee.setLastName(employeeForm.getLastname());
+      employee.setStreet(employeeForm.getStreet());
+      employee.setCity(employeeForm.getCity());
+      employee.setMobileNumber(employeeForm.getMobileNumber());
+      employee.setHomeNumber(employeeForm.getHomeNumber());
+      employee.setEmail(employeeForm.getEmail());
       return employee;
     }
     throw new InvalidObjectException("Employee invalid");
   }
 
-  public void setEmployeePanelActionListeners(final Employee employee, final EmployeePanel employeePanel,
+  public void setEmployeePanelActionListeners(final Employee employee, final EmployeeForm employeeForm,
       final Boolean newEmployee) {
-    employeePanel.setSaveEmployeeListener(createEmployeeSaveListener(employee, employeePanel, newEmployee));
-    employeePanel.setStatusButtonListener(createStatusButtonListener(employee, employeePanel, newEmployee));
+    employeeForm.setSaveEmployeeListener(createEmployeeSaveListener(employee, employeeForm, newEmployee));
+    employeeForm.setStatusButtonListener(createStatusButtonListener(employee, employeeForm, newEmployee));
   }
   
-  private ActionListener createStatusButtonListener(final Employee employee, final EmployeePanel employeePanel, final Boolean newEmployee){
+  private ActionListener createStatusButtonListener(final Employee employee, final EmployeeForm employeeForm, final Boolean newEmployee){
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (employee.getIsActive()) {
           employee.setIsActive(false);
-          employeePanel.setStatusButtonName("Aktivieren");
+          employeeForm.setStatusButtonName("Aktivieren");
         } else {
           employee.setIsActive(true);
-          employeePanel.setStatusButtonName("Deaktivieren");
+          employeeForm.setStatusButtonName("Deaktivieren");
           view.removeTab(view.getSelectedIndex());
         }
         model.updateEmployee(employee);
@@ -147,29 +147,29 @@ public class EmployeeController {
     };
   }
 
-  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeePanel employeePanel, final Boolean newEmployee){
+  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeeForm employeeForm, final Boolean newEmployee){
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (!newEmployee) {
           try {
-            model.updateEmployee(updateEmployee(employee, employeePanel));
-            employeePanel.updateTabName();
+            model.updateEmployee(updateEmployee(employee, employeeForm));
+            employeeForm.updateTabName();
           } catch (InvalidObjectException e) {
             return;
           }
-          employeePanel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
+          employeeForm.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
         } else {
           Employee safeEmployee = new Employee();
           try {
-            safeEmployee = updateEmployee(safeEmployee, employeePanel);
+            safeEmployee = updateEmployee(safeEmployee, employeeForm);
           } catch (InvalidObjectException e) {
             return;
           }
           model.addEmployee(safeEmployee);
           view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
               createEmployeePanel(safeEmployee, false));
-          employeePanel.cleanFields();
-          employeePanel.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
+          employeeForm.cleanFields();
+          employeeForm.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
         }
       }
     };
@@ -232,7 +232,7 @@ public class EmployeeController {
    * listener; }
    */
 
-  public void updateHoliday(EmployeeHolidayListEntry holidayPanel, Employee employee, Holiday holiday) {
+  public void updateHoliday(EmployeeHolidayForm holidayPanel, Employee employee, Holiday holiday) {
     // TODO Auto-generated method stub
 
   }

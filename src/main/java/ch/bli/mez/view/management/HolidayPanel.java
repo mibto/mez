@@ -124,13 +124,13 @@ public class HolidayPanel extends JPanel {
     timer.start();
   }
 
-  public void addHolidayListEntry(HolidayListEntry holidayListEntry) {
-    listPanel.add(holidayListEntry);
+  public void addHolidayListEntry(HolidayForm holidayForm) {
+    listPanel.add(holidayForm);
     listPanel.revalidate();
   }
 
-  public void removeHolidayListEntry(HolidayListEntry holidayListEntry) {
-    listPanel.remove(holidayListEntry);
+  public void removeHolidayListEntry(HolidayForm holidayForm) {
+    listPanel.remove(holidayForm);
     listPanel.revalidate();
   }
 

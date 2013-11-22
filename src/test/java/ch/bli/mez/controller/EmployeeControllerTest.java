@@ -22,9 +22,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.HolidayDAO;
-import ch.bli.mez.view.employee.EmployeeHolidayListEntry;
-import ch.bli.mez.view.employee.EmployeePanel;
-import ch.bli.mez.view.employee.EmployeeView;
+import ch.bli.mez.view.EmployeeTabbedView;
+import ch.bli.mez.view.employee.EmployeeForm;
+import ch.bli.mez.view.employee.EmployeeHolidayForm;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeControllerTest {
@@ -35,7 +35,7 @@ public class EmployeeControllerTest {
   static Employee employee;
 
   @Mock
-  static EmployeeView employeeView;
+  static EmployeeTabbedView employeeView;
 
   @Before
   public void setUp() throws Exception {
@@ -53,42 +53,42 @@ public class EmployeeControllerTest {
 
   @Test
   public void updateEmployeeTest() throws InvalidObjectException {
-    EmployeePanel employeePanel = Mockito.mock(EmployeePanel.class);
+    EmployeeForm employeeForm = Mockito.mock(EmployeeForm.class);
 
     // Form is valid
     // Define return values for getters (View)
-    when(employeePanel.getPlz()).thenReturn("8880");
-    when(employeePanel.getFirstname()).thenReturn("Vorname");
-    when(employeePanel.getLastname()).thenReturn("Nachname");
-    when(employeePanel.validateFields()).thenReturn(true);
+    when(employeeForm.getPlz()).thenReturn("8880");
+    when(employeeForm.getFirstname()).thenReturn("Vorname");
+    when(employeeForm.getLastname()).thenReturn("Nachname");
+    when(employeeForm.validateFields()).thenReturn(true);
 
-    employeeController.updateEmployee(employee, employeePanel);
+    employeeController.updateEmployee(employee, employeeForm);
 
-    InOrder inOrder = inOrder(employeePanel, employee);
+    InOrder inOrder = inOrder(employeeForm, employee);
 
     // Check if setters are called with right return values in right order.
-    inOrder.verify(employeePanel).validateFields();
-    inOrder.verify(employeePanel, atLeastOnce()).getPlz();
+    inOrder.verify(employeeForm).validateFields();
+    inOrder.verify(employeeForm, atLeastOnce()).getPlz();
     inOrder.verify(employee).setPlz(8880);
-    inOrder.verify(employeePanel).getFirstname();
+    inOrder.verify(employeeForm).getFirstname();
     inOrder.verify(employee).setFirstName("Vorname");
-    inOrder.verify(employeePanel).getLastname();
+    inOrder.verify(employeeForm).getLastname();
     inOrder.verify(employee).setLastName("Nachname");
-    inOrder.verify(employeePanel).updateTabName();
+    inOrder.verify(employeeForm).updateTabName();
   }
 
   @Test(expected = InvalidObjectException.class)
   public void updateInvalidEmployeeTest() throws InvalidObjectException {
-    EmployeePanel employeePanel = Mockito.mock(EmployeePanel.class);
+    EmployeeForm employeeForm = Mockito.mock(EmployeeForm.class);
 
-    when(employeePanel.validateFields()).thenReturn(false);
-    employeeController.updateEmployee(employee, employeePanel);
-    verify(employeePanel).validate();
+    when(employeeForm.validateFields()).thenReturn(false);
+    employeeController.updateEmployee(employee, employeeForm);
+    verify(employeeForm).validate();
   }
 
   @Test
   public void updateHolidayTest() throws InvalidObjectException {
-    EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
+    EmployeeHolidayForm holidayPanel = Mockito.mock(EmployeeHolidayForm.class);
     Holiday holiday = Mockito.mock(Holiday.class);
     HolidayDAO holidayModel = Mockito.mock(HolidayDAO.class);
 
@@ -140,7 +140,7 @@ public class EmployeeControllerTest {
 
   @Test(expected = WantedButNotInvoked.class)
   public void updateInvalidHolidayTest() throws InvalidObjectException {
-    EmployeeHolidayListEntry holidayPanel = Mockito.mock(EmployeeHolidayListEntry.class);
+    EmployeeHolidayForm holidayPanel = Mockito.mock(EmployeeHolidayForm.class);
     Holiday holiday = Mockito.mock(Holiday.class);
 
     when(holidayPanel.validateFields()).thenReturn(false);

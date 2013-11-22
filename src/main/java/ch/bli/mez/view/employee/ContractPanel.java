@@ -124,13 +124,13 @@ public class ContractPanel extends JPanel {
     timer.start();
   }
 
-  public void addContractListEntry(ContractListEntry contractListEntry) {
-    listPanel.add(contractListEntry);
+  public void addContractListEntry(ContractForm contractForm) {
+    listPanel.add(contractForm);
     listPanel.revalidate();
   }
 
-  public void removeContractListEntry(ContractListEntry contractListEntry) {
-    listPanel.remove(contractListEntry);
+  public void removeContractListEntry(ContractForm contractForm) {
+    listPanel.remove(contractForm);
     listPanel.revalidate();
   }
 

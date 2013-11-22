@@ -1,51 +1,44 @@
 package ch.bli.mez.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.bli.mez.model.Employee;
-import ch.bli.mez.model.Mission;
-import ch.bli.mez.model.Position;
-import ch.bli.mez.model.TimeEntry;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
+import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
-import ch.bli.mez.view.time.TimeListEntry;
-import ch.bli.mez.view.time.TimePanel;
-import ch.bli.mez.view.time.TimeView;
+import ch.bli.mez.view.time.TimeEntryPanel;
 
-public class TimeController {
+public class TimeEntryController {
 
   private EmployeeDAO employeeModel;
-  private TimeView view;
+  private EmployeeTabbedView view;
   private TimeEntryDAO model;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
   private EmployeeSearchPanel searchPanel;
 
-  public TimeController() {
+  public TimeEntryController() {
     this.model = new TimeEntryDAO();
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
     this.employeeModel = new EmployeeDAO();
-    setView(new TimeView());
+    setView();
     addTabs();
   }
 
-  public TimeView getView() {
+  public EmployeeTabbedView getView() {
     return view;
   }
 
-  public void setView(TimeView timeView) {
-    this.view = timeView;
+  private void setView() {
+    this.view = new EmployeeTabbedView();
     this.searchPanel = new EmployeeSearchPanel();
-    this.view.setSearchPanel(searchPanel);
+    this.view.setEmployeeSearchPanel(searchPanel);
     searchPanel.setKeyListener(createSearchKeyListener());
   }
 
@@ -64,90 +57,89 @@ public class TimeController {
   }
 
   private void addTabs(String employeeName) {
-    view.removeAllTabs();
-    for (Employee employee : employeeModel.findByKeywords("name=" + employeeName)) {
-      addEmployeeTab(employee);
-    }
+    addEmployeeTabs(employeeModel.findByKeywords("name=" + employeeName));
   }
 
   private void addTabs() {
+    addEmployeeTabs(employeeModel.findAll());
+  }
+  
+  private void addEmployeeTabs(List<Employee> employeeList){
     view.removeAllTabs();
-    for (Employee employee : employeeModel.findAll()) {
+    for (Employee employee : employeeList) {
       addEmployeeTab(employee);
     }
   }
 
-  public void addEmployeeTab(Employee employee) {
+  private void addEmployeeTab(Employee employee) {
     view.addTab(employee.getFirstName() + " " + employee.getLastName(), createTimePanel(employee));
   }
 
-  public void update() {
+  public void updateTimeView() {
     addTabs();
   }
+  
+  //-----------------------------------------------------------------------------
 
-  private TimePanel createTimePanel(Employee employee) {
-    TimePanel form = new TimePanel();
-
-    form.addHeadInput(createTimeListEntry(null, employee, true));
-    form.addTimeListEntrys(getExistingTimeEntrys(employee));
-
-    return form;
+  private TimeEntryPanel createTimePanel(Employee employee) {
+    TimeEntryPanel timeEntryPanel = new TimeEntryPanel();
+    timeEntryPanel.addInputTimeListEntry();
+   // addExistingTimeEntries(employee, timePanel);
+    return timeEntryPanel;
   }
-
-  /*
-   * Sucht alle bestehenden Zeiteinträge eines Employees raus. Pro Zeiteintrag
-   * wird ein Panel dafür erstellt. Das ganze wird als Liste an die Form
-   * gegeben, welche diese selbstständig bei sich am auflistet
-   */
-  private List<TimeListEntry> getExistingTimeEntrys(Employee employee) {
-    List<TimeListEntry> timeListEntrys = new ArrayList<TimeListEntry>();
+  
+  /*private void addExistingTimeEntries(final Employee employee, final TimePanel timePanel){
     for (TimeEntry timeEntry : model.findAll(employee)) {
-      timeListEntrys.add(createTimeListEntry(timeEntry, employee, false));
+      timePanel.addTimeListEntry(new TimeListEntry(timeEntry));
     }
-    return timeListEntrys;
-  }
+    
+  }*/
+
+
 
   /*
    * Fügt dem aktiven employee-Panel ein neues Listenelement hinzu
    */
-  private void addAdditionalTimeEntryInList(TimeEntry timeEntry, Employee employee) {
+  /*private void addAdditionalTimeEntryInList(TimeEntry timeEntry, Employee employee) {
     view.getSelectedTabComponent().addAdditionalTimeListEntry(createTimeListEntry(timeEntry, employee, false));
-  }
+  }*/
 
   /*
    * Löscht aus aktiven employee-Panel das Listenelement
-   */
+   *//*
   private void removeTimeEntryInList(TimeListEntry timeListEntry) {
     view.getSelectedTabComponent().removeTimeListEntry(timeListEntry);
-  }
+  }*/
 
   /*
    * Erstellt ein Panel mit einem Zeiteintrag. false = Listenelement, true = für
    * Kopf
    */
-  private TimeListEntry createTimeListEntry(TimeEntry timeEntry, Employee employee, Boolean isNewTimeEntry) {
-
+  /*private TimeListEntry createTimeListEntry(final TimeEntry timeEntry, final Employee employee, Boolean isNewTimeEntry) {
     TimeListEntry timeListEntry = new TimeListEntry();
-
     if (!isNewTimeEntry) {
-      timeListEntry.setId(timeEntry.getId());
-      timeListEntry.setMission(timeEntry.getMission().getMissionName());
-      timeListEntry.setDate(timeEntry.getDate());
-      timeListEntry.setPosition(timeEntry.getPosition().getCode());
-      timeListEntry.setWorktime(timeEntry.getWorktime());
+      updateTimeListEntry(timeListEntry, timeEntry, employee);
     } else {
-      preFillTimeEntry(employee, timeListEntry);
+      preFillTimeListEntry(employee, timeListEntry);
     }
 
     setTimeListEntryActionListeners(timeListEntry, employee, isNewTimeEntry);
 
     return timeListEntry;
   }
+  
+  private void updateTimeListEntry(final TimeListEntry timeListEntry, final TimeEntry timeEntry, final Employee employee){
+    timeListEntry.setId(timeEntry.getId());
+    timeListEntry.setMission(timeEntry.getMission().getMissionName());
+    timeListEntry.setDate(timeEntry.getDate());
+    timeListEntry.setPosition(timeEntry.getPosition().getCode());
+    timeListEntry.setWorktime(timeEntry.getWorktime());
+  }
 
   /*
    * Füllt den Head aus (anhand des letzten Zeiteintrags) Nur die "Zeit" bleibt
    * leer.
-   */
+   *//*
   private void preFillTimeEntry(Employee employee, TimeListEntry form) {
     // TODO setzt die letzte Eingabe beim Eintragen oben
     // Wie am besten letzter Eintrag im TimeEntry finden??
@@ -157,13 +149,13 @@ public class TimeController {
       form.setDate(timeEntries.get(0).getDate());
       form.setPosition(timeEntries.get(0).getPosition().getCode());
     }
-  }
+  }*/
 
   /*
    * Setzt alle Listeners vom Panel "TimeListEntry" (Speicher- und
    * Delete-Button)
    */
-  private void setTimeListEntryActionListeners(final TimeListEntry timeListEntry, final Employee employee,
+  /*private void setTimeListEntryActionListeners(final TimeListEntry timeListEntry, final Employee employee,
       final Boolean isNewTimeEntry) {
 
     timeListEntry.setSaveTimeEntryListListener(new ActionListener() {
@@ -220,7 +212,7 @@ public class TimeController {
    * 
    * Mit GUI Error ausgabe (das erste Validate passiert im Gui)
    */
-  public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeListEntry form) {
+  /*public TimeEntry updateTimeEntry(TimeEntry timeEntry, TimeListEntry form) {
     timeEntry.setDate(form.getDate());
     timeEntry.setWorktime(form.getWorktime());
 
@@ -244,6 +236,6 @@ public class TimeController {
     }
 
     return timeEntry;
-  }
+  }*/
 
 }

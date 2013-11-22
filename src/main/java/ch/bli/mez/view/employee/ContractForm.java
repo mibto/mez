@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class ContractListEntry extends JPanel {
+public class ContractForm extends JPanel {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
@@ -30,7 +30,7 @@ public class ContractListEntry extends JPanel {
   /**
    * Create the panel.
    */
-  public ContractListEntry() {
+  public ContractForm() {
 
     setLayout(new FlowLayout(FlowLayout.LEFT));
 

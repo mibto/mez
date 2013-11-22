@@ -23,7 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class EmployeePanel extends JPanel {
+public class EmployeeForm extends JPanel {
 
   private static final long serialVersionUID = 2105749706100780883L;
 
@@ -45,7 +45,7 @@ public class EmployeePanel extends JPanel {
 
   private JPanel centerRightPanel;
 
-  public EmployeePanel() {
+  public EmployeeForm() {
 
     setLayout(new BorderLayout());
 
@@ -100,8 +100,8 @@ public class EmployeePanel extends JPanel {
     centerRightPanel.add(new JScrollPane(contractPanel), BorderLayout.CENTER);
   }
 
-  public void addEmployeeHolidayListEntry(EmployeeHolidayListEntry employeeHolidayListEntry) {
-    holidayContentPanel.add(employeeHolidayListEntry);
+  public void addEmployeeHolidayListEntry(EmployeeHolidayForm employeeHolidayForm) {
+    holidayContentPanel.add(employeeHolidayForm);
   }
 
   public void removeEmployeeHolidayListEntries() {

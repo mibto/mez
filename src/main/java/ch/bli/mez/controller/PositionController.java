@@ -9,7 +9,7 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.view.management.PositionListEntry;
+import ch.bli.mez.view.management.PositionForm;
 import ch.bli.mez.view.management.PositionPanel;
 
 public class PositionController {
@@ -36,56 +36,56 @@ public class PositionController {
     }
   }
 
-  private PositionListEntry createPositionListEntry(final Position position) {
-    final PositionListEntry positionListEntry = new PositionListEntry(position.getIsActive());
+  private PositionForm createPositionListEntry(final Position position) {
+    final PositionForm positionForm = new PositionForm(position.getIsActive());
     if (position.getCode() != null) {
-      positionListEntry.setCode(position.getCode());
+      positionForm.setCode(position.getCode());
     }
-    positionListEntry.setPositionName(position.getPositionName());
-    positionListEntry.setComment(position.getComment());
+    positionForm.setPositionName(position.getPositionName());
+    positionForm.setComment(position.getComment());
     if (position.isOrganDefault()) {
-      positionListEntry.setMission("Orgeln");
+      positionForm.setMission("Orgeln");
     } else {
       Mission mission = (Mission) position.getMissions().toArray()[0];
-      positionListEntry.setMission(mission.getMissionName());
+      positionForm.setMission(mission.getMissionName());
     }
 
-    setPositionListEntryActionListeners(positionListEntry, position);
+    setPositionListEntryActionListeners(positionForm, position);
 
-    return positionListEntry;
+    return positionForm;
   }
 
-  private void setPositionListEntryActionListeners(final PositionListEntry positionListEntry, final Position position) {
+  private void setPositionListEntryActionListeners(final PositionForm positionForm, final Position position) {
 
-    positionListEntry.setSaveButtonListener((new ActionListener() {
+    positionForm.setSaveButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         try {
-          position.setCode(positionListEntry.getCode());
+          position.setCode(positionForm.getCode());
         } catch (NumberFormatException e) {
         } finally {
-          if (!positionListEntry.getPositionName().equals("")) {
-            position.setPositionName(positionListEntry.getPositionName());
-            positionListEntry.showSuccess();
+          if (!positionForm.getPositionName().equals("")) {
+            position.setPositionName(positionForm.getPositionName());
+            positionForm.showSuccess();
           } else {
-            positionListEntry.showError();
-            positionListEntry.setPositionName(position.getPositionName());
+            positionForm.showError();
+            positionForm.setPositionName(position.getPositionName());
           }
-          position.setComment(positionListEntry.getComment());
+          position.setComment(positionForm.getComment());
           model.updatePosition(position);
         }
       }
     }));
 
-    positionListEntry.setStatusButtonListener((new ActionListener() {
+    positionForm.setStatusButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (position.getIsActive()) {
           position.setIsActive(false);
           model.updatePosition(position);
-          positionListEntry.setActive(false);
+          positionForm.setActive(false);
         } else {
           position.setIsActive(true);
           model.updatePosition(position);
-          positionListEntry.setActive(true);
+          positionForm.setActive(true);
         }
       }
     }));
@@ -134,7 +134,7 @@ public class PositionController {
     this.model = positionModel;
   }
 
-  public void updatePosition(Position position, PositionListEntry positionListEntry, boolean b) {
+  public void updatePosition(Position position, PositionForm positionForm, boolean b) {
     // TODO Auto-generated method stub
   }
 

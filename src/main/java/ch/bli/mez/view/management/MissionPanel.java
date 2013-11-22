@@ -132,13 +132,13 @@ public class MissionPanel extends JPanel {
     commentTextField.setText(value);
   }
 
-  public void addMissionListEntry(MissionListEntry missionListEntry) {
-    listPanel.add(missionListEntry);
+  public void addMissionListEntry(MissionForm missionForm) {
+    listPanel.add(missionForm);
     listPanel.revalidate();
   }
 
-  public void removeMissionListEntry(MissionListEntry missionListEntry) {
-    listPanel.remove(missionListEntry);
+  public void removeMissionListEntry(MissionForm missionForm) {
+    listPanel.remove(missionForm);
     listPanel.revalidate();
   }
 

@@ -4,25 +4,25 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ch.bli.mez.view.management.ManagementView;
+import ch.bli.mez.view.DefaultTabbedView;
 
 public class ManagementController {
-  private ManagementView view;
+  private DefaultTabbedView view;
   private MissionController missionController;
   private PositionController positionController;
   private HolidayController holidayController;
 
   public ManagementController() {
-    this.view = new ManagementView();
-    this.missionController = new MissionController();
-    this.positionController = new PositionController();
-    this.holidayController = new HolidayController();
+    view = new DefaultTabbedView();
+    missionController = new MissionController();
+    positionController = new PositionController();
+    holidayController = new HolidayController();
     // weitere Controller hier instanzieren
     setTabs();
     setListener();
   }
 
-  public ManagementView getView() {
+  public DefaultTabbedView getView() {
     return view;
   }
 

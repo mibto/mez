@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
-import ch.bli.mez.view.employee.ContractListEntry;
+import ch.bli.mez.view.employee.ContractForm;
 import ch.bli.mez.view.employee.ContractPanel;
 
 /**
@@ -59,15 +59,15 @@ public class ContractController {
     }
   }
 
-  private ContractListEntry createContractListEntry(final Contract contract) {
-    final ContractListEntry contractListEntry = new ContractListEntry();
-    contractListEntry.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractListEntry.setStartDate(createStringDate(contract.getStartDate()));
+  private ContractForm createContractListEntry(final Contract contract) {
+    final ContractForm contractForm = new ContractForm();
+    contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
+    contractForm.setStartDate(createStringDate(contract.getStartDate()));
     if (contract.getEndDate() != null) {
-      contractListEntry.setEndDate(createStringDate(contract.getEndDate()));
+      contractForm.setEndDate(createStringDate(contract.getEndDate()));
     }
-    setContractListEntryListeners(contractListEntry, contract);
-    return contractListEntry;
+    setContractListEntryListeners(contractForm, contract);
+    return contractForm;
   }
 
   private String createStringDate(Calendar calendar) {
@@ -126,26 +126,26 @@ public class ContractController {
     });
   }
 
-  private void setContractListEntryListeners(final ContractListEntry contractListEntry, final Contract contract) {
-    contractListEntry.setSaveListener(new ActionListener() {
+  private void setContractListEntryListeners(final ContractForm contractForm, final Contract contract) {
+    contractForm.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int workquota;
         Calendar startDate;
         Calendar endDate;
-        if (contractListEntry.getWorkquota().equals("") || contractListEntry.getStartDate().equals("")) {
-          showErrorContractListEntry(contractListEntry, contract);
+        if (contractForm.getWorkquota().equals("") || contractForm.getStartDate().equals("")) {
+          showErrorContractListEntry(contractForm, contract);
           return;
         }
         try {
-          workquota = Integer.valueOf(contractListEntry.getWorkquota());
-          startDate = createCalendarDate(contractListEntry.getStartDate());
-          endDate = createCalendarDate(contractListEntry.getEndDate());
+          workquota = Integer.valueOf(contractForm.getWorkquota());
+          startDate = createCalendarDate(contractForm.getStartDate());
+          endDate = createCalendarDate(contractForm.getEndDate());
         } catch (NumberFormatException exception) {
-          showErrorContractListEntry(contractListEntry, contract);
+          showErrorContractListEntry(contractForm, contract);
           return;
         }
         if (workquota < 0 || workquota > 100) {
-          showErrorContractListEntry(contractListEntry, contract);
+          showErrorContractListEntry(contractForm, contract);
           return;
         }
         contract.setWorkquota(workquota);
@@ -154,29 +154,29 @@ public class ContractController {
           contract.setEndDate(endDate);
         }
         model.updateContract(contract);
-        contractListEntry.showSuccess();
+        contractForm.showSuccess();
         holidayRefreshListener.actionPerformed(e);
       }
     });
-    contractListEntry.setDeleteListener(new ActionListener() {
+    contractForm.setDeleteListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         if (JOptionPane.showConfirmDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
             JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != 0) {
           return;
         }
         model.deleteContract(contract.getId());
-        contractListEntry.getParent().remove(contractListEntry);
+        contractForm.getParent().remove(contractForm);
         holidayRefreshListener.actionPerformed(e);
       }
     });
   }
 
-  private void showErrorContractListEntry(final ContractListEntry contractListEntry, final Contract contract) {
-    contractListEntry.showError();
-    contractListEntry.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractListEntry.setStartDate(createStringDate(contract.getStartDate()));
+  private void showErrorContractListEntry(final ContractForm contractForm, final Contract contract) {
+    contractForm.showError();
+    contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
+    contractForm.setStartDate(createStringDate(contract.getStartDate()));
     if (contract.getEndDate() != null) {
-      contractListEntry.setEndDate(createStringDate(contract.getEndDate()));
+      contractForm.setEndDate(createStringDate(contract.getEndDate()));
     }
   }
 }

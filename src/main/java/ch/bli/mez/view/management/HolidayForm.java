@@ -14,7 +14,7 @@ import javax.swing.Timer;
 
 import ch.bli.mez.model.Holiday;
 
-public class HolidayListEntry extends JPanel {
+public class HolidayForm extends JPanel {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
@@ -31,7 +31,7 @@ public class HolidayListEntry extends JPanel {
   /**
    * Create the panel.
    */
-  public HolidayListEntry() {
+  public HolidayForm() {
 
     setLayout(new FlowLayout(FlowLayout.LEFT));
 

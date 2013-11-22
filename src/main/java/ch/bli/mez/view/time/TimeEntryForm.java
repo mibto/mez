@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-public class TimeListEntry extends JPanel {
+public class TimeEntryForm extends JPanel {
   private static final long serialVersionUID = 9171774652563879025L;
 
   private Integer id;
@@ -44,7 +44,7 @@ public class TimeListEntry extends JPanel {
    * @param displayTyp
    *          True = Header False = Liste
    */
-  public TimeListEntry() {
+  public TimeEntryForm() {
     setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
 
     datePanel = new JPanel();
