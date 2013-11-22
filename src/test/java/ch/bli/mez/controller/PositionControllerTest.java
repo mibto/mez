@@ -83,7 +83,7 @@ public class PositionControllerTest {
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
     when(positionForm.getCode()).thenReturn("A4");
-    when(positionForm.getSelectedMission()).thenReturn("0");
+    //when(positionForm.getSelectedMission()).thenReturn("0");
     when(mySpy.makePosition()).thenReturn(position);
 
     mySpy.updatePosition(position, positionForm, true);
@@ -98,7 +98,7 @@ public class PositionControllerTest {
     inOrder.verify(position).setComment("");
     inOrder.verify(positionForm).getCode();
     inOrder.verify(position).setCode("A4");
-    inOrder.verify(positionForm).getSelectedMission();
+    //inOrder.verify(positionForm).getSelectedMission();
     inOrder.verify(position).setOrganDefault(true);
     inOrder.verify(missionModel).getOrganMissions();
     inOrder.verify(position).addMissions(anyListOf(Mission.class));
@@ -111,7 +111,7 @@ public class PositionControllerTest {
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
     when(positionForm.getCode()).thenReturn("A4");
-    when(positionForm.getSelectedMission()).thenReturn(1);
+    //when(positionForm.getSelectedMission()).thenReturn(1);
     when(mySpy.makePosition()).thenReturn(position);
 
     mySpy.updatePosition(position, positionForm, true);
@@ -126,7 +126,7 @@ public class PositionControllerTest {
     inOrder.verify(position).setComment("");
     inOrder.verify(positionForm).getCode();
     inOrder.verify(position).setCode("A4");
-    inOrder.verify(positionForm).getSelectedMission();
+    //inOrder.verify(positionForm).getSelectedMission();
     inOrder.verify(position).setOrganDefault(false);
     verify(missionModel, never()).getOrganMissions();
     inOrder.verify(missionModel).getMission(1);

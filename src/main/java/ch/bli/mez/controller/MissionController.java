@@ -53,15 +53,15 @@ public class MissionController {
   }
 
   private MissionForm createMissionForm(final Mission mission) {
-    final MissionForm missionForm = new MissionForm(mission.getIsActive());
+    final MissionForm form = new MissionForm(mission.getIsActive());
 
-    missionForm.setMissionName(mission.getMissionName());
-    missionForm.setComment(mission.getComment());
-    missionForm.setIsOrgan(mission.getIsOrgan());
+    form.setMissionName(mission.getMissionName());
+    form.setComment(mission.getComment());
+    form.setIsOrgan(mission.getIsOrgan());
 
-    setMissionFormActionListeners(missionForm, mission);
+    setMissionFormActionListeners(form, mission);
 
-    return missionForm;
+    return form;
   }
 
   public void safeNewMission(Mission mission) {
@@ -100,24 +100,24 @@ public class MissionController {
     }
   }
 
-  private void setMissionFormActionListeners(final MissionForm missionForm, final Mission mission) {
+  private void setMissionFormActionListeners(final MissionForm form, final Mission mission) {
 
-    missionForm.setSaveListener((new ActionListener() {
+    form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        updateMission(mission, missionForm, false);
+        updateMission(mission, form, false);
       }
     }));
 
-    missionForm.setStatusButtonListener((new ActionListener() {
+    form.setStatusButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (mission.getIsActive()) {
           mission.setIsActive(false);
           model.updateMission(mission);
-          missionForm.setActive(false);
+          form.setActive(false);
         } else {
           mission.setIsActive(true);
           model.updateMission(mission);
-          missionForm.setActive(true);
+          form.setActive(true);
         }
       }
     }));

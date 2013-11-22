@@ -27,6 +27,7 @@ public class MissionForm extends JPanel {
   public MissionForm(boolean isActive) {
     build();
     setActive(isActive);
+    addGuiFeatureListener();
   }
   
   private void build(){
@@ -54,8 +55,6 @@ public class MissionForm extends JPanel {
     
     statusButton = new JButton();
     this.add(statusButton);
-
-    addGuiFeatureListener();
   }
 
   public void setActive(boolean isActive) {

@@ -1,61 +1,58 @@
 package ch.bli.mez.view.management;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 
 public class PositionForm extends JPanel {
 
   private static final long serialVersionUID = 7585160645657478969L;
 
-  private JTextField codeTextField;
-  private JTextField nameTextField;
-  private JTextField commentTextField;
-  private JTextField missionTextField;
+  private JTextField code;
+  private JTextField missionName;
+  private JTextField positionName;
+  private JTextField comment;
 
   private JButton saveButton;
   private JButton statusButton;
 
-  private Color backGroundColor;
-
   public PositionForm(boolean isActive) {
-
-    setLayout(new FlowLayout(FlowLayout.LEFT));
-
-    codeTextField = new JTextField();
-    codeTextField.setColumns(4);
-    add(codeTextField);
-
-    nameTextField = new JTextField();
-    nameTextField.setColumns(10);
-    add(nameTextField);
-
-    commentTextField = new JTextField();
-    commentTextField.setColumns(25);
-    add(commentTextField);
-
-    missionTextField = new JTextField();
-    missionTextField.setColumns(10);
-    missionTextField.setEnabled(false);
-    add(missionTextField);
-
-    saveButton = new JButton("Speichern");
-    add(saveButton);
-
-    statusButton = new JButton();
-    add(statusButton);
-
-    backGroundColor = getBackground();
+    build();
     setActive(isActive);
     addGuiFeatureListener();
+  }
+  
+  private void build(){
+    setLayout(new FlowLayout(FlowLayout.LEFT));
+    JLabel numberLabel = new JLabel("Position");
+    this.add(numberLabel);
+
+    code = new JTextField();
+    code.setColumns(4);
+    this.add(code);
+
+    JLabel nameLabel = new JLabel("Name");
+    this.add(nameLabel);
+
+    positionName = new JTextField();
+    positionName.setColumns(10);
+    this.add(positionName);
+
+    JLabel commentLabel = new JLabel("Kommentar");
+    this.add(commentLabel);
+
+    comment = new JTextField();
+    comment.setColumns(25);
+    this.add(comment);
+
+    saveButton = new JButton("Speichern");
+    this.add(saveButton);
   }
 
   public void setActive(boolean status) {
@@ -64,63 +61,54 @@ public class PositionForm extends JPanel {
     } else {
       statusButton.setText("Aktivieren");
     }
-    codeTextField.setEnabled(status);
-    nameTextField.setEnabled(status);
-    commentTextField.setEnabled(status);
+    code.setEnabled(status);
+    positionName.setEnabled(status);
+    comment.setEnabled(status);
     saveButton.setEnabled(status);
   }
-
-  public void showSuccess() {
-    setBackground(new Color(150, 255, 150));
-    hideConfirmation();
-  }
-
-  public void showError() {
-    setBackground(new Color(255, 150, 150));
-    hideConfirmation();
-  }
-
-  private void hideConfirmation() {
-    Timer timer = new Timer(900, new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        setBackground(backGroundColor);
-      }
-    });
-    timer.setRepeats(false);
-    timer.start();
+  
+  public void cleanFields() {
+    code.setText("");
+    positionName.setText("");
+    missionName.setText("");
+    comment.setText("");
   }
 
   // Getter & Setter
   public void setCode(String code) {
-    codeTextField.setText(code);
+    this.code.setText(code);
   }
 
   public String getCode() {
-    return codeTextField.getText();
+    return code.getText();
   }
 
   public void setPositionName(String name) {
-    nameTextField.setText(name);
+    positionName.setText(name);
+  }
+  
+  public String getPositionName(){
+    return positionName.getText();
   }
 
   public void setComment(String comment) {
-    commentTextField.setText(comment);
+    this.comment.setText(comment);
   }
-
-  public void setMission(String mission) {
-    missionTextField.setText(mission);
-  }
-
-  public String getPositionName() {
-    return nameTextField.getText();
-  }
-
+  
   public String getComment() {
-    return commentTextField.getText();
+    return comment.getText();
+  }
+
+  public void setMissionName(String mission) {
+    missionName.setText(mission);
+  }
+  
+  public String getMissionName(){
+    return positionName.getText();
   }
 
   // setListeners
-  public void setSaveButtonListener(ActionListener actionListener) {
+  public void setSaveListener(ActionListener actionListener) {
     saveButton.addActionListener(actionListener);
   }
 
@@ -142,17 +130,12 @@ public class PositionForm extends JPanel {
         }
       }
     };
-    codeTextField.addKeyListener(enterKeyListener);
-    nameTextField.addKeyListener(enterKeyListener);
-    commentTextField.addKeyListener(enterKeyListener);
+    code.addKeyListener(enterKeyListener);
+    positionName.addKeyListener(enterKeyListener);
+    comment.addKeyListener(enterKeyListener);
   }
 
   public Boolean validateFields() {
-    return null;
-  }
-
-  public Object getSelectedMission() {
-    // TODO Auto-generated method stub
-    return null;
+    return true;
   }
 }
