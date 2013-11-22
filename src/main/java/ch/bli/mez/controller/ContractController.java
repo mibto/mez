@@ -12,7 +12,6 @@ import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.view.employee.ContractForm;
-import ch.bli.mez.view.employee.ContractPanel;
 
 /**
  * 
@@ -21,14 +20,14 @@ import ch.bli.mez.view.employee.ContractPanel;
  */
 public class ContractController {
 
-  private ContractPanel view;
+  private ContractForm view;
   private ContractDAO model;
   private Employee employee;
 
   private ActionListener holidayRefreshListener;
 
   public ContractController(Employee employee, ActionListener listener) {
-    this.view = new ContractPanel();
+    this.view = new ContractForm();
     this.model = new ContractDAO();
     this.employee = employee;
     this.holidayRefreshListener = listener;
@@ -36,7 +35,7 @@ public class ContractController {
     setActionListeners();
   }
 
-  public ContractPanel getView() {
+  public ContractForm getView() {
     return view;
   }
 
@@ -172,7 +171,7 @@ public class ContractController {
   }
 
   private void showErrorContractListEntry(final ContractForm contractForm, final Contract contract) {
-    contractForm.showError();
+    contractForm.showError("");
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
     contractForm.setStartDate(createStringDate(contract.getStartDate()));
     if (contract.getEndDate() != null) {

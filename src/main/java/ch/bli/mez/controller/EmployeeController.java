@@ -8,11 +8,10 @@ import java.io.InvalidObjectException;
 import java.util.List;
 
 import ch.bli.mez.model.Employee;
-import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeForm;
-import ch.bli.mez.view.employee.EmployeeHolidayForm;
+import ch.bli.mez.view.employee.EmployeePanel;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
 
 /**
@@ -24,6 +23,7 @@ public class EmployeeController {
   private EmployeeTabbedView view;
   private EmployeeDAO model;
   private EmployeeSearchPanel searchPanel;
+  private EmployeePanel employeePanel;
 
   public EmployeeController() {
     model = new EmployeeDAO();
@@ -74,23 +74,24 @@ public class EmployeeController {
   }
 
   private void addNewEmployeeTab() {
-    view.addTab("Neuer Mitarbeiter", createNewEmployeePanel());
+    view.addTab("Neuer Mitarbeiter", createEmployeePanel(new Employee(), true));
   }
 
   private void addEmployeeTab(Employee employee) {
     view.addTab(employee.getFirstName() + " " + employee.getLastName(), createEmployeePanel(employee, false));
   }
 
-  private EmployeeForm createNewEmployeePanel() {
-    Employee employee = new Employee();
-    EmployeeForm employeeForm = createEmployeePanel(employee, true);
-    employeeForm.hideStatusButton();
-    return employeeForm;
+  // ----------------------------------------------------------------------------------------------
+
+  private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
+    employeePanel = new EmployeePanel();
+    employeePanel.setEmployeeForm(createEmployeeForm(employee, isNewEmployee));
+    return employeePanel;
   }
 
-  private EmployeeForm createEmployeePanel(Employee employee, Boolean isNewEmployee) {
+  private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {
     EmployeeForm employeeForm = new EmployeeForm();
-    setEmployeePanelActionListeners(employee, employeeForm, isNewEmployee);
+    setEmployeeFormActionListeners(employee, employeeForm, isNewEmployee);
 
     employeeForm.setFirstname(employee.getFirstName());
     employeeForm.setLastname(employee.getLastName());
@@ -101,14 +102,10 @@ public class EmployeeController {
     employeeForm.setHomeNumber(employee.getHomeNumber());
     employeeForm.setMobileNumber(employee.getMobileNumber());
     employeeForm.setStreet(employee.getStreet());
-    if (!isNewEmployee) {
-      // employeePanel.addContractPanel(createHolidayContract(employeePanel,
-      // employee));
-    }
     return employeeForm;
   }
 
-  public Employee updateEmployee(Employee employee, EmployeeForm employeeForm) throws InvalidObjectException {
+  static Employee updateEmployee(Employee employee, EmployeeForm employeeForm) throws InvalidObjectException {
     if (employeeForm.validateFields()) {
       if (!employeeForm.getPlz().equals("")) {
         employee.setPlz(Integer.parseInt(employeeForm.getPlz()));
@@ -125,13 +122,14 @@ public class EmployeeController {
     throw new InvalidObjectException("Employee invalid");
   }
 
-  public void setEmployeePanelActionListeners(final Employee employee, final EmployeeForm employeeForm,
+  public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm employeeForm,
       final Boolean newEmployee) {
     employeeForm.setSaveEmployeeListener(createEmployeeSaveListener(employee, employeeForm, newEmployee));
     employeeForm.setStatusButtonListener(createStatusButtonListener(employee, employeeForm, newEmployee));
   }
-  
-  private ActionListener createStatusButtonListener(final Employee employee, final EmployeeForm employeeForm, final Boolean newEmployee){
+
+  private ActionListener createStatusButtonListener(final Employee employee, final EmployeeForm employeeForm,
+      final Boolean newEmployee) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (employee.getIsActive()) {
@@ -140,24 +138,25 @@ public class EmployeeController {
         } else {
           employee.setIsActive(true);
           employeeForm.setStatusButtonName("Deaktivieren");
-          view.removeTab(view.getSelectedIndex());
+          view.removeTab();
         }
         model.updateEmployee(employee);
       }
     };
   }
 
-  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeeForm employeeForm, final Boolean newEmployee){
+  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeeForm employeeForm,
+      final Boolean newEmployee) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (!newEmployee) {
           try {
             model.updateEmployee(updateEmployee(employee, employeeForm));
-            employeeForm.updateTabName();
+            view.updateTabName(employee.getFirstName() + " " + employee.getLastName());
           } catch (InvalidObjectException e) {
             return;
           }
-          employeeForm.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
+          employeePanel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
         } else {
           Employee safeEmployee = new Employee();
           try {
@@ -169,7 +168,7 @@ public class EmployeeController {
           view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
               createEmployeePanel(safeEmployee, false));
           employeeForm.cleanFields();
-          employeeForm.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
+          employeePanel.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
         }
       }
     };
@@ -232,10 +231,12 @@ public class EmployeeController {
    * listener; }
    */
 
-  public void updateHoliday(EmployeeHolidayForm holidayPanel, Employee employee, Holiday holiday) {
-    // TODO Auto-generated method stub
-
-  }
+  /*
+   * public void updateHoliday(EmployeeHolidayForm holidayPanel, Employee
+   * employee, Holiday holiday) { // TODO Auto-generated method stub
+   * 
+   * }
+   */
 
   /*
    * private ContractPanel createHolidayContract(EmployeePanel panel, Employee
