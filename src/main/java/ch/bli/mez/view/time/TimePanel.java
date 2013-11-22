@@ -50,21 +50,16 @@ public class TimePanel extends JPanel {
   public void addHeadInput(TimeListEntry timeListEntry) {
     timeListEntry.showAsHeader();
     timeEntryPanel.add(timeListEntry);
-    timeEntryPanel.revalidate();
-    timeEntryPanel.repaint();
   }
 
   public void addAdditionalTimeListEntry(TimeListEntry timeListEntry) {
     timeListEntry.showAsListEntry();
     listPanel.add(timeListEntry);
-    listPanel.revalidate();
     listPanel.repaint();
   }
 
   public void removeTimeListEntry(TimeListEntry timeListEntry) {
     listPanel.remove(timeListEntry);
-    listPanel.revalidate();
-    listPanel.repaint();
   }
 
   /*
@@ -75,5 +70,7 @@ public class TimePanel extends JPanel {
       addAdditionalTimeListEntry(entry);
     }
   }
+  
+  
 
 }

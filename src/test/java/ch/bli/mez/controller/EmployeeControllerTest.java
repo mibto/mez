@@ -62,7 +62,7 @@ public class EmployeeControllerTest {
     when(employeePanel.getLastname()).thenReturn("Nachname");
     when(employeePanel.validateFields()).thenReturn(true);
 
-    employeeController.updateEmployee(employee, employeePanel, false);
+    employeeController.updateEmployee(employee, employeePanel);
 
     InOrder inOrder = inOrder(employeePanel, employee);
 
@@ -82,7 +82,7 @@ public class EmployeeControllerTest {
     EmployeePanel employeePanel = Mockito.mock(EmployeePanel.class);
 
     when(employeePanel.validateFields()).thenReturn(false);
-    employeeController.updateEmployee(employee, employeePanel, false);
+    employeeController.updateEmployee(employee, employeePanel);
     verify(employeePanel).validate();
   }
 

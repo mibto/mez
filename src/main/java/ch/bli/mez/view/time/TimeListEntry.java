@@ -97,6 +97,12 @@ public class TimeListEntry extends JPanel {
 
     backGroundColor = getBackground();
     addGuiFeatureListener();
+    
+    deleteButton.setVisible(true);
+    dateLabel.setVisible(false);
+    positionLaben.setVisible(false);
+    auftragLabel.setVisible(false);
+    zeitLabel.setVisible(false);
 
   }
 
@@ -114,14 +120,6 @@ public class TimeListEntry extends JPanel {
     positionLaben.setVisible(true);
     auftragLabel.setVisible(true);
     zeitLabel.setVisible(true);
-  }
-
-  public void showAsListEntry() {
-    deleteButton.setVisible(true);
-    dateLabel.setVisible(false);
-    positionLaben.setVisible(false);
-    auftragLabel.setVisible(false);
-    zeitLabel.setVisible(false);
   }
 
   public void showDateError() {

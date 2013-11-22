@@ -22,7 +22,7 @@ public class EmployeeView extends JPanel {
     this.add(tabbedPane, BorderLayout.CENTER);
   }
 
-  public void addTab(String name, JPanel employeePanel) {
+  public void addTab(String name, EmployeePanel employeePanel) {
     tabbedPane.addTab(name, employeePanel);
   }
 
