@@ -63,6 +63,7 @@ public class EmployeeController {
   }
 
   private void addTabs() {
+    view.removeAllTabs();
     addNewEmployeeTab();
     addEmployeeTabs(model.findAll());
   }
@@ -81,8 +82,6 @@ public class EmployeeController {
     view.addTab(employee.getFirstName() + " " + employee.getLastName(), createEmployeePanel(employee, false));
   }
 
-  // ----------------------------------------------------------------------------------------------
-
   private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
     employeePanel = new EmployeePanel();
     employeePanel.setEmployeeForm(createEmployeeForm(employee, isNewEmployee));
@@ -90,68 +89,67 @@ public class EmployeeController {
   }
 
   private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {
-    EmployeeForm employeeForm = new EmployeeForm();
-    setEmployeeFormActionListeners(employee, employeeForm, isNewEmployee);
+    EmployeeForm form = new EmployeeForm();
+    setEmployeeFormActionListeners(employee, form, isNewEmployee);
 
-    employeeForm.setFirstname(employee.getFirstName());
-    employeeForm.setLastname(employee.getLastName());
-    employeeForm.setCity(employee.getCity());
+    form.setFirstname(employee.getFirstName());
+    form.setLastname(employee.getLastName());
+    form.setCity(employee.getCity());
     if (employee.getPlz() != 0)
-      employeeForm.setPlz(employee.getPlz().toString());
-    employeeForm.setEmail(employee.getEmail());
-    employeeForm.setHomeNumber(employee.getHomeNumber());
-    employeeForm.setMobileNumber(employee.getMobileNumber());
-    employeeForm.setStreet(employee.getStreet());
-    return employeeForm;
+      form.setPlz(employee.getPlz().toString());
+    form.setEmail(employee.getEmail());
+    form.setHomeNumber(employee.getHomeNumber());
+    form.setMobileNumber(employee.getMobileNumber());
+    form.setStreet(employee.getStreet());
+    form.setStatusButton(employee.getIsActive());
+    return form;
   }
 
-  static Employee updateEmployee(Employee employee, EmployeeForm employeeForm) throws InvalidObjectException {
-    if (employeeForm.validateFields()) {
-      if (!employeeForm.getPlz().equals("")) {
-        employee.setPlz(Integer.parseInt(employeeForm.getPlz()));
+  static Employee updateEmployee(Employee employee, EmployeeForm form) throws InvalidObjectException {
+    if (form.validateFields()) {
+      if (!form.getPlz().equals("")) {
+        employee.setPlz(Integer.parseInt(form.getPlz()));
       }
-      employee.setFirstName(employeeForm.getFirstname());
-      employee.setLastName(employeeForm.getLastname());
-      employee.setStreet(employeeForm.getStreet());
-      employee.setCity(employeeForm.getCity());
-      employee.setMobileNumber(employeeForm.getMobileNumber());
-      employee.setHomeNumber(employeeForm.getHomeNumber());
-      employee.setEmail(employeeForm.getEmail());
+      employee.setFirstName(form.getFirstname());
+      employee.setLastName(form.getLastname());
+      employee.setStreet(form.getStreet());
+      employee.setCity(form.getCity());
+      employee.setMobileNumber(form.getMobileNumber());
+      employee.setHomeNumber(form.getHomeNumber());
+      employee.setEmail(form.getEmail());
       return employee;
     }
     throw new InvalidObjectException("Employee invalid");
   }
 
-  public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm employeeForm,
-      final Boolean newEmployee) {
-    employeeForm.setSaveEmployeeListener(createEmployeeSaveListener(employee, employeeForm, newEmployee));
-    employeeForm.setStatusButtonListener(createStatusButtonListener(employee, employeeForm, newEmployee));
+  public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm form, Boolean isNewEmployee) {
+    form.setSaveEmployeeListener(createEmployeeSaveListener(employee, form, isNewEmployee));
+    form.setStatusButtonListener(createStatusButtonListener(employee, form));
   }
 
-  private ActionListener createStatusButtonListener(final Employee employee, final EmployeeForm employeeForm,
-      final Boolean newEmployee) {
+  private ActionListener createStatusButtonListener(final Employee employee, final EmployeeForm form) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (employee.getIsActive()) {
           employee.setIsActive(false);
-          employeeForm.setStatusButtonName("Aktivieren");
+          model.updateEmployee(employee);
+          addTabs();
         } else {
           employee.setIsActive(true);
-          employeeForm.setStatusButtonName("Deaktivieren");
-          view.removeTab();
+          form.setStatusButton(employee.getIsActive());
+          model.updateEmployee(employee);
         }
-        model.updateEmployee(employee);
       }
     };
   }
 
-  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeeForm employeeForm,
-      final Boolean newEmployee) {
+  private ActionListener createEmployeeSaveListener(final Employee employee, final EmployeeForm form,
+      final Boolean isNewEmployee) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        if (!newEmployee) {
+        if (!isNewEmployee) {
           try {
-            model.updateEmployee(updateEmployee(employee, employeeForm));
+            model.updateEmployee(updateEmployee(employee, form));
             view.updateTabName(employee.getFirstName() + " " + employee.getLastName());
           } catch (InvalidObjectException e) {
             return;
@@ -160,14 +158,14 @@ public class EmployeeController {
         } else {
           Employee safeEmployee = new Employee();
           try {
-            safeEmployee = updateEmployee(safeEmployee, employeeForm);
+            safeEmployee = updateEmployee(safeEmployee, form);
           } catch (InvalidObjectException e) {
             return;
           }
           model.addEmployee(safeEmployee);
           view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
               createEmployeePanel(safeEmployee, false));
-          employeeForm.cleanFields();
+          form.cleanFields();
           employeePanel.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
         }
       }

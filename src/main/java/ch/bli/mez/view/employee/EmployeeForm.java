@@ -103,7 +103,7 @@ public class EmployeeForm extends JPanel {
     saveButton = new JButton("Speichern");
     addPersonalComponent(entryPanel, saveButton, 4, 5, 1, 0);
 
-    statusButton = new JButton("Deaktivieren");
+    statusButton = new JButton();
     addPersonalComponent(entryPanel, statusButton, 1, 5, 1, 0);
 
     this.add(entryPanel);
@@ -132,7 +132,6 @@ public class EmployeeForm extends JPanel {
    *          erstellt: "'name' wurde gespeichert."
    */
 
-
   public void cleanFields() {
     setFirstname("");
     setLastname("");
@@ -155,8 +154,13 @@ public class EmployeeForm extends JPanel {
   }
 
   // getter & setter
-  public void setStatusButtonName(String value) {
-    statusButton.setName(value);
+  public void setStatusButton(Boolean status) {
+    System.out.println(status.toString());
+    if (status) {
+      statusButton.setText("Deaktivieren");
+    } else {
+      statusButton.setText("Aktivieren");
+    }
   }
 
   public String getStatusButtonName() {
