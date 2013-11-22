@@ -60,7 +60,7 @@ public class EmployeePanel extends JPanel{
     holidayContentPanel.setLayout(new BoxLayout(holidayContentPanel, BoxLayout.Y_AXIS));
     holidayHelpPanel.add(holidayContentPanel);
 
-    // ContractPanel (center)
+    // ContractPanel
     contractPanel = new JPanel(new BorderLayout());
     centerPanel.add(contractPanel);
 
@@ -72,16 +72,16 @@ public class EmployeePanel extends JPanel{
     
   }
 
-  public void setEmployeeForm(EmployeeForm employeeForm){
-    topPanel.add(employeeForm, BorderLayout.CENTER);
+  public void setEmployeeForm(EmployeeForm form){
+    topPanel.add(form, BorderLayout.CENTER);
   }
   
-  public void setContractForm(ContractForm contractForm) {
-    contractPanel.add(new JScrollPane(contractForm), BorderLayout.CENTER);
+  public void setContractForm(ContractForm form) {
+    contractPanel.add(new JScrollPane(form), BorderLayout.CENTER);
   }
 
-  public void setEmployeeHolidayForm(EmployeeHolidayForm employeeHolidayForm) {
-    holidayContentPanel.add(employeeHolidayForm);
+  public void setEmployeeHolidayForm(EmployeeHolidayForm form) {
+    holidayContentPanel.add(form);
   }
   
   public void showConfirmation(String name) {

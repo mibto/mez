@@ -1,30 +1,27 @@
 package ch.bli.mez.view.management;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 
 public class MissionForm extends JPanel {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
-  private JTextField nameTextField;
-  private JTextField commentTextField;
+  private JTextField missionName;
+  private JTextField comment;
 
-  private JCheckBox isOrganCheckBox;
+  private JCheckBox isOrgan;
 
   private JButton saveButton;
   private JButton statusButton;
-  private Color backGroundColor;
 
   /**
    * Create the panel.
@@ -32,24 +29,26 @@ public class MissionForm extends JPanel {
   public MissionForm(boolean isActive) {
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    nameTextField = new JTextField();
-    nameTextField.setColumns(10);
-    add(nameTextField);
+    JLabel nameLabel = new JLabel("Auftragsname");
+    this.add(nameLabel);
 
-    commentTextField = new JTextField();
-    commentTextField.setColumns(25);
-    add(commentTextField);
+    missionName = new JTextField();
+    missionName.setColumns(10);
+    this.add(missionName);
 
-    isOrganCheckBox = new JCheckBox("Orgel-Code");
-    add(isOrganCheckBox);
+    JLabel commentLabel = new JLabel("Kommentar");
+    this.add(commentLabel);
+
+    comment = new JTextField();
+    comment.setColumns(25);
+    this.add(comment);
+
+    isOrgan = new JCheckBox("Orgel-Code", true);
+    this.add(isOrgan);
 
     saveButton = new JButton("Speichern");
-    add(saveButton);
+    this.add(saveButton);
 
-    statusButton = new JButton("Löschen");
-    add(statusButton);
-
-    backGroundColor = getBackground();
     setActive(isActive);
     addGuiFeatureListener();
   }
@@ -60,72 +59,54 @@ public class MissionForm extends JPanel {
     } else {
       statusButton.setText("Aktivieren");
     }
-    nameTextField.setEnabled(status);
-    commentTextField.setEnabled(status);
+    missionName.setEnabled(status);
+    comment.setEnabled(status);
     saveButton.setEnabled(status);
-    isOrganCheckBox.setEnabled(status);
+    isOrgan.setEnabled(status);
   }
 
-  public void showSuccess() {
-    setBackground(new Color(150, 255, 150));
-    hideConfirmation();
+  public void cleanFields() {
+    setMissionName("");
+    setComment("");
   }
 
-  public void showError() {
-    setBackground(new Color(255, 150, 150));
-    hideConfirmation();
-  }
-
-  private void hideConfirmation() {
-    Timer timer = new Timer(900, new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        setBackground(backGroundColor);
-      }
-    });
-    timer.setRepeats(false);
-    timer.start();
-  }
-
-  public boolean validateFields(String missionName) {
+  public boolean validateFields() {
     if (getMissionName().equals("")) {
-      showError();
-      setMissionName(missionName);
       return false;
     }
-    showSuccess();
     return true;
   }
 
-  public void setSaveMissionEntryListListener(ActionListener actionListener) {
+  public void setSaveListener(ActionListener actionListener) {
     saveButton.addActionListener(actionListener);
   }
 
-  public void setStatusMissionEntryListListener(ActionListener actionListener) {
+  public void setStatusButtonListener(ActionListener actionListener) {
     statusButton.addActionListener(actionListener);
   }
 
   public String getMissionName() {
-    return nameTextField.getText();
+    return missionName.getText();
   }
 
   public String getComment() {
-    return commentTextField.getText();
+    return comment.getText();
   }
 
   public boolean getIsOrgan() {
-    return isOrganCheckBox.isSelected();
+    return isOrgan.isSelected();
   }
 
   public void setMissionName(String missionName) {
-    this.nameTextField.setText(missionName);
+    this.missionName.setText(missionName);
   }
 
   public void setComment(String value) {
-    commentTextField.setText(value);
+    comment.setText(value);
   }
 
   public void setIsOrgan(boolean value) {
-    isOrganCheckBox.setSelected(value);
+    isOrgan.setSelected(value);
   }
 
   private void addGuiFeatureListener() {
@@ -142,7 +123,7 @@ public class MissionForm extends JPanel {
         }
       }
     };
-    nameTextField.addKeyListener(enterKeyListener);
-    commentTextField.addKeyListener(enterKeyListener);
+    missionName.addKeyListener(enterKeyListener);
+    comment.addKeyListener(enterKeyListener);
   }
 }

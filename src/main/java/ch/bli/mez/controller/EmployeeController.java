@@ -123,7 +123,7 @@ public class EmployeeController {
   }
 
   public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm form, Boolean isNewEmployee) {
-    form.setSaveEmployeeListener(createEmployeeSaveListener(employee, form, isNewEmployee));
+    form.setSaveListener(createEmployeeSaveListener(employee, form, isNewEmployee));
     form.setStatusButtonListener(createStatusButtonListener(employee, form));
   }
 

@@ -81,7 +81,7 @@ public class MissionControllerTest {
     // Case 1: valid, existing Organ, stays Organ
     when(missionForm.getMissionName()).thenReturn("Name");
     when(missionForm.getComment()).thenReturn("Kommentar");
-    when(missionForm.validateFields("Name")).thenReturn(true);
+    when(missionForm.validateFields()).thenReturn(true);
     when(missionForm.getIsOrgan()).thenReturn(true);
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
@@ -90,7 +90,7 @@ public class MissionControllerTest {
 
     InOrder inOrder = inOrder(missionForm, mission, missionModel);
 
-    inOrder.verify(missionForm).validateFields("Name");
+    inOrder.verify(missionForm).validateFields();
     inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
     inOrder.verify(missionForm).getComment();
@@ -104,7 +104,7 @@ public class MissionControllerTest {
 
     when(missionForm.getMissionName()).thenReturn("Name");
     when(missionForm.getComment()).thenReturn("Kommentar");
-    when(missionForm.validateFields("Name")).thenReturn(true);
+    when(missionForm.validateFields()).thenReturn(true);
     when(missionForm.getIsOrgan()).thenReturn(false);
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
@@ -112,7 +112,7 @@ public class MissionControllerTest {
     instance.updateMission(mission, missionForm, false);
     inOrder = inOrder(missionForm, mission, missionModel);
 
-    inOrder.verify(missionForm).validateFields("Name");
+    inOrder.verify(missionForm).validateFields();
     inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
     inOrder.verify(missionForm).getComment();
@@ -133,7 +133,7 @@ public class MissionControllerTest {
     when(mission.getIsOrgan()).thenReturn(false);
     when(missionForm.getMissionName()).thenReturn("Name");
     when(missionForm.getComment()).thenReturn("Kommentar");
-    when(missionForm.validateFields("")).thenReturn(true);
+    when(missionForm.validateFields()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("");
 
     MissionController mySpy = spy(instance);
@@ -143,7 +143,7 @@ public class MissionControllerTest {
 
     mySpy.updateMission(mission, missionForm, true);
 
-    inOrder.verify(missionForm).validateFields("");
+    inOrder.verify(missionForm).validateFields();
     inOrder.verify(mySpy).makeMission();
     inOrder.verify(missionForm).getMissionName();
     inOrder.verify(mission).setMissionName("Name");
@@ -159,12 +159,12 @@ public class MissionControllerTest {
 
     // Case 4: invalid
     reset(mission, missionForm, missionModel);
-    when(missionForm.validateFields("")).thenReturn(false);
+    when(missionForm.validateFields()).thenReturn(false);
     when(mission.getMissionName()).thenReturn("");
 
     instance.updateMission(mission, missionForm, true);
 
-    verify(missionForm).validateFields("");
+    verify(missionForm).validateFields();
     verify(missionForm, never()).getMissionName();
   }
 

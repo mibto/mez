@@ -26,8 +26,7 @@ public class MissionController {
     this.view = new MissionPanel();
     this.model = new MissionDAO();
     this.positionModel = new PositionDAO();
-    addMissionEntrys();
-    setActionListeners();
+    addMissionForms();
   }
 
   public void setView(MissionPanel view) {
@@ -46,29 +45,23 @@ public class MissionController {
     return view;
   }
 
-  private void addMissionEntrys() {
+  private void addMissionForms() {
+    view.setNewMissionForm(new MissionForm(true));
     for (Mission mission : model.findAll()) {
-      view.addMissionListEntry(createMissionListEntry(mission));
+      view.addMissionForm(createMissionForm(mission));
     }
   }
 
-  private void setActionListeners() {
-    view.setSaveMissionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        if (!view.getMissionName().equals("")) {
-          Mission mission = new Mission(view.getMissionName(), view.getComment(), view.getIsOrgan());
-          if (view.getIsOrgan()) {
-            List<Position> organPositions = positionModel.getOrganPositions();
-            mission.addPositions(organPositions);
-          }
-          safeNewMission(mission);
-          view.addMissionListEntry(createMissionListEntry(mission));
-          view.showConfirmation(mission.getMissionName());
-        } else {
-          view.showNameError();
-        }
-      }
-    });
+  private MissionForm createMissionForm(final Mission mission) {
+    final MissionForm missionForm = new MissionForm(mission.getIsActive());
+
+    missionForm.setMissionName(mission.getMissionName());
+    missionForm.setComment(mission.getComment());
+    missionForm.setIsOrgan(mission.getIsOrgan());
+
+    setMissionFormActionListeners(missionForm, mission);
+
+    return missionForm;
   }
 
   public void safeNewMission(Mission mission) {
@@ -76,7 +69,7 @@ public class MissionController {
   }
 
   public void updateMission(Mission mission, MissionForm form, boolean isNewMission) {
-    if (form.validateFields(mission.getMissionName())) {
+    if (form.validateFields()) {
       if (isNewMission) {
         mission = makeMission();
       }
@@ -107,27 +100,15 @@ public class MissionController {
     }
   }
 
-  private MissionForm createMissionListEntry(final Mission mission) {
-    final MissionForm missionForm = new MissionForm(mission.getIsActive());
+  private void setMissionFormActionListeners(final MissionForm missionForm, final Mission mission) {
 
-    missionForm.setMissionName(mission.getMissionName());
-    missionForm.setComment(mission.getComment());
-    missionForm.setIsOrgan(mission.getIsOrgan());
-
-    setMissionListEntryActionListeners(missionForm, mission);
-
-    return missionForm;
-  }
-
-  private void setMissionListEntryActionListeners(final MissionForm missionForm, final Mission mission) {
-
-    missionForm.setSaveMissionEntryListListener((new ActionListener() {
+    missionForm.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         updateMission(mission, missionForm, false);
       }
     }));
 
-    missionForm.setStatusMissionEntryListListener((new ActionListener() {
+    missionForm.setStatusButtonListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (mission.getIsActive()) {
           mission.setIsActive(false);
@@ -138,8 +119,8 @@ public class MissionController {
           model.updateMission(mission);
           missionForm.setActive(true);
         }
-
       }
     }));
   }
+
 }

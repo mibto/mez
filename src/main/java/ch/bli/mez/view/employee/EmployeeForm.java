@@ -232,7 +232,7 @@ public class EmployeeForm extends JPanel {
   }
 
   // setListeners
-  public void setSaveEmployeeListener(ActionListener actionListener) {
+  public void setSaveListener(ActionListener actionListener) {
     saveButton.addActionListener(actionListener);
   }
 
