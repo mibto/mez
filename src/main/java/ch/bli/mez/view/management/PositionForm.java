@@ -14,7 +14,6 @@ public class PositionForm extends JPanel {
 
   private static final long serialVersionUID = 7585160645657478969L;
 
-  private JTextField code;
   private JTextField missionName;
   private JTextField positionName;
   private JTextField comment;
@@ -32,27 +31,27 @@ public class PositionForm extends JPanel {
     setLayout(new FlowLayout(FlowLayout.LEFT));
     JLabel numberLabel = new JLabel("Position");
     this.add(numberLabel);
-
-    code = new JTextField();
-    code.setColumns(4);
-    this.add(code);
-
-    JLabel nameLabel = new JLabel("Name");
-    this.add(nameLabel);
-
     positionName = new JTextField();
-    positionName.setColumns(10);
+    positionName.setColumns(4);
     this.add(positionName);
+
+    JLabel nameLabel = new JLabel("Mission");
+    this.add(nameLabel);
+    missionName = new JTextField();
+    missionName.setColumns(10);
+    this.add(missionName);
 
     JLabel commentLabel = new JLabel("Kommentar");
     this.add(commentLabel);
-
     comment = new JTextField();
     comment.setColumns(25);
     this.add(comment);
 
     saveButton = new JButton("Speichern");
     this.add(saveButton);
+    
+    statusButton = new JButton();
+    this.add(statusButton);
   }
 
   public void setActive(boolean status) {
@@ -61,28 +60,19 @@ public class PositionForm extends JPanel {
     } else {
       statusButton.setText("Aktivieren");
     }
-    code.setEnabled(status);
     positionName.setEnabled(status);
+    missionName.setEnabled(status);
     comment.setEnabled(status);
     saveButton.setEnabled(status);
   }
   
   public void cleanFields() {
-    code.setText("");
     positionName.setText("");
     missionName.setText("");
     comment.setText("");
   }
 
   // Getter & Setter
-  public void setCode(String code) {
-    this.code.setText(code);
-  }
-
-  public String getCode() {
-    return code.getText();
-  }
-
   public void setPositionName(String name) {
     positionName.setText(name);
   }
@@ -130,8 +120,8 @@ public class PositionForm extends JPanel {
         }
       }
     };
-    code.addKeyListener(enterKeyListener);
     positionName.addKeyListener(enterKeyListener);
+    missionName.addKeyListener(enterKeyListener);
     comment.addKeyListener(enterKeyListener);
   }
 

@@ -38,9 +38,6 @@ public class PositionController {
 
   private PositionForm createPositionForm(final Position position) {
     final PositionForm form = new PositionForm(position.getIsActive());
-    if (position.getCode() != null) {
-      form.setCode(position.getCode());
-    }
     form.setPositionName(position.getPositionName());
     form.setComment(position.getComment());
     if (position.isOrganDefault()) {
@@ -60,7 +57,7 @@ public class PositionController {
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         try {
-          position.setCode(form.getCode());
+          //position.setCode(form.getCode());
         } catch (NumberFormatException e) {
         } finally {
           if (!form.getPositionName().equals("")) {

@@ -58,7 +58,7 @@ public class PositionControllerTest {
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    when(positionForm.getCode()).thenReturn("A4");
+    //when(positionForm.getCode()).thenReturn("A4");
 
     instance.updatePosition(position, positionForm, false);
 
@@ -69,7 +69,7 @@ public class PositionControllerTest {
     inOrder.verify(position).setPositionName("PositionName");
     inOrder.verify(positionForm).getComment();
     inOrder.verify(position).setComment("");
-    inOrder.verify(positionForm).getCode();
+    //inOrder.verify(positionForm).getCode();
     inOrder.verify(position).setCode("A4");
     inOrder.verify(positionModel).updatePosition(position);
 
@@ -82,7 +82,7 @@ public class PositionControllerTest {
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    when(positionForm.getCode()).thenReturn("A4");
+    //when(positionForm.getCode()).thenReturn("A4");
     //when(positionForm.getSelectedMission()).thenReturn("0");
     when(mySpy.makePosition()).thenReturn(position);
 
@@ -96,7 +96,7 @@ public class PositionControllerTest {
     inOrder.verify(position).setPositionName("PositionName");
     inOrder.verify(positionForm).getComment();
     inOrder.verify(position).setComment("");
-    inOrder.verify(positionForm).getCode();
+    //inOrder.verify(positionForm).getCode();
     inOrder.verify(position).setCode("A4");
     //inOrder.verify(positionForm).getSelectedMission();
     inOrder.verify(position).setOrganDefault(true);
@@ -110,7 +110,7 @@ public class PositionControllerTest {
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    when(positionForm.getCode()).thenReturn("A4");
+    //when(positionForm.getCode()).thenReturn("A4");
     //when(positionForm.getSelectedMission()).thenReturn(1);
     when(mySpy.makePosition()).thenReturn(position);
 
@@ -124,7 +124,7 @@ public class PositionControllerTest {
     inOrder.verify(position).setPositionName("PositionName");
     inOrder.verify(positionForm).getComment();
     inOrder.verify(position).setComment("");
-    inOrder.verify(positionForm).getCode();
+    //inOrder.verify(positionForm).getCode();
     inOrder.verify(position).setCode("A4");
     //inOrder.verify(positionForm).getSelectedMission();
     inOrder.verify(position).setOrganDefault(false);
