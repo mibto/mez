@@ -83,7 +83,7 @@ public class TimeEntryController {
 
   private TimeEntryPanel createTimePanel(Employee employee) {
     TimeEntryPanel timeEntryPanel = new TimeEntryPanel();
-    timeEntryPanel.addInputTimeListEntry();
+    //timeEntryPanel.addInputTimeListEntry();
    // addExistingTimeEntries(employee, timePanel);
     return timeEntryPanel;
   }
