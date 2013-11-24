@@ -11,12 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ch.bli.mez.util.Worktime;
+
 public class TimeEntryForm extends JPanel {
   private static final long serialVersionUID = 9171774652563879025L;
 
   private JTextField date;
   private JTextField missionName;
-  private JTextField positionName;
+  private JTextField positionCode;
   private JTextField worktime;
   private JButton saveButton;
   private JButton deleteButton;
@@ -28,11 +30,23 @@ public class TimeEntryForm extends JPanel {
   private JPanel positionPanel;
   private JPanel missionPanel;
   private JPanel timePanel;
+  private Integer employeeId;
 
-  public TimeEntryForm() {
+  private TimeEntryPanel timeEntryPanel;
+
+  public TimeEntryForm(Integer employeeId) {
+    this.setEmployeeId(employeeId);
     build();
     addGuiFeatureListener();
     showAsListEntry();
+  }
+  
+  public Integer getEmployeeId() {
+    return employeeId;
+  }
+  
+  public void setEmployeeId(Integer employeeId) {
+    this.employeeId = employeeId;
   }
 
   private void build() {
@@ -65,10 +79,10 @@ public class TimeEntryForm extends JPanel {
     positionLaben = new JLabel("Position");
     positionPanel.add(positionLaben);
 
-    positionName = new JTextField();
-    positionName.setToolTipText("Position ist vom Auftrag abhängig.");
-    positionPanel.add(positionName);
-    positionName.setColumns(10);
+    positionCode = new JTextField();
+    positionCode.setToolTipText("Position ist vom Auftrag abhängig.");
+    positionPanel.add(positionCode);
+    positionCode.setColumns(10);
 
     timePanel = new JPanel();
     add(timePanel);
@@ -116,12 +130,11 @@ public class TimeEntryForm extends JPanel {
   }
 
   public Calendar getDate() {
-    return null;
-    // return createDate(dateTextField.getText());
+    return Worktime.createDate(date.getText());
   }
 
-  public String getPositionName() {
-    return positionName.getText();
+  public String getPositionCode() {
+    return positionCode.getText();
   }
 
   public String getMissionName() {
@@ -129,16 +142,15 @@ public class TimeEntryForm extends JPanel {
   }
 
   public Integer getWorktime() {
-    return null;
-    // return parseWorkTimeToMinutes(worktimeTextField.getText());
+    return Worktime.parseWorkTimeToMinutes(worktime.getText());
   }
 
   public void setDate(Calendar calendar) {
-    // this.dateTextField.setText(parseCalendar(calendar));
+    this.date.setText(Worktime.parseCalendar(calendar));
   }
 
   public void setPosition(String position) {
-    this.positionName.setText(position);
+    this.positionCode.setText(position);
   }
 
   public void setMission(String mission) {
@@ -146,7 +158,7 @@ public class TimeEntryForm extends JPanel {
   }
 
   public void setWorktime(Integer worktime) {
-    // this.worktimeTextField.setText(parseMinutesToWorkTime(worktime));
+    this.worktime.setText(Worktime.parseMinutesToWorkTime(worktime));
   }
 
   private void addGuiFeatureListener() {
@@ -167,7 +179,7 @@ public class TimeEntryForm extends JPanel {
 
     missionName.addKeyListener(enterKeyListener);
     worktime.addKeyListener(enterKeyListener);
-    positionName.addKeyListener(enterKeyListener);
+    positionCode.addKeyListener(enterKeyListener);
     date.addKeyListener(enterKeyListener);
 
   }
@@ -177,9 +189,10 @@ public class TimeEntryForm extends JPanel {
       return false;
     }
     if (getMissionName().equals("")) {
+      timeEntryPanel.showError("Es muss ein Auftrag eingegeben werden.");
       return false;
     }
-    if (getPositionName().equals("")) {
+    if (getPositionCode().equals("")) {
       return false;
     }
     if (worktime.getText().equals("")
@@ -187,6 +200,14 @@ public class TimeEntryForm extends JPanel {
       return false;
     }
     return true;
+  }
+
+  public void setTimeEntryPanel(TimeEntryPanel timeEntryPanel) {
+    this.timeEntryPanel = timeEntryPanel; 
+  }
+  
+  public TimeEntryPanel getTimeEntryPanel(){
+    return timeEntryPanel;
   }
 
 }

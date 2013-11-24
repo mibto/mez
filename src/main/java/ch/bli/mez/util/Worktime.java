@@ -1,5 +1,9 @@
 package ch.bli.mez.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Worktime {
 // rewrite as public static methods or as a Worktime Object that can return date as integer or string
   
@@ -11,7 +15,7 @@ public class Worktime {
    * 
    * @return Worktime in Minuten
    */
-  private Integer parseWorkTimeToMinutes(String worktime) {
+  public static Integer parseWorkTimeToMinutes(String worktime) {
     Integer workminutes = 0;
     if (worktime != null) {
       if (worktime.matches("[0-9]*")) {
@@ -27,7 +31,7 @@ public class Worktime {
   /*
    * Übersetzt Minuten ins stundenformat xx:xx
    */
-  private String parseMinutesToWorkTime(Integer workminutes) {
+   public static String parseMinutesToWorkTime(Integer workminutes) {
     String worktime = "";
     if ((workminutes / 60) > 0) {
       worktime = worktime + (workminutes / 60);
@@ -46,7 +50,7 @@ public class Worktime {
   /*
    * Aus String ein Calendar erstellen
    */
-  private Calendar createDate(String date) {
+   public static Calendar createDate(String date) {
     String splittedDate[] = date.split("\\.");
     Calendar calendar = Calendar.getInstance();
     if (Integer.parseInt(splittedDate[2]) < 100) {
@@ -62,7 +66,7 @@ public class Worktime {
   /*
    * Format Calendar auf String umwandeln (anzeigetyp)
    */
-  private String parseCalendar(Calendar calendar) {
+  public static String parseCalendar(Calendar calendar) {
     Date date = calendar.getTime();
     SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
     return format1.format(date);
