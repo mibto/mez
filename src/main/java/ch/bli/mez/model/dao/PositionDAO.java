@@ -105,11 +105,11 @@ public class PositionDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(Position.class);
     criteria.add(Restrictions.eq("code", code));
-    Position position = (Position) criteria.list().get(0);
-    if (position != null) {
-      return position;
-    } else {
+    List<Position> positions = criteria.list();
+    if (positions.isEmpty()) {
       return null;
+    } else {
+      return positions.get(0);
     }
   }
 }

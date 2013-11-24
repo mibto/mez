@@ -116,11 +116,11 @@ public class MissionDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(Mission.class);
     criteria.add(Restrictions.eq("missionName", missionName));
-    Mission mission = (Mission) criteria.list().get(0);
-    if (mission != null) {
-      return mission;
-    } else {
+    List<Mission> missions = criteria.list();
+    if (missions.isEmpty()) {
       return null;
+    } else {
+      return missions.get(0);
     }
   }
 }

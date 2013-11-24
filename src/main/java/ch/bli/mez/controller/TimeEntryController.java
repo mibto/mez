@@ -124,7 +124,7 @@ public class TimeEntryController {
   }
   
   public void updateTimeEntry(TimeEntry timeEntry, TimeEntryForm form, boolean isNew){
-    if (form.validateFields()) {
+    if (validateFields(form)) {
       if (isNew) {
         timeEntry = makeTimeEntry();
       }
@@ -153,5 +153,28 @@ public class TimeEntryController {
 
   private Position findPositionByCode(String code) {
     return positionModel.findByCode(code);
+  }
+  
+  public boolean validateFields(TimeEntryForm form){
+    if (form.validateFields()){
+      Position position = findPositionByCode(form.getPositionCode());
+      Mission mission = findMissionByName(form.getMissionName());
+      if (mission == null){
+        form.getTimeEntryPanel().showError("Der eingegebene Auftrag existiert nicht.");
+        return false;
+      }
+      if (position == null){
+        form.getTimeEntryPanel().showError("Die eingegebene Position existiert nicht.");
+        return false;
+      }
+      if (!mission.getPositions().contains(position)){
+        form.getTimeEntryPanel().showError("Der Auftrag " + mission.getMissionName() +
+            " hat keine Position mit Code " + position.getCode() + ".");
+        return false;
+      }
+      form.getTimeEntryPanel().showSuccess("Der Eintrag wurde gespeichert.");
+      return true;
+    }
+    return false;
   }
 }
