@@ -51,6 +51,9 @@ public class Worktime {
    * Aus String ein Calendar erstellen
    */
    public static Calendar createDate(String date) {
+    if (date.equals("")){
+      return null;
+    }
     String splittedDate[] = date.split("\\.");
     Calendar calendar = Calendar.getInstance();
     if (Integer.parseInt(splittedDate[2]) < 100) {
@@ -67,6 +70,9 @@ public class Worktime {
    * Format Calendar auf String umwandeln (anzeigetyp)
    */
   public static String parseCalendar(Calendar calendar) {
+    if (calendar == null){
+      return "";
+    }
     Date date = calendar.getTime();
     SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
     return format1.format(date);

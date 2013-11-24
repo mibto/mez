@@ -1,5 +1,7 @@
 package ch.bli.mez.model;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +29,8 @@ public class Employee {
   private String homeNumber;
   private String email;
   private Boolean isActive = true;
+  private String ahv;
+  private Calendar birthday;
 
   public Employee() {
 
@@ -47,6 +51,14 @@ public class Employee {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+  
+  public String getAhv() {
+    return ahv;
+  }
+  
+  public void setAhv(String ahv) {
+    this.ahv = ahv;
   }
 
   public String getEmail() {
@@ -122,5 +134,13 @@ public class Employee {
 
   public void setIsActive(Boolean isActive) {
     this.isActive = isActive;
+  }
+
+  public Calendar getBirthday() {
+    return birthday;
+  }
+
+  public void setBirthday(Calendar birthday) {
+    this.birthday = birthday;
   }
 }

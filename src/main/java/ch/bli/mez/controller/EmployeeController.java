@@ -101,6 +101,8 @@ public class EmployeeController {
     form.setHomeNumber(employee.getHomeNumber());
     form.setMobileNumber(employee.getMobileNumber());
     form.setStreet(employee.getStreet());
+    form.setAhv(employee.getAhv());
+    form.setBirthday(employee.getBirthday());
     form.setStatusButton(employee.getIsActive());
     return form;
   }
@@ -117,6 +119,8 @@ public class EmployeeController {
       employee.setMobileNumber(form.getMobileNumber());
       employee.setHomeNumber(form.getHomeNumber());
       employee.setEmail(form.getEmail());
+      employee.setAhv(form.getAhv());
+      employee.setBirthday(form.getBirthday());
       return employee;
     }
     throw new InvalidObjectException("Employee invalid");

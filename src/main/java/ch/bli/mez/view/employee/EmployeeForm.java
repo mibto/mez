@@ -8,24 +8,29 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ch.bli.mez.util.Worktime;
+
 public class EmployeeForm extends JPanel {
 
   private static final long serialVersionUID = 2105749706100780883L;
 
-  private JTextField lastnameTextField;
-  private JTextField firstnameTextField;
-  private JTextField streetTextField;
-  private JTextField cityTextField;
-  private JTextField plzTextField;
-  private JTextField homeNumberTextField;
-  private JTextField mobileNumberTextField;
-  private JTextField emailTextField;
+  private JTextField lastname;
+  private JTextField firstname;
+  private JTextField street;
+  private JTextField city;
+  private JTextField plz;
+  private JTextField homeNumber;
+  private JTextField mobileNumber;
+  private JTextField email;
+  private JTextField birthday;
+  private JTextField ahv;
 
   private JButton saveButton;
   private JButton statusButton;
@@ -40,7 +45,7 @@ public class EmployeeForm extends JPanel {
   private void build() {
     JPanel entryPanel = new JPanel();
     entryPanel.setLayout(new GridBagLayout());
-    entryPanel.setPreferredSize(new Dimension(600, 162));
+    entryPanel.setPreferredSize(new Dimension(600, 200));
 
     // helpPanel to create distance between first & second column
     addPersonalComponent(entryPanel, new JPanel(), 2, 0, 1, 1.0);
@@ -49,56 +54,70 @@ public class EmployeeForm extends JPanel {
     lbllastname.setFont(lbllastname.getFont().deriveFont(Font.BOLD));
     addPersonalComponent(entryPanel, lbllastname, 0, 0, 1, 0);
 
-    lastnameTextField = new JTextField();
-    addPersonalComponent(entryPanel, lastnameTextField, 1, 0, 1, 1.0);
+    lastname = new JTextField();
+    addPersonalComponent(entryPanel, lastname, 1, 0, 1, 1.0);
 
     JLabel lblfirstname = new JLabel("Vorname");
     lblfirstname.setFont(lblfirstname.getFont().deriveFont(Font.BOLD));
     addPersonalComponent(entryPanel, lblfirstname, 3, 0, 1, 0);
 
-    firstnameTextField = new JTextField();
-    addPersonalComponent(entryPanel, firstnameTextField, 4, 0, 1, 1.0);
+    firstname = new JTextField();
+    addPersonalComponent(entryPanel, firstname, 4, 0, 1, 1.0);
 
     JLabel lblstreet = new JLabel("Strasse");
     addPersonalComponent(entryPanel, lblstreet, 0, 1, 1, 0);
 
-    streetTextField = new JTextField();
-    addPersonalComponent(entryPanel, streetTextField, 1, 1, 1, 1.0);
+    street = new JTextField();
+    addPersonalComponent(entryPanel, street, 1, 1, 1, 1.0);
 
     JLabel lblplz = new JLabel("PLZ");
     addPersonalComponent(entryPanel, lblplz, 0, 2, 1, 0);
 
-    plzTextField = new JTextField();
-    plzTextField.setColumns(4);
-    addPersonalComponent(entryPanel, plzTextField, 1, 2, 1, 1.0);
+    plz = new JTextField();
+    plz.setColumns(4);
+    addPersonalComponent(entryPanel, plz, 1, 2, 1, 1.0);
 
     JLabel lblcity = new JLabel("Ort");
     addPersonalComponent(entryPanel, lblcity, 3, 2, 1, 0);
 
-    cityTextField = new JTextField();
-    cityTextField.setColumns(10);
-    addPersonalComponent(entryPanel, cityTextField, 4, 2, 2, 1.0);
+    city = new JTextField();
+    city.setColumns(10);
+    addPersonalComponent(entryPanel, city, 4, 2, 2, 1.0);
 
     JLabel lblhomeNumber = new JLabel("Festnetz");
     addPersonalComponent(entryPanel, lblhomeNumber, 0, 3, 1, 0);
 
-    homeNumberTextField = new JTextField();
-    homeNumberTextField.setColumns(10);
-    addPersonalComponent(entryPanel, homeNumberTextField, 1, 3, 1, 1.0);
+    homeNumber = new JTextField();
+    homeNumber.setColumns(10);
+    addPersonalComponent(entryPanel, homeNumber, 1, 3, 1, 1.0);
 
     JLabel lblmobileNumber = new JLabel("Handy");
     addPersonalComponent(entryPanel, lblmobileNumber, 3, 3, 1, 0);
 
-    mobileNumberTextField = new JTextField();
-    mobileNumberTextField.setColumns(10);
-    addPersonalComponent(entryPanel, mobileNumberTextField, 4, 3, 1, 1.0);
+    mobileNumber = new JTextField();
+    mobileNumber.setColumns(10);
+    addPersonalComponent(entryPanel, mobileNumber, 4, 3, 1, 1.0);
+    
+    JLabel lblBirthday = new JLabel("Geburtsdatum");
+    addPersonalComponent(entryPanel, lblBirthday, 0, 4, 1, 0);
+    
+    birthday = new JTextField();
+    birthday.setColumns(10);
+    addPersonalComponent(entryPanel, birthday, 1, 4, 1, 1.0);
+    
+    JLabel lblAhv = new JLabel("AHV-Nummer");
+    addPersonalComponent(entryPanel, lblAhv, 0, 5, 1, 0);
+    
+    ahv = new JTextField();
+    ahv.setColumns(10);
+    addPersonalComponent(entryPanel, ahv, 1, 5, 1, 1.0);
 
     JLabel lblemail = new JLabel("E-Mail");
-    addPersonalComponent(entryPanel, lblemail, 0, 4, 1, 0);
+    addPersonalComponent(entryPanel, lblemail, 0, 6, 1, 0);
 
-    emailTextField = new JTextField();
-    emailTextField.setColumns(20);
-    addPersonalComponent(entryPanel, emailTextField, 1, 4, 4, 1.0);
+    email = new JTextField();
+    email.setColumns(20);
+    addPersonalComponent(entryPanel, email, 1, 6, 4, 1.0);
 
     saveButton = new JButton("Speichern");
     addPersonalComponent(entryPanel, saveButton, 4, 5, 1, 0);
@@ -168,67 +187,83 @@ public class EmployeeForm extends JPanel {
   }
 
   public String getFirstname() {
-    return firstnameTextField.getText();
+    return firstname.getText();
   }
 
   public String getLastname() {
-    return lastnameTextField.getText();
+    return lastname.getText();
   }
 
   public String getStreet() {
-    return streetTextField.getText();
+    return street.getText();
   }
 
   public String getCity() {
-    return cityTextField.getText();
+    return city.getText();
   }
 
   public String getPlz() {
-    return plzTextField.getText();
+    return plz.getText();
   }
 
   public String getMobileNumber() {
-    return mobileNumberTextField.getText();
+    return mobileNumber.getText();
   }
 
   public String getHomeNumber() {
-    return homeNumberTextField.getText();
+    return homeNumber.getText();
   }
 
   public String getEmail() {
-    return emailTextField.getText();
+    return email.getText();
   }
 
   public void setLastname(String value) {
-    this.lastnameTextField.setText(value);
+    this.lastname.setText(value);
   }
 
   public void setFirstname(String value) {
-    this.firstnameTextField.setText(value);
+    this.firstname.setText(value);
   }
 
   public void setStreet(String value) {
-    this.streetTextField.setText(value);
+    this.street.setText(value);
   }
 
   public void setCity(String value) {
-    this.cityTextField.setText(value);
+    this.city.setText(value);
   }
 
   public void setPlz(String value) {
-    this.plzTextField.setText(value);
+    this.plz.setText(value);
   }
 
   public void setHomeNumber(String value) {
-    this.homeNumberTextField.setText(value);
+    this.homeNumber.setText(value);
   }
 
   public void setMobileNumber(String value) {
-    this.mobileNumberTextField.setText(value);
+    this.mobileNumber.setText(value);
   }
 
   public void setEmail(String value) {
-    this.emailTextField.setText(value);
+    this.email.setText(value);
+  }
+
+  public Calendar getBirthday() {
+    return Worktime.createDate(birthday.getText());
+  }
+
+  public void setBirthday(Calendar birthday) {
+    this.birthday.setText(Worktime.parseCalendar(birthday));
+  }
+
+  public String getAhv() {
+    return ahv.getText();
+  }
+
+  public void setAhv(String ahv) {
+    this.ahv.setText(ahv);
   }
 
   // setListeners
@@ -254,13 +289,13 @@ public class EmployeeForm extends JPanel {
         }
       }
     };
-    lastnameTextField.addKeyListener(enterKeyListener);
-    firstnameTextField.addKeyListener(enterKeyListener);
-    streetTextField.addKeyListener(enterKeyListener);
-    cityTextField.addKeyListener(enterKeyListener);
-    plzTextField.addKeyListener(enterKeyListener);
-    homeNumberTextField.addKeyListener(enterKeyListener);
-    mobileNumberTextField.addKeyListener(enterKeyListener);
-    emailTextField.addKeyListener(enterKeyListener);
+    lastname.addKeyListener(enterKeyListener);
+    firstname.addKeyListener(enterKeyListener);
+    street.addKeyListener(enterKeyListener);
+    city.addKeyListener(enterKeyListener);
+    plz.addKeyListener(enterKeyListener);
+    homeNumber.addKeyListener(enterKeyListener);
+    mobileNumber.addKeyListener(enterKeyListener);
+    email.addKeyListener(enterKeyListener);
   }
 }
