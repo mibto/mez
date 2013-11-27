@@ -99,31 +99,31 @@ public class EmployeeForm extends JPanel {
     addPersonalComponent(entryPanel, mobileNumber, 4, 3, 1, 1.0);
     
     JLabel lblBirthday = new JLabel("Geburtsdatum");
-    addPersonalComponent(entryPanel, lblBirthday, 0, 4, 1, 0);
+    addPersonalComponent(entryPanel, lblBirthday, 0, 5, 1, 0);
     
     birthday = new JTextField();
     birthday.setColumns(10);
-    addPersonalComponent(entryPanel, birthday, 1, 4, 1, 1.0);
+    addPersonalComponent(entryPanel, birthday, 1, 5, 1, 1.0);
     
     JLabel lblAhv = new JLabel("AHV-Nummer");
-    addPersonalComponent(entryPanel, lblAhv, 0, 5, 1, 0);
+    addPersonalComponent(entryPanel, lblAhv, 3, 5, 1, 0);
     
     ahv = new JTextField();
     ahv.setColumns(10);
-    addPersonalComponent(entryPanel, ahv, 1, 5, 1, 1.0);
+    addPersonalComponent(entryPanel, ahv, 4, 5, 1, 1.0);
 
     JLabel lblemail = new JLabel("E-Mail");
-    addPersonalComponent(entryPanel, lblemail, 0, 6, 1, 0);
+    addPersonalComponent(entryPanel, lblemail, 0, 4, 1, 0);
 
     email = new JTextField();
     email.setColumns(20);
-    addPersonalComponent(entryPanel, email, 1, 6, 4, 1.0);
+    addPersonalComponent(entryPanel, email, 1, 4, 4, 1.0);
 
     saveButton = new JButton("Speichern");
-    addPersonalComponent(entryPanel, saveButton, 4, 5, 1, 0);
+    addPersonalComponent(entryPanel, saveButton, 4, 6, 1, 0);
 
     statusButton = new JButton();
-    addPersonalComponent(entryPanel, statusButton, 1, 5, 1, 0);
+    addPersonalComponent(entryPanel, statusButton, 1, 6, 1, 0);
 
     this.add(entryPanel);
   }
@@ -160,6 +160,8 @@ public class EmployeeForm extends JPanel {
     setMobileNumber("");
     setHomeNumber("");
     setEmail("");
+    setBirthday(null);
+    setAhv("");
   }
 
   public boolean validateFields() {
@@ -297,5 +299,7 @@ public class EmployeeForm extends JPanel {
     homeNumber.addKeyListener(enterKeyListener);
     mobileNumber.addKeyListener(enterKeyListener);
     email.addKeyListener(enterKeyListener);
+    birthday.addKeyListener(enterKeyListener);
+    ahv.addKeyListener(enterKeyListener);
   }
 }
