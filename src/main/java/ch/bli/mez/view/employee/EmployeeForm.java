@@ -37,12 +37,12 @@ public class EmployeeForm extends JPanel {
 
   private JPanel holidayContentPanel;
 
-  public EmployeeForm() {
-    build();
+  public EmployeeForm(boolean isNewEmployee) {
+    build(isNewEmployee);
     addGuiFeatureListener();
   }
 
-  private void build() {
+  private void build(boolean isNewEmployee) {
     JPanel entryPanel = new JPanel();
     entryPanel.setLayout(new GridBagLayout());
     entryPanel.setPreferredSize(new Dimension(600, 200));
@@ -123,6 +123,7 @@ public class EmployeeForm extends JPanel {
     addPersonalComponent(entryPanel, saveButton, 4, 6, 1, 0);
 
     statusButton = new JButton();
+    statusButton.setVisible(!isNewEmployee);
     addPersonalComponent(entryPanel, statusButton, 1, 6, 1, 0);
 
     this.add(entryPanel);
