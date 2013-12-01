@@ -5,8 +5,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Worktime {
-// rewrite as public static methods or as a Worktime Object that can return date as integer or string
-  
+  // rewrite as public static methods or as a Worktime Object that can return
+  // date as integer or string
+
   /*
    * Nimmt die Zeit im Format 1:30, 0:00 oder auch nur Minuten entgegen. Es wird
    * hier mit RegEx gearbeitet.
@@ -22,7 +23,8 @@ public class Worktime {
         workminutes = Integer.parseInt(worktime);
       } else if (worktime.matches("[0-9]*[:,.]{1}[0-9]{2}")) {
         String workhours[] = worktime.split("[:,.]");
-        workminutes = Integer.parseInt(workhours[0]) * 60 + Integer.parseInt(workhours[1]);
+        workminutes = Integer.parseInt(workhours[0]) * 60
+            + Integer.parseInt(workhours[1]);
       }
     }
     return workminutes;
@@ -31,7 +33,7 @@ public class Worktime {
   /*
    * Übersetzt Minuten ins stundenformat xx:xx
    */
-   public static String parseMinutesToWorkTime(Integer workminutes) {
+  public static String parseMinutesToWorkTime(Integer workminutes) {
     String worktime = "";
     if ((workminutes / 60) > 0) {
       worktime = worktime + (workminutes / 60);
@@ -50,8 +52,8 @@ public class Worktime {
   /*
    * Aus String ein Calendar erstellen
    */
-   public static Calendar createDate(String date) {
-    if (date.equals("")){
+  public static Calendar createDate(String date) {
+    if (date.equals("")) {
       return null;
     }
     String splittedDate[] = date.split("\\.");
@@ -63,6 +65,7 @@ public class Worktime {
     }
     calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]) - 1);
     calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
+
     return calendar;
   }
 
@@ -70,13 +73,12 @@ public class Worktime {
    * Format Calendar auf String umwandeln (anzeigetyp)
    */
   public static String parseCalendar(Calendar calendar) {
-    if (calendar == null){
+    if (calendar == null) {
       return "";
     }
     Date date = calendar.getTime();
     SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");
     return format1.format(date);
   }
-  
-  
+
 }
