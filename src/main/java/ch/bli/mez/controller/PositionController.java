@@ -30,22 +30,28 @@ public class PositionController {
   }
 
   private void addPositionEntrys() {
-    view.setNewPositionForm(new PositionForm(true));
+    view.setNewPositionForm(createPositionForm(null));
     for (Position position : model.findAll()) {
       view.addPositionForm(createPositionForm(position));
     }
   }
 
   private PositionForm createPositionForm(final Position position) {
-    final PositionForm form = new PositionForm(position.getIsActive());
-    form.setPositionName(position.getPositionName());
-    form.setComment(position.getComment());
-    form.setPositionCode(position.getCode());
-    if (position.isOrganDefault()) {
-      form.setMissionName("Orgeln");
-    } else {
-      Mission mission = (Mission) position.getMissions().toArray()[0];
-      form.setMissionName(mission.getMissionName());
+    final PositionForm form;
+    if (position == null){
+      form = new PositionForm(true);
+    }
+    else {
+      form = new PositionForm(position.getIsActive());
+      form.setPositionName(position.getPositionName());
+      form.setComment(position.getComment());
+      form.setPositionCode(position.getCode());
+      if (position.isOrganDefault()) {
+        form.setMissionName("Orgeln");
+      } else {
+        Mission mission = (Mission) position.getMissions().toArray()[0];
+        form.setMissionName(mission.getMissionName());
+      }      
     }
 
     setPositionFormActionListeners(form, position);
@@ -57,14 +63,7 @@ public class PositionController {
 
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-          if (!form.getPositionName().equals("")) {
-            position.setPositionName(form.getPositionName());
-          } else {
-            form.setPositionName(position.getPositionName());
-          }
-          position.setCode(form.getPositionCode());
-          position.setComment(form.getComment());
-          model.updatePosition(position);
+        updatePosition(position, form);
       }
     }));
 
@@ -97,12 +96,54 @@ public class PositionController {
     this.model = positionModel;
   }
 
-  public void updatePosition(Position position, PositionForm positionForm, boolean b) {
-    // TODO Auto-generated method stub
+  public void updatePosition(Position position, PositionForm form) {
+    boolean newPosition = false;
+    if (position == null){
+      newPosition = true;
+      position = makePosition();
+    }
+    if (validateFields(form, position)){
+      if (newPosition){
+        Boolean isOrganDefault = view.getSelectedMission() == 0;
+        position.setOrganDefault(isOrganDefault);
+        if (isOrganDefault) {
+          List<Mission> organMissions = missionModel.getOrganMissions();
+          position.addMissions(organMissions);
+        } else {
+          Mission mission = missionModel.getMission(view
+              .getSelectedMission());
+          position.addMission(mission);
+        }
+      }
+      position.setCode(form.getPositionCode());
+      position.setPositionName(form.getPositionName());
+      position.setComment(form.getComment());
+      if (newPosition) {
+        model.addPosition(position);
+      }
+      else {
+        model.updatePosition(position);              
+      }
+    }
+  }
+  
+  public Boolean validateFields(PositionForm form, Position position){
+    if (!form.validateFields()){
+      return false;
+    }
+    Position savedPosition = model.findByCode(form.getPositionCode());
+    if (savedPosition != null && !position.getCode().equals(savedPosition.getCode())){
+      form.getParentPanel().showError("Eine Position mit diesem Code existiert schon.");
+      return false;
+    }
+    if (savedPosition != null && !position.getPositionName().equals(savedPosition.getPositionName())){
+      form.getParentPanel().showError("Eine Position mit diesem Name existiert schon.");
+      return false;
+    }
+    return true;
   }
 
-  public Object makePosition() {
-    // TODO Auto-generated method stub
-    return null;
+  public Position makePosition() {
+    return new Position();
   }
 }

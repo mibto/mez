@@ -10,7 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PositionForm extends JPanel{
+import ch.bli.mez.view.DefaultForm;
+
+public class PositionForm extends DefaultForm{
 
   private static final long serialVersionUID = 7585160645657478969L;
 
@@ -147,11 +149,11 @@ public class PositionForm extends JPanel{
 
   public Boolean validateFields() {
     if ("".equals(getPositionCode())){
-      parentPanel.showError("Es wurde keine Position eingegeben.");
+      getParentPanel().showError("Es wurde keine Position eingegeben.");
       return false;
     }
     if ("".equals(getPositionName())){
-      parentPanel.showError("Es wurde keine Name eingegeben.");
+      getParentPanel().showError("Es wurde keine Name eingegeben.");
       return false;
     }
     return true;
