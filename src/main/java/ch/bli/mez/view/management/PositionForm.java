@@ -147,8 +147,13 @@ public class PositionForm extends JPanel{
 
   public Boolean validateFields() {
     if ("".equals(getPositionCode())){
-      return False;
+      parentPanel.showError("Es wurde keine Position eingegeben.");
+      return false;
     }
-    return True;
+    if ("".equals(getPositionName())){
+      parentPanel.showError("Es wurde keine Name eingegeben.");
+      return false;
+    }
+    return true;
   }
 }
