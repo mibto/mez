@@ -117,4 +117,13 @@ public class Position {
   public void setOrganDefault(boolean isOrganDefault) {
     this.isOrganDefault = isOrganDefault;
   }
+
+  public Mission firstMission() {
+    if (!missions.isEmpty()){
+      return (Mission) missions.toArray()[0];      
+    }
+    else{
+      return null;
+    }
+  }
 }

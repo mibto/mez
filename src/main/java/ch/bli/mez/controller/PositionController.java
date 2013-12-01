@@ -28,6 +28,14 @@ public class PositionController {
   public PositionPanel getView() {
     return view;
   }
+  
+  public void setView(PositionPanel view){
+    this.view = view;
+  }
+  
+  public void setMissionModel(MissionDAO missionModel) {
+    this.missionModel = missionModel;
+  }
 
   private void addPositionEntrys() {
     view.setCreateNewForm(createPositionForm(null));
@@ -36,7 +44,7 @@ public class PositionController {
     }
   }
 
-  private PositionForm createPositionForm(final Position position) {
+  protected PositionForm createPositionForm(final Position position) {
     final PositionForm form;
     if (position == null){
       form = new PositionForm(true);
@@ -49,7 +57,7 @@ public class PositionController {
       if (position.isOrganDefault()) {
         form.setMissionName("Orgeln");
       } else {
-        Mission mission = (Mission) position.getMissions().toArray()[0];
+        Mission mission = position.firstMission();
         form.setMissionName(mission.getMissionName());
       }      
     }
@@ -115,9 +123,9 @@ public class PositionController {
           position.addMission(mission);
         }
       }
-      position.setCode(form.getPositionCode());
       position.setPositionName(form.getPositionName());
       position.setComment(form.getComment());
+      position.setCode(form.getPositionCode());
       if (newPosition) {
         position.setIsActive(true);
         model.addPosition(position);

@@ -23,8 +23,8 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
-import ch.bli.mez.view.management.MissionPanel;
 
 /**
  * Prüft ob der Controller richtig erstellt wird, und ob die View instanziert
@@ -43,7 +43,7 @@ public class MissionControllerTest {
   static Mission mission;
 
   @Mock
-  static MissionPanel missionPanel;
+  static DefaultPanel missionPanel;
 
   @Mock
   static MissionForm missionForm;
@@ -86,7 +86,7 @@ public class MissionControllerTest {
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
 
-    instance.updateMission(mission, missionForm, false);
+    instance.updateMission(mission, missionForm);
 
     InOrder inOrder = inOrder(missionForm, mission, missionModel);
 
@@ -109,7 +109,7 @@ public class MissionControllerTest {
     when(mission.getIsOrgan()).thenReturn(true);
     when(mission.getMissionName()).thenReturn("Name");
 
-    instance.updateMission(mission, missionForm, false);
+    instance.updateMission(mission, missionForm);
     inOrder = inOrder(missionForm, mission, missionModel);
 
     inOrder.verify(missionForm).validateFields();
@@ -141,7 +141,7 @@ public class MissionControllerTest {
 
     inOrder = inOrder(missionForm, mission, missionModel, positionModel, mySpy);
 
-    mySpy.updateMission(mission, missionForm, true);
+    mySpy.updateMission(mission, missionForm);
 
     inOrder.verify(missionForm).validateFields();
     inOrder.verify(mySpy).makeMission();
@@ -162,7 +162,7 @@ public class MissionControllerTest {
     when(missionForm.validateFields()).thenReturn(false);
     when(mission.getMissionName()).thenReturn("");
 
-    instance.updateMission(mission, missionForm, true);
+    instance.updateMission(mission, missionForm);
 
     verify(missionForm).validateFields();
     verify(missionForm, never()).getMissionName();

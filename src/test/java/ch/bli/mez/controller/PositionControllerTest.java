@@ -8,6 +8,7 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.management.PositionForm;
+import ch.bli.mez.view.management.PositionPanel;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PositionControllerTest {
@@ -37,12 +39,16 @@ public class PositionControllerTest {
 
   @Mock
   static PositionForm positionForm;
+  
+  @Mock
+  static PositionPanel view;
 
   @Before
   public void setUp() {
     instance = new PositionController();
     MockitoAnnotations.initMocks(this);
     instance.setModel(positionModel);
+    instance.setView(view);
   }
 
   @After
@@ -58,9 +64,9 @@ public class PositionControllerTest {
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    //when(positionForm.getCode()).thenReturn("A4");
+    when(positionForm.getPositionCode()).thenReturn("A4");
 
-    instance.updatePosition(position, positionForm, false);
+    instance.updatePosition(position, positionForm);
 
     InOrder inOrder = inOrder(position, positionForm, positionModel);
 
@@ -69,68 +75,86 @@ public class PositionControllerTest {
     inOrder.verify(position).setPositionName("PositionName");
     inOrder.verify(positionForm).getComment();
     inOrder.verify(position).setComment("");
-    //inOrder.verify(positionForm).getCode();
+    inOrder.verify(positionForm).getPositionCode();
     inOrder.verify(position).setCode("A4");
     inOrder.verify(positionModel).updatePosition(position);
 
     // Case 2: new Position which is the same for all organs, valid
     reset(position, positionForm, positionModel);
-
+    
     MissionDAO missionModel = Mockito.mock(MissionDAO.class);
+    instance.setMissionModel(missionModel);
+    
     PositionController mySpy = spy(instance);
 
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    //when(positionForm.getCode()).thenReturn("A4");
-    //when(positionForm.getSelectedMission()).thenReturn("0");
-    when(mySpy.makePosition()).thenReturn(position);
+    when(positionForm.getPositionCode()).thenReturn("A4");
+    when(view.getSelectedMission()).thenReturn(0);
+    Position newPosition = Mockito.mock(Position.class);
+    Mission mission = Mockito.mock(Mission.class);
+    when(newPosition.firstMission()).thenReturn(mission);
+    doReturn(Mockito.mock(PositionForm.class)).when(mySpy).createPositionForm(newPosition);
+    when(mission.getMissionName()).thenReturn("sdfa");
+    when(mySpy.makePosition()).thenReturn(newPosition);
 
-    mySpy.updatePosition(position, positionForm, true);
+    position = null;
+    
+    mySpy.updatePosition(position, positionForm);
 
-    inOrder = inOrder(position, positionForm, positionModel, mySpy);
-
+    inOrder = inOrder(missionModel, view, newPosition, positionForm, positionModel, mySpy);
+    
     inOrder.verify(positionForm).validateFields();
     inOrder.verify(mySpy).makePosition();
-    inOrder.verify(positionForm).getPositionName();
-    inOrder.verify(position).setPositionName("PositionName");
-    inOrder.verify(positionForm).getComment();
-    inOrder.verify(position).setComment("");
-    //inOrder.verify(positionForm).getCode();
-    inOrder.verify(position).setCode("A4");
-    //inOrder.verify(positionForm).getSelectedMission();
-    inOrder.verify(position).setOrganDefault(true);
+    inOrder.verify(view).getSelectedMission();
+    inOrder.verify(newPosition).setOrganDefault(true);
     inOrder.verify(missionModel).getOrganMissions();
-    inOrder.verify(position).addMissions(anyListOf(Mission.class));
-    inOrder.verify(positionModel).updatePosition(position);
+    inOrder.verify(newPosition).addMissions(anyListOf(Mission.class));
+    inOrder.verify(positionForm).getPositionName();
+    inOrder.verify(newPosition).setPositionName("PositionName");
+    inOrder.verify(positionForm).getComment();
+    inOrder.verify(newPosition).setComment("");
+    inOrder.verify(positionForm).getPositionCode();
+    inOrder.verify(newPosition).setCode("A4");
+    inOrder.verify(positionModel).addPosition(newPosition);
 
     // Case 3: new Position which is not on missionOrgan, valid
-    reset(position, positionForm, positionModel, missionModel, mySpy);
+    reset(view, mission, newPosition, positionForm, positionModel, missionModel, mySpy);
 
     when(positionForm.validateFields()).thenReturn(true);
     when(positionForm.getPositionName()).thenReturn("PositionName");
     when(positionForm.getComment()).thenReturn("");
-    //when(positionForm.getCode()).thenReturn("A4");
-    //when(positionForm.getSelectedMission()).thenReturn(1);
-    when(mySpy.makePosition()).thenReturn(position);
+    when(positionForm.getPositionCode()).thenReturn("A4");
+    when(view.getSelectedMission()).thenReturn(1);
+    mission = Mockito.mock(Mission.class);
+    when(newPosition.firstMission()).thenReturn(mission);
+    doReturn(Mockito.mock(PositionForm.class)).when(mySpy).createPositionForm(newPosition);
+    when(mission.getMissionName()).thenReturn("sdfa");
+    when(missionModel.getMission(1)).thenReturn(mission);
+    when(mySpy.makePosition()).thenReturn(newPosition);
 
-    mySpy.updatePosition(position, positionForm, true);
+    position = null;
 
-    inOrder = inOrder(position, positionForm, positionModel, mySpy);
+    mySpy.updatePosition(position, positionForm);
 
+    inOrder = inOrder(view, newPosition, positionForm, missionModel, positionModel, mySpy);
+
+    position = null;
+    
     inOrder.verify(positionForm).validateFields();
     inOrder.verify(mySpy).makePosition();
-    inOrder.verify(positionForm).getPositionName();
-    inOrder.verify(position).setPositionName("PositionName");
-    inOrder.verify(positionForm).getComment();
-    inOrder.verify(position).setComment("");
-    //inOrder.verify(positionForm).getCode();
-    inOrder.verify(position).setCode("A4");
-    //inOrder.verify(positionForm).getSelectedMission();
-    inOrder.verify(position).setOrganDefault(false);
+    inOrder.verify(view).getSelectedMission();
+    inOrder.verify(newPosition).setOrganDefault(false);
     verify(missionModel, never()).getOrganMissions();
     inOrder.verify(missionModel).getMission(1);
-    inOrder.verify(position).addMission(isA(Mission.class));
-    inOrder.verify(positionModel).updatePosition(position);
+    inOrder.verify(newPosition).addMission(isA(Mission.class));
+    inOrder.verify(positionForm).getPositionName();
+    inOrder.verify(newPosition).setPositionName("PositionName");
+    inOrder.verify(positionForm).getComment();
+    inOrder.verify(newPosition).setComment("");
+    inOrder.verify(positionForm).getPositionCode();
+    inOrder.verify(newPosition).setCode("A4");
+    inOrder.verify(positionModel).addPosition(newPosition);
   }
 }
