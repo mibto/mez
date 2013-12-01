@@ -15,7 +15,7 @@ import ch.bli.mez.view.DefaultForm;
  * @author dave
  * @version 1.0
  */
-public class DefaultPanel extends DefaultForm {
+public class ContractPanel extends DefaultForm {
 
   private static final long serialVersionUID = -4040659975448618036L;
 
@@ -29,7 +29,7 @@ public class DefaultPanel extends DefaultForm {
 
   private JButton saveButton;
 
-  public DefaultPanel() {
+  public ContractPanel() {
     build();
     setEnterKeyListener(saveButton, new JTextField[] {workquotaTextField, startDateTextField, endDateTextField});
   }
