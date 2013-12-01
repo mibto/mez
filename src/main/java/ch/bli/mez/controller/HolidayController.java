@@ -30,27 +30,33 @@ public class HolidayController {
   }
 
   private void addForms() {
+    view.setCreateNewForm(createHolidayForm(null));
     for (Holiday holiday : model.getGlobalHoliday()) {
-      view.addForm(createHolidayForm(holiday, false));
+      view.addForm(createHolidayForm(holiday));
     }
   }
 
-  private HolidayForm createHolidayForm(Holiday holiday, boolean isNew) {
-    final HolidayForm holidayForm = new HolidayForm();
+  private HolidayForm createHolidayForm(Holiday holiday) {
+    final HolidayForm form = new HolidayForm();
+    form.setDefaultPanel(view);
 
-    holidayForm.setYear(String.valueOf(holiday.getYear()));
-    holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-    holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+    if (holiday == null) {
+      form.showAsCreateNew();
+    } else {
+      form.setYear(String.valueOf(holiday.getYear()));
+      form.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
+      form.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
+    }
 
-    setHolidayFormActionListeners(holidayForm, holiday, isNew);
+    setHolidayFormActionListeners(form, holiday);
 
-    return holidayForm;
+    return form;
   }
 
-  private void setHolidayFormActionListeners(final HolidayForm form, final Holiday holiday, final boolean isNew) {
+  private void setHolidayFormActionListeners(final HolidayForm form, final Holiday holiday) {
     form.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        updateHoliday(holiday, form, isNew);
+        updateHoliday(holiday, form);
       }
     });
   }
@@ -71,14 +77,22 @@ public class HolidayController {
     return false;
   }
 
-  public void updateHoliday(Holiday holiday, HolidayForm form, boolean isNew) {
+  public void updateHoliday(Holiday holiday, HolidayForm form) {
+    boolean newholiday = false;
+
+    if (holiday == null) {
+      newholiday = true;
+      holiday = makeHoliday();
+    }
+
     if (validateFields(form)) {
       holiday.setYear(Integer.parseInt(form.getYear()));
       holiday.setPublicHolidays(Integer.parseInt(form.getPublicHolidays()));
       holiday.setPreworkdays(Integer.parseInt(form.getPreWorkdays()));
-      if (isNew) {
-        holiday = makeHoliday();
+
+      if (newholiday) {
         model.addHoliday(holiday);
+        view.addForm(createHolidayForm(holiday));
         form.cleanFields();
       } else {
         model.updateHoliday(holiday);
