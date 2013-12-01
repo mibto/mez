@@ -8,28 +8,28 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
-import ch.bli.mez.view.management.MissionPanel;
 
 /**
- * @author Michael Brodmann
+ * @author Leandra Finger
  * @version 1.0
  */
 
 public class MissionController {
 
-  private MissionPanel view;
+  private DefaultPanel view;
   private MissionDAO model;
   private PositionDAO positionModel;
 
   public MissionController() {
-    this.view = new MissionPanel();
+    this.view = new DefaultPanel();
     this.model = new MissionDAO();
     this.positionModel = new PositionDAO();
     addMissionForms();
   }
 
-  public void setView(MissionPanel view) {
+  public void setView(DefaultPanel view) {
     this.view = view;
   }
 
@@ -41,14 +41,14 @@ public class MissionController {
     this.positionModel = positionModel;
   }
 
-  public MissionPanel getView() {
+  public DefaultPanel getView() {
     return view;
   }
 
   private void addMissionForms() {
-    view.setNewMissionForm(new MissionForm(true));
+    view.setCreateNewForm(new MissionForm(true));
     for (Mission mission : model.findAll()) {
-      view.addMissionForm(createMissionForm(mission));
+      view.addForm(createMissionForm(mission));
     }
   }
 
@@ -68,8 +68,12 @@ public class MissionController {
     model.addMission(mission);
   }
 
-  public void updateMission(Mission mission, MissionForm form, boolean isNewMission) {
-    if (form.validateFields()) {
+  public void updateMission(Mission mission, MissionForm form) {
+    if (validateFields(mission, form)) {
+      boolean isNewMission = false;
+      if (mission == null){
+        isNewMission = true;
+      }
       if (isNewMission) {
         mission = makeMission();
       }
@@ -86,6 +90,18 @@ public class MissionController {
         model.updateMission(mission);
       }
     }
+  }
+  
+  public boolean validateFields(Mission mission, MissionForm form){
+    if (!form.validateFields()){
+      return false;
+    }
+    Mission savedMission = model.findByMissionName(form.getMissionName());
+    if (savedMission != null && !mission.getMissionName().equals(savedMission.getMissionName())){
+      form.getParentPanel().showError("Ein Auftrag mit diesem Name existiert schon.");
+      return false;
+    }
+    return true;
   }
 
   public Mission makeMission() {
@@ -104,7 +120,7 @@ public class MissionController {
 
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        updateMission(mission, form, false);
+        updateMission(mission, form);
       }
     }));
 

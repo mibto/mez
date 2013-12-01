@@ -8,10 +8,11 @@ import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MissionForm extends JPanel {
+import ch.bli.mez.view.DefaultForm;
+
+public class MissionForm extends DefaultForm {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
@@ -74,11 +75,15 @@ public class MissionForm extends JPanel {
     setComment("");
   }
 
-  public boolean validateFields() {
-    if (getMissionName().equals("")) {
+  public Boolean validateFields() {
+    if ("".equals(getMissionName())) {
       return false;
     }
     return true;
+  }
+  
+  public void showAsCreateNew(){
+    statusButton.setVisible(false);
   }
 
   public void setSaveListener(ActionListener actionListener) {

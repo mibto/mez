@@ -30,9 +30,9 @@ public class PositionController {
   }
 
   private void addPositionEntrys() {
-    view.setNewPositionForm(createPositionForm(null));
+    view.setCreateNewForm(createPositionForm(null));
     for (Position position : model.findAll()) {
-      view.addPositionForm(createPositionForm(position));
+      view.addForm(createPositionForm(position));
     }
   }
 
@@ -120,6 +120,7 @@ public class PositionController {
       position.setComment(form.getComment());
       if (newPosition) {
         model.addPosition(position);
+        view.addForm(createPositionForm(position));
       }
       else {
         model.updatePosition(position);              
