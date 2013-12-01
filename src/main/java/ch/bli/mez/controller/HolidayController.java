@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.HolidayDAO;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.HolidayForm;
-import ch.bli.mez.view.management.HolidayPanel;
 
 /**
  * 
@@ -15,95 +15,79 @@ import ch.bli.mez.view.management.HolidayPanel;
  */
 public class HolidayController {
 
-  private HolidayPanel view;
+  private DefaultPanel view;
   private HolidayDAO model;
 
   public HolidayController() {
-    this.view = new HolidayPanel();
+    this.view = new DefaultPanel();
     this.model = new HolidayDAO();
 
-    addEntrys();
-    setActionListeners();
+    addForms();
   }
 
-  public HolidayPanel getView() {
+  public DefaultPanel getView() {
     return view;
   }
 
-  private void addEntrys() {
+  private void addForms() {
     for (Holiday holiday : model.getGlobalHoliday()) {
-      view.addHolidayListEntry(createHolidayForm(holiday));
+      view.addForm(createHolidayForm(holiday, false));
     }
   }
 
-  private HolidayForm createHolidayForm(final Holiday holiday) {
+  private HolidayForm createHolidayForm(Holiday holiday, boolean isNew) {
     final HolidayForm holidayForm = new HolidayForm();
 
     holidayForm.setYear(String.valueOf(holiday.getYear()));
     holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
     holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
 
-    setHolidayFormActionListeners(holidayForm, holiday);
+    setHolidayFormActionListeners(holidayForm, holiday, isNew);
 
     return holidayForm;
   }
 
-  private void setActionListeners() {
-    view.setSaveListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        int year;
-        int publicHolidays;
-        int preWorkdays;
-        if (view.getYear().equals("") || view.getPublicHolidays().equals("") || view.getPreWorkdays().equals("")) {
-          view.showError("Die Eingabe ist nicht gültig, es darf kein Feld leer stehen");
-          return;
-        } else if (view.getYear().length() != 4) {
-          view.showError("Das eingegebene Jahr ist nicht gültig");
-          return;
-        } else {
-          try {
-            year = Integer.parseInt(view.getYear());
-            publicHolidays = Integer.parseInt(view.getPublicHolidays());
-            preWorkdays = Integer.parseInt(view.getPreWorkdays());
-          } catch (NumberFormatException exception) {
-            view.showError("Die Eingabe ist nicht gültig, es dürfen nur Zahlen eingegeben werden");
-            return;
-          }
-        }
-        if (model.getGlobalHolidayByYear(year) != null) {
-          view.showError("Das eingegebene Jahr existiert bereits");
-          return;
-        }
-        Holiday holiday = new Holiday(year, publicHolidays, preWorkdays);
-        model.addHoliday(holiday);
-        view.addHolidayListEntry(createHolidayForm(holiday));
-        view.showConfirmation("Eintrag für das Jahr " + holiday.getYear() + " eingefügt");
+  private void setHolidayFormActionListeners(final HolidayForm form, final Holiday holiday, final boolean isNew) {
+    form.setSaveListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        updateHoliday(holiday, form, isNew);
       }
     });
   }
 
-  private void setHolidayFormActionListeners(final HolidayForm holidayForm, final Holiday holiday) {
-    holidayForm.setSaveListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        if (holidayForm.getPublicHolidays().equals("") || holidayForm.getPreWorkdays().equals("")) {
-          holidayForm.showError();
-          holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-          holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
-          return;
-        } else {
-          try {
-            holiday.setPublicHolidays(Integer.parseInt(holidayForm.getPublicHolidays()));
-            holiday.setPreworkdays(Integer.parseInt(holidayForm.getPreWorkdays()));
-          } catch (NumberFormatException exception) {
-            holidayForm.showError();
-            holidayForm.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
-            holidayForm.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
-            return;
-          }
-        }
-        model.updateHoliday(holiday);
-        holidayForm.showSuccess();
+  public boolean validateFields(HolidayForm form) {
+    if (form.validateFields()) {
+      if (model.getGlobalHolidayByYear(Integer.parseInt(form.getYear())) != null) {
+        form.getDefaultPanel().showError("Das eingegebene Jahr existiert bereits");
+        return false;
       }
-    });
+      if (form.getYear().length() != 4) {
+        form.getDefaultPanel().showError("Das Jahr muss vier Stellen umfassen z.B 2014");
+        return false;
+      }
+      form.getDefaultPanel().showConfirmation("Der Eintrag wurde gespeichert.");
+      return true;
+    }
+    return false;
   }
+
+  public void updateHoliday(Holiday holiday, HolidayForm form, boolean isNew) {
+    if (validateFields(form)) {
+      holiday.setYear(Integer.parseInt(form.getYear()));
+      holiday.setPublicHolidays(Integer.parseInt(form.getPublicHolidays()));
+      holiday.setPreworkdays(Integer.parseInt(form.getPreWorkdays()));
+      if (isNew) {
+        holiday = makeHoliday();
+        model.addHoliday(holiday);
+        form.cleanFields();
+      } else {
+        model.updateHoliday(holiday);
+      }
+    }
+  }
+
+  public Holiday makeHoliday() {
+    return new Holiday();
+  }
+
 }
