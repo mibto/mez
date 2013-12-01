@@ -33,8 +33,7 @@ public class DefaultPanel extends JPanel {
     JPanel northPanel = new JPanel();
     add(new JScrollPane(northPanel), BorderLayout.NORTH);
 
-    topPanel = new JPanel();
-    topPanel.setLayout(new BorderLayout());
+    topPanel = new JPanel(new BorderLayout());
     northPanel.add(topPanel);
 
     JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -63,6 +62,10 @@ public class DefaultPanel extends JPanel {
     listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
     centerCenterPanel.add(new JScrollPane(listPanel));
   }
+  
+  protected void setChooserPanel(JPanel chooserPanel){
+    topPanel.add(chooserPanel, BorderLayout.NORTH);
+  }
 
   public void setCreateNewForm(DefaultForm form) {
     topPanel.add(form, BorderLayout.CENTER);
@@ -74,7 +77,7 @@ public class DefaultPanel extends JPanel {
     listTitlePanel.add(titlePanel);
   }
 
-  public void setListSearchPanel(JPanel searchPanel) {
+  public void setListSearchPanel(DefaultSearchPanel searchPanel) {
     listSearchPanel.add(searchPanel);
     searchPanel.setParentPanel(this);
   }
