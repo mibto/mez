@@ -59,7 +59,7 @@ public class EmployeeController {
   private void addTabs(String employeeName) {
     view.removeAllTabs();
     addNewEmployeeTab();
-    addEmployeeTabs(model.findByKeywords("name=" + employeeName));
+    addEmployeeTabs(model.findByKeywords(employeeName));
   }
 
   private void addTabs() {
