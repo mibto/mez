@@ -61,12 +61,14 @@ public class HolidayController {
     });
   }
 
-  public boolean validateFields(HolidayForm form) {
+  public boolean validateFields(HolidayForm form, Holiday holiday) {
     if (form.validateFields()) {
-      if (model.getGlobalHolidayByYear(Integer.parseInt(form.getYear())) != null) {
+
+      if (holiday.getId() == null && model.getGlobalHolidayByYear(Integer.parseInt(form.getYear())) != null) {
         form.getDefaultPanel().showError("Das eingegebene Jahr existiert bereits");
         return false;
       }
+
       if (form.getYear().length() != 4) {
         form.getDefaultPanel().showError("Das Jahr muss vier Stellen umfassen z.B 2014");
         return false;
@@ -85,7 +87,7 @@ public class HolidayController {
       holiday = makeHoliday();
     }
 
-    if (validateFields(form)) {
+    if (validateFields(form, holiday)) {
       holiday.setYear(Integer.parseInt(form.getYear()));
       holiday.setPublicHolidays(Integer.parseInt(form.getPublicHolidays()));
       holiday.setPreworkdays(Integer.parseInt(form.getPreWorkdays()));
