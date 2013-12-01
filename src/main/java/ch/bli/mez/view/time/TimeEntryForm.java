@@ -12,8 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.bli.mez.util.Worktime;
+import ch.bli.mez.view.DefaultForm;
 
-public class TimeEntryForm extends JPanel {
+public class TimeEntryForm extends DefaultForm {
   private static final long serialVersionUID = 9171774652563879025L;
 
   private JTextField date;
@@ -30,22 +31,10 @@ public class TimeEntryForm extends JPanel {
   private JPanel positionPanel;
   private JPanel missionPanel;
   private JPanel timePanel;
-  private Integer employeeId;
 
-  private TimeEntryPanel timeEntryPanel;
-
-  public TimeEntryForm(Integer employeeId) {
-    this.setEmployeeId(employeeId);
+  public TimeEntryForm() {
     build();
     addGuiFeatureListener();
-  }
-
-  public Integer getEmployeeId() {
-    return employeeId;
-  }
-
-  public void setEmployeeId(Integer employeeId) {
-    this.employeeId = employeeId;
   }
 
   private void build() {
@@ -180,35 +169,24 @@ public class TimeEntryForm extends JPanel {
 
   }
 
-  public boolean validateFields() {
+  public Boolean validateFields() {
     if (getDate().equals("")) {
-      timeEntryPanel.showError("Es muss ein Datum eingegeben werden.");
+      getParentPanel().showError("Es muss ein Datum eingegeben werden.");
       return false;
     }
     if (getMissionName().equals("")) {
-      timeEntryPanel.showError("Es muss ein Auftrag eingegeben werden.");
+      getParentPanel().showError("Es muss ein Auftrag eingegeben werden.");
       return false;
     }
     if (getPositionCode().equals("")) {
-      timeEntryPanel.showError("Es muss eine Position angegeben werden.");
+      getParentPanel().showError("Es muss eine Position angegeben werden.");
       return false;
     }
     if (worktime.getText().equals("")
-        || (worktime.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktime
-            .getText().matches("[0-9]*")) == false) {
-      timeEntryPanel
-          .showError("Die Zeit muss korrekt angegeben werden (hh:mm oder hh.mm)");
+        || (worktime.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktime.getText().matches("[0-9]*")) == false) {
+      getParentPanel().showError("Die Zeit muss korrekt angegeben werden (hh:mm oder hh.mm)");
       return false;
     }
     return true;
   }
-
-  public void setTimeEntryPanel(TimeEntryPanel timeEntryPanel) {
-    this.timeEntryPanel = timeEntryPanel;
-  }
-
-  public TimeEntryPanel getTimeEntryPanel() {
-    return timeEntryPanel;
-  }
-
 }
