@@ -54,7 +54,7 @@ public class TimeEntryPanel extends JPanel {
   }
 
   public void setNewTimeEntryForm(TimeEntryForm form) {
-    form.showAsHeader();
+    form.showAsCreateNew();
     form.setTimeEntryPanel(this);
     timeEntryPanel.add(form);
   }
