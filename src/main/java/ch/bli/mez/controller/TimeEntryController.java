@@ -47,8 +47,8 @@ public class TimeEntryController {
     this.view = new EmployeeTabbedView();
     this.employeeSearchPanel = new EmployeeSearchPanel();
     this.view.setEmployeeSearchPanel(employeeSearchPanel);
-    timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
-    employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
+    //timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
+    //employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
   private KeyListener createTimeEntrySearchKeyListener(){
