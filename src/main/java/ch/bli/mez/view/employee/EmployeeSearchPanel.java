@@ -30,7 +30,7 @@ public class EmployeeSearchPanel extends JPanel {
     JPanel panel = new JPanel();
     initializeTextField();
     panel.add(txtSearch);
-    this.setLayout(new BorderLayout());
+    this.setLayout(new  BorderLayout());
     this.add(panel, BorderLayout.WEST);
   }
 
@@ -38,7 +38,7 @@ public class EmployeeSearchPanel extends JPanel {
    * GUI interne Listener werden hier hinzugefügt
    */
   public void initializeTextField() {
-    txtSearch.setText("search...");
+    txtSearch.setText("Search...");
     txtSearch.setColumns(10);
     txtSearch.addFocusListener(new FocusListener() {
 
@@ -52,7 +52,7 @@ public class EmployeeSearchPanel extends JPanel {
   }
 
   public String getSearchText() {
-    return txtSearch.getText();
+    return "name=" + txtSearch.getText();
   }
 
   public void setKeyListener(KeyListener keyListener) {

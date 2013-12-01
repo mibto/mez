@@ -18,6 +18,7 @@ import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
 import ch.bli.mez.view.time.TimeEntryForm;
 import ch.bli.mez.view.time.TimeEntryPanel;
+import ch.bli.mez.view.time.TimeEntrySearchPanel;
 
 public class TimeEntryController {
 
@@ -26,7 +27,9 @@ public class TimeEntryController {
   private TimeEntryDAO model;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
-  private EmployeeSearchPanel searchPanel;
+  private EmployeeSearchPanel employeeSearchPanel;
+  private TimeEntrySearchPanel timeEntrySearchPanel;
+  private TimeEntryPanel timeEntryPanel;
 
   public TimeEntryController() {
     this.model = new TimeEntryDAO();
@@ -43,18 +46,32 @@ public class TimeEntryController {
 
   private void setView() {
     this.view = new EmployeeTabbedView();
-    this.searchPanel = new EmployeeSearchPanel();
-    this.view.setEmployeeSearchPanel(searchPanel);
-    searchPanel.setKeyListener(createSearchKeyListener());
+    this.employeeSearchPanel = new EmployeeSearchPanel();
+    this.timeEntrySearchPanel = new TimeEntrySearchPanel();
+    this.view.setEmployeeSearchPanel(employeeSearchPanel);
+    timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
+    employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
-  private KeyListener createSearchKeyListener() {
+  private KeyListener createTimeEntrySearchKeyListener(){
+    return new KeyListener(){
+      public void keyPressed(KeyEvent arg0) {
+      }
+      public void keyReleased(KeyEvent arg0) {
+        
+      }
+      public void keyTyped(KeyEvent arg0) {
+      }
+    }
+  }
+  
+  private KeyListener createEmployeeSearchKeyListener() {
     return new KeyListener() {
       public void keyTyped(KeyEvent e) {
       }
 
       public void keyReleased(KeyEvent e) {
-        addTabs(searchPanel.getSearchText());
+        addTabs(employeeSearchPanel.getSearchText());
       }
 
       public void keyPressed(KeyEvent e) {
@@ -63,7 +80,7 @@ public class TimeEntryController {
   }
 
   private void addTabs(String employeeName) {
-    addEmployeeTabs(employeeModel.findByKeywords("name=" + employeeName));
+    addEmployeeTabs(employeeModel.findByKeywords(employeeName));
   }
 
   private void addTabs() {
@@ -87,19 +104,26 @@ public class TimeEntryController {
   }
 
   private TimeEntryPanel createTimePanel(Employee employee) {
-    TimeEntryPanel timeEntryPanel = new TimeEntryPanel(employee.getId());
-    timeEntryPanel.setNewTimeEntryForm(createTimeEntryForm(null, true,
-        employee.getId()));
-
-    for (TimeEntry timeEntry : model.findAll(employee)) {
-      timeEntryPanel.addTimeEntryForm(createTimeEntryForm(timeEntry, false,
-          employee.getId()));
-    }
+    timeEntryPanel = new TimeEntryPanel(employee.getId());
+    timeEntryPanel.setNewTimeEntryForm(createTimeEntryForm(null, true, employee.getId()));
+    timeEntryPanel.setListSearchPanel(timeEntrySearchPanel);
+    timeEntryPanel.setNewTimeEntryForm(createTimeEntryForm(null, true, employee.getId()));
+    addForms();
     return timeEntryPanel;
   }
-
-  private TimeEntryForm createTimeEntryForm(TimeEntry timeEntry, boolean isNew,
-      Integer employeeId) {
+  
+  private void addForms(){
+    for (TimeEntry timeEntry : model.findAll(employee)){
+      timeEntryPanel.addTimeEntryForm(createTimeEntryForm(timeEntry, false, employee.getId()));
+    }
+  }
+  
+  private void addForms(String searchString){
+    
+  }
+  
+  
+  private TimeEntryForm createTimeEntryForm(TimeEntry timeEntry, boolean isNew, Integer employeeId){
     TimeEntryForm timeEntryForm = new TimeEntryForm(employeeId);
     if (!isNew) {
       timeEntryForm.setMission(timeEntry.getMission().getMissionName());
