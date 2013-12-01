@@ -84,26 +84,32 @@ public class EmployeeController {
 
   private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
     employeePanel = new EmployeePanel();
-    employeePanel.setCreateNewForm(createEmployeeForm(employee, isNewEmployee));
+    if (isNewEmployee) {
+      employeePanel.setCreateNewForm(createEmployeeForm(employee, isNewEmployee));
+    } else {
+      employeePanel.addForm(createEmployeeForm(employee, isNewEmployee));
+    }
     return employeePanel;
   }
 
   private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {
     EmployeeForm form = new EmployeeForm();
     setEmployeeFormActionListeners(employee, form, isNewEmployee);
-
-    form.setFirstname(employee.getFirstName());
-    form.setLastname(employee.getLastName());
-    form.setCity(employee.getCity());
-    if (employee.getPlz() != 0)
-      form.setPlz(employee.getPlz().toString());
-    form.setEmail(employee.getEmail());
-    form.setHomeNumber(employee.getHomeNumber());
-    form.setMobileNumber(employee.getMobileNumber());
-    form.setStreet(employee.getStreet());
-    form.setAhv(employee.getAhv());
-    form.setBirthday(employee.getBirthday());
-    form.setStatusButton(employee.getIsActive());
+    if (!isNewEmployee) {
+      form.setFirstname(employee.getFirstName());
+      form.setLastname(employee.getLastName());
+      form.setCity(employee.getCity());
+      if (employee.getPlz() != 0) {
+        form.setPlz(employee.getPlz().toString());
+      }
+      form.setEmail(employee.getEmail());
+      form.setHomeNumber(employee.getHomeNumber());
+      form.setMobileNumber(employee.getMobileNumber());
+      form.setStreet(employee.getStreet());
+      form.setAhv(employee.getAhv());
+      form.setBirthday(employee.getBirthday());
+      form.setStatusButton(employee.getIsActive());
+    }
     return form;
   }
 

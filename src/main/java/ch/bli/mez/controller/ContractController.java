@@ -12,23 +12,22 @@ import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.util.Parser;
-import ch.bli.mez.view.employee.DefaultPanel;
+import ch.bli.mez.view.employee.ContractPanel;
 
 /**
- * 
  * @author dave
  * @version 1.0
  */
 public class ContractController {
 
-  private DefaultPanel view;
+  private ContractPanel view;
   private ContractDAO model;
   private Employee employee;
 
   private ActionListener holidayRefreshListener;
 
   public ContractController(Employee employee, ActionListener listener) {
-    this.view = new DefaultPanel();
+    this.view = new ContractPanel();
     this.model = new ContractDAO();
     this.employee = employee;
     this.holidayRefreshListener = listener;
@@ -36,7 +35,7 @@ public class ContractController {
     setActionListeners();
   }
 
-  public DefaultPanel getView() {
+  public ContractPanel getView() {
     return view;
   }
 
@@ -59,8 +58,8 @@ public class ContractController {
     }
   }
 
-  private DefaultPanel createContractListEntry(final Contract contract) {
-    final DefaultPanel contractForm = new DefaultPanel();
+  private ContractPanel createContractListEntry(final Contract contract) {
+    final ContractPanel contractForm = new ContractPanel();
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
     contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
     if (contract.getEndDate() != null) {
@@ -104,7 +103,7 @@ public class ContractController {
     });
   }
 
-  private void setContractListEntryListeners(final DefaultPanel contractForm, final Contract contract) {
+  private void setContractListEntryListeners(final ContractPanel contractForm, final Contract contract) {
     contractForm.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int workquota;
@@ -149,7 +148,7 @@ public class ContractController {
     });
   }
 
-  private void showErrorContractListEntry(final DefaultPanel contractForm, final Contract contract) {
+  private void showErrorContractListEntry(final ContractPanel contractForm, final Contract contract) {
     contractForm.showError("");
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
     contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));

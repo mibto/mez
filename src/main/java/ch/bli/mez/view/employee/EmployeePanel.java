@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import ch.bli.mez.view.DefaultForm;
 import ch.bli.mez.view.DefaultPanel;
 
 public class EmployeePanel extends DefaultPanel{
@@ -59,5 +60,11 @@ public class EmployeePanel extends DefaultPanel{
 
   public void setEmployeeHolidayForm(EmployeeHolidayForm form) {
     holidayContentPanel.add(form);
+  }
+  
+  @Override
+  public void addForm(DefaultForm form){
+    getTopPanel().add(form, BorderLayout.CENTER);
+    form.setParentPanel(this);
   }
 }

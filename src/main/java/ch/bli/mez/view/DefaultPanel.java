@@ -72,7 +72,7 @@ public class DefaultPanel extends JPanel {
     form.showAsCreateNew();
     form.setParentPanel(this);
   }
-
+  
   public void setListTitlePanel(JPanel titlePanel) {
     listTitlePanel.add(titlePanel);
   }
@@ -91,6 +91,10 @@ public class DefaultPanel extends JPanel {
   public void removeForm(DefaultForm form) {
     listPanel.remove(form);
     listPanel.revalidate();
+  }
+  
+  protected JPanel getTopPanel(){
+    return this.topPanel;
   }
 
   /**

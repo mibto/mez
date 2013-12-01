@@ -21,7 +21,6 @@ public class HolidayController {
   public HolidayController() {
     this.view = new DefaultPanel();
     this.model = new HolidayDAO();
-
     addHolidayForms();
   }
 
@@ -45,9 +44,7 @@ public class HolidayController {
       form.setPublicHolidays(String.valueOf(holiday.getPublicHolidays()));
       form.setPreWorkdays(String.valueOf(holiday.getPreworkdays()));
     }
-
     setHolidayFormActionListeners(form, holiday);
-
     return form;
   }
 
@@ -59,37 +56,31 @@ public class HolidayController {
     });
   }
 
-  public boolean validateFields(HolidayForm form, Holiday holiday) {
-    if (form.validateFields()) {
-
-      if (holiday.getId() == null && model.getGlobalHolidayByYear(Integer.parseInt(form.getYear())) != null) {
-        form.getDefaultPanel().showError("Das eingegebene Jahr existiert bereits");
-        return false;
-      }
-
-      if (form.getYear().length() != 4) {
-        form.getDefaultPanel().showError("Das Jahr muss vier Stellen umfassen z.B 2014");
-        return false;
-      }
-      form.getDefaultPanel().showConfirmation("Der Eintrag wurde gespeichert.");
-      return true;
+  private boolean validateFields(HolidayForm form, Holiday holiday) {
+    if (!form.validateFields()) {
+      return false;
     }
-    return false;
+    if (form.getYear().length() != 4) {
+      form.getParentPanel().showError("Das Jahr muss vier Stellen umfassen z.B 2014");
+      return false;
+    }
+    if (holiday.getId() == null && model.getGlobalHolidayByYear(Integer.parseInt(form.getYear())) != null) {
+      form.getParentPanel().showError("Das eingegebene Jahr existiert bereits");
+      return false;
+    }
+    return true;
   }
 
-  public void updateHoliday(Holiday holiday, HolidayForm form) {
+  private void updateHoliday(Holiday holiday, HolidayForm form) {
     boolean newholiday = false;
-
     if (holiday == null) {
       newholiday = true;
-      holiday = makeHoliday();
+      holiday = new Holiday();
     }
-
     if (validateFields(form, holiday)) {
       holiday.setYear(Integer.parseInt(form.getYear()));
       holiday.setPublicHolidays(Integer.parseInt(form.getPublicHolidays()));
       holiday.setPreworkdays(Integer.parseInt(form.getPreWorkdays()));
-
       if (newholiday) {
         model.addHoliday(holiday);
         view.addForm(createHolidayForm(holiday));
@@ -97,11 +88,7 @@ public class HolidayController {
       } else {
         model.updateHoliday(holiday);
       }
+      form.getParentPanel().showConfirmation("Der Eintrag wurde gespeichert.");
     }
   }
-
-  public Holiday makeHoliday() {
-    return new Holiday();
-  }
-
 }
