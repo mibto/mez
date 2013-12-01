@@ -10,13 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PositionForm extends JPanel {
+public class PositionForm extends JPanel{
 
   private static final long serialVersionUID = 7585160645657478969L;
 
-  private JTextField missionName;
+  private JTextField positionCode;
   private JTextField positionName;
+  private JTextField missionName;
   private JTextField comment;
+  
+  private JLabel missionLabel;
 
   private JButton saveButton;
   private JButton statusButton;
@@ -29,22 +32,30 @@ public class PositionForm extends JPanel {
   
   private void build(){
     setLayout(new FlowLayout(FlowLayout.LEFT));
+    
     JLabel numberLabel = new JLabel("Position");
     this.add(numberLabel);
-    positionName = new JTextField();
-    positionName.setColumns(4);
-    this.add(positionName);
+    positionCode = new JTextField();
+    positionCode.setColumns(4);
+    this.add(positionCode);
 
-    JLabel nameLabel = new JLabel("Mission");
+    JLabel nameLabel = new JLabel("Name");
     this.add(nameLabel);
+    positionName = new JTextField();
+    positionName.setColumns(10);
+    this.add(positionName);
+    
+    missionLabel = new JLabel("Auftrag");
+    this.add(missionLabel);
     missionName = new JTextField();
     missionName.setColumns(10);
+    missionName.setEnabled(false);
     this.add(missionName);
 
     JLabel commentLabel = new JLabel("Kommentar");
     this.add(commentLabel);
     comment = new JTextField();
-    comment.setColumns(25);
+    comment.setColumns(15);
     this.add(comment);
 
     saveButton = new JButton("Speichern");
@@ -61,24 +72,33 @@ public class PositionForm extends JPanel {
       statusButton.setText("Aktivieren");
     }
     positionName.setEnabled(status);
-    missionName.setEnabled(status);
+    positionCode.setEnabled(status);
     comment.setEnabled(status);
     saveButton.setEnabled(status);
   }
   
+  public void showAsCreateNew(){
+    missionLabel.setVisible(false);
+    missionName.setVisible(false);
+  }
+  
   public void cleanFields() {
     positionName.setText("");
-    missionName.setText("");
+    positionCode.setText("");
     comment.setText("");
   }
 
   // Getter & Setter
-  public void setPositionName(String name) {
-    positionName.setText(name);
+  public void setPositionCode(String code) {
+    positionCode.setText(code);
   }
   
-  public String getPositionName(){
-    return positionName.getText();
+  public String getPositionCode(){
+    return positionCode.getText();
+  }
+  
+  public void setMissionName(String mission){
+    missionName.setText(mission);
   }
 
   public void setComment(String comment) {
@@ -89,11 +109,11 @@ public class PositionForm extends JPanel {
     return comment.getText();
   }
 
-  public void setMissionName(String mission) {
-    missionName.setText(mission);
+  public void setPositionName(String positionName) {
+    this.positionName.setText(positionName);
   }
   
-  public String getMissionName(){
+  public String getPositionName(){
     return positionName.getText();
   }
 
@@ -126,6 +146,9 @@ public class PositionForm extends JPanel {
   }
 
   public Boolean validateFields() {
-    return true;
+    if ("".equals(getPositionCode())){
+      return False;
+    }
+    return True;
   }
 }

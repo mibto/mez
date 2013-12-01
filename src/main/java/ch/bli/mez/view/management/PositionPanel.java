@@ -39,13 +39,10 @@ public class PositionPanel extends JPanel {
     topPanel = new JPanel();
     topPanel.setLayout(new BorderLayout());
     northPanel.add(topPanel);
-
+    
     JPanel missionChooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     topPanel.add(missionChooserPanel, BorderLayout.NORTH);
-
-    JLabel missionLabel = new JLabel("Auftrag");
-    missionChooserPanel.add(missionLabel);
-
+    
     missionComboBox = new JComboBox<missionComboBoxItem>();
     missionChooserPanel.add(missionComboBox);
 
@@ -98,7 +95,7 @@ public class PositionPanel extends JPanel {
     timer.setRepeats(false);
     timer.start();
   }
-
+  
   public void setComboBoxItems(HashMap<Integer, String> missionList) {
     missionComboBox.removeAllItems();
     for (Entry<Integer, String> entry : missionList.entrySet()) {
@@ -129,6 +126,5 @@ public class PositionPanel extends JPanel {
     public String toString() {
       return name;
     }
-
   }
 }
