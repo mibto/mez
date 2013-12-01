@@ -89,7 +89,7 @@ public class EmployeeController {
   }
 
   private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {
-    EmployeeForm form = new EmployeeForm(isNewEmployee);
+    EmployeeForm form = new EmployeeForm();
     setEmployeeFormActionListeners(employee, form, isNewEmployee);
 
     form.setFirstname(employee.getFirstName());
