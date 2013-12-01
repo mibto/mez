@@ -22,14 +22,14 @@ public class HolidayController {
     this.view = new DefaultPanel();
     this.model = new HolidayDAO();
 
-    addForms();
+    addHolidayForms();
   }
 
   public DefaultPanel getView() {
     return view;
   }
 
-  private void addForms() {
+  private void addHolidayForms() {
     view.setCreateNewForm(createHolidayForm(null));
     for (Holiday holiday : model.getGlobalHoliday()) {
       view.addForm(createHolidayForm(holiday));
@@ -38,8 +38,6 @@ public class HolidayController {
 
   private HolidayForm createHolidayForm(Holiday holiday) {
     final HolidayForm form = new HolidayForm();
-    form.setDefaultPanel(view);
-
     if (holiday == null) {
       form.showAsCreateNew();
     } else {

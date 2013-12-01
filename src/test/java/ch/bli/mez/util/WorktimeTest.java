@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class WorktimeTest {
-  static Worktime worktime;
+  static Parser worktime;
   Calendar calendar;
   Integer workminutes1;
   Integer workminutes59;
@@ -19,7 +19,7 @@ public class WorktimeTest {
 
   @Before
   public void setUp() throws Exception {
-    worktime = new Worktime();
+    worktime = new Parser();
 
     workminutes1 = 1;
     workminutes59 = 59;
@@ -46,60 +46,60 @@ public class WorktimeTest {
   @Test
   public void parseWorkTimeToMinutesTest() {
     // Case1: Test Parse Worktime 1 Minute
-    assertEquals(workminutes1, Worktime.parseWorkTimeToMinutes("0:01"));
-    assertEquals(workminutes1, Worktime.parseWorkTimeToMinutes("0.01"));
+    assertEquals(workminutes1, Parser.parseMinuteStringToInteger("0:01"));
+    assertEquals(workminutes1, Parser.parseMinuteStringToInteger("0.01"));
 
     // Case2: Test Parse Worktime 59 Minute
-    assertEquals(workminutes59, Worktime.parseWorkTimeToMinutes("0:59"));
-    assertEquals(workminutes59, Worktime.parseWorkTimeToMinutes("0.59"));
+    assertEquals(workminutes59, Parser.parseMinuteStringToInteger("0:59"));
+    assertEquals(workminutes59, Parser.parseMinuteStringToInteger("0.59"));
 
     // Case3: Test Parse Worktime 60 Minute
-    assertEquals(workminutes60, Worktime.parseWorkTimeToMinutes("1:00"));
-    assertEquals(workminutes60, Worktime.parseWorkTimeToMinutes("1.00"));
+    assertEquals(workminutes60, Parser.parseMinuteStringToInteger("1:00"));
+    assertEquals(workminutes60, Parser.parseMinuteStringToInteger("1.00"));
 
     // Case4: Test Parse Worktime 61 Minute
-    assertEquals(workminutes61, Worktime.parseWorkTimeToMinutes("1:01"));
-    assertEquals(workminutes61, Worktime.parseWorkTimeToMinutes("1.01"));
+    assertEquals(workminutes61, Parser.parseMinuteStringToInteger("1:01"));
+    assertEquals(workminutes61, Parser.parseMinuteStringToInteger("1.01"));
 
     // Case5: Test Parse Worktime 60 Minute
-    assertEquals(workminutes71, Worktime.parseWorkTimeToMinutes("1:11"));
-    assertEquals(workminutes71, Worktime.parseWorkTimeToMinutes("1.11"));
+    assertEquals(workminutes71, Parser.parseMinuteStringToInteger("1:11"));
+    assertEquals(workminutes71, Parser.parseMinuteStringToInteger("1.11"));
 
   }
 
   @Test
   public void parseMinutesToWorkTimeTest() {
     // Case1: Test Parse Worktime 1 Minute
-    assertEquals("0:01", Worktime.parseMinutesToWorkTime(workminutes1));
+    assertEquals("0:01", Parser.parseMinutesIntegerToString(workminutes1));
 
     // Case2: Test Parse Worktime 59 Minute
-    assertEquals("0:59", Worktime.parseMinutesToWorkTime(workminutes59));
+    assertEquals("0:59", Parser.parseMinutesIntegerToString(workminutes59));
 
     // Case3: Test Parse Worktime 60 Minute
-    assertEquals("1:00", Worktime.parseMinutesToWorkTime(workminutes60));
+    assertEquals("1:00", Parser.parseMinutesIntegerToString(workminutes60));
 
     // Case4: Test Parse Worktime 61 Minute
-    assertEquals("1:01", Worktime.parseMinutesToWorkTime(workminutes61));
+    assertEquals("1:01", Parser.parseMinutesIntegerToString(workminutes61));
 
     // Case5: Test Parse Worktime 71 Minute
-    assertEquals("1:11", Worktime.parseMinutesToWorkTime(workminutes71));
+    assertEquals("1:11", Parser.parseMinutesIntegerToString(workminutes71));
   }
 
   @Test
   public void createDateTest() {
     // Case1: Test Date convert (test with 01.01.2000)
-    Calendar calendartest = Worktime.createDate("01.01.2000");
+    Calendar calendartest = Parser.parseDateStringToCalendar("01.01.2000");
     assertEquals(calendar, calendartest);
 
     // Case1: Test Date convert (test with 01.01.2000)
-    calendartest = Worktime.createDate("01.01.00");
+    calendartest = Parser.parseDateStringToCalendar("01.01.00");
     assertEquals(calendar, calendartest);
   }
 
   @Test
   public void parseCalendarTest() {
     // Case1: Test Parse Date to String (test with 01.01.2000)
-    assertEquals("01.01.2000", Worktime.parseCalendar(calendar));
+    assertEquals("01.01.2000", Parser.parseDateCalendarToString(calendar));
   }
 
 }

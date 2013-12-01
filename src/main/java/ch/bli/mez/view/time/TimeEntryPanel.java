@@ -3,7 +3,7 @@ package ch.bli.mez.view.time;
 import javax.swing.JOptionPane;
 
 import ch.bli.mez.model.Employee;
-import ch.bli.mez.util.Worktime;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.DefaultPanel;
 
 public class TimeEntryPanel extends DefaultPanel {
@@ -23,8 +23,8 @@ public class TimeEntryPanel extends DefaultPanel {
   public static Boolean showDeleteWarning(TimeEntryForm form) {
     Object[] options = { "Ja", "Nein" };
     int choice = JOptionPane.showOptionDialog(form, "Zeiteintrag wirklich löschen?\n\n Datum: "
-        + Worktime.parseCalendar(form.getDate()) + "\n Auftrag: " + form.getMissionName() + "\n Position: " + form.getPositionCode() + "\n Zeit: "
-        + Worktime.parseMinutesToWorkTime(form.getWorktime()), "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
+        + Parser.parseDateCalendarToString(form.getDate()) + "\n Auftrag: " + form.getMissionName() + "\n Position: " + form.getPositionCode() + "\n Zeit: "
+        + Parser.parseMinutesIntegerToString(form.getWorktime()), "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
         JOptionPane.WARNING_MESSAGE, null, options, options[1]);
     if (choice == JOptionPane.YES_OPTION) {
       return true;

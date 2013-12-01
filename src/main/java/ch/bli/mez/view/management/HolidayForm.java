@@ -1,46 +1,50 @@
 package ch.bli.mez.view.management;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.Timer;
 
 import ch.bli.mez.view.DefaultForm;
-import ch.bli.mez.view.DefaultPanel;
 
 public class HolidayForm extends DefaultForm {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
-  private JTextField yearText;
+  private JTextField year;
   private JTextField publicHolidays;
   private JTextField preWorkdays;
 
-  private JButton saveButton;
+  private JLabel yearLabel;
+  private JLabel publicHolidaysLabel;
+  private JLabel preWorkdaysLabel;
 
-  private Color backGroundColor;
-  DefaultPanel defaultPanel;
+  private JButton saveButton;
 
   public HolidayForm() {
     build();
-    addGuiFeatureListener();
+    setEnterKeyListener(new JTextField[] { year, publicHolidays, preWorkdays });
   }
 
   private void build() {
-
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    yearText = new JTextField(4);
-    add(yearText);
+    yearLabel = new JLabel("Jahr");
+    add(yearLabel);
+
+    year = new JTextField(4);
+    add(year);
+
+    publicHolidaysLabel = new JLabel("Feiertage");
+    add(publicHolidaysLabel);
 
     publicHolidays = new JTextField(2);
     add(publicHolidays);
+
+    preWorkdaysLabel = new JLabel("Vorholtage");
+    add(preWorkdaysLabel);
 
     preWorkdays = new JTextField(2);
     add(preWorkdays);
@@ -48,38 +52,77 @@ public class HolidayForm extends DefaultForm {
     saveButton = new JButton("Speichern");
     add(saveButton);
 
-    backGroundColor = getBackground();
-
-    yearText.setEnabled(false);
-  }
-
-  public void showSuccess() {
-    setBackground(new Color(150, 255, 150));
-    hideConfirmation();
-  }
-
-  public void showError() {
-    setBackground(new Color(255, 150, 150));
-    hideConfirmation();
-  }
-
-  private void hideConfirmation() {
-    Timer timer = new Timer(1800, new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        setBackground(backGroundColor);
-      }
-    });
-    timer.setRepeats(false);
-    timer.start();
+    showAsCreateNew(false);
   }
 
   public void setSaveListener(ActionListener actionListener) {
     saveButton.addActionListener(actionListener);
   }
 
+  @Override
+  public void cleanFields() {
+    setYear("");
+    setPublicHolidays("");
+    setPreWorkdays("");
+  }
+
+  @Override
+  public void showAsCreateNew() {
+    showAsCreateNew(true);
+  }
+
+  private void showAsCreateNew(boolean createNew) {
+    year.setEnabled(createNew);
+    yearLabel.setVisible(createNew);
+    publicHolidaysLabel.setVisible(createNew);
+    preWorkdaysLabel.setVisible(createNew);
+  }
+
+  @Override
+  public Boolean validateFields() {
+    if ("".equals(getYear())) {
+      getParentPanel().showError("Es wurde kein Jahr eingegeben");
+      return false;
+    } else {
+      try {
+        Integer.valueOf(getYear());
+      } catch (NumberFormatException e) {
+        getParentPanel().showError("Das Format des eingegebenen Jahr ist nicht gültig");
+        return false;
+      }
+    }
+    if ("".equals(getPublicHolidays())){
+      getParentPanel().showError("Es wurden keine Feiertage eingegeben");
+      return false;
+    } else {
+      try {
+        Integer.valueOf(getPublicHolidays());
+      } catch (NumberFormatException e){
+      getParentPanel().showError("Das Format der eingegebenen Feiertage ist nicht gültig");
+      return false;
+      }
+    }
+    if ("".equals(getPreWorkdays())){
+      getParentPanel().showError("Es wurden keine Vorholtage eingegeben");
+      return false;
+    } else {
+      try {
+        Integer.valueOf(getPreWorkdays());
+      } catch (NumberFormatException e){
+      getParentPanel().showError("Das Format der eingegebenen Vorholtage ist nicht gültig");
+      return false;
+      }
+    }
+    return true;
+  }
+
+  protected void setEnterKeyListener(JTextField... textFields) {
+    setEnterKeyListener(this.saveButton, textFields);
+  }
+
   // getter & setter
   public String getYear() {
-    return yearText.getText();
+    return year.getText();
   }
 
   public String getPublicHolidays() {
@@ -91,7 +134,7 @@ public class HolidayForm extends DefaultForm {
   }
 
   public void setYear(String value) {
-    this.yearText.setText(value);
+    this.year.setText(value);
   }
 
   public void setPublicHolidays(String value) {
@@ -100,65 +143,5 @@ public class HolidayForm extends DefaultForm {
 
   public void setPreWorkdays(String value) {
     preWorkdays.setText(value);
-  }
-
-  private void addGuiFeatureListener() {
-
-    KeyListener enterKeyListener = new KeyListener() {
-      public void keyTyped(KeyEvent arg0) {
-      }
-
-      public void keyReleased(KeyEvent arg0) {
-      }
-
-      public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-          saveButton.doClick();
-        }
-      }
-    };
-
-    yearText.addKeyListener(enterKeyListener);
-    publicHolidays.addKeyListener(enterKeyListener);
-    preWorkdays.addKeyListener(enterKeyListener);
-  }
-
-  public void setDefaultPanel(DefaultPanel defaultPanel) {
-    this.defaultPanel = defaultPanel;
-  }
-
-  public DefaultPanel getDefaultPanel() {
-    return defaultPanel;
-  }
-
-  public void cleanFields() {
-    setYear("");
-    setPublicHolidays("");
-    setPreWorkdays("");
-  }
-
-  public void showAsCreateNew() {
-    yearText.setEnabled(true);
-  }
-
-  public Boolean validateFields() {
-    // TODO Auto-generated method stub
-
-    if ("".equals(getYear()) || getYear().matches("[0-9]*") == false) {
-      defaultPanel.showError("Das eingegebene Jahr ist nicht gültig, es dürfen nur Zahlen eingegeben werden");
-      return false;
-    }
-
-    if ("".equals(getPublicHolidays()) || getPublicHolidays().matches("[0-9]*") == false) {
-      defaultPanel.showError("Es müssen die Feiertage eingegeben werden. Es dürfen nur Zahlen eingegeben werden");
-      return false;
-    }
-
-    if ("".equals(getPreWorkdays()) || getPreWorkdays().matches("[0-9]*") == false) {
-      defaultPanel.showError("Es müssen die Vorholtage eingegeben werden. Es dürfen nur Zahlen eingegeben werden");
-      return false;
-    }
-
-    return true;
   }
 }

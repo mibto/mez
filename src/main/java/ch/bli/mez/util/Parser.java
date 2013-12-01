@@ -1,10 +1,10 @@
 package ch.bli.mez.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-public class Worktime {
+public class Parser {
 
   /**
    * Nimmt die Zeit im Format 1:30, 0:00 oder auch nur Minuten entgegen.
@@ -15,7 +15,7 @@ public class Worktime {
    * @throws NumberFormatException
    *           wenn das Worktimeformat nicht im Format 00:00, oder 000 ist
    */
-  public static Integer parseWorkTimeToMinutes(String worktime) throws NumberFormatException {
+  public static Integer parseMinuteStringToInteger(String worktime) throws NumberFormatException {
     if ("".equals(worktime) || worktime == null) {
       return 0;
     }
@@ -38,7 +38,7 @@ public class Worktime {
    *          Minuten als Integer
    * @return Minuten als String im Format 00:00
    */
-  public static String parseMinutesToWorkTime(Integer workminutes) {
+  public static String parseMinutesIntegerToString(Integer workminutes) {
     if (workminutes == null || workminutes == 0) {
       return "0";
     }
@@ -66,22 +66,16 @@ public class Worktime {
    * @throws NumberFormatException
    *           wenn das Datumformat nicht dd.MM.yyyy entspricht
    */
-  public static Calendar createDate(String date) throws NumberFormatException {
+  public static Calendar parseDateStringToCalendar(String date) throws NumberFormatException {
     if ("".equals(date)) {
       return null;
     }
     Calendar calendar = Calendar.getInstance();
     try {
-      String splittedDate[] = date.split("\\.");
-      if (Integer.parseInt(splittedDate[2]) < 100) {
-        calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]) + 2000);
-      } else {
-        calendar.set(Calendar.YEAR, Integer.parseInt(splittedDate[2]));
-      }
-      calendar.set(Calendar.MONTH, Integer.parseInt(splittedDate[1]) - 1);
-      calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(splittedDate[0]));
-    } catch (Exception e) {
-      throw new NumberFormatException("Datumformat ist nicht valid");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+      calendar.setTime(simpleDateFormat.parse(date));
+    } catch (ParseException exception) {
+      throw new NumberFormatException("Datumformat ist nicht gültig");
     }
     return calendar;
   }
@@ -93,13 +87,12 @@ public class Worktime {
    *          Calenderobjekt
    * @return Datum als String im Format dd.MM.yyyy
    */
-  public static String parseCalendar(Calendar calendar) {
+  public static String parseDateCalendarToString(Calendar calendar) {
     if (calendar == null) {
       return "";
     }
-    Date date = calendar.getTime();
-    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-    return format.format(date);
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    return simpleDateFormat.format(calendar.getTime());
   }
 
 }

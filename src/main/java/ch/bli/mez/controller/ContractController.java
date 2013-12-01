@@ -11,7 +11,8 @@ import javax.swing.JOptionPane;
 import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
-import ch.bli.mez.view.employee.ContractForm;
+import ch.bli.mez.util.Parser;
+import ch.bli.mez.view.employee.DefaultPanel;
 
 /**
  * 
@@ -20,14 +21,14 @@ import ch.bli.mez.view.employee.ContractForm;
  */
 public class ContractController {
 
-  private ContractForm view;
+  private DefaultPanel view;
   private ContractDAO model;
   private Employee employee;
 
   private ActionListener holidayRefreshListener;
 
   public ContractController(Employee employee, ActionListener listener) {
-    this.view = new ContractForm();
+    this.view = new DefaultPanel();
     this.model = new ContractDAO();
     this.employee = employee;
     this.holidayRefreshListener = listener;
@@ -35,7 +36,7 @@ public class ContractController {
     setActionListeners();
   }
 
-  public ContractForm getView() {
+  public DefaultPanel getView() {
     return view;
   }
 
@@ -58,37 +59,15 @@ public class ContractController {
     }
   }
 
-  private ContractForm createContractListEntry(final Contract contract) {
-    final ContractForm contractForm = new ContractForm();
+  private DefaultPanel createContractListEntry(final Contract contract) {
+    final DefaultPanel contractForm = new DefaultPanel();
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractForm.setStartDate(createStringDate(contract.getStartDate()));
+    contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
     if (contract.getEndDate() != null) {
-      contractForm.setEndDate(createStringDate(contract.getEndDate()));
+      contractForm.setEndDate(Parser.parseDateCalendarToString(contract.getEndDate()));
     }
     setContractListEntryListeners(contractForm, contract);
     return contractForm;
-  }
-
-  private String createStringDate(Calendar calendar) {
-    if (calendar == null) {
-      return null;
-    }
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    return simpleDateFormat.format(calendar.getTime());
-  }
-
-  private Calendar createCalendarDate(String dateString) throws NumberFormatException {
-    if (dateString.equals("")) {
-      return null;
-    }
-    Calendar calendar = Calendar.getInstance();
-    try {
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-      calendar.setTime(simpleDateFormat.parse(dateString));
-    } catch (ParseException exception) {
-      throw new NumberFormatException("Datumformat ist nicht gültig");
-    }
-    return calendar;
   }
 
   private void setActionListeners() {
@@ -103,8 +82,8 @@ public class ContractController {
         }
         try {
           workquota = Integer.valueOf(view.getWorkquota());
-          startDate = createCalendarDate(view.getStartDate());
-          endDate = createCalendarDate(view.getEndDate());
+          startDate = Parser.parseDateStringToCalendar(view.getStartDate());
+          endDate = Parser.parseDateStringToCalendar(view.getEndDate());
         } catch (NumberFormatException exception) {
           view.showError("Die Eingegebene Werte sind nicht gültig");
           return;
@@ -125,7 +104,7 @@ public class ContractController {
     });
   }
 
-  private void setContractListEntryListeners(final ContractForm contractForm, final Contract contract) {
+  private void setContractListEntryListeners(final DefaultPanel contractForm, final Contract contract) {
     contractForm.setSaveListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int workquota;
@@ -137,8 +116,8 @@ public class ContractController {
         }
         try {
           workquota = Integer.valueOf(contractForm.getWorkquota());
-          startDate = createCalendarDate(contractForm.getStartDate());
-          endDate = createCalendarDate(contractForm.getEndDate());
+          startDate = Parser.parseDateStringToCalendar(contractForm.getStartDate());
+          endDate = Parser.parseDateStringToCalendar(contractForm.getEndDate());
         } catch (NumberFormatException exception) {
           showErrorContractListEntry(contractForm, contract);
           return;
@@ -170,12 +149,12 @@ public class ContractController {
     });
   }
 
-  private void showErrorContractListEntry(final ContractForm contractForm, final Contract contract) {
+  private void showErrorContractListEntry(final DefaultPanel contractForm, final Contract contract) {
     contractForm.showError("");
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractForm.setStartDate(createStringDate(contract.getStartDate()));
+    contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
     if (contract.getEndDate() != null) {
-      contractForm.setEndDate(createStringDate(contract.getEndDate()));
+      contractForm.setEndDate(Parser.parseDateCalendarToString(contract.getEndDate()));
     }
   }
 }

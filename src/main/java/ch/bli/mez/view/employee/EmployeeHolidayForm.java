@@ -19,7 +19,7 @@ public class EmployeeHolidayForm extends HolidayForm {
     holidaysTextField = new JTextField(3);
     super.add(holidaysTextField, 1);
 
-    addGuiFeatureListener();
+    setEnterKeyListener(new JTextField[] {holidaysTextField});
   }
 
   public String getHolidays() {
@@ -30,15 +30,20 @@ public class EmployeeHolidayForm extends HolidayForm {
     this.holidaysTextField.setText(holidays);
   }
 
-  // internal methods
-  private void addGuiFeatureListener() {
-    holidaysTextField.addKeyListener(getEnterKeyListener());
-  }
-
-  public boolean validateFields() {
-    // TODO
-
-    return true;
+  @Override
+  public Boolean validateFields() {
+    if ("".equals(getHolidays())){
+      getParentPanel().showError("Es wurden keine Ferien eingegeben");
+      return false;
+    } else {
+      try {
+        Integer.valueOf(getHolidays());
+      } catch (NumberFormatException e){
+        getParentPanel().showError("Das Format der eingegebenen Ferien ist nicht gültig");
+        return false;
+      }
+    }
+    return super.validateFields();
   }
 
 }

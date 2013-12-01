@@ -53,7 +53,7 @@ public class EmployeePanel extends DefaultPanel{
     contractTitlePanel.add(contractTitleLabel);
   }
   
-  public void setContractForm(ContractForm form) {
+  public void setContractForm(DefaultPanel form) {
     contractPanel.add(new JScrollPane(form), BorderLayout.CENTER);
   }
 

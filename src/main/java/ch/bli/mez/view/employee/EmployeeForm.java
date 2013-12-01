@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ch.bli.mez.util.Worktime;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.DefaultForm;
 
 public class EmployeeForm extends DefaultForm {
@@ -139,6 +139,7 @@ public class EmployeeForm extends DefaultForm {
     panel.add(component);
   }
 
+  @Override
   public void cleanFields() {
     setFirstname("");
     setLastname("");
@@ -151,7 +152,13 @@ public class EmployeeForm extends DefaultForm {
     setBirthday(null);
     setAhv("");
   }
+  
+  @Override
+  public void showAsCreateNew() {
+    statusButton.setVisible(false);
+  }
 
+  @Override
   public Boolean validateFields() {
     if ("".equals(getFirstname())) {
       getParentPanel().showError("Es wurde kein Vorname eingegeben");
@@ -171,7 +178,7 @@ public class EmployeeForm extends DefaultForm {
     }
     if (!"".equals(getBirthday())){
       try {
-        Worktime.createDate(birthday.getText());
+        Parser.parseDateStringToCalendar(birthday.getText());
       } catch (NumberFormatException e){
         getParentPanel().showError("Das Format des eingegebenen Geburtstags ist nicht gültig");
         return false;
@@ -254,11 +261,11 @@ public class EmployeeForm extends DefaultForm {
   }
 
   public Calendar getBirthday() {
-    return Worktime.createDate(birthday.getText());
+    return Parser.parseDateStringToCalendar(birthday.getText());
   }
 
   public void setBirthday(Calendar birthday) {
-    this.birthday.setText(Worktime.parseCalendar(birthday));
+    this.birthday.setText(Parser.parseDateCalendarToString(birthday));
   }
 
   public String getAhv() {
@@ -276,10 +283,5 @@ public class EmployeeForm extends DefaultForm {
 
   public void setStatusButtonListener(ActionListener actionListener) {
     statusButton.addActionListener(actionListener);
-  }
-
-  @Override
-  public void showAsCreateNew() {
-    statusButton.setVisible(false);
   }
 }

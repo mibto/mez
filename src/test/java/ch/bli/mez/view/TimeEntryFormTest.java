@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.bli.mez.util.Worktime;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.time.TimeEntryForm;
 import ch.bli.mez.view.time.TimeEntryPanel;
 
@@ -30,7 +30,7 @@ public class TimeEntryFormTest {
   public void validateFieldsTest() {
 
     // Case1: Required fields empty
-    timeEntryForm.setDate(Worktime.createDate("01.01.2000"));
+    timeEntryForm.setDate(Parser.parseDateStringToCalendar("01.01.2000"));
     assertFalse(timeEntryForm.validateFields());
 
     timeEntryForm.setMission("TestMission");

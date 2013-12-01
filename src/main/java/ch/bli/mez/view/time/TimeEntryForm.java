@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ch.bli.mez.util.Worktime;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.DefaultForm;
 
 public class TimeEntryForm extends DefaultForm {
@@ -113,7 +113,7 @@ public class TimeEntryForm extends DefaultForm {
   }
 
   public Calendar getDate() {
-    return Worktime.createDate(date.getText());
+    return Parser.parseDateStringToCalendar(date.getText());
   }
 
   public String getPositionCode() {
@@ -125,11 +125,11 @@ public class TimeEntryForm extends DefaultForm {
   }
 
   public Integer getWorktime() {
-    return Worktime.parseWorkTimeToMinutes(worktime.getText());
+    return Parser.parseMinuteStringToInteger(worktime.getText());
   }
 
   public void setDate(Calendar calendar) {
-    this.date.setText(Worktime.parseCalendar(calendar));
+    this.date.setText(Parser.parseDateCalendarToString(calendar));
   }
 
   public void setPosition(String position) {
@@ -141,7 +141,7 @@ public class TimeEntryForm extends DefaultForm {
   }
 
   public void setWorktime(Integer worktime) {
-    this.worktime.setText(Worktime.parseMinutesToWorkTime(worktime));
+    this.worktime.setText(Parser.parseMinutesIntegerToString(worktime));
   }
 
   public Boolean validateFields() {
