@@ -8,13 +8,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import ch.bli.mez.model.Holiday;
+import ch.bli.mez.view.DefaultForm;
+import ch.bli.mez.view.DefaultPanel;
 
-public class HolidayForm extends JPanel {
+public class HolidayForm extends DefaultForm {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
@@ -27,6 +27,7 @@ public class HolidayForm extends JPanel {
   private KeyListener enterKeyListener;
 
   private Color backGroundColor;
+  DefaultPanel defaultPanel;
 
   /**
    * Create the panel.
@@ -128,8 +129,38 @@ public class HolidayForm extends JPanel {
     preWorkdaysTextField.addKeyListener(enterKeyListener);
   }
 
-  public Boolean validateFields(Holiday holiday) {
+  public void setDefaultPanel(DefaultPanel defaultPanel) {
+    this.defaultPanel = defaultPanel;
+  }
+
+  public DefaultPanel getDefaultPanel() {
+    return defaultPanel;
+  }
+
+  public void cleanFields() {
+    setYear("");
+    setPublicHolidays("");
+    setPreWorkdays("");
+  }
+
+  public Boolean validateFields() {
     // TODO Auto-generated method stub
-    return null;
+
+    if ("".equals(getYear()) || getYear().matches("[0-9]*") == false) {
+      defaultPanel.showError("Das eingegebene Jahr ist nicht gültig, es dürfen nur Zahlen eingegeben werden");
+      return false;
+    }
+
+    if ("".equals(getPublicHolidays()) || getPublicHolidays().matches("[0-9]*") == false) {
+      defaultPanel.showError("Es müssen die Feiertage eingegeben werden. Es dürfen nur Zahlen eingegeben werden");
+      return false;
+    }
+
+    if ("".equals(getPreWorkdays()) || getPreWorkdays().matches("[0-9]*") == false) {
+      defaultPanel.showError("Es müssen die Vorholtage eingegeben werden. Es dürfen nur Zahlen eingegeben werden");
+      return false;
+    }
+
+    return true;
   }
 }
