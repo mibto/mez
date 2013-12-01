@@ -2,8 +2,6 @@ package ch.bli.mez.view.management;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,10 +28,10 @@ public class MissionForm extends DefaultForm {
   public MissionForm(boolean isActive) {
     build();
     setActive(isActive);
-    addGuiFeatureListener();
+    setEnterKeyListener(saveButton, new JTextField[] { missionName, comment });
   }
-  
-  private void build(){
+
+  private void build() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
     nameLabel = new JLabel("Auftragsname");
@@ -57,7 +55,7 @@ public class MissionForm extends DefaultForm {
 
     saveButton = new JButton("Speichern");
     this.add(saveButton);
-    
+
     statusButton = new JButton();
     this.add(statusButton);
   }
@@ -85,8 +83,8 @@ public class MissionForm extends DefaultForm {
     }
     return true;
   }
-  
-  public void showAsCreateNew(){
+
+  public void showAsCreateNew() {
     statusButton.setVisible(false);
     commentLabel.setVisible(true);
     nameLabel.setVisible(true);
@@ -122,23 +120,5 @@ public class MissionForm extends DefaultForm {
 
   public void setIsOrgan(boolean value) {
     isOrgan.setSelected(value);
-  }
-
-  private void addGuiFeatureListener() {
-    KeyListener enterKeyListener = new KeyListener() {
-      public void keyTyped(KeyEvent arg0) {
-      }
-
-      public void keyReleased(KeyEvent arg0) {
-      }
-
-      public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-          saveButton.doClick();
-        }
-      }
-    };
-    missionName.addKeyListener(enterKeyListener);
-    comment.addKeyListener(enterKeyListener);
   }
 }

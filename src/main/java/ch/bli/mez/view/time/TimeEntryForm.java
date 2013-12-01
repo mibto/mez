@@ -2,8 +2,6 @@ package ch.bli.mez.view.time;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -34,7 +32,7 @@ public class TimeEntryForm extends DefaultForm {
 
   public TimeEntryForm() {
     build();
-    addGuiFeatureListener();
+    setEnterKeyListener(saveButton, new JTextField[] {missionName, worktime, positionCode, date});
   }
 
   private void build() {
@@ -144,29 +142,6 @@ public class TimeEntryForm extends DefaultForm {
 
   public void setWorktime(Integer worktime) {
     this.worktime.setText(Worktime.parseMinutesToWorkTime(worktime));
-  }
-
-  private void addGuiFeatureListener() {
-
-    KeyListener enterKeyListener = new KeyListener() {
-      public void keyTyped(KeyEvent arg0) {
-      }
-
-      public void keyReleased(KeyEvent arg0) {
-      }
-
-      public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-          saveButton.doClick();
-        }
-      }
-    };
-
-    missionName.addKeyListener(enterKeyListener);
-    worktime.addKeyListener(enterKeyListener);
-    positionCode.addKeyListener(enterKeyListener);
-    date.addKeyListener(enterKeyListener);
-
   }
 
   public Boolean validateFields() {

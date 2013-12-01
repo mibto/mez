@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.bli.mez.model.Holiday;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.HolidayForm;
 
@@ -45,15 +46,15 @@ public class HolidayControllerTest {
     form.setPublicHolidays("50");
     form.setPreWorkdays("50");
 
-    assertTrue(instance.validateFields(form));
+    assertTrue(instance.validateFields(form, new Holiday()));
 
     // Case 2: Year too long
     form.setYear("19999");
-    assertFalse(instance.validateFields(form));
+    assertFalse(instance.validateFields(form, new Holiday()));
 
     // Case 3: Year too short
     form.setYear("111");
-    assertFalse(instance.validateFields(form));
+    assertFalse(instance.validateFields(form, new Holiday()));
   }
 
 }

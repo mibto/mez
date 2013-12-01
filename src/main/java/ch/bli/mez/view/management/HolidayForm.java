@@ -18,40 +18,39 @@ public class HolidayForm extends DefaultForm {
 
   private static final long serialVersionUID = -2823140194213618642L;
 
-  private JTextField yearTextField;
-  private JTextField publicHolidaysTextField;
-  private JTextField preWorkdaysTextField;
+  private JTextField yearText;
+  private JTextField publicHolidays;
+  private JTextField preWorkdays;
 
   private JButton saveButton;
-
-  private KeyListener enterKeyListener;
 
   private Color backGroundColor;
   DefaultPanel defaultPanel;
 
-  /**
-   * Create the panel.
-   */
   public HolidayForm() {
+    build();
+    addGuiFeatureListener();
+  }
+
+  private void build() {
 
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    yearTextField = new JTextField(4);
-    yearTextField.setEnabled(false);
-    add(yearTextField);
+    yearText = new JTextField(4);
+    add(yearText);
 
-    publicHolidaysTextField = new JTextField(2);
-    add(publicHolidaysTextField);
+    publicHolidays = new JTextField(2);
+    add(publicHolidays);
 
-    preWorkdaysTextField = new JTextField(2);
-    add(preWorkdaysTextField);
+    preWorkdays = new JTextField(2);
+    add(preWorkdays);
 
     saveButton = new JButton("Speichern");
     add(saveButton);
 
     backGroundColor = getBackground();
 
-    addGuiFeatureListener();
+    yearText.setEnabled(false);
   }
 
   public void showSuccess() {
@@ -65,7 +64,7 @@ public class HolidayForm extends DefaultForm {
   }
 
   private void hideConfirmation() {
-    Timer timer = new Timer(900, new ActionListener() {
+    Timer timer = new Timer(1800, new ActionListener() {
       public void actionPerformed(ActionEvent evt) {
         setBackground(backGroundColor);
       }
@@ -78,41 +77,34 @@ public class HolidayForm extends DefaultForm {
     saveButton.addActionListener(actionListener);
   }
 
-  /**
-   * @return the enterKeyListener which is used for the textfields
-   */
-  public KeyListener getEnterKeyListener() {
-    return enterKeyListener;
-  }
-
   // getter & setter
   public String getYear() {
-    return yearTextField.getText();
+    return yearText.getText();
   }
 
   public String getPublicHolidays() {
-    return publicHolidaysTextField.getText();
+    return publicHolidays.getText();
   }
 
   public String getPreWorkdays() {
-    return preWorkdaysTextField.getText();
+    return preWorkdays.getText();
   }
 
   public void setYear(String value) {
-    this.yearTextField.setText(value);
+    this.yearText.setText(value);
   }
 
   public void setPublicHolidays(String value) {
-    publicHolidaysTextField.setText(value);
+    publicHolidays.setText(value);
   }
 
   public void setPreWorkdays(String value) {
-    preWorkdaysTextField.setText(value);
+    preWorkdays.setText(value);
   }
 
-  // internal methods
   private void addGuiFeatureListener() {
-    enterKeyListener = new KeyListener() {
+
+    KeyListener enterKeyListener = new KeyListener() {
       public void keyTyped(KeyEvent arg0) {
       }
 
@@ -125,8 +117,10 @@ public class HolidayForm extends DefaultForm {
         }
       }
     };
-    publicHolidaysTextField.addKeyListener(enterKeyListener);
-    preWorkdaysTextField.addKeyListener(enterKeyListener);
+
+    yearText.addKeyListener(enterKeyListener);
+    publicHolidays.addKeyListener(enterKeyListener);
+    preWorkdays.addKeyListener(enterKeyListener);
   }
 
   public void setDefaultPanel(DefaultPanel defaultPanel) {
@@ -141,6 +135,10 @@ public class HolidayForm extends DefaultForm {
     setYear("");
     setPublicHolidays("");
     setPreWorkdays("");
+  }
+
+  public void showAsCreateNew() {
+    yearText.setEnabled(true);
   }
 
   public Boolean validateFields() {
