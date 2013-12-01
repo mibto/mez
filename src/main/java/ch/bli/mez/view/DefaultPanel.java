@@ -77,7 +77,7 @@ public class DefaultPanel extends JPanel {
     listTitlePanel.add(titlePanel);
   }
 
-  public void setListSearchPanel(JPanel searchPanel) {
+  public void setListSearchPanel(DefaultSearchPanel searchPanel) {
     listSearchPanel.add(searchPanel);
     searchPanel.setParentPanel(this);
   }

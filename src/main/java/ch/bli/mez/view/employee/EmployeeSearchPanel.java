@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ch.bli.mez.view.DefaultSearchPanel;
+
 /**
  * SearchPanel ist das kleine Suchfeld welches oberhalb der Tabs mit
  * Mitarbeiternamen platziert wird Der SearchPanel wird für "Zeiten erfassen"
@@ -16,7 +18,8 @@ import javax.swing.JTextField;
  * @author dave
  * @version 1.0
  */
-public class EmployeeSearchPanel extends JPanel {
+
+public class EmployeeSearchPanel extends DefaultSearchPanel {
 
   private static final long serialVersionUID = 5735685030723299266L;
   private JTextField txtSearch;
