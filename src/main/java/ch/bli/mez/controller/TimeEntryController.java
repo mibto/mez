@@ -69,8 +69,8 @@ public class TimeEntryController {
   private void addTabs() {
     addEmployeeTabs(employeeModel.findAll());
   }
-  
-  private void addEmployeeTabs(List<Employee> employeeList){
+
+  private void addEmployeeTabs(List<Employee> employeeList) {
     view.removeAllTabs();
     for (Employee employee : employeeList) {
       addEmployeeTab(employee);
@@ -78,41 +78,47 @@ public class TimeEntryController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getFirstName() + " " + employee.getLastName(), createTimePanel(employee));
+    view.addTab(employee.getFirstName() + " " + employee.getLastName(),
+        createTimePanel(employee));
   }
 
   public void updateTimeView() {
     addTabs();
-  } 
+  }
 
   private TimeEntryPanel createTimePanel(Employee employee) {
     TimeEntryPanel timeEntryPanel = new TimeEntryPanel(employee.getId());
-    timeEntryPanel.setNewTimeEntryForm(createTimeEntryForm(null, true, employee.getId()));
-    for (TimeEntry timeEntry : model.findAll(employee)){
-      timeEntryPanel.addTimeEntryForm(createTimeEntryForm(timeEntry, false, employee.getId()));
+    timeEntryPanel.setNewTimeEntryForm(createTimeEntryForm(null, true,
+        employee.getId()));
+
+    for (TimeEntry timeEntry : model.findAll(employee)) {
+      timeEntryPanel.addTimeEntryForm(createTimeEntryForm(timeEntry, false,
+          employee.getId()));
     }
     return timeEntryPanel;
   }
-  
-  private TimeEntryForm createTimeEntryForm(TimeEntry timeEntry, boolean isNew, Integer employeeId){
+
+  private TimeEntryForm createTimeEntryForm(TimeEntry timeEntry, boolean isNew,
+      Integer employeeId) {
     TimeEntryForm timeEntryForm = new TimeEntryForm(employeeId);
-    if (!isNew){
+    if (!isNew) {
       timeEntryForm.setMission(timeEntry.getMission().getMissionName());
       timeEntryForm.setDate(timeEntry.getDate());
       timeEntryForm.setPosition(timeEntry.getPosition().getCode());
-      timeEntryForm.setWorktime(timeEntry.getWorktime());      
+      timeEntryForm.setWorktime(timeEntry.getWorktime());
     }
     setTimeEntryFormActionListeners(timeEntryForm, timeEntry, isNew);
     return timeEntryForm;
   }
-  
-  private void setTimeEntryFormActionListeners(final TimeEntryForm form, final TimeEntry timeEntry, final boolean isNew){
+
+  private void setTimeEntryFormActionListeners(final TimeEntryForm form,
+      final TimeEntry timeEntry, final boolean isNew) {
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         updateTimeEntry(timeEntry, form, isNew);
       }
     }));
-    
+
     form.setDeleteListener((new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         if ((TimeEntryPanel.showDeleteWarning(form))) {
@@ -122,8 +128,9 @@ public class TimeEntryController {
       }
     }));
   }
-  
-  public void updateTimeEntry(TimeEntry timeEntry, TimeEntryForm form, boolean isNew){
+
+  public void updateTimeEntry(TimeEntry timeEntry, TimeEntryForm form,
+      boolean isNew) {
     if (validateFields(form)) {
       if (isNew) {
         timeEntry = makeTimeEntry();
@@ -135,15 +142,17 @@ public class TimeEntryController {
       timeEntry.setEmployee(employeeModel.getEmployee(form.getEmployeeId()));
       if (isNew) {
         model.addTimeEntry(timeEntry);
-        form.getTimeEntryPanel().addTimeEntryForm(createTimeEntryForm(timeEntry, false, form.getEmployeeId()));
+        form.getTimeEntryPanel().addTimeEntryForm(
+            createTimeEntryForm(timeEntry, false, form.getEmployeeId()));
+        form.cleanFields();
       } else {
         model.updateTimeEntry(timeEntry);
       }
-      form.cleanFields();
+
     }
   }
-  
-  public TimeEntry makeTimeEntry(){
+
+  public TimeEntry makeTimeEntry() {
     return new TimeEntry();
   }
 
@@ -154,22 +163,25 @@ public class TimeEntryController {
   private Position findPositionByCode(String code) {
     return positionModel.findByCode(code);
   }
-  
-  public boolean validateFields(TimeEntryForm form){
-    if (form.validateFields()){
+
+  public boolean validateFields(TimeEntryForm form) {
+    if (form.validateFields()) {
       Position position = findPositionByCode(form.getPositionCode());
       Mission mission = findMissionByName(form.getMissionName());
-      if (mission == null){
-        form.getTimeEntryPanel().showError("Der eingegebene Auftrag existiert nicht.");
+      if (mission == null) {
+        form.getTimeEntryPanel().showError(
+            "Der eingegebene Auftrag existiert nicht.");
         return false;
       }
-      if (position == null){
-        form.getTimeEntryPanel().showError("Die eingegebene Position existiert nicht.");
+      if (position == null) {
+        form.getTimeEntryPanel().showError(
+            "Die eingegebene Position existiert nicht.");
         return false;
       }
-      if (!mission.getPositions().contains(position)){
-        form.getTimeEntryPanel().showError("Der Auftrag " + mission.getMissionName() +
-            " hat keine Position mit Code " + position.getCode() + ".");
+      if (!mission.getPositions().contains(position)) {
+        form.getTimeEntryPanel().showError(
+            "Der Auftrag " + mission.getMissionName()
+                + " hat keine Position mit Code " + position.getCode() + ".");
         return false;
       }
       form.getTimeEntryPanel().showSuccess("Der Eintrag wurde gespeichert.");
