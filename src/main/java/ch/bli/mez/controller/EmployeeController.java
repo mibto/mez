@@ -84,7 +84,7 @@ public class EmployeeController {
 
   private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
     employeePanel = new EmployeePanel();
-    employeePanel.setEmployeeForm(createEmployeeForm(employee, isNewEmployee));
+    employeePanel.setCreateNewForm(createEmployeeForm(employee, isNewEmployee));
     return employeePanel;
   }
 

@@ -1,5 +1,7 @@
 package ch.bli.mez.view.employee;
 
+import java.awt.event.KeyListener;
+
 import javax.swing.JTextField;
 
 import ch.bli.mez.view.management.HolidayForm;
@@ -35,7 +37,12 @@ public class EmployeeHolidayForm extends HolidayForm {
     holidaysTextField.addKeyListener(getEnterKeyListener());
   }
 
-  public boolean validateFields() {
+  private KeyListener getEnterKeyListener() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public Boolean validateFields() {
     // TODO
 
     return true;
