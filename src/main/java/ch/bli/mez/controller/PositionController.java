@@ -40,6 +40,7 @@ public class PositionController {
     final PositionForm form = new PositionForm(position.getIsActive());
     form.setPositionName(position.getPositionName());
     form.setComment(position.getComment());
+    form.setPositionCode(position.getCode());
     if (position.isOrganDefault()) {
       form.setMissionName("Orgeln");
     } else {
@@ -56,18 +57,14 @@ public class PositionController {
 
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        try {
-          //position.setCode(form.getCode());
-        } catch (NumberFormatException e) {
-        } finally {
           if (!form.getPositionName().equals("")) {
             position.setPositionName(form.getPositionName());
           } else {
             form.setPositionName(position.getPositionName());
           }
+          position.setCode(form.getPositionCode());
           position.setComment(form.getComment());
           model.updatePosition(position);
-        }
       }
     }));
 
