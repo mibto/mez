@@ -1,45 +1,27 @@
 package ch.bli.mez.view.employee;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
 
-public class EmployeePanel extends JPanel{
+import ch.bli.mez.view.DefaultPanel;
 
-  private static final long serialVersionUID = 1L;
-  private JPanel topPanel;
-  private JLabel messageLabel;
+public class EmployeePanel extends DefaultPanel{
+
+  private static final long serialVersionUID = -7751432692594871588L;
+  
   private JPanel holidayContentPanel;
   private JPanel contractPanel;
 
   public EmployeePanel() {
-    build();
+    createListPanel();
   }
   
-  private void build(){
-    setLayout(new BorderLayout());
-
-    JPanel northPanel = new JPanel();
-    add(new JScrollPane(northPanel), BorderLayout.NORTH);
-
-    topPanel = new JPanel(new BorderLayout());
-    northPanel.add(topPanel);
-    
-    JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    topPanel.add(messagePanel, BorderLayout.SOUTH);
-    
-    messageLabel = new JLabel(" ");
-    messagePanel.add(messageLabel);
-    
+  private void createListPanel(){
     JPanel centerPanel = new JPanel(new GridLayout(1, 0));
     add(centerPanel, BorderLayout.CENTER);
 
@@ -69,11 +51,6 @@ public class EmployeePanel extends JPanel{
 
     JLabel contractTitleLabel = new JLabel("Verträge");
     contractTitlePanel.add(contractTitleLabel);
-    
-  }
-
-  public void setEmployeeForm(EmployeeForm form){
-    topPanel.add(form, BorderLayout.CENTER);
   }
   
   public void setContractForm(ContractForm form) {
@@ -83,33 +60,4 @@ public class EmployeePanel extends JPanel{
   public void setEmployeeHolidayForm(EmployeeHolidayForm form) {
     holidayContentPanel.add(form);
   }
-  
-  public void showConfirmation(String name) {
-    messageLabel.setForeground(new Color(0, 128, 0));
-    messageLabel.setText(name + " wurde gespeichert.");
-    hideMessage();
-  }
-
-  /**
-   * 
-   * @param errorFieldName
-   *          fehlerhaftes Feld. Fehlermeldung wird generisch mit dem Feldname
-   *          erstellt: "'errorFieldName' ist nicht gültig!"
-   */
-  public void showError(String errorFieldName) {
-    messageLabel.setForeground(new Color(255, 0, 0));
-    messageLabel.setText(errorFieldName + " ist nicht gültig!");
-    hideMessage();
-  }
-
-  private void hideMessage() {
-    Timer timer = new Timer(1800, new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
-        messageLabel.setText(" ");
-      }
-    });
-    timer.setRepeats(false);
-    timer.start();
-  }
-  
 }
