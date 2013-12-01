@@ -98,11 +98,11 @@ public class PositionController {
 
   public void updatePosition(Position position, PositionForm form) {
     boolean newPosition = false;
-    if (position == null){
-      newPosition = true;
-      position = makePosition();
-    }
     if (validateFields(form, position)){
+      if (position == null){
+        newPosition = true;
+        position = makePosition();
+      }
       if (newPosition){
         Boolean isOrganDefault = view.getSelectedMission() == 0;
         position.setOrganDefault(isOrganDefault);
@@ -119,12 +119,15 @@ public class PositionController {
       position.setPositionName(form.getPositionName());
       position.setComment(form.getComment());
       if (newPosition) {
+        position.setIsActive(true);
         model.addPosition(position);
         view.addForm(createPositionForm(position));
+        form.cleanFields();
       }
       else {
         model.updatePosition(position);              
       }
+      view.showConfirmation("Die Position " + position.getPositionName() + " wurde gespeichert.");
     }
   }
   
@@ -133,11 +136,12 @@ public class PositionController {
       return false;
     }
     Position savedPosition = model.findByCode(form.getPositionCode());
-    if (savedPosition != null && !position.getCode().equals(savedPosition.getCode())){
+    if (savedPosition != null && (position == null || !position.getCode().equals(savedPosition.getCode()))) {
       form.getParentPanel().showError("Eine Position mit diesem Code existiert schon.");
       return false;
     }
-    if (savedPosition != null && !position.getPositionName().equals(savedPosition.getPositionName())){
+    savedPosition = model.findByName(form.getPositionName());
+    if (savedPosition != null && (position == null || !position.getPositionName().equals(savedPosition.getPositionName()))) {
       form.getParentPanel().showError("Eine Position mit diesem Name existiert schon.");
       return false;
     }

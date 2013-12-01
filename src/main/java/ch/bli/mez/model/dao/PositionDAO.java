@@ -112,4 +112,16 @@ public class PositionDAO {
       return positions.get(0);
     }
   }
+  
+  public Position findByName(String name) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(Position.class);
+    criteria.add(Restrictions.eq("positionName", name));
+    List<Position> positions = criteria.list();
+    if (positions.isEmpty()) {
+      return null;
+    } else {
+      return positions.get(0);
+    }
+  }
 }
