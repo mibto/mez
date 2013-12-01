@@ -8,8 +8,8 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
-import ch.bli.mez.view.management.MissionPanel;
 
 /**
  * @author Michael Brodmann
@@ -18,18 +18,18 @@ import ch.bli.mez.view.management.MissionPanel;
 
 public class MissionController {
 
-  private MissionPanel view;
+  private DefaultPanel view;
   private MissionDAO model;
   private PositionDAO positionModel;
 
   public MissionController() {
-    this.view = new MissionPanel();
+    this.view = new DefaultPanel();
     this.model = new MissionDAO();
     this.positionModel = new PositionDAO();
     addMissionForms();
   }
 
-  public void setView(MissionPanel view) {
+  public void setView(DefaultPanel view) {
     this.view = view;
   }
 
@@ -41,14 +41,14 @@ public class MissionController {
     this.positionModel = positionModel;
   }
 
-  public MissionPanel getView() {
+  public DefaultPanel getView() {
     return view;
   }
 
   private void addMissionForms() {
-    view.setNewMissionForm(new MissionForm(true));
+    view.setCreateNewForm(new MissionForm(true));
     for (Mission mission : model.findAll()) {
-      view.addMissionForm(createMissionForm(mission));
+      view.addForm(createMissionForm(mission));
     }
   }
 
