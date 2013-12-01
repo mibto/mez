@@ -67,6 +67,7 @@ public class DefaultPanel extends JPanel {
   public void setCreateNewForm(DefaultForm form) {
     topPanel.add(form, BorderLayout.CENTER);
     form.showAsCreateNew();
+    form.setParentPanel(this);
   }
 
   public void setListTitlePanel(JPanel titlePanel) {
@@ -80,6 +81,7 @@ public class DefaultPanel extends JPanel {
   public void addForm(DefaultForm form) {
     listPanel.add(form);
     listPanel.revalidate();
+    form.setParentPanel(this);
   }
 
   public void removeForm(DefaultForm form) {
