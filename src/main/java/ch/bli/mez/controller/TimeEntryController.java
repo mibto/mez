@@ -47,18 +47,20 @@ public class TimeEntryController {
     this.view = new EmployeeTabbedView();
     this.employeeSearchPanel = new EmployeeSearchPanel();
     this.view.setEmployeeSearchPanel(employeeSearchPanel);
-    //timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
-    //employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
+    // timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
+    // employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
-  private KeyListener createTimeEntrySearchKeyListener(){
-    return new KeyListener(){
+  private KeyListener createTimeEntrySearchKeyListener() {
+    return new KeyListener() {
       public void keyPressed(KeyEvent arg0) {
       }
+
       public void keyReleased(KeyEvent arg0) {
-        TimeEntryPanel timeEntryPanel = (TimeEntryPanel)timeEntrySearchPanel.getParentPanel();
+        TimeEntryPanel timeEntryPanel = (TimeEntryPanel) timeEntrySearchPanel.getParentPanel();
         addForms(timeEntrySearchPanel.getSearchText(), timeEntryPanel, timeEntryPanel.getEmployee());
       }
+
       public void keyTyped(KeyEvent arg0) {
       }
     };
@@ -164,11 +166,11 @@ public class TimeEntryController {
         form.getParentPanel().addForm(createTimeEntryForm(timeEntry, employee));
         form.cleanFields();
       } else {
-      timeEntry.setDate(form.getDate());
-      timeEntry.setMission(findMissionByName(form.getMissionName()));
-      timeEntry.setPosition(findPositionByCode(form.getPositionCode()));
-      timeEntry.setWorktime(form.getWorktime());
-      timeEntry.setEmployee(employee);
+        timeEntry.setDate(form.getDate());
+        timeEntry.setMission(findMissionByName(form.getMissionName()));
+        timeEntry.setPosition(findPositionByCode(form.getPositionCode()));
+        timeEntry.setWorktime(form.getWorktime());
+        timeEntry.setEmployee(employee);
         model.updateTimeEntry(timeEntry);
       }
     }

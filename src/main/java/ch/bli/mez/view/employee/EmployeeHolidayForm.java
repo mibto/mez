@@ -35,9 +35,10 @@ public class EmployeeHolidayForm extends HolidayForm {
     holidaysTextField.addKeyListener(getEnterKeyListener());
   }
 
-  public Object validateFields() {
-    // TODO Auto-generated method stub
-    return null;
+  public boolean validateFields() {
+    // TODO
+
+    return true;
   }
 
 }
