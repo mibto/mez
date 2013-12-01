@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -16,8 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.bli.mez.util.Worktime;
+import ch.bli.mez.view.DefaultForm;
 
-public class EmployeeForm extends JPanel {
+public class EmployeeForm extends DefaultForm {
 
   private static final long serialVersionUID = 2105749706100780883L;
 
@@ -35,11 +34,10 @@ public class EmployeeForm extends JPanel {
   private JButton saveButton;
   private JButton statusButton;
 
-  private JPanel holidayContentPanel;
-
   public EmployeeForm() {
     build();
-    addGuiFeatureListener();
+    setEnterKeyListener(saveButton, new JTextField[] { lastname, firstname, street, city, plz, homeNumber,
+        mobileNumber, email, birthday, ahv});
   }
 
   private void build() {
@@ -97,17 +95,17 @@ public class EmployeeForm extends JPanel {
     mobileNumber = new JTextField();
     mobileNumber.setColumns(10);
     addPersonalComponent(entryPanel, mobileNumber, 4, 3, 1, 1.0);
-    
+
     JLabel lblBirthday = new JLabel("Geburtsdatum");
     addPersonalComponent(entryPanel, lblBirthday, 0, 5, 1, 0);
-    
+
     birthday = new JTextField();
     birthday.setColumns(10);
     addPersonalComponent(entryPanel, birthday, 1, 5, 1, 1.0);
-    
+
     JLabel lblAhv = new JLabel("AHV-Nummer");
     addPersonalComponent(entryPanel, lblAhv, 3, 5, 1, 0);
-    
+
     ahv = new JTextField();
     ahv.setColumns(10);
     addPersonalComponent(entryPanel, ahv, 4, 5, 1, 1.0);
@@ -125,7 +123,7 @@ public class EmployeeForm extends JPanel {
     statusButton = new JButton();
     addPersonalComponent(entryPanel, statusButton, 1, 6, 1, 0);
 
-    this.add(entryPanel);
+    add(entryPanel);
   }
 
   private void addPersonalComponent(JPanel panel, Component component, int x, int y, int width, double weightx) {
@@ -141,16 +139,6 @@ public class EmployeeForm extends JPanel {
     panel.add(component);
   }
 
-  public void removeEmployeeHolidayListEntries() {
-    holidayContentPanel.removeAll();
-  }
-
-  /**
-   * @param name
-   *          Vor- und Nachname des Mitarbeiters. Meldung wird generisch
-   *          erstellt: "'name' wurde gespeichert."
-   */
-
   public void cleanFields() {
     setFirstname("");
     setLastname("");
@@ -164,28 +152,41 @@ public class EmployeeForm extends JPanel {
     setAhv("");
   }
 
-  public boolean validateFields() {
-    if (getFirstname().equals("")) {
+  public Boolean validateFields() {
+    if ("".equals(getFirstname())) {
+      getParentPanel().showError("Es wurde kein Vorname eingegeben");
       return false;
     }
-    if (getLastname().equals("")) {
+    if ("".equals(getLastname())) {
+      getParentPanel().showError("Es wurde kein Nachname eingegeben");
       return false;
+    }
+    if (!"".equals(getPlz())){
+      try {
+        Integer.valueOf(getPlz());
+      } catch (NumberFormatException e) {
+        getParentPanel().showError("Das Format der eingegebene PLZ ist nicht gültig");
+        return false;
+      }
+    }
+    if (!"".equals(getBirthday())){
+      try {
+        Worktime.createDate(birthday.getText());
+      } catch (NumberFormatException e){
+        getParentPanel().showError("Das Format des eingegebenen Geburtstags ist nicht gültig");
+        return false;
+      }
     }
     return true;
   }
 
   // getter & setter
   public void setStatusButton(Boolean status) {
-    System.out.println(status.toString());
     if (status) {
       statusButton.setText("Deaktivieren");
     } else {
       statusButton.setText("Aktivieren");
     }
-  }
-
-  public String getStatusButtonName() {
-    return statusButton.getName();
   }
 
   public String getFirstname() {
@@ -277,29 +278,8 @@ public class EmployeeForm extends JPanel {
     statusButton.addActionListener(actionListener);
   }
 
-  private void addGuiFeatureListener() {
-    KeyListener enterKeyListener = new KeyListener() {
-      public void keyTyped(KeyEvent arg0) {
-      }
-
-      public void keyReleased(KeyEvent arg0) {
-      }
-
-      public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-          saveButton.doClick();
-        }
-      }
-    };
-    lastname.addKeyListener(enterKeyListener);
-    firstname.addKeyListener(enterKeyListener);
-    street.addKeyListener(enterKeyListener);
-    city.addKeyListener(enterKeyListener);
-    plz.addKeyListener(enterKeyListener);
-    homeNumber.addKeyListener(enterKeyListener);
-    mobileNumber.addKeyListener(enterKeyListener);
-    email.addKeyListener(enterKeyListener);
-    birthday.addKeyListener(enterKeyListener);
-    ahv.addKeyListener(enterKeyListener);
+  @Override
+  public void showAsCreateNew() {
+    statusButton.setVisible(false);
   }
 }

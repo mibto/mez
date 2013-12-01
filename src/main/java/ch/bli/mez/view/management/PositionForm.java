@@ -2,8 +2,6 @@ package ch.bli.mez.view.management;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,7 +9,7 @@ import javax.swing.JTextField;
 
 import ch.bli.mez.view.DefaultForm;
 
-public class PositionForm extends DefaultForm{
+public class PositionForm extends DefaultForm {
 
   private static final long serialVersionUID = 7585160645657478969L;
 
@@ -19,7 +17,7 @@ public class PositionForm extends DefaultForm{
   private JTextField positionName;
   private JTextField missionName;
   private JTextField comment;
-  
+
   private JLabel missionLabel;
 
   private JButton saveButton;
@@ -28,12 +26,12 @@ public class PositionForm extends DefaultForm{
   public PositionForm(boolean isActive) {
     build();
     setActive(isActive);
-    addGuiFeatureListener();
+    setEnterKeyListener(saveButton, new JTextField[] { positionCode, positionName, missionName, comment });
   }
-  
-  private void build(){
+
+  private void build() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
-    
+
     JLabel numberLabel = new JLabel("Position");
     this.add(numberLabel);
     positionCode = new JTextField();
@@ -45,7 +43,7 @@ public class PositionForm extends DefaultForm{
     positionName = new JTextField();
     positionName.setColumns(10);
     this.add(positionName);
-    
+
     missionLabel = new JLabel("Auftrag");
     this.add(missionLabel);
     missionName = new JTextField();
@@ -61,7 +59,7 @@ public class PositionForm extends DefaultForm{
 
     saveButton = new JButton("Speichern");
     this.add(saveButton);
-    
+
     statusButton = new JButton();
     this.add(statusButton);
   }
@@ -77,13 +75,13 @@ public class PositionForm extends DefaultForm{
     comment.setEnabled(status);
     saveButton.setEnabled(status);
   }
-  
-  public void showAsCreateNew(){
+
+  public void showAsCreateNew() {
     missionLabel.setVisible(false);
     missionName.setVisible(false);
     statusButton.setVisible(false);
   }
-  
+
   public void cleanFields() {
     positionName.setText("");
     positionCode.setText("");
@@ -94,19 +92,19 @@ public class PositionForm extends DefaultForm{
   public void setPositionCode(String code) {
     positionCode.setText(code);
   }
-  
-  public String getPositionCode(){
+
+  public String getPositionCode() {
     return positionCode.getText();
   }
-  
-  public void setMissionName(String mission){
+
+  public void setMissionName(String mission) {
     missionName.setText(mission);
   }
 
   public void setComment(String comment) {
     this.comment.setText(comment);
   }
-  
+
   public String getComment() {
     return comment.getText();
   }
@@ -114,8 +112,8 @@ public class PositionForm extends DefaultForm{
   public void setPositionName(String positionName) {
     this.positionName.setText(positionName);
   }
-  
-  public String getPositionName(){
+
+  public String getPositionName() {
     return positionName.getText();
   }
 
@@ -128,31 +126,12 @@ public class PositionForm extends DefaultForm{
     statusButton.addActionListener(actionListener);
   }
 
-  private void addGuiFeatureListener() {
-    KeyListener enterKeyListener = new KeyListener() {
-      public void keyTyped(KeyEvent arg0) {
-      }
-
-      public void keyReleased(KeyEvent arg0) {
-      }
-
-      public void keyPressed(KeyEvent arg0) {
-        if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-          saveButton.doClick();
-        }
-      }
-    };
-    positionName.addKeyListener(enterKeyListener);
-    missionName.addKeyListener(enterKeyListener);
-    comment.addKeyListener(enterKeyListener);
-  }
-
   public Boolean validateFields() {
-    if ("".equals(getPositionCode())){
+    if ("".equals(getPositionCode())) {
       getParentPanel().showError("Es wurde keine Position eingegeben.");
       return false;
     }
-    if ("".equals(getPositionName())){
+    if ("".equals(getPositionName())) {
       getParentPanel().showError("Es wurde keine Name eingegeben.");
       return false;
     }
