@@ -20,7 +20,9 @@ public class PositionForm extends DefaultForm{
   private JTextField missionName;
   private JTextField comment;
   
-  private JLabel missionLabel;
+  private JLabel numberLabel;
+  private JLabel nameLabel;
+  private JLabel commentLabel;  
 
   private JButton saveButton;
   private JButton statusButton;
@@ -34,30 +36,31 @@ public class PositionForm extends DefaultForm{
   private void build(){
     setLayout(new FlowLayout(FlowLayout.LEFT));
     
-    JLabel numberLabel = new JLabel("Position");
+    numberLabel = new JLabel("Position");
     this.add(numberLabel);
     positionCode = new JTextField();
     positionCode.setColumns(4);
     this.add(positionCode);
+    numberLabel.setVisible(false);
 
-    JLabel nameLabel = new JLabel("Name");
+    nameLabel = new JLabel("Name");
     this.add(nameLabel);
     positionName = new JTextField();
     positionName.setColumns(10);
     this.add(positionName);
+    nameLabel.setVisible(false);
     
-    missionLabel = new JLabel("Auftrag");
-    this.add(missionLabel);
     missionName = new JTextField();
     missionName.setColumns(10);
     missionName.setEnabled(false);
     this.add(missionName);
 
-    JLabel commentLabel = new JLabel("Kommentar");
+    commentLabel = new JLabel("Kommentar");
     this.add(commentLabel);
     comment = new JTextField();
     comment.setColumns(15);
     this.add(comment);
+    commentLabel.setVisible(false);
 
     saveButton = new JButton("Speichern");
     this.add(saveButton);
@@ -79,9 +82,11 @@ public class PositionForm extends DefaultForm{
   }
   
   public void showAsCreateNew(){
-    missionLabel.setVisible(false);
     missionName.setVisible(false);
     statusButton.setVisible(false);
+    commentLabel.setVisible(true);
+    nameLabel.setVisible(true);
+    numberLabel.setVisible(true);
   }
   
   public void cleanFields() {

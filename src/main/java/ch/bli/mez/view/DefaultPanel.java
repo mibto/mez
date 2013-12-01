@@ -60,7 +60,7 @@ public class DefaultPanel extends JPanel {
 
     listPanel = new JPanel();
     listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-    centerCenterPanel.add(new JScrollPane(listPanel));
+    centerCenterPanel.add(listPanel);
   }
   
   protected void setChooserPanel(JPanel chooserPanel){
@@ -84,7 +84,7 @@ public class DefaultPanel extends JPanel {
 
   public void addForm(DefaultForm form) {
     listPanel.add(form);
-    listPanel.revalidate();
+    this.revalidate();
     form.setParentPanel(this);
   }
 

@@ -46,21 +46,24 @@ public class MissionController {
   }
 
   private void addMissionForms() {
-    view.setCreateNewForm(new MissionForm(true));
+    view.setCreateNewForm(createMissionForm(null));
     for (Mission mission : model.findAll()) {
       view.addForm(createMissionForm(mission));
     }
   }
 
   private MissionForm createMissionForm(final Mission mission) {
-    final MissionForm form = new MissionForm(mission.getIsActive());
-
-    form.setMissionName(mission.getMissionName());
-    form.setComment(mission.getComment());
-    form.setIsOrgan(mission.getIsOrgan());
-
+    final MissionForm form;
+    if (mission == null){
+      form = new MissionForm(true);
+    }
+    else {
+      form = new MissionForm(mission.getIsActive());
+      form.setMissionName(mission.getMissionName());
+      form.setComment(mission.getComment());
+      form.setIsOrgan(mission.getIsOrgan());
+    }
     setMissionFormActionListeners(form, mission);
-
     return form;
   }
 
@@ -76,6 +79,7 @@ public class MissionController {
       }
       if (isNewMission) {
         mission = makeMission();
+        mission.setIsActive(true);
       }
       mission.setMissionName(form.getMissionName());
       mission.setComment(form.getComment());
@@ -86,9 +90,12 @@ public class MissionController {
       }
       if (isNewMission) {
         model.addMission(mission);
+        view.addForm(createMissionForm(mission));
+        form.cleanFields();
       } else {
         model.updateMission(mission);
       }
+      view.showConfirmation("Der Auftrag " + mission.getMissionName() + " wurde gespeichert.");
     }
   }
   
@@ -97,7 +104,7 @@ public class MissionController {
       return false;
     }
     Mission savedMission = model.findByMissionName(form.getMissionName());
-    if (savedMission != null && !mission.getMissionName().equals(savedMission.getMissionName())){
+    if (savedMission != null && (mission == null || !mission.getMissionName().equals(savedMission.getMissionName()))){
       form.getParentPanel().showError("Ein Auftrag mit diesem Name existiert schon.");
       return false;
     }

@@ -21,6 +21,8 @@ public class MissionForm extends DefaultForm {
   private JCheckBox isOrgan;
   private JButton saveButton;
   private JButton statusButton;
+  private JLabel nameLabel;
+  private JLabel commentLabel;
 
   /**
    * Create the panel.
@@ -34,15 +36,17 @@ public class MissionForm extends DefaultForm {
   private void build(){
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    JLabel nameLabel = new JLabel("Auftragsname");
+    nameLabel = new JLabel("Auftragsname");
     this.add(nameLabel);
+    nameLabel.setVisible(false);
 
     missionName = new JTextField();
     missionName.setColumns(10);
     this.add(missionName);
 
-    JLabel commentLabel = new JLabel("Kommentar");
+    commentLabel = new JLabel("Kommentar");
     this.add(commentLabel);
+    commentLabel.setVisible(false);
 
     comment = new JTextField();
     comment.setColumns(25);
@@ -84,6 +88,8 @@ public class MissionForm extends DefaultForm {
   
   public void showAsCreateNew(){
     statusButton.setVisible(false);
+    commentLabel.setVisible(true);
+    nameLabel.setVisible(true);
   }
 
   public void setSaveListener(ActionListener actionListener) {
