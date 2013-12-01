@@ -12,7 +12,7 @@ import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
 
 /**
- * @author Michael Brodmann
+ * @author Leandra Finger
  * @version 1.0
  */
 
@@ -68,8 +68,12 @@ public class MissionController {
     model.addMission(mission);
   }
 
-  public void updateMission(Mission mission, MissionForm form, boolean isNewMission) {
-    if (form.validateFields()) {
+  public void updateMission(Mission mission, MissionForm form) {
+    if (validateFields(mission, form)) {
+      boolean isNewMission = false;
+      if (mission == null){
+        isNewMission = true;
+      }
       if (isNewMission) {
         mission = makeMission();
       }
@@ -86,6 +90,18 @@ public class MissionController {
         model.updateMission(mission);
       }
     }
+  }
+  
+  public boolean validateFields(Mission mission, MissionForm form){
+    if (!form.validateFields()){
+      return false;
+    }
+    Mission savedMission = model.findByMissionName(form.getMissionName());
+    if (savedMission != null && !mission.getMissionName().equals(savedMission.getMissionName())){
+      form.getParentPanel().showError("Ein Auftrag mit diesem Name existiert schon.");
+      return false;
+    }
+    return true;
   }
 
   public Mission makeMission() {
@@ -104,7 +120,7 @@ public class MissionController {
 
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        updateMission(mission, form, false);
+        updateMission(mission, form);
       }
     }));
 

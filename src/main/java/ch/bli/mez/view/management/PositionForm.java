@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ch.bli.mez.view.DefaultForm;
@@ -82,6 +81,7 @@ public class PositionForm extends DefaultForm{
   public void showAsCreateNew(){
     missionLabel.setVisible(false);
     missionName.setVisible(false);
+    statusButton.setVisible(false);
   }
   
   public void cleanFields() {
