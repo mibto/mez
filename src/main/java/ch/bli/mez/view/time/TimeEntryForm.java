@@ -38,13 +38,12 @@ public class TimeEntryForm extends JPanel {
     this.setEmployeeId(employeeId);
     build();
     addGuiFeatureListener();
-    showAsListEntry();
   }
-  
+
   public Integer getEmployeeId() {
     return employeeId;
   }
-  
+
   public void setEmployeeId(Integer employeeId) {
     this.employeeId = employeeId;
   }
@@ -99,17 +98,14 @@ public class TimeEntryForm extends JPanel {
 
     deleteButton = new JButton("Löschen");
     add(deleteButton);
-  }
 
-  private void showAsListEntry() {
-    deleteButton.setVisible(true);
     dateLabel.setVisible(false);
     positionLaben.setVisible(false);
     auftragLabel.setVisible(false);
     zeitLabel.setVisible(false);
   }
-  
-  public void showAsHeader() {
+
+  public void showAsCreateNew() {
     deleteButton.setVisible(false);
     dateLabel.setVisible(true);
     positionLaben.setVisible(true);
@@ -186,6 +182,7 @@ public class TimeEntryForm extends JPanel {
 
   public boolean validateFields() {
     if (getDate().equals("")) {
+      timeEntryPanel.showError("Es muss ein Datum eingegeben werden.");
       return false;
     }
     if (getMissionName().equals("")) {
@@ -193,20 +190,24 @@ public class TimeEntryForm extends JPanel {
       return false;
     }
     if (getPositionCode().equals("")) {
+      timeEntryPanel.showError("Es muss eine Position angegeben werden.");
       return false;
     }
     if (worktime.getText().equals("")
-        || (worktime.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktime.getText().matches("[0-9]*")) == false) {
+        || (worktime.getText().matches("[0-9]*[:,.]{1}[0-9]{2}") || worktime
+            .getText().matches("[0-9]*")) == false) {
+      timeEntryPanel
+          .showError("Die Zeit muss korrekt angegeben werden (hh:mm oder hh.mm)");
       return false;
     }
     return true;
   }
 
   public void setTimeEntryPanel(TimeEntryPanel timeEntryPanel) {
-    this.timeEntryPanel = timeEntryPanel; 
+    this.timeEntryPanel = timeEntryPanel;
   }
-  
-  public TimeEntryPanel getTimeEntryPanel(){
+
+  public TimeEntryPanel getTimeEntryPanel() {
     return timeEntryPanel;
   }
 
