@@ -12,6 +12,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Employee;
+import ch.bli.mez.model.Mission;
+import ch.bli.mez.model.Position;
 import ch.bli.mez.model.SessionManager;
 import ch.bli.mez.model.TimeEntry;
 import ch.bli.mez.util.Keyword;
@@ -91,11 +93,28 @@ public class TimeEntryDAO implements Searchable {
       Criterion date = Restrictions.eq("date", cal);
       criteria.add(date);
     }
-    EmployeeDAO empDAO = new EmployeeDAO();
-    Employee emp = empDAO.getEmployee(Integer.parseInt(keywords.get("employeeID")));
-    Criterion employee = Restrictions.eq("employee",emp);
-    criteria.add(employee);
+
+    EmployeeDAO employeeDAO = new EmployeeDAO();
+    Employee employee = employeeDAO.getEmployee(Integer.parseInt(keywords.get("employeeID")));
+    if (employee != null) {
+      criteria.add(Restrictions.eq("employee", employee));
+    }
+
+    MissionDAO missionDAO = new MissionDAO();
+    Mission mission = missionDAO.findByMissionName(keywords.get("missionName"));
+    if (mission != null) {
+      criteria.add(Restrictions.eq("mission", mission));
+    }
+
+    PositionDAO positionDAO = new PositionDAO();
+    Position position = positionDAO.findByCode(keywords.get("positionCode"));
+    if (position != null) {
+      criteria.add(Restrictions.eq("position", position));
+    }
+
+    if (!keywords.get("worktime").equals("")) {
+      criteria.add(Restrictions.eq("worktime", Integer.parseInt(keywords.get("worktime"))));
+    }
     return criteria;
   }
-
 }
