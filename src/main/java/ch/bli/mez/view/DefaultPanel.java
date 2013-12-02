@@ -91,7 +91,7 @@ public class DefaultPanel extends JPanel {
 
   public void removeForm(DefaultForm form) {
     listPanel.remove(form);
-    listPanel.revalidate();
+    this.revalidate();
   }
   
   protected JPanel getTopPanel(){
