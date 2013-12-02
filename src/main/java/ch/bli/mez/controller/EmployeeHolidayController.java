@@ -25,21 +25,20 @@ public class EmployeeHolidayController {
     this.model = new HolidayDAO();
     this.contractModel = new ContractDAO();
     createView();
-
   }
 
   public DefaultPanel getView() {
     return this.view;
   }
 
-  private void createView() {
+  protected void createView() {
     this.view = new DefaultPanel();
     for (Holiday holiday : model.getEmployeeHolidays(employee, getStartYear())) {
-      view.addForm(createForm(holiday));
+      view.addForm(createHolidayForm(holiday));
     }
   }
 
-  private EmployeeHolidayForm createForm(Holiday holiday) {
+  private EmployeeHolidayForm createHolidayForm(Holiday holiday) {
     EmployeeHolidayForm form = new EmployeeHolidayForm();
     setEmployeeHolidayFormActionListeners(form);
     form.setYear(String.valueOf(holiday.getYear()));
@@ -51,9 +50,9 @@ public class EmployeeHolidayController {
     return form;
   }
 
-  private Holiday updateEmployeeHoliday(EmployeeHolidayForm form) {
+  private void updateEmployeeHoliday(EmployeeHolidayForm form) {
     if (!validateFields(form)) {
-      return null;
+      return;
     }
     Holiday holiday = createHolidayObject(Integer.valueOf(form.getYear()));
     holiday.setHolidays(Integer.valueOf(form.getHolidays()));
@@ -65,7 +64,6 @@ public class EmployeeHolidayController {
       model.updateHoliday(holiday);
     }
     form.getParentPanel().showConfirmation("Die Ferien für das Jahr " + holiday.getYear() + " wurden gespeichert");
-    return holiday;
   }
   
   private Holiday createHolidayObject(Integer year){
@@ -95,10 +93,10 @@ public class EmployeeHolidayController {
   }
   
   private void setEmployeeHolidayFormActionListeners(final EmployeeHolidayForm form){
-    form.setSaveListener(createFormSaveListener(form));    
+    form.setSaveListener(createHolidayFormSaveListener(form));    
   }
 
-  private ActionListener createFormSaveListener(final EmployeeHolidayForm form) {
+  private ActionListener createHolidayFormSaveListener(final EmployeeHolidayForm form) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         updateEmployeeHoliday(form);

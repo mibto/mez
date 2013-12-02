@@ -16,6 +16,7 @@ public class EmployeePanel extends DefaultPanel {
 
   private JPanel contractPanel;
   private JPanel holidayPanel;
+  private DefaultPanel currentHolidayPanel;
 
   public EmployeePanel() {
     createListPanel();
@@ -55,9 +56,13 @@ public class EmployeePanel extends DefaultPanel {
   }
 
   public void setHolidayPanel(DefaultPanel panel) {
+    currentHolidayPanel = panel;
     holidayPanel.setVisible(true);
     holidayPanel.add(panel, BorderLayout.CENTER);
-    this.revalidate();
+  }
+  
+  public void removeHolidayPanel(){
+    holidayPanel.remove(currentHolidayPanel);
   }
 
   @Override

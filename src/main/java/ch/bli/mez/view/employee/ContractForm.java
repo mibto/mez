@@ -17,7 +17,6 @@ import ch.bli.mez.view.DefaultForm;
  */
 public class ContractForm extends DefaultForm {
 
-
   private static final long serialVersionUID = -4040659975448618036L;
 
   private JTextField workquotaTextField;
@@ -29,13 +28,14 @@ public class ContractForm extends DefaultForm {
   private JLabel endDateLabel;
 
   private JButton saveButton;
+  private JButton deleteButton;
 
   public ContractForm() {
     build();
-    setEnterKeyListener(saveButton, new JTextField[] {workquotaTextField, startDateTextField, endDateTextField});
+    setEnterKeyListener(saveButton, new JTextField[] { workquotaTextField, startDateTextField, endDateTextField });
   }
 
-  private void build(){
+  private void build() {
     setLayout(new FlowLayout(FlowLayout.LEFT));
 
     workquotaLabel = new JLabel("Pensum");
@@ -58,7 +58,10 @@ public class ContractForm extends DefaultForm {
 
     saveButton = new JButton("Speichern");
     add(saveButton);
-    
+
+    deleteButton = new JButton("Löschen");
+    add(deleteButton);
+
     showAsCreateNew(false);
   }
 
@@ -73,36 +76,40 @@ public class ContractForm extends DefaultForm {
     saveButton.addActionListener(actionListener);
   }
 
+  public void setDeleteListener(ActionListener actionListener) {
+    deleteButton.addActionListener(actionListener);
+  }
+
   @Override
   public Boolean validateFields() {
-    if ("".equals(getWorkquota())){
+    if ("".equals(getWorkquota())) {
       getParentPanel().showError("Es wurde kein Pensum eingegeben");
       return false;
     } else {
       try {
         Integer.valueOf(getWorkquota());
-      } catch (NumberFormatException e){
-      getParentPanel().showError("Das Format des eingegebenen Pensum ist nicht gültig");
-      return false;
+      } catch (NumberFormatException e) {
+        getParentPanel().showError("Das Format des eingegebenen Pensum ist nicht gültig");
+        return false;
       }
     }
-    if ("".equals(getStartDate())){
+    if ("".equals(getStartDate())) {
       getParentPanel().showError("Es wurde kein Startdatum eingegeben");
       return false;
     } else {
       try {
         Parser.parseDateStringToCalendar(getStartDate());
-      } catch (NumberFormatException e){
-      getParentPanel().showError("Das Format des eingegebenen Startdatum ist nicht gültig");
-      return false;
+      } catch (NumberFormatException e) {
+        getParentPanel().showError("Das Format des eingegebenen Startdatum ist nicht gültig");
+        return false;
       }
     }
-    if (!"".equals(getEndDate())){
+    if (!"".equals(getEndDate())) {
       try {
         Parser.parseDateStringToCalendar(getEndDate());
-      } catch (NumberFormatException e){
-      getParentPanel().showError("Das Format des eingegebenen Enddatum ist nicht gültig");
-      return false;
+      } catch (NumberFormatException e) {
+        getParentPanel().showError("Das Format des eingegebenen Enddatum ist nicht gültig");
+        return false;
       }
     }
     return true;
@@ -112,11 +119,12 @@ public class ContractForm extends DefaultForm {
   public void showAsCreateNew() {
     showAsCreateNew(true);
   }
-  
-  private void showAsCreateNew(boolean createNew){
+
+  private void showAsCreateNew(boolean createNew) {
     workquotaLabel.setVisible(createNew);
     startDateLabel.setVisible(createNew);
     endDateLabel.setVisible(createNew);
+    deleteButton.setVisible(!createNew);
   }
 
   // getter & setter

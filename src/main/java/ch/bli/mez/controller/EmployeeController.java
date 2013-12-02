@@ -8,7 +8,6 @@ import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
-import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeForm;
 import ch.bli.mez.view.employee.EmployeePanel;
@@ -88,26 +87,18 @@ public class EmployeeController {
       employeePanel.setCreateNewForm(createEmployeeForm(employee, isNewEmployee));
     } else {
       employeePanel.addForm(createEmployeeForm(employee, isNewEmployee));
-      employeePanel.setHolidayPanel(createHolidayPanel(employee));
-      employeePanel.setContractPanel(createContractPanel(employee));
+      employeePanel.setHolidayPanel(new EmployeeHolidayController(employee).getView());
+      employeePanel.setContractPanel(new ContractController(employee, createHolidayUpdateListener(employeePanel, employee)).getView());
     }
     return employeePanel;
   }
 
-  private DefaultPanel createHolidayPanel(Employee employee) {
-    EmployeeHolidayController employeeHolidaycontroller = new EmployeeHolidayController(employee);
-    return employeeHolidaycontroller.getView();
-  }
-
-  private DefaultPanel createContractPanel(Employee employee) {
-    ContractController contractController = new ContractController(employee, createHolidayUpdateListener(employee));
-    return contractController.getView();
-  }
-
-  private ActionListener createHolidayUpdateListener(final Employee employee) {
+  private ActionListener createHolidayUpdateListener(final EmployeePanel employeePanel, final Employee employee) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        employeePanel.setHolidayPanel(createHolidayPanel(employee));
+        employeePanel.removeHolidayPanel();
+        employeePanel.setHolidayPanel(new EmployeeHolidayController(employee).getView());
+        employeePanel.revalidate();
       }
     };
   }

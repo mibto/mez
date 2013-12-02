@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.JOptionPane;
+
 import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
@@ -20,133 +22,124 @@ public class ContractController {
   private DefaultPanel view;
   private ContractDAO model;
   private Employee employee;
-
   private ActionListener holidayRefreshListener;
 
   public ContractController(Employee employee, ActionListener listener) {
-    this.view = new DefaultPanel();
-    this.model = new ContractDAO();
     this.employee = employee;
     this.holidayRefreshListener = listener;
-    addEntrys(employee);
-    setActionListeners();
+    this.model = new ContractDAO();
+    createView();
   }
 
   public DefaultPanel getView() {
     return view;
   }
 
-  public boolean contractsExists() {
-    if (model.getEmployeeContracts(employee).size() == 0) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  // internal methods
-  private void addEntrys(Employee employee) {
+  private void createView() {
+    this.view = new DefaultPanel();
+    view.setCreateNewForm(createContractForm(null));
     for (Contract contract : model.getEmployeeContracts(employee)) {
-      view.addForm(createContractListEntry(contract));
+      view.addForm(createContractForm(contract));
     }
   }
 
-  private ContractForm createContractListEntry(final Contract contract) {
-    final ContractForm contractForm = new ContractForm();
-    contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
-    if (contract.getEndDate() != null) {
-      contractForm.setEndDate(Parser.parseDateCalendarToString(contract.getEndDate()));
+  private ContractForm createContractForm(Contract contract) {
+    ContractForm form = new ContractForm();
+    setContractFormActionListener(contract, form);
+    if (contract == null) {
+      form.showAsCreateNew();
+    } else {
+      form.setWorkquota(String.valueOf(contract.getWorkquota()));
+      form.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
+      if (contract.getEndDate() != null) {
+        form.setEndDate(Parser.parseDateCalendarToString(contract.getEndDate()));
+      }
     }
-    setContractListEntryListeners(contractForm, contract);
-    return contractForm;
+    return form;
   }
 
-  private void setActionListeners() {
-//    view.setSaveListener(new ActionListener() {
-//      public void actionPerformed(ActionEvent arg0) {
-//        int workquota;
-//        Calendar startDate;
-//        Calendar endDate;
-//        if (view.getWorkquota().equals("") || view.getStartDate().equals("")) {
-//          view.showError("Die Felder Pensum und Start müssen ausgefüllt sein");
-//          return;
-//        }
-//        try {
-//          workquota = Integer.valueOf(view.getWorkquota());
-//          startDate = Parser.parseDateStringToCalendar(view.getStartDate());
-//          endDate = Parser.parseDateStringToCalendar(view.getEndDate());
-//        } catch (NumberFormatException exception) {
-//          view.showError("Die Eingegebene Werte sind nicht gültig");
-//          return;
-//        }
-//        if (workquota < 0 || workquota > 100) {
-//          view.showError("Das Pensum muss eine Zahl zwischen 0 und 100 sein");
-//          return;
-//        }
-//        Contract contract = new Contract(employee, startDate, workquota);
-//        if (endDate != null) {
-//          contract.setEndDate(endDate);
-//        }
-//        model.addContract(contract);
-//        view.addContractListEntry(createContractListEntry(contract));
-//        view.showConfirmation("Der Vertrag wurde erfolgreich erstellt");
-//        holidayRefreshListener.actionPerformed(arg0);
-//      }
-//    });
+  private void updateContract(Contract contract, ContractForm form) {
+    if (!validateFields(form)) {
+      return;
+    }
+    boolean isNewContract = false;
+    if (contract == null) {
+      isNewContract = true;
+    }
+    if (isNewContract) {
+      contract = new Contract();
+      contract.setEmployee(employee);
+    }
+    contract.setWorkquota(Integer.valueOf(form.getWorkquota()));
+    contract.setStartDate(Parser.parseDateStringToCalendar(form.getStartDate()));
+    Calendar endDate = null;
+    if (!"".equals(form.getEndDate())) {
+      endDate = Parser.parseDateStringToCalendar(form.getEndDate());
+    }
+    contract.setEndDate(endDate);
+    if (isNewContract) {
+      model.addContract(contract);
+      view.addForm(createContractForm(contract));
+      form.cleanFields();
+    } else {
+      model.updateContract(contract);
+    }
+    form.getParentPanel().showConfirmation(
+        "Der Vertrag mit Startdatum " + Parser.parseDateCalendarToString(contract.getStartDate())
+            + " wurde gespeichert");
   }
 
-  private void setContractListEntryListeners(final ContractForm contractForm, final Contract contract) {
-    contractForm.setSaveListener(new ActionListener() {
+  protected Boolean validateFields(ContractForm form) {
+    if (!form.validateFields()) {
+      return false;
+    }
+    int workQuota = Integer.valueOf(form.getWorkquota());
+    if (workQuota < 0 || workQuota > 100) {
+      form.getParentPanel().showError("Das Pensum muss zwischen 0 und 100 sein");
+      return false;
+    }
+    Calendar startDate = Parser.parseDateStringToCalendar(form.getStartDate());
+    if (!"".equals(form.getEndDate())) {
+      Calendar endDate = Parser.parseDateStringToCalendar(form.getEndDate());
+      if (startDate.after(endDate)) {
+        form.getParentPanel().showError("Das Startdatum darf nicht vor dem Enddatum sein");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private void deleteContract(Contract contract, ContractForm form) {
+    model.deleteContract(contract.getId());
+    form.getParentPanel().removeForm(form);
+    form.getParentPanel().showConfirmation("Der Vertrag wurde erfolgreich gelöscht");
+  }
+
+  private void setContractFormActionListener(final Contract contract, final ContractForm form) {
+    form.setSaveListener(createContractFormSaveListener(contract, form));
+    form.setDeleteListener(createContractFormDeleteListener(contract, form));
+  }
+
+  private ActionListener createContractFormSaveListener(final Contract contract, final ContractForm form) {
+    return new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        int workquota;
-        Calendar startDate;
-        Calendar endDate;
-        if (contractForm.getWorkquota().equals("") || contractForm.getStartDate().equals("")) {
-          showErrorContractListEntry(contractForm, contract);
-          return;
-        }
-        try {
-          workquota = Integer.valueOf(contractForm.getWorkquota());
-          startDate = Parser.parseDateStringToCalendar(contractForm.getStartDate());
-          endDate = Parser.parseDateStringToCalendar(contractForm.getEndDate());
-        } catch (NumberFormatException exception) {
-          showErrorContractListEntry(contractForm, contract);
-          return;
-        }
-        if (workquota < 0 || workquota > 100) {
-          showErrorContractListEntry(contractForm, contract);
-          return;
-        }
-        contract.setWorkquota(workquota);
-        contract.setStartDate(startDate);
-        if (endDate != null) {
-          contract.setEndDate(endDate);
-        }
-        model.updateContract(contract);
-//        contractForm.showSuccess();
+        updateContract(contract, form);
         holidayRefreshListener.actionPerformed(e);
       }
-    });
-//    contractForm.setDeleteListener(new ActionListener() {
-//      public void actionPerformed(ActionEvent e) {
-//        if (JOptionPane.showConfirmDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
-//            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != 0) {
-//          return;
-//        }
-//        model.deleteContract(contract.getId());
-//        contractForm.getParent().remove(contractForm);
-//        holidayRefreshListener.actionPerformed(e);
-//      }
-//    });
+    };
   }
 
-  private void showErrorContractListEntry(final ContractForm contractForm, final Contract contract) {
-//    contractForm.showError("");
-    contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
-    contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
-    if (contract.getEndDate() != null) {
-      contractForm.setEndDate(Parser.parseDateCalendarToString(contract.getEndDate()));
-    }
+  private ActionListener createContractFormDeleteListener(final Contract contract, final ContractForm form) {
+    return new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        if (JOptionPane.showOptionDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
+            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, new Object[] { "Ja", "Nein" }, "Nein") == JOptionPane.YES_OPTION) {
+          deleteContract(contract, form);
+        } else {
+          form.getParentPanel().showError("Der Vertrag wurde NICHT gelöscht");
+        }
+        holidayRefreshListener.actionPerformed(e);
+      }
+    };
   }
 }

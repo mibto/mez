@@ -8,8 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class WorktimeTest {
-  static Parser worktime;
+public class ParserTest {
+  static Parser parser;
   Calendar calendar;
   Integer workminutes1;
   Integer workminutes59;
@@ -19,7 +19,7 @@ public class WorktimeTest {
 
   @Before
   public void setUp() throws Exception {
-    worktime = new Parser();
+    parser = new Parser();
 
     workminutes1 = 1;
     workminutes59 = 59;
@@ -39,7 +39,7 @@ public class WorktimeTest {
 
   @After
   public void tearDown() throws Exception {
-    worktime = null;
+    parser = null;
     calendar = null;
   }
 
@@ -89,11 +89,9 @@ public class WorktimeTest {
   public void createDateTest() {
     // Case1: Test Date convert (test with 01.01.2000)
     Calendar calendartest = Parser.parseDateStringToCalendar("01.01.2000");
-    assertEquals(calendar, calendartest);
-
-    // Case1: Test Date convert (test with 01.01.2000)
-    calendartest = Parser.parseDateStringToCalendar("01.01.00");
-    assertEquals(calendar, calendartest);
+    assertEquals(calendar.get(Calendar.DAY_OF_MONTH), calendartest.get(Calendar.DAY_OF_MONTH));
+    assertEquals(calendar.get(Calendar.MONTH), calendartest.get(Calendar.MONTH));
+    assertEquals(calendar.get(Calendar.YEAR), calendartest.get(Calendar.YEAR));
   }
 
   @Test
