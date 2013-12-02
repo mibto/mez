@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
 import ch.bli.mez.view.DefaultSearchPanel;
+import javax.swing.JPanel;
 
 public class TimeEntrySearchPanel extends DefaultSearchPanel {
   
@@ -14,13 +15,14 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
   private JTextField missionName;
   private JTextField positionCode;
   private JTextField worktime;
+  private JPanel spacer;
 
   public TimeEntrySearchPanel(){
     build();
   }
   
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
+    setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
 
     date = new JTextField();
     this.add(date);
@@ -37,6 +39,12 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
     worktime = new JTextField();
     this.add(worktime);
     worktime.setColumns(5);
+    
+    spacer = new JPanel();
+    FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
+    flowLayout.setHgap(83);
+    flowLayout.setVgap(0);
+    add(spacer);
   }
   
   public String getSearchText() {

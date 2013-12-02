@@ -53,6 +53,7 @@ public class DefaultPanel extends JPanel {
     centerNorthPanel.add(listTitlePanel);
 
     listSearchPanel = new JPanel();
+    listSearchPanel.setLayout(new BoxLayout(listSearchPanel, BoxLayout.Y_AXIS));
     centerNorthPanel.add(listSearchPanel);
 
     JPanel centerCenterPanel = new JPanel();
