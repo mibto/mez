@@ -45,18 +45,6 @@ public class MissionDAO {
     return mission;
   }
 
-  public Mission getMissionByMissionName(String missionName) {
-    Session session = SessionManager.getSessionManager().getSession();
-    Transaction tx = session.beginTransaction();
-    // Integer id = (Integer)
-    // session.createSQLQuery("select mission_id from mission where missionName = "
-    // + missionName).list();
-    // System.out.print(id);
-    // Mission mission = (Mission) session.get(Mission.class, id);
-    tx.commit();
-    return new Mission();
-  }
-
   public void updateMission(Mission mission) {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();

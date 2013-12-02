@@ -141,7 +141,7 @@ public class MissionControllerTest {
 
     inOrder = inOrder(missionForm, mission, missionModel, positionModel, mySpy);
 
-    mySpy.updateMission(mission, missionForm);
+    mySpy.updateMission(null, missionForm);
 
     inOrder.verify(missionForm).validateFields();
     inOrder.verify(mySpy).makeMission();

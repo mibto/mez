@@ -61,9 +61,9 @@ public class EmployeeDAOTest {
   @Test(expected = ObjectNotFoundException.class)
   public void saveEmployee() {
     instance.addEmployee(employee);
-    assertEquals(employee, instance.getEmployee(employee.getId()));
+    assertEquals(employee.getFirstName(), instance.getEmployee(employee.getId()).getFirstName());
     instance.deleteEmployee(employee.getId());
-    instance.getEmployee(employee.getId());
+    instance.getEmployee(employee.getId()).getFirstName();
   }
 
   /*

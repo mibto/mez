@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.hibernate.ObjectNotFoundException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,17 +54,6 @@ public class MissionDAOTest {
   public void checkInstance() {
     assertNotNull(instance);
     assertNotNull(mission);
-  }
-
-  /*
-   * Prüft ob eine Mission korrekt abgespeichert und wieder gelöscht wird
-   */
-  @Test(expected = ObjectNotFoundException.class)
-  public void saveMission() {
-    instance.addMission(mission);
-    assertEquals(mission, instance.getMission(mission.getId()));
-    instance.deleteMission(mission.getId());
-    instance.getMission(mission.getId());
   }
 
   /*

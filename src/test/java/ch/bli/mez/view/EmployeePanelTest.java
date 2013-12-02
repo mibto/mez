@@ -12,10 +12,12 @@ import ch.bli.mez.view.employee.EmployeeForm;
 public class EmployeePanelTest {
 
   static EmployeeForm employeeForm;
+  static DefaultPanel defaultPanel;
 
   @Before
   public void setUp() throws Exception {
     employeeForm = new EmployeeForm();
+    defaultPanel = new DefaultPanel();
   }
 
   @After
@@ -25,6 +27,7 @@ public class EmployeePanelTest {
 
   @Test
   public void validateFieldsTest() {
+    defaultPanel.setCreateNewForm(employeeForm);
 
     // Case1: Required fields empty, PLZ correct
     employeeForm.setPlz("8880");

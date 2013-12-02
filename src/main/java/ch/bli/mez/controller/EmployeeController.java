@@ -124,7 +124,7 @@ public class EmployeeController {
     return form;
   }
 
-  private static Employee updateEmployee(Employee employee, EmployeeForm form) {
+  protected Employee updateEmployee(Employee employee, EmployeeForm form) {
     if (form.validateFields()) {
       if (!"".equals(form.getPlz())) {
         employee.setPlz(Integer.parseInt(form.getPlz()));
