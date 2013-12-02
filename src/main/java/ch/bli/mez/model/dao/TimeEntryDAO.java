@@ -1,16 +1,24 @@
 package ch.bli.mez.model.dao;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.SessionManager;
 import ch.bli.mez.model.TimeEntry;
+import ch.bli.mez.util.Keyword;
+import ch.bli.mez.util.Parser;
 
 @SuppressWarnings("unchecked")
-public class TimeEntryDAO {
+public class TimeEntryDAO implements Searchable {
 
   public TimeEntryDAO() {
   }
@@ -64,4 +72,30 @@ public class TimeEntryDAO {
     }
     tx.commit();
   }
+
+  public List<TimeEntry> findByKeywords(String url) {
+    Criteria criteria = createCriteria(Keyword.getKeywords(url));
+    criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+    return criteria.list();
+  }
+
+  private Criteria createCriteria(Map<String, String> keywords) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(TimeEntry.class);
+    Calendar cal = null;
+    try {
+      cal = Parser.parseDateStringToCalendar(keywords.get("date"));
+    } catch (Exception e) {
+    }
+    if (cal != null) {
+      Criterion date = Restrictions.eq("date", cal);
+      criteria.add(date);
+    }
+    EmployeeDAO empDAO = new EmployeeDAO();
+    Employee emp = empDAO.getEmployee(Integer.parseInt(keywords.get("employeeID")));
+    Criterion employee = Restrictions.eq("employee",emp);
+    criteria.add(employee);
+    return criteria;
+  }
+
 }

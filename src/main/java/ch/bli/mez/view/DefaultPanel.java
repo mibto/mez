@@ -96,6 +96,11 @@ public class DefaultPanel extends JPanel {
   protected JPanel getTopPanel(){
     return this.topPanel;
   }
+  
+  public void removeAllForms(){
+    listPanel.removeAll();
+    listPanel.revalidate();
+  }
 
   /**
    * @param message

@@ -28,7 +28,6 @@ public class TimeEntryController {
   private MissionDAO missionModel;
   private PositionDAO positionModel;
   private EmployeeSearchPanel employeeSearchPanel;
-  private TimeEntrySearchPanel timeEntrySearchPanel;
 
   public TimeEntryController() {
     this.model = new TimeEntryDAO();
@@ -47,11 +46,10 @@ public class TimeEntryController {
     this.view = new EmployeeTabbedView();
     this.employeeSearchPanel = new EmployeeSearchPanel();
     this.view.setEmployeeSearchPanel(employeeSearchPanel);
-    // timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener());
-    // employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
+    employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
-  private KeyListener createTimeEntrySearchKeyListener() {
+  private KeyListener createTimeEntrySearchKeyListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
     return new KeyListener() {
       public void keyPressed(KeyEvent arg0) {
       }
@@ -107,6 +105,7 @@ public class TimeEntryController {
     TimeEntryPanel panel = new TimeEntryPanel(employee);
     panel.setCreateNewForm(createTimeEntryForm(null, employee));
     TimeEntrySearchPanel timeEntrySearchPanel = new TimeEntrySearchPanel();
+    timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener(timeEntrySearchPanel));
     timeEntrySearchPanel.setParentPanel(panel);
     panel.setListSearchPanel(timeEntrySearchPanel);
     addForms(panel, employee);
@@ -120,19 +119,22 @@ public class TimeEntryController {
   }
 
   private void addForms(String searchString, TimeEntryPanel panel, Employee employee) {
-
+    panel.removeAllForms();
+    for (TimeEntry timeEntry : model.findByKeywords(searchString + "&employeeID=" + employee.getId())) {
+      panel.addForm(createTimeEntryForm(timeEntry, employee));
+    }
   }
 
   private TimeEntryForm createTimeEntryForm(TimeEntry timeEntry, Employee employee) {
-    TimeEntryForm timeEntryForm = new TimeEntryForm();
+    TimeEntryForm form = new TimeEntryForm();
     if (timeEntry != null) {
-      timeEntryForm.setMission(timeEntry.getMission().getMissionName());
-      timeEntryForm.setDate(timeEntry.getDate());
-      timeEntryForm.setPosition(timeEntry.getPosition().getCode());
-      timeEntryForm.setWorktime(timeEntry.getWorktime());
+      form.setMission(timeEntry.getMission().getMissionName());
+      form.setDate(timeEntry.getDate());
+      form.setPosition(timeEntry.getPosition().getCode());
+      form.setWorktime(timeEntry.getWorktime());
     }
-    setTimeEntryFormActionListeners(timeEntryForm, timeEntry, employee);
-    return timeEntryForm;
+    setTimeEntryFormActionListeners(form, timeEntry, employee);
+    return form;
   }
 
   private void setTimeEntryFormActionListeners(final TimeEntryForm form, final TimeEntry timeEntry,
