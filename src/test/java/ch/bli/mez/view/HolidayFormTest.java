@@ -16,7 +16,7 @@ public class HolidayFormTest {
   @Before
   public void setUp() throws Exception {
     holidayForm = new HolidayForm();
-    holidayForm.setDefaultPanel(new DefaultPanel());
+    holidayForm.setParentPanel(new DefaultPanel());
   }
 
   @After

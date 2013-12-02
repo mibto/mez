@@ -56,7 +56,7 @@ public class HolidayController {
     });
   }
 
-  private boolean validateFields(HolidayForm form, Holiday holiday) {
+  public boolean validateFields(HolidayForm form, Holiday holiday) {
     if (!form.validateFields()) {
       return false;
     }

@@ -17,8 +17,8 @@ public class TimeEntryFormTest {
 
   @Before
   public void setUp() throws Exception {
-    timeEntryForm = new TimeEntryForm(null);
-    timeEntryForm.setTimeEntryPanel(new TimeEntryPanel(null));
+    timeEntryForm = new TimeEntryForm();
+    timeEntryForm.setParentPanel(new TimeEntryPanel(null));
   }
 
   @After

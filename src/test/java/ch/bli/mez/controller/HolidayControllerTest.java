@@ -21,7 +21,7 @@ public class HolidayControllerTest {
   public void setUp() throws Exception {
     this.instance = new HolidayController();
     form = new HolidayForm();
-    form.setDefaultPanel(new DefaultPanel());
+    form.setParentPanel(new DefaultPanel());
   }
 
   @After
