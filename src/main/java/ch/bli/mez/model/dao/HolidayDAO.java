@@ -85,7 +85,7 @@ public class HolidayDAO {
    * @param employee
    *          der betroffene Employee
    * @return Wenn der Employee einen eigenen Eintrag für das gesuchte Jahr hat
-   *         wird dieses Objekt
+   *         wird dieses Objekt zurückgegeben
    */
   public Holiday getEmployeeHolidayByYear(Integer year, Employee employee) {
     Session session = SessionManager.getSessionManager().getSession();

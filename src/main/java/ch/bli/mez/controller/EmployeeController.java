@@ -4,11 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.InvalidObjectException;
 import java.util.List;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeForm;
 import ch.bli.mez.view.employee.EmployeePanel;
@@ -88,8 +88,28 @@ public class EmployeeController {
       employeePanel.setCreateNewForm(createEmployeeForm(employee, isNewEmployee));
     } else {
       employeePanel.addForm(createEmployeeForm(employee, isNewEmployee));
+      employeePanel.setHolidayPanel(createHolidayPanel(employee));
+      employeePanel.setContractPanel(createContractPanel(employee));
     }
     return employeePanel;
+  }
+
+  private DefaultPanel createHolidayPanel(Employee employee) {
+    EmployeeHolidayController employeeHolidaycontroller = new EmployeeHolidayController(employee);
+    return employeeHolidaycontroller.getView();
+  }
+
+  private DefaultPanel createContractPanel(Employee employee) {
+    ContractController contractController = new ContractController(employee, createHolidayUpdateListener(employee));
+    return contractController.getView();
+  }
+
+  private ActionListener createHolidayUpdateListener(final Employee employee) {
+    return new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        employeePanel.setHolidayPanel(createHolidayPanel(employee));
+      }
+    };
   }
 
   private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {
@@ -113,9 +133,9 @@ public class EmployeeController {
     return form;
   }
 
-  static Employee updateEmployee(Employee employee, EmployeeForm form) throws InvalidObjectException {
+  private static Employee updateEmployee(Employee employee, EmployeeForm form) {
     if (form.validateFields()) {
-      if (!form.getPlz().equals("")) {
+      if (!"".equals(form.getPlz())) {
         employee.setPlz(Integer.parseInt(form.getPlz()));
       }
       employee.setFirstName(form.getFirstname());
@@ -127,9 +147,11 @@ public class EmployeeController {
       employee.setEmail(form.getEmail());
       employee.setAhv(form.getAhv());
       employee.setBirthday(form.getBirthday());
+      form.getParentPanel().showConfirmation(
+          "Der Mitarbeiter " + employee.getFirstName() + " " + employee.getLastName() + " wurde gespeichert");
       return employee;
     }
-    throw new InvalidObjectException("Employee invalid");
+    return null;
   }
 
   public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm form, Boolean isNewEmployee) {
@@ -158,119 +180,17 @@ public class EmployeeController {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (!isNewEmployee) {
-          try {
-            model.updateEmployee(updateEmployee(employee, form));
-            view.updateTabName(employee.getFirstName() + " " + employee.getLastName());
-          } catch (InvalidObjectException e) {
-            return;
-          }
-          employeePanel.showConfirmation(employee.getFirstName() + " " + employee.getLastName());
+          model.updateEmployee(updateEmployee(employee, form));
+          view.updateTabName(employee.getFirstName() + " " + employee.getLastName());
         } else {
           Employee safeEmployee = new Employee();
-          try {
-            safeEmployee = updateEmployee(safeEmployee, form);
-          } catch (InvalidObjectException e) {
-            return;
-          }
+          safeEmployee = updateEmployee(safeEmployee, form);
           model.addEmployee(safeEmployee);
           view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
               createEmployeePanel(safeEmployee, false));
           form.cleanFields();
-          employeePanel.showConfirmation(safeEmployee.getFirstName() + " " + safeEmployee.getLastName());
         }
       }
     };
   }
-
-  /*
-   * private void setEmployeeHolidayListEntryListener(final
-   * EmployeeHolidayListEntry employeeHolidayListEntry, final Employee employee,
-   * final Holiday globalHoliday) { employeeHolidayListEntry.setSaveListener(new
-   * ActionListener() { public void actionPerformed(ActionEvent e) { Holiday
-   * holiday = globalHoliday; Holiday employeeHoliday =
-   * holidayModel.getEmployeeHolidayByYear(globalHoliday.getYear(), employee);
-   * if (employeeHoliday != null) { holiday = employeeHoliday; } // TODO: public
-   * Holiday updateHoliday(employeeHolidayListEntry, // employee, holiday) in
-   * eigene Methode // holidayModel.updateHoliday(updateHoliday) // Test
-   * existiert int holidays = -1; int publicHolidays; int preWorkdays; try { //
-   * TODO: employeeHolidayListEntry.validateFields(holiday), muss true // oder
-   * false zurück geben, felder nur auslesen // falls valid, sonst return! if
-   * (!(employeeHolidayListEntry.getHolidays().equals("") &&
-   * holiday.getHolidays() == null)) { holidays =
-   * Integer.valueOf(employeeHolidayListEntry.getHolidays()); } publicHolidays =
-   * Integer.valueOf(employeeHolidayListEntry.getPublicHolidays()); preWorkdays
-   * = Integer.valueOf(employeeHolidayListEntry.getPreWorkdays()); if ((holidays
-   * < -1 || publicHolidays < 0 || preWorkdays < 0) || ((publicHolidays ==
-   * holiday.getPublicHolidays() && preWorkdays == holiday.getPreworkdays()) &&
-   * ((holiday .getHolidays() == null && holidays == -1) ||
-   * (holiday.getHolidays() != null && holiday.getHolidays() == holidays)))) {
-   * throw new NumberFormatException(
-   * "keine Zahl darf negativ sein UND es muss mindestens ein Feld geändert worden sein"
-   * ); } } catch (NumberFormatException exeption) {
-   * employeeHolidayListEntry.setPublicHolidays
-   * (String.valueOf(holiday.getPublicHolidays()));
-   * employeeHolidayListEntry.setPreWorkdays
-   * (String.valueOf(holiday.getPreworkdays())); if (holiday.getHolidays() !=
-   * null) {
-   * employeeHolidayListEntry.setHolidays(String.valueOf(holiday.getHolidays
-   * ())); } employeeHolidayListEntry.showError(); return; } // TODO:
-   * if(newHoliday){holiday = new Holiday(), //
-   * holidayModel.addHoliday(holiday)} danach get und set (Reihenfolge: //
-   * PublicHolidays, PreWorkdays, Holidays) // Test existiert if
-   * (holiday.getEmployee() != null) { if (holidays != -1) {
-   * holiday.setHolidays(holidays); } holiday.setPublicHolidays(publicHolidays);
-   * holiday.setPreworkdays(preWorkdays); holidayModel.updateHoliday(holiday); }
-   * else { holiday = new Holiday(holiday.getYear(), publicHolidays,
-   * preWorkdays); if (holidays != -1) { holiday.setHolidays(holidays); }
-   * holiday.setEmployee(employee); holidayModel.addHoliday(holiday); }
-   * employeeHolidayListEntry.showSuccess(); } }); }
-   */
-
-  /*
-   * private ActionListener createHolidayRefreshListener(final EmployeePanel
-   * panel, final Employee employee) { ActionListener listener = new
-   * ActionListener() { public void actionPerformed(ActionEvent e) {
-   * panel.setVisible(false); panel.removeEmployeeHolidayListEntries();
-   * ContractDAO contractDAO = new ContractDAO(); try {
-   * createEmployeeHolidayListEntries(panel, employee,
-   * contractDAO.getEmployeeContracts(employee).get(0)
-   * .getStartDate().get(Calendar.YEAR)); } catch (IndexOutOfBoundsException
-   * exception) { panel.setVisible(true); } panel.setVisible(true); } }; return
-   * listener; }
-   */
-
-  /*
-   * public void updateHoliday(EmployeeHolidayForm holidayPanel, Employee
-   * employee, Holiday holiday) { // TODO Auto-generated method stub
-   * 
-   * }
-   */
-
-  /*
-   * private ContractPanel createHolidayContract(EmployeePanel panel, Employee
-   * employee) { ContractController controller = new
-   * ContractController(employee, createHolidayRefreshListener(panel,
-   * employee)); if (controller.contractsExists()) {
-   * createEmployeeHolidayListEntries(panel, employee,
-   * controller.getStartYear()); } return controller.getView(); }
-   */
-
-  /*
-   * private void createEmployeeHolidayListEntries(EmployeePanel panel, Employee
-   * employee, Integer year) { for (Holiday holiday :
-   * holidayModel.getEmployeeHolidays(employee, year)) {
-   * EmployeeHolidayListEntry employeeHolidaylistEntry = new
-   * EmployeeHolidayListEntry();
-   * employeeHolidaylistEntry.setYear(String.valueOf(holiday.getYear())); if
-   * (holiday.getHolidays() != null) {
-   * employeeHolidaylistEntry.setHolidays(String
-   * .valueOf(holiday.getHolidays())); }
-   * employeeHolidaylistEntry.setPublicHolidays
-   * (String.valueOf(holiday.getPublicHolidays()));
-   * employeeHolidaylistEntry.setPreWorkdays
-   * (String.valueOf(holiday.getPreworkdays()));
-   * panel.addEmployeeHolidayListEntry(employeeHolidaylistEntry);
-   * setEmployeeHolidayListEntryListener(employeeHolidaylistEntry, employee,
-   * holiday); } }
-   */
 }

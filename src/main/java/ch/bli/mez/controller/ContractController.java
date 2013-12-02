@@ -2,16 +2,13 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import javax.swing.JOptionPane;
 
 import ch.bli.mez.model.Contract;
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.util.Parser;
+import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.employee.ContractForm;
 
 /**
@@ -20,14 +17,14 @@ import ch.bli.mez.view.employee.ContractForm;
  */
 public class ContractController {
 
-  private ContractForm view;
+  private DefaultPanel view;
   private ContractDAO model;
   private Employee employee;
 
   private ActionListener holidayRefreshListener;
 
   public ContractController(Employee employee, ActionListener listener) {
-    this.view = new ContractForm();
+    this.view = new DefaultPanel();
     this.model = new ContractDAO();
     this.employee = employee;
     this.holidayRefreshListener = listener;
@@ -35,12 +32,8 @@ public class ContractController {
     setActionListeners();
   }
 
-  public ContractForm getView() {
+  public DefaultPanel getView() {
     return view;
-  }
-
-  public int getStartYear() {
-    return model.getEmployeeContracts(employee).get(0).getStartDate().get(Calendar.YEAR);
   }
 
   public boolean contractsExists() {
@@ -70,37 +63,37 @@ public class ContractController {
   }
 
   private void setActionListeners() {
-    view.setSaveListener(new ActionListener() {
-      public void actionPerformed(ActionEvent arg0) {
-        int workquota;
-        Calendar startDate;
-        Calendar endDate;
-        if (view.getWorkquota().equals("") || view.getStartDate().equals("")) {
-          view.showError("Die Felder Pensum und Start müssen ausgefüllt sein");
-          return;
-        }
-        try {
-          workquota = Integer.valueOf(view.getWorkquota());
-          startDate = Parser.parseDateStringToCalendar(view.getStartDate());
-          endDate = Parser.parseDateStringToCalendar(view.getEndDate());
-        } catch (NumberFormatException exception) {
-          view.showError("Die Eingegebene Werte sind nicht gültig");
-          return;
-        }
-        if (workquota < 0 || workquota > 100) {
-          view.showError("Das Pensum muss eine Zahl zwischen 0 und 100 sein");
-          return;
-        }
-        Contract contract = new Contract(employee, startDate, workquota);
-        if (endDate != null) {
-          contract.setEndDate(endDate);
-        }
-        model.addContract(contract);
-        view.addContractListEntry(createContractListEntry(contract));
-        view.showConfirmation("Der Vertrag wurde erfolgreich erstellt");
-        holidayRefreshListener.actionPerformed(arg0);
-      }
-    });
+//    view.setSaveListener(new ActionListener() {
+//      public void actionPerformed(ActionEvent arg0) {
+//        int workquota;
+//        Calendar startDate;
+//        Calendar endDate;
+//        if (view.getWorkquota().equals("") || view.getStartDate().equals("")) {
+//          view.showError("Die Felder Pensum und Start müssen ausgefüllt sein");
+//          return;
+//        }
+//        try {
+//          workquota = Integer.valueOf(view.getWorkquota());
+//          startDate = Parser.parseDateStringToCalendar(view.getStartDate());
+//          endDate = Parser.parseDateStringToCalendar(view.getEndDate());
+//        } catch (NumberFormatException exception) {
+//          view.showError("Die Eingegebene Werte sind nicht gültig");
+//          return;
+//        }
+//        if (workquota < 0 || workquota > 100) {
+//          view.showError("Das Pensum muss eine Zahl zwischen 0 und 100 sein");
+//          return;
+//        }
+//        Contract contract = new Contract(employee, startDate, workquota);
+//        if (endDate != null) {
+//          contract.setEndDate(endDate);
+//        }
+//        model.addContract(contract);
+//        view.addContractListEntry(createContractListEntry(contract));
+//        view.showConfirmation("Der Vertrag wurde erfolgreich erstellt");
+//        holidayRefreshListener.actionPerformed(arg0);
+//      }
+//    });
   }
 
   private void setContractListEntryListeners(final ContractForm contractForm, final Contract contract) {
@@ -131,25 +124,25 @@ public class ContractController {
           contract.setEndDate(endDate);
         }
         model.updateContract(contract);
-        contractForm.showSuccess();
+//        contractForm.showSuccess();
         holidayRefreshListener.actionPerformed(e);
       }
     });
-    contractForm.setDeleteListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        if (JOptionPane.showConfirmDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
-            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != 0) {
-          return;
-        }
-        model.deleteContract(contract.getId());
-        contractForm.getParent().remove(contractForm);
-        holidayRefreshListener.actionPerformed(e);
-      }
-    });
+//    contractForm.setDeleteListener(new ActionListener() {
+//      public void actionPerformed(ActionEvent e) {
+//        if (JOptionPane.showConfirmDialog(null, "Soll dieser Vertrag wirklich gelöscht werden?", "Vertrag löschen",
+//            JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) != 0) {
+//          return;
+//        }
+//        model.deleteContract(contract.getId());
+//        contractForm.getParent().remove(contractForm);
+//        holidayRefreshListener.actionPerformed(e);
+//      }
+//    });
   }
 
   private void showErrorContractListEntry(final ContractForm contractForm, final Contract contract) {
-    contractForm.showError("");
+//    contractForm.showError("");
     contractForm.setWorkquota(String.valueOf(contract.getWorkquota()));
     contractForm.setStartDate(Parser.parseDateCalendarToString(contract.getStartDate()));
     if (contract.getEndDate() != null) {

@@ -79,6 +79,7 @@ public class MissionForm extends DefaultForm {
 
   public Boolean validateFields() {
     if ("".equals(getMissionName())) {
+      getParentPanel().showError("Es wurde kein Auftragname eingegeben");
       return false;
     }
     return true;

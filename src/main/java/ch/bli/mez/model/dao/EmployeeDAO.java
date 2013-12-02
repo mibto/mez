@@ -22,7 +22,7 @@ public class EmployeeDAO implements Searchable {
   public List<Employee> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Employee> employees = session.createQuery("from Employee e where isActive=true order by e.firstName").list();
+    List<Employee> employees = session.createQuery("from Employee e where isActive=true order by e.lastName").list();
     tx.commit();
     return employees;
   }

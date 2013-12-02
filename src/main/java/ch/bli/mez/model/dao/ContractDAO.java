@@ -27,7 +27,7 @@ public class ContractDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Contract> contracts = session.createQuery(
-        "from Contract c WHERE c.employee=" + employee.getId() + " order by c.startDate DESC").list();
+        "from Contract c WHERE c.employee=" + employee.getId() + " order by c.startDate ASC").list();
     tx.commit();
     return contracts;
   }
