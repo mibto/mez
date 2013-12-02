@@ -21,7 +21,6 @@ public class PositionForm extends DefaultForm {
   private JLabel numberLabel;
   private JLabel nameLabel;
   private JLabel commentLabel;  
-  private JLabel missionLabel;
 
   private JButton saveButton;
   private JButton statusButton;
@@ -49,8 +48,6 @@ public class PositionForm extends DefaultForm {
     this.add(positionName);
     nameLabel.setVisible(false);
 
-    missionLabel = new JLabel("Auftrag");
-    this.add(missionLabel);
     missionName = new JTextField();
     missionName.setColumns(10);
     missionName.setEnabled(false);
@@ -83,7 +80,6 @@ public class PositionForm extends DefaultForm {
   }
 
   public void showAsCreateNew() {
-    missionLabel.setVisible(false);
     missionName.setVisible(false);
     statusButton.setVisible(false);
     commentLabel.setVisible(true);
