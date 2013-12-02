@@ -19,6 +19,7 @@ import ch.bli.mez.view.employee.EmployeeSearchPanel;
 import ch.bli.mez.view.time.TimeEntryForm;
 import ch.bli.mez.view.time.TimeEntryPanel;
 import ch.bli.mez.view.time.TimeEntrySearchPanel;
+import ch.bli.mez.view.time.TimeEntryTitlePanel;
 
 public class TimeEntryController {
 
@@ -108,6 +109,7 @@ public class TimeEntryController {
     timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener(timeEntrySearchPanel));
     timeEntrySearchPanel.setParentPanel(panel);
     panel.setListSearchPanel(timeEntrySearchPanel);
+    panel.setListTitlePanel(new TimeEntryTitlePanel());
     addForms(panel, employee);
     return panel;
   }

@@ -17,6 +17,7 @@ import ch.bli.mez.view.DefaultForm;
  */
 public class ContractForm extends DefaultForm {
 
+
   private static final long serialVersionUID = -4040659975448618036L;
 
   private JTextField workquotaTextField;

@@ -22,7 +22,7 @@ public class TimeEntryForm extends DefaultForm {
   private JButton saveButton;
   private JButton deleteButton;
   private JLabel dateLabel;
-  private JLabel positionLaben;
+  private JLabel positionLabel;
   private JLabel auftragLabel;
   private JLabel zeitLabel;
   private JPanel datePanel;
@@ -62,8 +62,8 @@ public class TimeEntryForm extends DefaultForm {
     positionPanel = new JPanel();
     add(positionPanel);
 
-    positionLaben = new JLabel("Position");
-    positionPanel.add(positionLaben);
+    positionLabel = new JLabel("Position");
+    positionPanel.add(positionLabel);
 
     positionCode = new JTextField();
     positionCode.setToolTipText("Position ist vom Auftrag abhängig.");
@@ -87,7 +87,7 @@ public class TimeEntryForm extends DefaultForm {
     add(deleteButton);
 
     dateLabel.setVisible(false);
-    positionLaben.setVisible(false);
+    positionLabel.setVisible(false);
     auftragLabel.setVisible(false);
     zeitLabel.setVisible(false);
   }
@@ -95,7 +95,7 @@ public class TimeEntryForm extends DefaultForm {
   public void showAsCreateNew() {
     deleteButton.setVisible(false);
     dateLabel.setVisible(true);
-    positionLaben.setVisible(true);
+    positionLabel.setVisible(true);
     auftragLabel.setVisible(true);
     zeitLabel.setVisible(true);
   }

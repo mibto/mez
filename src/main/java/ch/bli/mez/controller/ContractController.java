@@ -54,7 +54,7 @@ public class ContractController {
   // internal methods
   private void addEntrys(Employee employee) {
     for (Contract contract : model.getEmployeeContracts(employee)) {
-      view.addContractListEntry(createContractListEntry(contract));
+      view.addForm(createContractListEntry(contract));
     }
   }
 
