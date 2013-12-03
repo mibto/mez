@@ -23,7 +23,7 @@ public class TimeEntryPanel extends DefaultPanel {
   public static Boolean showDeleteWarning(TimeEntryForm form) {
     Object[] options = { "Ja", "Nein" };
     int choice = JOptionPane.showOptionDialog(form, "Zeiteintrag wirklich löschen?\n\n Datum: "
-        + Parser.parseDateCalendarToString(form.getDate()) + "\n Auftrag: " + form.getMissionName() + "\n Position: " + form.getPositionCode() + "\n Zeit: "
+        + form.getDate() + "\n Auftrag: " + form.getMissionName() + "\n Position: " + form.getPositionCode() + "\n Zeit: "
         + Parser.parseMinutesIntegerToString(form.getWorktime()), "Löschen bestätigen", JOptionPane.YES_NO_OPTION,
         JOptionPane.WARNING_MESSAGE, null, options, options[1]);
     if (choice == JOptionPane.YES_OPTION) {
