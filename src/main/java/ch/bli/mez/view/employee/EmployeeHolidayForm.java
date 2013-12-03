@@ -16,7 +16,7 @@ public class EmployeeHolidayForm extends HolidayForm {
 
   public EmployeeHolidayForm() {
 
-    holidaysTextField = new JTextField(3);
+    holidaysTextField = new JTextField(7);
     super.add(holidaysTextField, 1);
 
     setEnterKeyListener(new JTextField[] { holidaysTextField });

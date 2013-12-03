@@ -18,12 +18,12 @@ public class TimeEntryTitlePanel extends JPanel {
   private JPanel spacer;
 
   public TimeEntryTitlePanel() {
-    defaultDim = new Dimension(122, 25);
+    defaultDim = new Dimension(114, 25);
     build();
   }
 
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
+    setLayout(new FlowLayout(FlowLayout.CENTER, 23, 0));
 
     date = new JLabel("Datum");
     date.setHorizontalAlignment(SwingConstants.LEFT);
@@ -47,7 +47,7 @@ public class TimeEntryTitlePanel extends JPanel {
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(50);
+    flowLayout.setHgap(64);
     flowLayout.setVgap(0);
     add(spacer);
   }

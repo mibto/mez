@@ -32,12 +32,12 @@ public class PositionForm extends DefaultForm {
   }
 
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.LEFT));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
     
     numberLabel = new JLabel("Position");
     this.add(numberLabel);
     positionCode = new JTextField();
-    positionCode.setColumns(4);
+    positionCode.setColumns(7);
     this.add(positionCode);
     numberLabel.setVisible(false);
 

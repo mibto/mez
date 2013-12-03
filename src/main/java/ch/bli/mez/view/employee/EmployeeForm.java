@@ -114,8 +114,8 @@ public class EmployeeForm extends DefaultForm {
     addPersonalComponent(entryPanel, lblemail, 0, 4, 1, 0);
 
     email = new JTextField();
-    email.setColumns(20);
-    addPersonalComponent(entryPanel, email, 1, 4, 4, 1.0);
+    email.setColumns(10);
+    addPersonalComponent(entryPanel, email, 1, 4, 1, 1.0);
 
     saveButton = new JButton("Speichern");
     addPersonalComponent(entryPanel, saveButton, 4, 6, 1, 0);

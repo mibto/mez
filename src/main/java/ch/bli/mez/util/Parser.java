@@ -72,7 +72,7 @@ public class Parser {
     }
     Calendar calendar = Calendar.getInstance();
     try {
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
       calendar.setTime(simpleDateFormat.parse(date));
     } catch (ParseException exception) {
       throw new NumberFormatException("Datumformat ist nicht gültig");

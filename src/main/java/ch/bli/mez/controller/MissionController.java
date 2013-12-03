@@ -10,6 +10,7 @@ import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
+import ch.bli.mez.view.management.MissionTitlePanel;
 
 /**
  * @author Leandra Finger
@@ -47,6 +48,7 @@ public class MissionController {
 
   private void addMissionForms() {
     view.setCreateNewForm(createMissionForm(null));
+    view.setListTitlePanel(new MissionTitlePanel());
     for (Mission mission : model.findAll()) {
       view.addForm(createMissionForm(mission));
     }

@@ -36,12 +36,12 @@ public class ContractForm extends DefaultForm {
   }
 
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.LEFT));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
     workquotaLabel = new JLabel("Pensum");
     add(workquotaLabel);
 
-    workquotaTextField = new JTextField(3);
+    workquotaTextField = new JTextField(7);
     add(workquotaTextField);
 
     startDateLabel = new JLabel("Start");

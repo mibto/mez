@@ -38,7 +38,7 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
 
     worktime = new JTextField();
     this.add(worktime);
-    worktime.setColumns(5);
+    worktime.setColumns(7);
     
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();

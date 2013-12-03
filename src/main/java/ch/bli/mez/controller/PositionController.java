@@ -11,6 +11,7 @@ import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.management.PositionForm;
 import ch.bli.mez.view.management.PositionPanel;
+import ch.bli.mez.view.management.PositionTitlePanel;
 
 public class PositionController {
 
@@ -20,6 +21,7 @@ public class PositionController {
 
   public PositionController() {
     this.view = new PositionPanel();
+    view.setListTitlePanel(new PositionTitlePanel());
     this.model = new PositionDAO();
     this.missionModel = new MissionDAO();
     addPositionEntrys();

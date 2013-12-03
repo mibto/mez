@@ -32,7 +32,7 @@ public class MissionForm extends DefaultForm {
   }
 
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.LEFT));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
     nameLabel = new JLabel("Auftragsname");
     this.add(nameLabel);
@@ -47,7 +47,7 @@ public class MissionForm extends DefaultForm {
     commentLabel.setVisible(false);
 
     comment = new JTextField();
-    comment.setColumns(25);
+    comment.setColumns(15);
     this.add(comment);
 
     isOrgan = new JCheckBox("Orgel-Code", true);

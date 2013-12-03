@@ -29,24 +29,24 @@ public class HolidayForm extends DefaultForm {
   }
 
   private void build() {
-    setLayout(new FlowLayout(FlowLayout.LEFT));
+    setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 
     yearLabel = new JLabel("Jahr");
     add(yearLabel);
 
-    year = new JTextField(4);
+    year = new JTextField(7);
     add(year);
 
     publicHolidaysLabel = new JLabel("Feiertage");
     add(publicHolidaysLabel);
 
-    publicHolidays = new JTextField(2);
+    publicHolidays = new JTextField(7);
     add(publicHolidays);
 
     preWorkdaysLabel = new JLabel("Vorholtage");
     add(preWorkdaysLabel);
 
-    preWorkdays = new JTextField(2);
+    preWorkdays = new JTextField(7);
     add(preWorkdays);
 
     saveButton = new JButton("Speichern");

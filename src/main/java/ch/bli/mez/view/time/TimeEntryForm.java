@@ -78,7 +78,7 @@ public class TimeEntryForm extends DefaultForm {
 
     worktime = new JTextField();
     timePanel.add(worktime);
-    worktime.setColumns(5);
+    worktime.setColumns(7);
 
     saveButton = new JButton("Speichern");
     add(saveButton);

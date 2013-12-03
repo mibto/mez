@@ -7,6 +7,7 @@ import ch.bli.mez.model.Holiday;
 import ch.bli.mez.model.dao.HolidayDAO;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.HolidayForm;
+import ch.bli.mez.view.management.HolidayTitlePanel;
 
 /**
  * 
@@ -30,6 +31,7 @@ public class HolidayController {
 
   private void addHolidayForms() {
     view.setCreateNewForm(createHolidayForm(null));
+    view.setListTitlePanel(new HolidayTitlePanel());
     for (Holiday holiday : model.getGlobalHoliday()) {
       view.addForm(createHolidayForm(holiday));
     }
