@@ -33,7 +33,7 @@ public class PositionTitlePanel extends JPanel {
     this.add(positionName);
     positionName.setPreferredSize(new Dimension(114, 25));
     
-    category = new JLabel("Kategorie");
+    category = new JLabel("Auftrag");
     category.setHorizontalAlignment(SwingConstants.LEFT);
     this.add(category);
     category.setPreferredSize(new Dimension(114, 25));

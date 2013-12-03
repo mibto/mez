@@ -22,17 +22,17 @@ import ch.bli.mez.view.DefaultSearchPanel;
 public class EmployeeSearchPanel extends DefaultSearchPanel {
 
   private static final long serialVersionUID = 5735685030723299266L;
-  private JTextField txtSearch;
+  private JTextField nameSearch;
 
   public EmployeeSearchPanel() {
-    txtSearch = new JTextField();
+    nameSearch = new JTextField();
     initializePanel();
   }
 
   private void initializePanel() {
     JPanel panel = new JPanel();
     initializeTextField();
-    panel.add(txtSearch);
+    panel.add(nameSearch);
     this.setLayout(new  BorderLayout());
     this.add(panel, BorderLayout.WEST);
   }
@@ -41,24 +41,24 @@ public class EmployeeSearchPanel extends DefaultSearchPanel {
    * GUI interne Listener werden hier hinzugefügt
    */
   public void initializeTextField() {
-    txtSearch.setText("Search...");
-    txtSearch.setColumns(10);
-    txtSearch.addFocusListener(new FocusListener() {
+    nameSearch.setText("Search...");
+    nameSearch.setColumns(10);
+    nameSearch.addFocusListener(new FocusListener() {
 
       public void focusLost(FocusEvent e) {
       }
 
       public void focusGained(FocusEvent e) {
-        txtSearch.setText(null);
+        nameSearch.setText(null);
       }
     });
   }
 
   public String getSearchText() {
-    return "name=" + txtSearch.getText();
+    return "name=" + nameSearch.getText();
   }
 
   public void setKeyListener(KeyListener keyListener) {
-    txtSearch.addKeyListener(keyListener);
+    nameSearch.addKeyListener(keyListener);
   }
 }
