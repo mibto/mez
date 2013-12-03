@@ -1,17 +1,20 @@
 package ch.bli.mez.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.SessionManager;
+import ch.bli.mez.util.Keyword;
 
 @SuppressWarnings("unchecked")
-public class MissionDAO {
+public class MissionDAO implements Searchable{
 
   public MissionDAO() {
   }
@@ -110,5 +113,18 @@ public class MissionDAO {
     } else {
       return missions.get(0);
     }
+  }
+
+  public List<Mission> findByKeywords(String url) {
+    Criteria criteria = createCriteria(Keyword.getKeywords(url));
+    return criteria.list();
+  }
+
+  private Criteria createCriteria(Map<String, String> keywords) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(Mission.class);
+    Criterion missionName = Restrictions.like("missionName", "%" + keywords.get("missionName") + "%");
+    criteria.add(missionName);
+    return criteria;
   }
 }

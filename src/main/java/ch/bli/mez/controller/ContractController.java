@@ -12,6 +12,7 @@ import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.employee.ContractForm;
+import ch.bli.mez.view.employee.ContractTitlePanel;
 
 /**
  * @author dave
@@ -37,6 +38,7 @@ public class ContractController {
 
   private void createView() {
     this.view = new DefaultPanel();
+    view.setListTitlePanel(new ContractTitlePanel());
     view.setCreateNewForm(createContractForm(null));
     for (Contract contract : model.getEmployeeContracts(employee)) {
       view.addForm(createContractForm(contract));

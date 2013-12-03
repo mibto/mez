@@ -2,6 +2,8 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import ch.bli.mez.model.Mission;
@@ -10,6 +12,7 @@ import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.management.MissionForm;
+import ch.bli.mez.view.management.MissionSearchPanel;
 import ch.bli.mez.view.management.MissionTitlePanel;
 
 /**
@@ -22,12 +25,32 @@ public class MissionController {
   private DefaultPanel view;
   private MissionDAO model;
   private PositionDAO positionModel;
+  private MissionSearchPanel searchPanel;
 
   public MissionController() {
     this.view = new DefaultPanel();
+    view.setListTitlePanel(new MissionTitlePanel());
+    searchPanel = new MissionSearchPanel();
+    searchPanel.setKeyListener(createSearchKeyListener());
+    view.setListSearchPanel(searchPanel);
+    view.setCreateNewForm(createMissionForm(null));
     this.model = new MissionDAO();
     this.positionModel = new PositionDAO();
     addMissionForms();
+  }
+
+  private KeyListener createSearchKeyListener() {
+    return new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+      }
+
+      public void keyReleased(KeyEvent e) {
+        addMissionForms(searchPanel.getSearchText());
+      }
+
+      public void keyPressed(KeyEvent e) {
+      }
+    };
   }
 
   public void setView(DefaultPanel view) {
@@ -47,9 +70,14 @@ public class MissionController {
   }
 
   private void addMissionForms() {
-    view.setCreateNewForm(createMissionForm(null));
-    view.setListTitlePanel(new MissionTitlePanel());
     for (Mission mission : model.findAll()) {
+      view.addForm(createMissionForm(mission));
+    }
+  }
+  
+  private void addMissionForms(String searchText) {
+    view.removeAllForms();
+    for (Mission mission : model.findByKeywords(searchText)) {
       view.addForm(createMissionForm(mission));
     }
   }

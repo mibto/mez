@@ -12,6 +12,7 @@ import ch.bli.mez.model.dao.ContractDAO;
 import ch.bli.mez.model.dao.HolidayDAO;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.employee.EmployeeHolidayForm;
+import ch.bli.mez.view.employee.EmployeeHolidayTitlePanel;
 
 public class EmployeeHolidayController {
 
@@ -33,6 +34,7 @@ public class EmployeeHolidayController {
 
   protected void createView() {
     this.view = new DefaultPanel();
+    view.setListTitlePanel(new EmployeeHolidayTitlePanel());
     for (Holiday holiday : model.getEmployeeHolidays(employee, getStartYear())) {
       view.addForm(createHolidayForm(holiday));
     }

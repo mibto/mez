@@ -30,7 +30,8 @@ public class EmployeePanel extends DefaultPanel {
     holidayPanel = new JPanel(new BorderLayout());
     centerPanel.add(holidayPanel);
 
-    JPanel holidayTitlePanel = new EmployeeHolidayTitlePanel();
+    JPanel holidayTitlePanel = new JPanel();
+    holidayTitlePanel.add(new JLabel("Ferien"));
     holidayPanel.add(new JScrollPane(holidayTitlePanel), BorderLayout.NORTH);
 
     // ContractPanel
