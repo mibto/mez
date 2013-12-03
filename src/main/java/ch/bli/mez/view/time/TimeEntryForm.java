@@ -112,8 +112,8 @@ public class TimeEntryForm extends DefaultForm {
     worktime.setText("");
   }
 
-  public Calendar getDate() {
-    return Parser.parseDateStringToCalendar(date.getText());
+  public String getDate() {
+    return date.getText();
   }
 
   public String getPositionCode() {
@@ -145,9 +145,16 @@ public class TimeEntryForm extends DefaultForm {
   }
 
   public Boolean validateFields() {
-    if (getDate().equals("")) {
+    if ("".equals(getDate())) {
       getParentPanel().showError("Es muss ein Datum eingegeben werden.");
       return false;
+    } else {
+      try {
+        Parser.parseDateStringToCalendar(getDate());
+      } catch (NumberFormatException e){
+        getParentPanel().showError("Das Datumformat ist nicht gültig");
+        return false;
+      }
     }
     if (getMissionName().equals("")) {
       getParentPanel().showError("Es muss ein Auftrag eingegeben werden.");

@@ -14,6 +14,7 @@ import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.EmployeeTabbedView;
 import ch.bli.mez.view.employee.EmployeeSearchPanel;
 import ch.bli.mez.view.time.TimeEntryForm;
@@ -161,7 +162,7 @@ public class TimeEntryController {
     if (validateFields(form)) {
       if (timeEntry == null) {
         timeEntry = new TimeEntry();
-        timeEntry.setDate(form.getDate());
+        timeEntry.setDate(Parser.parseDateStringToCalendar(form.getDate()));
         timeEntry.setMission(findMissionByName(form.getMissionName()));
         timeEntry.setPosition(findPositionByCode(form.getPositionCode()));
         timeEntry.setWorktime(form.getWorktime());
@@ -170,7 +171,7 @@ public class TimeEntryController {
         form.getParentPanel().addForm(createTimeEntryForm(timeEntry, employee));
         form.cleanFields();
       } else {
-        timeEntry.setDate(form.getDate());
+        timeEntry.setDate(Parser.parseDateStringToCalendar(form.getDate()));
         timeEntry.setMission(findMissionByName(form.getMissionName()));
         timeEntry.setPosition(findPositionByCode(form.getPositionCode()));
         timeEntry.setWorktime(form.getWorktime());
