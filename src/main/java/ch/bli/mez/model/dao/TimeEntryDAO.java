@@ -113,7 +113,7 @@ public class TimeEntryDAO implements Searchable {
     }
 
     if (!keywords.get("worktime").equals("")) {
-      criteria.add(Restrictions.eq("worktime", Integer.parseInt(keywords.get("worktime"))));
+      criteria.add(Restrictions.eq("worktime", Parser.parseMinuteStringToInteger((keywords.get("worktime")))));
     }
     return criteria;
   }
