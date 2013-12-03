@@ -32,7 +32,7 @@ public class MissionSearchPanel extends DefaultSearchPanel {
   private void build() {
     setLayout(new FlowLayout(FlowLayout.CENTER, 15, 0));
 
-    missionName = new JTextField();
+    missionName = new JTextField("Search...");
     this.add(missionName);
     missionName.setColumns(10);
     missionName.addFocusListener(new FocusListener() {
