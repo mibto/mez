@@ -16,6 +16,8 @@ public class MainController {
   private EmployeeController employeeController;
   private ManagementController managementController;
   private TimeEntryController timeEntryController;
+  private AnalysisController analysisController;
+
   private final MainView view;
 
   public MainController() {
@@ -23,6 +25,7 @@ public class MainController {
     managementController = null;
     employeeController = null;
     timeEntryController = null;
+    analysisController = null;
     setListener();
     view.setTimeEntryPanel(new TimeEntryController().getView());
   }
@@ -41,14 +44,22 @@ public class MainController {
         } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
           timeEntryController.updateTimeView();
         }
+
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1 && employeeController == null) {
           employeeController = new EmployeeController();
           view.setEmployeePanel(employeeController.getView());
         }
+
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 2 && analysisController == null) {
+          analysisController = new AnalysisController();
+          view.setAnalysisPanel(analysisController.getView());
+        }
+
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 3 && managementController == null) {
           managementController = new ManagementController();
           view.setManagementPanel(managementController.getView());
         }
+
       }
     });
   }

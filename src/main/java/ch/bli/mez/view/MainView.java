@@ -29,7 +29,7 @@ public class MainView extends JFrame {
 
     try {
       UIManager
-       //.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
+      // .setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
           .setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
     } catch (Exception e) {
       e.printStackTrace();
@@ -52,6 +52,10 @@ public class MainView extends JFrame {
     mainTabbedPane.setComponentAt(1, view);
   }
 
+  public void setAnalysisPanel(DefaultTabbedView view) {
+    mainTabbedPane.setComponentAt(2, view);
+  }
+
   public void setManagementPanel(DefaultTabbedView view) {
     mainTabbedPane.setComponentAt(3, view);
   }
@@ -62,6 +66,10 @@ public class MainView extends JFrame {
 
   public EmployeeTabbedView getEmployeePanel() {
     return (EmployeeTabbedView) mainTabbedPane.getTabComponentAt(1);
+  }
+
+  public DefaultTabbedView getAnalysePanel() {
+    return (DefaultTabbedView) mainTabbedPane.getTabComponentAt(2);
   }
 
   public DefaultTabbedView getManagementPanel() {

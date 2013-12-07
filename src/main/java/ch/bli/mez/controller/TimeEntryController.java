@@ -96,7 +96,7 @@ public class TimeEntryController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getFirstName() + " " + employee.getLastName(), createTimeEntryPanel(employee));
+    view.addTab(employee.getLastName() + " " + employee.getFirstName(), createTimeEntryPanel(employee));
   }
 
   public void updateTimeView() {
