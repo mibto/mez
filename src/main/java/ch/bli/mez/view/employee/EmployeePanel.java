@@ -5,8 +5,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
+import ch.bli.mez.util.JRapidScrollPane;
 import ch.bli.mez.view.DefaultForm;
 import ch.bli.mez.view.DefaultPanel;
 
@@ -32,14 +32,14 @@ public class EmployeePanel extends DefaultPanel {
 
     JPanel holidayTitlePanel = new JPanel();
     holidayTitlePanel.add(new JLabel("Ferien"));
-    holidayPanel.add(new JScrollPane(holidayTitlePanel), BorderLayout.NORTH);
+    holidayPanel.add(new JRapidScrollPane(holidayTitlePanel), BorderLayout.NORTH);
 
     // ContractPanel
     contractPanel = new JPanel(new BorderLayout());
     centerPanel.add(contractPanel);
 
     JPanel contractTitlePanel = new JPanel();
-    contractPanel.add(new JScrollPane(contractTitlePanel), BorderLayout.NORTH);
+    contractPanel.add(new JRapidScrollPane(contractTitlePanel), BorderLayout.NORTH);
 
     JLabel contractTitleLabel = new JLabel("Verträge");
     contractTitlePanel.add(contractTitleLabel);

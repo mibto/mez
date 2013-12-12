@@ -9,8 +9,9 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.Timer;
+
+import ch.bli.mez.util.JRapidScrollPane;
 
 public class DefaultPanel extends JPanel {
 
@@ -31,7 +32,7 @@ public class DefaultPanel extends JPanel {
     setLayout(new BorderLayout());
 
     JPanel northPanel = new JPanel();
-    add(new JScrollPane(northPanel), BorderLayout.NORTH);
+    add(new JRapidScrollPane(northPanel), BorderLayout.NORTH);
 
     topPanel = new JPanel(new BorderLayout());
     northPanel.add(topPanel);
@@ -43,7 +44,7 @@ public class DefaultPanel extends JPanel {
     messagePanel.add(messageLabel);
 
     JPanel centerPanel = new JPanel(new BorderLayout());
-    add(new JScrollPane(centerPanel), BorderLayout.CENTER);
+    add(new JRapidScrollPane(centerPanel), BorderLayout.CENTER);
 
     JPanel centerNorthPanel = new JPanel();
     centerNorthPanel.setLayout(new BoxLayout(centerNorthPanel, BoxLayout.Y_AXIS));
