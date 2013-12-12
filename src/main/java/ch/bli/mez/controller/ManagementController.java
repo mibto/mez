@@ -37,7 +37,7 @@ public class ManagementController {
   private void setTabs() {
     view.addTab("Aufträge verwalten", missionController.getView());
     view.addTab("Positionen verwalten", positionController.getView());
-    view.addTab("Ferien verwalten", holidayController.getView());
+    view.addTab("Feiertage verwalten", holidayController.getView());
     // Weitere views für die Tabs hier setzen.
   }
 

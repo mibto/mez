@@ -78,7 +78,7 @@ public class EmployeeController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getFirstName() + " " + employee.getLastName(), createEmployeePanel(employee, false));
+    view.addTab(employee.getLastName() + " " + employee.getFirstName(), createEmployeePanel(employee, false));
   }
 
   private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
@@ -88,7 +88,8 @@ public class EmployeeController {
     } else {
       employeePanel.addForm(createEmployeeForm(employee, isNewEmployee));
       employeePanel.setHolidayPanel(new EmployeeHolidayController(employee).getView());
-      employeePanel.setContractPanel(new ContractController(employee, createHolidayUpdateListener(employeePanel, employee)).getView());
+      employeePanel.setContractPanel(new ContractController(employee, createHolidayUpdateListener(employeePanel,
+          employee)).getView());
     }
     return employeePanel;
   }
