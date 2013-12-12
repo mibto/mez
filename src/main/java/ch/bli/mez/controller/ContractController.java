@@ -3,6 +3,7 @@ package ch.bli.mez.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -61,7 +62,7 @@ public class ContractController {
   }
 
   private void updateContract(Contract contract, ContractForm form) {
-    if (!validateFields(form)) {
+    if (!validateFields(contract, form)) {
       return;
     }
     boolean isNewContract = false;
@@ -91,24 +92,48 @@ public class ContractController {
             + " wurde gespeichert");
   }
 
-  protected Boolean validateFields(ContractForm form) {
+  protected Boolean validateFields(Contract contract, ContractForm form) {
     if (!form.validateFields()) {
       return false;
     }
     int workQuota = Integer.valueOf(form.getWorkquota());
+    Calendar startDate = Parser.parseDateStringToCalendar(form.getStartDate());
     if (workQuota < 0 || workQuota > 100) {
       form.getParentPanel().showError("Das Pensum muss zwischen 0 und 100 sein");
       return false;
     }
-    Calendar startDate = Parser.parseDateStringToCalendar(form.getStartDate());
-    if (!"".equals(form.getEndDate())) {
+    if (validateList(contract, model.getEmployeeContracts(employee, startDate))) {
+      form.getParentPanel().showError("Das Startdatum überschneidet sich mit einem existierenden Vertrag");
+      return false;
+    }
+    if ("".equals(form.getEndDate())) {
+      if (validateList(contract, model.getEmployeeContractsWithoutEndDate(employee))) {
+        form.getParentPanel().showError("Es darf höchstens ein Vertrag ohne Enddatum existieren");
+        return false;
+      }
+    } else {
       Calendar endDate = Parser.parseDateStringToCalendar(form.getEndDate());
       if (startDate.after(endDate)) {
         form.getParentPanel().showError("Das Startdatum darf nicht vor dem Enddatum sein");
         return false;
       }
+      if (validateList(contract, model.getEmployeeContracts(employee, endDate))) {
+        form.getParentPanel().showError("Das Enddatum überschneidet sich mit einem existierenden Vertrag");
+        return false;
+      }
+      if (validateList(contract, model.getEmployeeContracts(employee, startDate, endDate))) {
+        form.getParentPanel().showError("Dieser Vertrag umhüllt einen bestehenden Vertrag, dies ist nicht erlaubt");
+        return false;
+      }
     }
     return true;
+  }
+
+  private Boolean validateList(Contract contract, List<Contract> list) {
+    if (list.size() > 0 && (list.size() > 1 || (contract == null || list.get(0).getId() != contract.getId()))) {
+      return true;
+    }
+    return false;
   }
 
   private void deleteContract(Contract contract, ContractForm form) {
