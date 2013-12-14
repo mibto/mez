@@ -47,7 +47,7 @@ public class MissionForm extends DefaultForm {
     commentLabel.setVisible(false);
 
     comment = new JTextField();
-    comment.setColumns(15);
+    comment.setColumns(35);
     this.add(comment);
 
     isOrgan = new JCheckBox("Orgel-Code", true);

@@ -29,7 +29,7 @@ public class MissionTitlePanel extends JPanel{
     comment = new JLabel("Kommentar");
     comment.setHorizontalAlignment(SwingConstants.LEFT);
     this.add(comment);
-    comment.setPreferredSize(new Dimension(171, 25));
+    comment.setPreferredSize(new Dimension(378, 25));
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();

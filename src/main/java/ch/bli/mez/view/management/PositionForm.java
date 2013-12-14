@@ -56,7 +56,7 @@ public class PositionForm extends DefaultForm {
     commentLabel = new JLabel("Kommentar");
     this.add(commentLabel);
     comment = new JTextField();
-    comment.setColumns(15);
+    comment.setColumns(35);
     this.add(comment);
     commentLabel.setVisible(false);
 

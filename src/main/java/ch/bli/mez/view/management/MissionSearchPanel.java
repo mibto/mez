@@ -47,7 +47,7 @@ public class MissionSearchPanel extends DefaultSearchPanel {
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(235);
+    flowLayout.setHgap(338);
     flowLayout.setVgap(0);
     add(spacer);
   }
