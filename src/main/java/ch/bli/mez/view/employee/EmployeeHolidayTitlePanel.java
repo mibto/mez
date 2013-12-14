@@ -45,7 +45,7 @@ public class EmployeeHolidayTitlePanel extends JPanel{
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(42);
+    flowLayout.setHgap(38);
     flowLayout.setVgap(0);
     add(spacer);
   }

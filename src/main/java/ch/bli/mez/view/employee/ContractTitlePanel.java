@@ -39,7 +39,7 @@ public class ContractTitlePanel extends JPanel{
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(84);
+    flowLayout.setHgap(78);
     flowLayout.setVgap(0);
     add(spacer);
   }

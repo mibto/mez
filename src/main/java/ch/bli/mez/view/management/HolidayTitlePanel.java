@@ -39,7 +39,7 @@ public class HolidayTitlePanel extends JPanel{
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(40);
+    flowLayout.setHgap(37);
     flowLayout.setVgap(0);
     add(spacer);
   }

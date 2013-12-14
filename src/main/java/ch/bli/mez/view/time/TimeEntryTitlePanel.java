@@ -47,7 +47,7 @@ public class TimeEntryTitlePanel extends JPanel {
 
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(64);
+    flowLayout.setHgap(57);
     flowLayout.setVgap(0);
     add(spacer);
   }

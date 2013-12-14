@@ -42,7 +42,7 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
     
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(83);
+    flowLayout.setHgap(76);
     flowLayout.setVgap(0);
     add(spacer);
   }
