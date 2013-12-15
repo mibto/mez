@@ -1,6 +1,7 @@
 package ch.bli.mez.view.time;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.util.Parser;
@@ -11,9 +12,20 @@ public class TimeEntryPanel extends DefaultPanel {
   private static final long serialVersionUID = -1084526692534142942L;
   
   private Employee employee;
+  private JPanel weekSummaryPanel;
   
   public TimeEntryPanel(Employee employee){
     this.employee = employee;
+    build();
+  }
+  
+  private void build(){
+    weekSummaryPanel = new JPanel();
+    setListTitlePanel(weekSummaryPanel);
+  }
+  
+  public void setWeekSummaryPanel(JPanel panel){
+    weekSummaryPanel.add(panel);
   }
   
   public Employee getEmployee(){
