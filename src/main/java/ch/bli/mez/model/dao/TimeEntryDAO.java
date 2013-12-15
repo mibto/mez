@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -127,6 +128,8 @@ public class TimeEntryDAO implements Searchable {
     criteria.add(Restrictions.not(Restrictions.in("position", positions)));
     criteria.addOrder(Order.asc("mission"));
     criteria.addOrder(Order.asc("position"));
+    criteria.createAlias("employee", "employee");
+    criteria.addOrder(Order.asc("employee.lastName"));
     return criteria.list();
   }
   
@@ -139,6 +142,8 @@ public class TimeEntryDAO implements Searchable {
     criteria.add(Restrictions.not(Restrictions.in("position", positions)));
     criteria.addOrder(Order.asc("mission"));
     criteria.addOrder(Order.asc("position"));
+    criteria.createAlias("employee", "employee");
+    criteria.addOrder(Order.asc("employee.lastName"));
     return criteria.list();
   }
 }

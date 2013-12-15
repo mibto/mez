@@ -3,7 +3,6 @@ package ch.bli.mez.view.report;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -187,18 +186,22 @@ public class MissionReportForm extends DefaultForm {
     String[] positions = this.positions.getText().split(",");
     List<String> positionsTrimed = new ArrayList<String>();
     for(String position : positions){
-      positionsTrimed.add(position.trim());
+      if(!"".equals(position)){     
+        positionsTrimed.add(position.trim());
+      }
     }
     return positionsTrimed;
   }
 
   public List<String> getSingelMission() {
     String[] missions = singelMission.getText().split(",");
-    List<String> organsTrimed = new ArrayList<String>();
-    for(String organ : missions){
-      organsTrimed.add(organ.trim());
+    List<String> missionsTrimed = new ArrayList<String>();
+    for(String mission : missions){
+      if(!"".equals(mission)){ 
+        missionsTrimed.add(mission.trim());
+      }
     }
-    return organsTrimed;
+    return missionsTrimed;
   }
 
   public Calendar getDateUntil() {

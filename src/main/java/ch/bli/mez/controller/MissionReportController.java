@@ -22,12 +22,14 @@ public class MissionReportController {
   private MissionDAO missionModel;
   private PositionDAO positionModel;
   private TimeEntryDAO timeEntryModel;
+  private FormatMissionReportController formatController;
 
   public MissionReportController() {
     this.view = new ProjectPanel();
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
     this.timeEntryModel = new TimeEntryDAO();
+    this.formatController = new FormatMissionReportController();
     view.setCreateNewForm(createProjectForm());
   }
 
@@ -104,7 +106,7 @@ public class MissionReportController {
     form.setGenerateProjectReportListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (validateFields(form)){
-          getTimeEntries(form);
+          formatController.formatTimeEntries(getTimeEntries(form));
         }
       }
     }));
