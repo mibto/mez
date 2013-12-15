@@ -2,11 +2,14 @@ package ch.bli.mez.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.DefaultPanel;
-import ch.bli.mez.view.report.ProjectForm;
+import ch.bli.mez.view.report.MissionReportForm;
 import ch.bli.mez.view.report.ProjectPanel;
 
 public class MissionReportController {
@@ -22,13 +25,13 @@ public class MissionReportController {
     view.setCreateNewForm(createProjectForm());
   }
 
-  private ProjectForm createProjectForm() {
-    ProjectForm form = new ProjectForm();
+  private MissionReportForm createProjectForm() {
+    MissionReportForm form = new MissionReportForm();
     setProjectFormActionListeners(form);
     return form;
   }
 
-  public boolean validateFields(ProjectForm form) {
+  public boolean validateFields(MissionReportForm form) {
     if (!form.validateFields()) {
       return false;
     }
@@ -48,13 +51,17 @@ public class MissionReportController {
     }
     return true;
   }
+  
+  private List<Mission> getSelectedMissions(MissionReportForm form){
+    return new ArrayList<Mission>();
+  }
 
-  private void setProjectFormActionListeners(final ProjectForm form) {
+  private void setProjectFormActionListeners(final MissionReportForm form) {
 
     form.setGenerateProjectReportListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (validateFields(form)){
-          
+          getSelectedMissions(form);
         }
       }
     }));

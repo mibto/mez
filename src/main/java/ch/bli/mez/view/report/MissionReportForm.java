@@ -19,7 +19,7 @@ import javax.swing.border.LineBorder;
 
 import ch.bli.mez.view.DefaultForm;
 
-public class ProjectForm extends DefaultForm {
+public class MissionReportForm extends DefaultForm {
 
   private static final long serialVersionUID = -3677971641329988164L;
   private JTextField dateFrom;
@@ -33,7 +33,7 @@ public class ProjectForm extends DefaultForm {
   /**
    * Create the panel.
    */
-  public ProjectForm() {
+  public MissionReportForm() {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     JPanel TitelPanel = new JPanel();
