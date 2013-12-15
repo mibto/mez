@@ -12,6 +12,7 @@ import ch.bli.mez.model.TimeEntry;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.model.dao.TimeEntryDAO;
+import ch.bli.mez.util.TimeEntriesPerMission;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.MissionReportForm;
 import ch.bli.mez.view.report.ProjectPanel;
@@ -60,24 +61,24 @@ public class MissionReportController {
     return true;
   }
   
-  private List<TimeEntry> getTimeEntries(MissionReportForm form){
+  private List<TimeEntriesPerMission> getTimeEntries(MissionReportForm form){
     List<Mission> missions = getSelectedMissions(form);
     Calendar startDate = form.getDateFrom();
     Calendar endDate = form.getDateUntil();
+    Boolean showEmployees = form.getReportWithEmployee();
     List<Position> positions = getSelectedPositions(form.getPositions());
+    List<TimeEntriesPerMission> timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
     if (endDate == null){
       endDate = Calendar.getInstance();
     }
-    if (startDate == null){
+    if (startDate == null && form.getSelectedMission() != 2){
       startDate = Calendar.getInstance();
-      if (form.getSelectedMission() == 2){
-        return timeEntryModel.getEntriesForReport(missions, positions, endDate); 
-      }
-      else {
-        startDate.set(startDate.YEAR, 0, 1);  
-      }
+      startDate.set(startDate.get(Calendar.YEAR) , 0, 1);
     }
-    return timeEntryModel.getEntriesForReport(missions, positions, endDate, startDate);
+    for (Mission mission : missions){
+      timeEntriesPerMission.add(new TimeEntriesPerMission(mission, positions, showEmployees, endDate, startDate));
+    }
+    return timeEntriesPerMission;
   }
   
   private List<Mission> getSelectedMissions(MissionReportForm form){

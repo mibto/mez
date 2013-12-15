@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -120,28 +119,28 @@ public class TimeEntryDAO implements Searchable {
     return criteria;
   }
 
-  public List<TimeEntry> getEntriesForReport(List<Mission> missions, List<Position> positions, Calendar endDate) {
+  public List<TimeEntry> getEntriesForReport(Mission mission, Position position, Calendar endDate, Calendar dateStart) {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(TimeEntry.class);
+    if (dateStart != null){
+      criteria.add(Restrictions.ge("date", dateStart));
+    }
     criteria.add(Restrictions.le("date", endDate));
-    criteria.add(Restrictions.in("mission", missions));
-    criteria.add(Restrictions.not(Restrictions.in("position", positions)));
-    criteria.addOrder(Order.asc("mission"));
-    criteria.addOrder(Order.asc("position"));
-    criteria.createAlias("employee", "employee");
-    criteria.addOrder(Order.asc("employee.lastName"));
+    criteria.add(Restrictions.eq("mission", mission));
+    criteria.add(Restrictions.eq("position", position));
     return criteria.list();
   }
   
-  public List<TimeEntry> getEntriesForReport(List<Mission> missions, List<Position> positions, Calendar endDate, Calendar startDate) {
+  public List<TimeEntry> getEntriesForReport(Mission mission, Position position, Calendar endDate, Calendar dateStart, Employee employee) {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(TimeEntry.class);
-    criteria.add(Restrictions.ge("date", startDate));
+    if (dateStart != null){
+      criteria.add(Restrictions.ge("date", dateStart));
+    }
     criteria.add(Restrictions.le("date", endDate));
-    criteria.add(Restrictions.in("mission", missions));
-    criteria.add(Restrictions.not(Restrictions.in("position", positions)));
-    criteria.addOrder(Order.asc("mission"));
-    criteria.addOrder(Order.asc("position"));
+    criteria.add(Restrictions.eq("mission", mission));
+    criteria.add(Restrictions.eq("position", position));
+    criteria.add(Restrictions.eq("employee", employee));
     criteria.createAlias("employee", "employee");
     criteria.addOrder(Order.asc("employee.lastName"));
     return criteria.list();

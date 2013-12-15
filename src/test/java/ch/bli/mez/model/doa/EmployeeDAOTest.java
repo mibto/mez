@@ -72,9 +72,9 @@ public class EmployeeDAOTest {
   @Test
   public void duplicateEmployee() {
     instance.addEmployee(employee);
-    int begin = instance.findAll().size();
+    int begin = instance.findActive().size();
     instance.addEmployee(employee);
-    assertEquals(begin, instance.findAll().size());
+    assertEquals(begin, instance.findActive().size());
     instance.deleteEmployee(employee.getId());
   }
 
