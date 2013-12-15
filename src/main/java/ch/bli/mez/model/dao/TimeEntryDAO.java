@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Employee;
@@ -116,5 +117,28 @@ public class TimeEntryDAO implements Searchable {
       criteria.add(Restrictions.eq("worktime", Parser.parseMinuteStringToInteger((keywords.get("worktime")))));
     }
     return criteria;
+  }
+
+  public List<TimeEntry> getEntriesForReport(List<Mission> missions, List<Position> positions, Calendar endDate) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(TimeEntry.class);
+    criteria.add(Restrictions.le("date", endDate));
+    criteria.add(Restrictions.in("mission", missions));
+    criteria.add(Restrictions.not(Restrictions.in("position", positions)));
+    criteria.addOrder(Order.asc("mission"));
+    criteria.addOrder(Order.asc("position"));
+    return criteria.list();
+  }
+  
+  public List<TimeEntry> getEntriesForReport(List<Mission> missions, List<Position> positions, Calendar endDate, Calendar startDate) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(TimeEntry.class);
+    criteria.add(Restrictions.ge("date", startDate));
+    criteria.add(Restrictions.le("date", endDate));
+    criteria.add(Restrictions.in("mission", missions));
+    criteria.add(Restrictions.not(Restrictions.in("position", positions)));
+    criteria.addOrder(Order.asc("mission"));
+    criteria.addOrder(Order.asc("position"));
+    return criteria.list();
   }
 }

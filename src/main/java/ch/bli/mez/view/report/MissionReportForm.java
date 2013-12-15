@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -17,6 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.DefaultForm;
 
 public class MissionReportForm extends DefaultForm {
@@ -177,8 +179,8 @@ public class MissionReportForm extends DefaultForm {
 
   }
 
-  public String getDateFrom() {
-    return dateFrom.getText();
+  public Calendar getDateFrom() {
+    return Parser.parseDateStringToCalendar(dateFrom.getText());
   }
 
   public List<String> getPositions() {
@@ -199,8 +201,8 @@ public class MissionReportForm extends DefaultForm {
     return organsTrimed;
   }
 
-  public String getDateUntil() {
-    return dateUntil.getText();
+  public Calendar getDateUntil() {
+    return Parser.parseDateStringToCalendar(dateUntil.getText());
   }
 
   // TODO
