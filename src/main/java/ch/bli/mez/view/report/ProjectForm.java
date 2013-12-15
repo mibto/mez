@@ -201,7 +201,7 @@ public class ProjectForm extends DefaultForm {
   // TODO
   // Diverse Rückgaben möglich. z.B auch Integer für die RadioButton Auswahl.
   // Bitte Integer 0: allOrgans, 1: everything, 2: singleOrgan 
-  public String getSelectedProjekt() {
+  public String getSelectedMission() {
     return radioButtonGroup.getSelection().toString();
   }
 
@@ -213,7 +213,7 @@ public class ProjectForm extends DefaultForm {
   public Boolean validateFields() {
     // TODO
 
-    if ("Einzelne Orgel:".equals(getSelectedProjekt())) {
+    if ("Einzelne Orgel:".equals(getSelectedMission())) {
       if ("".equals(getSingelOrgan())) {
         getParentPanel().showError("Es wurde kein Startdatum eingegeben");
         return false;
