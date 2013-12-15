@@ -24,7 +24,7 @@ public class ProjectForm extends DefaultForm {
   private static final long serialVersionUID = -3677971641329988164L;
   private JTextField dateFrom;
   private JTextField dateUntil;
-  private JTextField singelOrgan;
+  private JTextField singelMission;
   private JTextField positions;
   private ButtonGroup radioButtonGroup;
   private JCheckBox reportWithEmployee;
@@ -115,9 +115,9 @@ public class ProjectForm extends DefaultForm {
     singelOrganRadioButton.setSelected(false);
     panel_7.add(singelOrganRadioButton);
 
-    singelOrgan = new JTextField();
-    panel_7.add(singelOrgan);
-    singelOrgan.setColumns(10);
+    singelMission = new JTextField();
+    panel_7.add(singelMission);
+    singelMission.setColumns(10);
 
     JPanel SelectEmployeePanel = new JPanel();
     SelectEmployeePanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -181,14 +181,19 @@ public class ProjectForm extends DefaultForm {
     return dateFrom.getText();
   }
 
-  public String getPositions() {
-    return positions.getText();
+  public List<String> getPositions() {
+    String[] positions = this.positions.getText().split(",");
+    List<String> positionsTrimed = new ArrayList<String>();
+    for(String position : positions){
+      positionsTrimed.add(position.trim());
+    }
+    return positionsTrimed;
   }
 
-  public List<String> getSingelOrgan() {
-    String[] organs = singelOrgan.getText().split(",");
+  public List<String> getSingelMission() {
+    String[] missions = singelMission.getText().split(",");
     List<String> organsTrimed = new ArrayList<String>();
-    for(String organ : organs){
+    for(String organ : missions){
       organsTrimed.add(organ.trim());
     }
     return organsTrimed;
@@ -201,8 +206,9 @@ public class ProjectForm extends DefaultForm {
   // TODO
   // Diverse Rückgaben möglich. z.B auch Integer für die RadioButton Auswahl.
   // Bitte Integer 0: allOrgans, 1: everything, 2: singleOrgan 
-  public String getSelectedMission() {
-    return radioButtonGroup.getSelection().toString();
+  public Integer getSelectedMission() {
+    return 1;
+    // return radioButtonGroup.getSelection().toString();
   }
 
   public boolean getReportWithEmployee() {
@@ -214,7 +220,7 @@ public class ProjectForm extends DefaultForm {
     // TODO: Überprüfen ob ein RadioButton ausgewählt ist, und falls singelOrgan prüfen ob Textfeld nicht leer.
 
     if ("Einzelne Orgel:".equals(getSelectedMission())) {
-      if ("".equals(getSingelOrgan())) {
+      if ("".equals(getSingelMission())) {
         getParentPanel().showError("Es wurde kein Startdatum eingegeben");
         return false;
       }
@@ -236,7 +242,7 @@ public class ProjectForm extends DefaultForm {
   public void cleanFields() {
     dateFrom.setText("");
     positions.setText("");
-    singelOrgan.setText("");
+    singelMission.setText("");
     dateUntil.setText("");
     radioButtonGroup.clearSelection();
     reportWithEmployee.setEnabled(false);

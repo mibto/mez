@@ -3,6 +3,8 @@ package ch.bli.mez.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import ch.bli.mez.model.dao.MissionDAO;
+import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.ProjectForm;
 import ch.bli.mez.view.report.ProjectPanel;
@@ -10,9 +12,13 @@ import ch.bli.mez.view.report.ProjectPanel;
 public class MissionReportController {
 
   private DefaultPanel view;
+  private MissionDAO missionModel;
+  private PositionDAO positionModel;
 
   public MissionReportController() {
     this.view = new ProjectPanel();
+    this.missionModel = new MissionDAO();
+    this.positionModel = new PositionDAO();
     view.setCreateNewForm(createProjectForm());
   }
 
@@ -26,8 +32,19 @@ public class MissionReportController {
     if (!form.validateFields()) {
       return false;
     }
-    if (form.getSelectedMission() == 1){
-      
+    if (form.getSelectedMission() == 2){
+      for (String mission : form.getSingelMission()){
+        if (missionModel.findByMissionName(mission) == null){
+          view.showError("Es gibt kein Auftrag mit dem Name " + mission);
+          return false;
+        }
+      }
+    }
+    for (String position : form.getPositions()){
+      if (positionModel.findByCode(position) == null){
+        view.showError("Es gibt keine Position mit dem Code " + position);
+        return false;
+      }
     }
     return true;
   }
