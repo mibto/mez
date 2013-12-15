@@ -30,6 +30,7 @@ public class TimeEntryController {
   private MissionDAO missionModel;
   private PositionDAO positionModel;
   private EmployeeSearchPanel employeeSearchPanel;
+  private TimeEntryWeekSummaryController weekSummaryController;
 
   public TimeEntryController() {
     this.model = new TimeEntryDAO();
@@ -105,6 +106,8 @@ public class TimeEntryController {
 
   private TimeEntryPanel createTimeEntryPanel(Employee employee) {
     TimeEntryPanel panel = new TimeEntryPanel(employee);
+    weekSummaryController = new TimeEntryWeekSummaryController(employee);
+    panel.setWeekSummaryPanel(weekSummaryController.getView());
     panel.setCreateNewForm(createTimeEntryForm(null, employee));
     TimeEntrySearchPanel timeEntrySearchPanel = new TimeEntrySearchPanel();
     timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener(timeEntrySearchPanel));
@@ -112,6 +115,7 @@ public class TimeEntryController {
     panel.setListSearchPanel(timeEntrySearchPanel);
     panel.setListTitlePanel(new TimeEntryTitlePanel());
     addForms(panel, employee);
+    weekSummaryController.updateWeekSummary();
     return panel;
   }
 
@@ -142,9 +146,11 @@ public class TimeEntryController {
 
   private void setTimeEntryFormActionListeners(final TimeEntryForm form, final TimeEntry timeEntry,
       final Employee employee) {
+    final TimeEntryWeekSummaryController controller = weekSummaryController;
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         updateTimeEntry(timeEntry, form, employee);
+        controller.updateWeekSummary();
       }
     }));
 
@@ -153,6 +159,7 @@ public class TimeEntryController {
         if ((TimeEntryPanel.showDeleteWarning(form))) {
           model.deleteTimeEntry(timeEntry.getId());
           form.getParent().remove(form);
+          controller.updateWeekSummary();
         }
       }
     }));
