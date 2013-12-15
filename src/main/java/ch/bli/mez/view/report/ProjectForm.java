@@ -3,6 +3,9 @@ package ch.bli.mez.view.report;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -182,8 +185,13 @@ public class ProjectForm extends DefaultForm {
     return positions.getText();
   }
 
-  public String getSingelOrgan() {
-    return singelOrgan.getText();
+  public List<String> getSingelOrgan() {
+    String[] organs = singelOrgan.getText().split(",");
+    List<String> organsTrimed = new ArrayList<String>();
+    for(String organ : organs){
+      organsTrimed.add(organ.trim());
+    }
+    return organsTrimed;
   }
 
   public String getDateUntil() {
@@ -192,6 +200,7 @@ public class ProjectForm extends DefaultForm {
 
   // TODO
   // Diverse Rückgaben möglich. z.B auch Integer für die RadioButton Auswahl.
+  // Bitte Integer 0: allOrgans, 1: everything, 2: singleOrgan 
   public String getSelectedProjekt() {
     return radioButtonGroup.getSelection().toString();
   }
