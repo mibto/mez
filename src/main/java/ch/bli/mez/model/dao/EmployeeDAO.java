@@ -18,8 +18,16 @@ public class EmployeeDAO implements Searchable {
 
   public EmployeeDAO() {
   }
+  
+  public List<Employee> findAll(){
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<Employee> employees = session.createQuery("from Employee e order by e.lastName").list();
+    tx.commit();
+    return employees;
+  }
 
-  public List<Employee> findAll() {
+  public List<Employee> findActive() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Employee> employees = session.createQuery("from Employee e where isActive=true order by e.lastName").list();

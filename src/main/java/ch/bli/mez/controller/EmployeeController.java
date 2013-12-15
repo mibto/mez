@@ -64,7 +64,7 @@ public class EmployeeController {
   private void addTabs() {
     view.removeAllTabs();
     addNewEmployeeTab();
-    addEmployeeTabs(model.findAll());
+    addEmployeeTabs(model.findActive());
   }
 
   private void addEmployeeTabs(List<Employee> employeeList) {

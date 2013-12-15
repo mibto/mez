@@ -86,7 +86,7 @@ public class TimeEntryController {
   }
 
   private void addTabs() {
-    addEmployeeTabs(employeeModel.findAll());
+    addEmployeeTabs(employeeModel.findActive());
   }
 
   private void addEmployeeTabs(List<Employee> employeeList) {

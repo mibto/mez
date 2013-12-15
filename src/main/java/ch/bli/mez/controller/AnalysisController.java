@@ -9,11 +9,11 @@ import ch.bli.mez.view.DefaultTabbedView;
 public class AnalysisController {
 
   private DefaultTabbedView view;
-  private ProjectReportController reportController;
+  private MissionReportController reportController;
 
   public AnalysisController() {
     view = new DefaultTabbedView();
-    reportController = new ProjectReportController();
+    reportController = new MissionReportController();
     setTabs();
     setListener();
   }
@@ -22,7 +22,7 @@ public class AnalysisController {
     return view;
   }
 
-  public ProjectReportController getReportController() {
+  public MissionReportController getReportController() {
     return reportController;
   }
 
