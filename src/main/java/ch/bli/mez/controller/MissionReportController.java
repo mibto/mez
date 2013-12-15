@@ -7,11 +7,11 @@ import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.ProjectForm;
 import ch.bli.mez.view.report.ProjectPanel;
 
-public class ProjectReportController {
+public class MissionReportController {
 
   private DefaultPanel view;
 
-  public ProjectReportController() {
+  public MissionReportController() {
     this.view = new ProjectPanel();
     view.setCreateNewForm(createProjectForm());
   }
@@ -23,9 +23,11 @@ public class ProjectReportController {
   }
 
   public boolean validateFields(ProjectForm form) {
-    // TODO
     if (!form.validateFields()) {
       return false;
+    }
+    if (form.getSelectedMission() == 1){
+      
     }
     return true;
   }
@@ -34,7 +36,9 @@ public class ProjectReportController {
 
     form.setGenerateProjectReportListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
-        // TODO
+        if (validateFields(form)){
+          
+        }
       }
     }));
 

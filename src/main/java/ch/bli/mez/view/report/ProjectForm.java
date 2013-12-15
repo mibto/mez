@@ -211,7 +211,7 @@ public class ProjectForm extends DefaultForm {
 
   @Override
   public Boolean validateFields() {
-    // TODO
+    // TODO: Überprüfen ob ein RadioButton ausgewählt ist, und falls singelOrgan prüfen ob Textfeld nicht leer.
 
     if ("Einzelne Orgel:".equals(getSelectedMission())) {
       if ("".equals(getSingelOrgan())) {
