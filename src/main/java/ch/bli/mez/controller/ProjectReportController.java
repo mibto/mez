@@ -7,11 +7,11 @@ import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.ProjectForm;
 import ch.bli.mez.view.report.ProjectPanel;
 
-public class ReportController {
+public class ProjectReportController {
 
   private DefaultPanel view;
 
-  public ReportController() {
+  public ProjectReportController() {
     this.view = new ProjectPanel();
     view.setCreateNewForm(createProjectForm());
   }
