@@ -87,7 +87,7 @@ public class Mission {
     this.isActive = isActive;
   }
 
-  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "missions")
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "missions")
   public Set<Position> getPositions() {
     return this.positions;
   }

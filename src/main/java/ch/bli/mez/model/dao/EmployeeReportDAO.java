@@ -36,10 +36,8 @@ public class EmployeeReportDAO {
       return null;
     }
     Session session = SessionManager.getSessionManager().getSession();
-    Transaction tx = session.beginTransaction();
     List<TimeEntry> timeEntries = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee))
         .addOrder(Order.desc("date")).list();
-    tx.commit();
     if (timeEntries.size() > 0) {
       return timeEntries.get(0).getDate();
     }
@@ -53,11 +51,9 @@ public class EmployeeReportDAO {
     Calendar weekEnd = (Calendar) weekBegin.clone();
     weekEnd.set(Calendar.WEEK_OF_YEAR, weekBegin.get(Calendar.WEEK_OF_YEAR) + 1);
     Session session = SessionManager.getSessionManager().getSession();
-    Transaction tx = session.beginTransaction();
     Long weekSum = (Long) session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", weekBegin))
         .add(Restrictions.lt("date", weekEnd)).uniqueResult();
-    tx.commit();
     if (weekSum != null) {
       return weekSum.intValue();
     }
