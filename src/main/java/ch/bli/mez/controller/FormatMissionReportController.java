@@ -19,23 +19,24 @@ public class FormatMissionReportController {
 
   private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions) {
     String report = "<!Doctype html>";
-    report += "<ul>";
+    report += "<ul style='list-style-type: none;'>";
     for (TimeEntriesPerMission timeEntryPerMission : timeEntriesPerMissions) {
       report += "<li>";
       report += "<span class='missionName'>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
-      report += "<span class='missionTotal'>" + timeEntryPerMission.getTotalTime() + "</span>";
-      report += "<ul>";
+      report += "<span class='missionTotal' style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerMission.getTotalTime() + "</span>";
+      report += "<ul style='list-style-type: none;'>";
 
       for (TimeEntriesPerPosition timeEntryPerPosition : timeEntryPerMission.getTimeEntriesPerPositions()) {
-        report += "<li>";
+        report += "<li style='padding-left: 250px;'>";
         report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
-        report += "<span>" + timeEntryPerPosition.getTotalTime() + "</span>";
+        report += "<span style='margin-left: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
+        report += "<span style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerPosition.getTotalTime() + "</span>";
         if (timeEntryPerPosition.getShowEmployees()) {
-          report += "<ul>";
+          report += "<ul style='list-style-type: none;'>";
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
-            report += "<li>";
+            report += "<li style='padding-left: 250px;'>";
             report += "<span>" + timeEntriesPerEmployee.getEmployee().getLastName() + "</span>";
-            report += "<span>" + timeEntriesPerEmployee.getTotalTime() + "</span>";
+            report += "<span style='margin-left: 50px; font-weight: bold;'>" + timeEntriesPerEmployee.getTotalTime() + "</span>";
             report += "</li>";
           }
           report += "</ul>";
