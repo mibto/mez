@@ -10,7 +10,6 @@ import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
-import ch.bli.mez.model.dao.TimeEntryDAO;
 import ch.bli.mez.util.TimeEntriesPerMission;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.DateForm;
@@ -25,14 +24,12 @@ public class MissionReportController {
   private ProjectPanel view;
   private MissionDAO missionModel;
   private PositionDAO positionModel;
-  private TimeEntryDAO timeEntryModel;
   private FormatMissionReportController formatController;
 
   public MissionReportController() {
     this.view = new ProjectPanel();
     this.missionModel = new MissionDAO();
     this.positionModel = new PositionDAO();
-    this.timeEntryModel = new TimeEntryDAO();
     this.formatController = new FormatMissionReportController();
     view.setDatePanel(createDateForm());
     view.setMissionPanel(createProjectForm());

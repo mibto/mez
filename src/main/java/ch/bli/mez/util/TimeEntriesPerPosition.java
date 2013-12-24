@@ -35,7 +35,12 @@ public class TimeEntriesPerPosition {
       for (Employee employee : employees){
         TimeEntriesPerEmployee timeEntriesPerEmployee = new TimeEntriesPerEmployee(employee, mission, position, endDate, dateStart);
         timeEntriesPerEmployees.add(timeEntriesPerEmployee);
-        totalTime += timeEntriesPerEmployee.getTotalTime();
+        if (timeEntriesPerEmployee.getTotalTime()==0){
+          timeEntriesPerEmployees.remove(timeEntriesPerEmployee);
+        }
+        else{
+          totalTime += timeEntriesPerEmployee.getTotalTime();          
+        }
       }
     }
   }

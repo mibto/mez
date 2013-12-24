@@ -128,6 +128,9 @@ public class TimeEntryDAO implements Searchable {
     criteria.add(Restrictions.le("date", endDate));
     criteria.add(Restrictions.eq("mission", mission));
     criteria.add(Restrictions.eq("position", position));
+    criteria.add(Restrictions.gt("worktime", 0));
+    criteria.add(Restrictions.isNotNull("worktime"));
+    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     return criteria.list();
   }
   
@@ -140,8 +143,11 @@ public class TimeEntryDAO implements Searchable {
     criteria.add(Restrictions.le("date", endDate));
     criteria.add(Restrictions.eq("mission", mission));
     criteria.add(Restrictions.eq("position", position));
+    criteria.add(Restrictions.gt("worktime", 0));
+    criteria.add(Restrictions.isNotNull("worktime"));
     criteria.add(Restrictions.eq("employee", employee));
     criteria.createAlias("employee", "employee");
+    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     criteria.addOrder(Order.asc("employee.lastName"));
     return criteria.list();
   }

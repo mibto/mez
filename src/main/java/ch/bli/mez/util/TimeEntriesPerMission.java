@@ -20,7 +20,12 @@ public class TimeEntriesPerMission {
     for (Position position : visiblePositions){
       TimeEntriesPerPosition timeEntriesPerPosition = new TimeEntriesPerPosition(mission, position, showEmployee, endDate, startDate);
       timeEntriesPerPositions.add(timeEntriesPerPosition);
-      totalTime += timeEntriesPerPosition.getTotalTime();
+      if (timeEntriesPerPosition.getTotalTime()==0){
+        timeEntriesPerPositions.remove(timeEntriesPerPosition);
+      }
+      else{
+        totalTime += timeEntriesPerPosition.getTotalTime();          
+      }
     }
   }
 
