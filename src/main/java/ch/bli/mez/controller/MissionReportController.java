@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import ch.bli.mez.model.Mission;
@@ -11,6 +12,7 @@ import ch.bli.mez.model.Position;
 import ch.bli.mez.model.dao.MissionDAO;
 import ch.bli.mez.model.dao.PositionDAO;
 import ch.bli.mez.util.TimeEntriesPerMission;
+import ch.bli.mez.util.TimeEntriesPerPosition;
 import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.DateForm;
 import ch.bli.mez.view.report.GenerateForm;
@@ -102,14 +104,24 @@ public class MissionReportController {
     }
     return true;
   }
-
-  private List<TimeEntriesPerMission> getTimeEntries(ProjectPanel view) {
-    List<Mission> missions = getSelectedMissions(view);
-    Calendar startDate = view.getDatePanelForm().getDateFrom();
-    Calendar endDate = view.getDatePanelForm().getDateUntil();
-    Boolean showEmployees = view.getOptionPanelForm().getReportWithEmployee();
-    List<Position> positions = getSelectedPositions(view.getPositionPanelForm().getPositions());
+  
+  private HashMap<String, Object> getFormData(ProjectPanel view) {
+    HashMap<String, Object> formData = new HashMap<String, Object>();
+    formData.put("missions", getSelectedMissions(view));
+    formData.put("startData", view.getDatePanelForm().getDateFrom());
+    formData.put("endData", view.getDatePanelForm().getDateUntil());
+    formData.put("showEmployees", view.getOptionPanelForm().getReportWithEmployee());
+    formData.put("positions", getSelectedPositions(view.getPositionPanelForm().getPositions()));
+    return formData;
+  }
+  
+  private List<TimeEntriesPerMission> getTimeEntries(ProjectPanel view, HashMap<String, Object> formData) {
     List<TimeEntriesPerMission> timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
+    Calendar endDate = (Calendar) formData.get("endDate");
+    Calendar startDate = (Calendar) formData.get("startDate");
+    List<Mission> missions = (List<Mission>) formData.get("missions");
+    List<Position> positions = (List<Position>) formData.get("positions");
+    Boolean showEmployees = (Boolean) formData.get("showEmployees");
     if (endDate == null) {
       endDate = Calendar.getInstance();
     }
@@ -121,6 +133,26 @@ public class MissionReportController {
       timeEntriesPerMission.add(new TimeEntriesPerMission(mission, positions, showEmployees, endDate, startDate));
     }
     return timeEntriesPerMission;
+  }
+  
+  private List<TimeEntriesPerPosition> getSummarizedTimeEntries(ProjectPanel view, HashMap<String, Object> formData) {
+    Calendar endDate = (Calendar) formData.get("endDate");
+    Calendar startDate = (Calendar) formData.get("startDate");
+    List<Mission> missions = (List<Mission>) formData.get("missions");
+    List<Position> positions = (List<Position>) formData.get("positions");
+    Boolean showEmployees = (Boolean) formData.get("showEmployees");
+    List<TimeEntriesPerPosition> timeEntriesPerPosition = new ArrayList<TimeEntriesPerPosition>();
+    if (endDate == null) {
+      endDate = Calendar.getInstance();
+    }
+    if (startDate == null && view.getMissionPanelForm().getSelectedMission() != 2) {
+      startDate = Calendar.getInstance();
+      startDate.set(startDate.get(Calendar.YEAR), 0, 1);
+    }
+    for (Position position : positions) {
+      timeEntriesPerPosition.add(new TimeEntriesPerPosition(missions, position, showEmployees, endDate, startDate));
+    }
+    return timeEntriesPerPosition;
   }
 
   private List<Mission> getSelectedMissions(ProjectPanel view) {
@@ -154,7 +186,8 @@ public class MissionReportController {
     view.getGeneratePanelForm().setGenerateProjectReportListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (validateFields(view)) {
-          formatController.formatTimeEntries(getTimeEntries(view));
+          HashMap<String, Object> formData = getFormData(view);
+          formatController.formatTimeEntries(getTimeEntries(view, formData), getSummarizedTimeEntries(view, formData));
         }
       }
     }));

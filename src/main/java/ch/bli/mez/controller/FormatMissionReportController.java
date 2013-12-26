@@ -13,8 +13,11 @@ import ch.bli.mez.util.TimeEntriesPerPosition;
 
 public class FormatMissionReportController {
 
-  public void formatTimeEntries(List<TimeEntriesPerMission> timeEntriesPerMissions) {
+  public void formatTimeEntries(List<TimeEntriesPerMission> timeEntriesPerMissions, List<TimeEntriesPerPosition> summarizedTimeEntries) {
     showReport(createReport(timeEntriesPerMissions));
+    for (TimeEntriesPerPosition timeEntriesPerPosition : summarizedTimeEntries){
+      System.out.println(timeEntriesPerPosition.getPosition().getPositionName() + " " + timeEntriesPerPosition.getTotalTime());
+    }
   }
 
   private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions) {

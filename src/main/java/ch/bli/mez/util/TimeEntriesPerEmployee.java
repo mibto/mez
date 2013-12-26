@@ -24,6 +24,15 @@ public class TimeEntriesPerEmployee {
     this.employee = employee;
   }
 
+  public TimeEntriesPerEmployee(Employee employee, List<Mission> missions, Position position, Calendar endDate,
+      Calendar startDate) {
+    timeEntries = model.getEntriesForReport(missions, position, endDate, startDate, employee);
+    for (TimeEntry timeEntry : timeEntries){
+      totalTime += timeEntry.getWorktime();
+    }
+    this.employee = employee;
+  }
+
   public Employee getEmployee() {
     return employee;
   }

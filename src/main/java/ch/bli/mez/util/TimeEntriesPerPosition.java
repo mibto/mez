@@ -45,6 +45,31 @@ public class TimeEntriesPerPosition {
     }
   }
 
+  public TimeEntriesPerPosition(List<Mission> missions, Position position, Boolean showEmployees, Calendar endDate,
+      Calendar startDate) {
+    this.position = position;
+    this.showEmployees = showEmployees;
+    if (!showEmployees){
+      timeEntries = model.getEntriesForReport(missions, position, endDate, startDate);
+      for (TimeEntry timeEntry : timeEntries){
+        totalTime += timeEntry.getWorktime();
+      }
+    }
+    else {
+      List<Employee> employees = employeeModel.findAll();
+      for (Employee employee : employees){
+        TimeEntriesPerEmployee timeEntriesPerEmployee = new TimeEntriesPerEmployee(employee, missions, position, endDate, startDate);
+        timeEntriesPerEmployees.add(timeEntriesPerEmployee);
+        if (timeEntriesPerEmployee.getTotalTime()==0){
+          timeEntriesPerEmployees.remove(timeEntriesPerEmployee);
+        }
+        else{
+          totalTime += timeEntriesPerEmployee.getTotalTime();          
+        }
+      }
+    }
+  }
+
   public List<TimeEntry> getTimeEntries() {
     return timeEntries;
   }

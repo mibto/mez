@@ -134,6 +134,21 @@ public class TimeEntryDAO implements Searchable {
     return criteria.list();
   }
   
+  public List<TimeEntry> getEntriesForReport(List<Mission> missions, Position position, Calendar endDate, Calendar dateStart) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(TimeEntry.class);
+    if (dateStart != null){
+      criteria.add(Restrictions.ge("date", dateStart));
+    }
+    criteria.add(Restrictions.le("date", endDate));
+    criteria.add(Restrictions.in("mission", missions));
+    criteria.add(Restrictions.eq("position", position));
+    criteria.add(Restrictions.gt("worktime", 0));
+    criteria.add(Restrictions.isNotNull("worktime"));
+    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+    return criteria.list();
+  }
+  
   public List<TimeEntry> getEntriesForReport(Mission mission, Position position, Calendar endDate, Calendar dateStart, Employee employee) {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(TimeEntry.class);
@@ -142,6 +157,24 @@ public class TimeEntryDAO implements Searchable {
     }
     criteria.add(Restrictions.le("date", endDate));
     criteria.add(Restrictions.eq("mission", mission));
+    criteria.add(Restrictions.eq("position", position));
+    criteria.add(Restrictions.gt("worktime", 0));
+    criteria.add(Restrictions.isNotNull("worktime"));
+    criteria.add(Restrictions.eq("employee", employee));
+    criteria.createAlias("employee", "employee");
+    criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+    criteria.addOrder(Order.asc("employee.lastName"));
+    return criteria.list();
+  }
+  
+  public List<TimeEntry> getEntriesForReport(List<Mission> missions, Position position, Calendar endDate, Calendar dateStart, Employee employee) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(TimeEntry.class);
+    if (dateStart != null){
+      criteria.add(Restrictions.ge("date", dateStart));
+    }
+    criteria.add(Restrictions.le("date", endDate));
+    criteria.add(Restrictions.in("mission", missions));
     criteria.add(Restrictions.eq("position", position));
     criteria.add(Restrictions.gt("worktime", 0));
     criteria.add(Restrictions.isNotNull("worktime"));

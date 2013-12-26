@@ -14,9 +14,9 @@ public class TimeEntriesPerMission {
   private Integer totalTime = 0;
   private List<TimeEntriesPerPosition> timeEntriesPerPositions = new ArrayList<TimeEntriesPerPosition>();
   
-  public TimeEntriesPerMission(Mission mission, List<Position> positions, Boolean showEmployee, Calendar endDate, Calendar startDate){
+  public TimeEntriesPerMission(Mission mission, List<Position> hiddenPositions, Boolean showEmployee, Calendar endDate, Calendar startDate){
     this.mission = mission;
-    Set<Position> visiblePositions = getVisiblePositions(positions);
+    Set<Position> visiblePositions = getVisiblePositions(hiddenPositions);
     for (Position position : visiblePositions){
       TimeEntriesPerPosition timeEntriesPerPosition = new TimeEntriesPerPosition(mission, position, showEmployee, endDate, startDate);
       timeEntriesPerPositions.add(timeEntriesPerPosition);
