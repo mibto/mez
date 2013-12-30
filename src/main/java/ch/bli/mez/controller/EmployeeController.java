@@ -6,6 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.EmployeeDAO;
 import ch.bli.mez.view.EmployeeTabbedView;
@@ -78,7 +82,9 @@ public class EmployeeController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getLastName() + " " + employee.getFirstName(), createEmployeePanel(employee, false));
+    EmployeePanel panel = createEmployeePanel(employee, false);
+    view.addTab(employee.getLastName() + " " + employee.getFirstName(), panel);
+    view.setTabListener(createChangeListener(view.getTabCount(), employee, panel));
   }
 
   private EmployeePanel createEmployeePanel(Employee employee, Boolean isNewEmployee) {
@@ -93,15 +99,29 @@ public class EmployeeController {
     }
     return employeePanel;
   }
+  
+  private ChangeListener createChangeListener(final int tabIndex, final Employee employee, final EmployeePanel panel){
+    return new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == tabIndex - 1){
+          updateHolidayPanel(panel, employee);
+        }
+      }
+    };
+  }
 
   private ActionListener createHolidayUpdateListener(final EmployeePanel employeePanel, final Employee employee) {
     return new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        employeePanel.removeHolidayPanel();
-        employeePanel.setHolidayPanel(new EmployeeHolidayController(employee).getView());
-        employeePanel.revalidate();
+        updateHolidayPanel(employeePanel, employee);
       }
     };
+  }
+  
+  private void updateHolidayPanel(EmployeePanel employeePanel, Employee employee){
+    employeePanel.removeHolidayPanel();
+    employeePanel.setHolidayPanel(new EmployeeHolidayController(employee).getView());
+    employeePanel.revalidate();
   }
 
   private EmployeeForm createEmployeeForm(Employee employee, Boolean isNewEmployee) {

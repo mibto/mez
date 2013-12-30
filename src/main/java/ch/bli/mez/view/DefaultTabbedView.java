@@ -24,6 +24,14 @@ public class DefaultTabbedView extends JPanel {
   public void addTab(String name, JPanel panel) {
     tabbedPane.addTab(name, panel);
   }
+  
+  public int getTabCount(){
+    return tabbedPane.getTabCount();
+  }
+  
+  public void setSelectedIndex(int index){
+    tabbedPane.setSelectedIndex(index);
+  }
 
   public void removeTab() {
     tabbedPane.remove(getSelectedIndex());
