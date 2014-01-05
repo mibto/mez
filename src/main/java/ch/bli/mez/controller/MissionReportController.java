@@ -125,9 +125,7 @@ public class MissionReportController {
     if (endDate == null) {
       endDate = Calendar.getInstance();
     }
-    System.out.println(startDate);
     if (startDate == null && view.getMissionPanelForm().getSelectedMission() != 2) {
-      System.out.println("No date start");
       startDate = Calendar.getInstance();
       startDate.set(startDate.get(Calendar.YEAR), 0, 1);
     }
