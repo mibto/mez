@@ -10,22 +10,20 @@ import javax.swing.JPanel;
 import ch.bli.mez.view.DefaultForm;
 import ch.bli.mez.view.DefaultPanel;
 
-public class ProjectPanel extends DefaultPanel {
-  private static final long serialVersionUID = 9218067562902931609L;
+public class EmployeePanel extends DefaultPanel {
+  private static final long serialVersionUID = 9218067589902931609L;
 
   private DefaultForm dateForm;
-  private DefaultForm missionForm;
+  private DefaultForm employeeForm;
   private DefaultForm optionForm;
-  private DefaultForm positionForm;
   private DefaultForm generateForm;
 
   JPanel datePanel;
-  JPanel missionPanel;
+  JPanel employeePanel;
   JPanel optionPanel;
-  JPanel positionPanel;
   JPanel generateReportPanel;
 
-  public ProjectPanel() {
+  public EmployeePanel() {
     createPanel();
   }
 
@@ -38,17 +36,13 @@ public class ProjectPanel extends DefaultPanel {
     getTopPanel().add(datePanel);
     datePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-    missionPanel = new JPanel();
-    getTopPanel().add(missionPanel);
-    missionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+    employeePanel = new JPanel();
+    getTopPanel().add(employeePanel);
+    employeePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
     optionPanel = new JPanel();
     getTopPanel().add(optionPanel);
     optionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
-    positionPanel = new JPanel();
-    getTopPanel().add(positionPanel);
-    positionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
     generateReportPanel = new JPanel();
     getTopPanel().add(generateReportPanel);
@@ -61,22 +55,16 @@ public class ProjectPanel extends DefaultPanel {
     dateForm = form;
   }
 
-  public void setMissionPanel(DefaultForm form) {
-    missionPanel.setVisible(true);
-    missionPanel.add(form);
-    missionForm = form;
+  public void setEmployeePanel(DefaultForm form) {
+    employeePanel.setVisible(true);
+    employeePanel.add(form);
+    employeeForm = form;
   }
 
   public void setOptionPanel(DefaultForm form) {
     optionPanel.setVisible(true);
     optionPanel.add(form);
     optionForm = form;
-  }
-
-  public void setPositionPanel(DefaultForm form) {
-    positionPanel.setVisible(true);
-    positionPanel.add(form);
-    positionForm = form;
   }
 
   public void setGenerateReportPanel(DefaultForm form) {
@@ -89,16 +77,12 @@ public class ProjectPanel extends DefaultPanel {
     return (DateForm) dateForm;
   }
 
-  public MissionForm getMissionPanelForm() {
-    return (MissionForm) missionForm;
+  public EmployeeForm getEmployeePanelForm() {
+    return (EmployeeForm) employeeForm;
   }
 
-  public OptionMissionForm getOptionPanelForm() {
-    return (OptionMissionForm) optionForm;
-  }
-
-  public PositionForm getPositionPanelForm() {
-    return (PositionForm) positionForm;
+  public OptionEmployeeForm getOptionPanelForm() {
+    return (OptionEmployeeForm) optionForm;
   }
 
   public GenerateForm getGeneratePanelForm() {

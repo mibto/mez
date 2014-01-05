@@ -19,7 +19,7 @@ public class GenerateForm extends DefaultForm {
     JPanel generateButtonForm = new JPanel();
     add(generateButtonForm, BorderLayout.CENTER);
 
-    generateProjectReportButton = new JButton("Projekt Report erstellen!");
+    generateProjectReportButton = new JButton("Report erstellen!");
     generateButtonForm.add(generateProjectReportButton);
 
   }

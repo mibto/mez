@@ -2,6 +2,7 @@ package ch.bli.mez.view.report;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class MissionForm extends DefaultForm {
     add(projectLabelPanel, BorderLayout.NORTH);
 
     JLabel chooseProjectLabel = new JLabel("Projekte Auswählen:");
+    chooseProjectLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
     projectLabelPanel.add(chooseProjectLabel);
 
     JPanel inputPanel = new JPanel();
@@ -55,7 +57,7 @@ public class MissionForm extends DefaultForm {
     selectProjectPanel.add(everythingPanel);
     everythingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-    everythingRadioButton = new JRadioButton("Alles");
+    everythingRadioButton = new JRadioButton("Alles (alle Orgeln und Projekte)");
     everythingPanel.add(everythingRadioButton);
 
     JPanel singelOrganPAnel = new JPanel();

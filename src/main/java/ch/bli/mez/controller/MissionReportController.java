@@ -17,7 +17,7 @@ import ch.bli.mez.view.DefaultPanel;
 import ch.bli.mez.view.report.DateForm;
 import ch.bli.mez.view.report.GenerateForm;
 import ch.bli.mez.view.report.MissionForm;
-import ch.bli.mez.view.report.OptionForm;
+import ch.bli.mez.view.report.OptionMissionForm;
 import ch.bli.mez.view.report.PositionForm;
 import ch.bli.mez.view.report.ProjectPanel;
 
@@ -53,8 +53,8 @@ public class MissionReportController {
     return form;
   }
 
-  private OptionForm createOptionForm() {
-    OptionForm form = new OptionForm();
+  private OptionMissionForm createOptionForm() {
+    OptionMissionForm form = new OptionMissionForm();
     form.setParentPanel(view);
     return form;
   }

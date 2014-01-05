@@ -2,6 +2,7 @@ package ch.bli.mez.view.report;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -10,13 +11,13 @@ import javax.swing.JPanel;
 
 import ch.bli.mez.view.DefaultForm;
 
-public class OptionForm extends DefaultForm {
+public class OptionMissionForm extends DefaultForm {
   private static final long serialVersionUID = 1224786297787640298L;
   private JPanel optionsLabelPanel;
 
   private JCheckBox reportWithEmployee;
 
-  public OptionForm() {
+  public OptionMissionForm() {
     setLayout(new BorderLayout(0, 0));
 
     optionsLabelPanel = new JPanel();
@@ -25,6 +26,7 @@ public class OptionForm extends DefaultForm {
     add(optionsLabelPanel, BorderLayout.NORTH);
 
     JLabel optionsLabel = new JLabel("Unterteilung / weitere Optionen:");
+    optionsLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
     optionsLabelPanel.add(optionsLabel);
 
     JPanel inputPanel = new JPanel();

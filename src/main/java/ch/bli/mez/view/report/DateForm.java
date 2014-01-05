@@ -3,6 +3,7 @@ package ch.bli.mez.view.report;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.Calendar;
 
 import javax.swing.Box;
@@ -28,6 +29,7 @@ public class DateForm extends DefaultForm {
     add(dateLabelpanel, BorderLayout.NORTH);
 
     JLabel dateLabel = new JLabel("Datum");
+    dateLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
     dateLabelpanel.add(dateLabel);
 
     JPanel inputPanel = new JPanel();

@@ -2,6 +2,7 @@ package ch.bli.mez.view.report;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PositionForm extends DefaultForm {
     add(positionsLabelPanel, BorderLayout.NORTH);
 
     JLabel positionLabel = new JLabel("Positionen zusammenfassen im Report:");
+    positionLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
     positionsLabelPanel.add(positionLabel);
 
     JPanel inputPanel = new JPanel();

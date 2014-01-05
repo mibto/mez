@@ -9,11 +9,13 @@ import ch.bli.mez.view.DefaultTabbedView;
 public class AnalysisController {
 
   private DefaultTabbedView view;
-  private MissionReportController reportController;
+  private MissionReportController missionReportController;
+  private EmployeeReportController employeeReportController;
 
   public AnalysisController() {
     view = new DefaultTabbedView();
-    reportController = new MissionReportController();
+    missionReportController = new MissionReportController();
+    employeeReportController = new EmployeeReportController();
     setTabs();
     setListener();
   }
@@ -23,11 +25,12 @@ public class AnalysisController {
   }
 
   public MissionReportController getReportController() {
-    return reportController;
+    return missionReportController;
   }
 
   private void setTabs() {
-    view.addTab("Auftrag Report", reportController.getView());
+    view.addTab("Auftrag Report", missionReportController.getView());
+    view.addTab("Mitarbeiter Report", employeeReportController.getView());
     // Weitere views für die Tabs hier setzen.
   }
 
