@@ -108,8 +108,8 @@ public class MissionReportController {
   private HashMap<String, Object> getFormData(ProjectPanel view) {
     HashMap<String, Object> formData = new HashMap<String, Object>();
     formData.put("missions", getSelectedMissions(view));
-    formData.put("startData", view.getDatePanelForm().getDateFrom());
-    formData.put("endData", view.getDatePanelForm().getDateUntil());
+    formData.put("startDate", view.getDatePanelForm().getDateFrom());
+    formData.put("endDate", view.getDatePanelForm().getDateUntil());
     formData.put("showEmployees", view.getOptionPanelForm().getReportWithEmployee());
     formData.put("positions", getSelectedPositions(view.getPositionPanelForm().getPositions()));
     return formData;
