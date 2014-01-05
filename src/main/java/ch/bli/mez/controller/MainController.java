@@ -48,6 +48,8 @@ public class MainController {
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1 && employeeController == null) {
           employeeController = new EmployeeController();
           view.setEmployeePanel(employeeController.getView());
+        } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 1){
+          employeeController.getView().setSelectedIndex(0);
         }
 
         if (((JTabbedPane) e.getSource()).getSelectedIndex() == 2 && analysisController == null) {

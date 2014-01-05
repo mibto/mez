@@ -35,7 +35,7 @@ public class EmployeeHolidayController {
   protected void createView() {
     this.view = new DefaultPanel();
     view.setListTitlePanel(new EmployeeHolidayTitlePanel());
-    for (Holiday holiday : model.getEmployeeHolidays(employee, getStartYear())) {
+    for (Holiday holiday : model.getEmployeeHolidays(employee, getStartYear(), getEndYear())) {
       view.addForm(createHolidayForm(holiday));
     }
   }
@@ -104,6 +104,21 @@ public class EmployeeHolidayController {
         updateEmployeeHoliday(form);
       }
     };
+  }
+  
+  private Integer getEndYear(){
+    List<Contract> contracts = contractModel.getEmployeeContracts(employee);
+    if (contracts.size() < 1) {
+      return null;
+    }
+    int index = contracts.size() - 1;
+    while (contracts.get(index).getEndDate() == null){
+      if (index == 0){
+        return null;
+      }
+      index --;
+    }
+    return contracts.get(index).getEndDate().get(Calendar.YEAR);
   }
 
   private Integer getStartYear() {

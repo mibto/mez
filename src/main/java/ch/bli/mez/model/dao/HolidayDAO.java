@@ -100,19 +100,24 @@ public class HolidayDAO {
   /**
    * @param employee
    *          concerned employee
-   * @param year
+   * @param startYear
    *          first year of work
+   * @param endYear
+   *          last year of work
    * @return a List of relevent Holidays for this employee (for filling out the
    *         HolidayPanel in EmployeePanel
    */
-  public List<Holiday> getEmployeeHolidays(Employee employee, Integer year) {
+  public List<Holiday> getEmployeeHolidays(Employee employee, Integer startYear, Integer endYear) {
+    String endYearQuery = "";
+    if (endYear != null){
+      endYearQuery = " AND a.year<=" + endYear;
+    }
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Holiday> holidays = session
         .createSQLQuery(
             "select * from (select * from holiday h WHERE h.employee_id IS null OR h.employee_id=" + employee.getId()
-                + " ORDER BY h.employee_id) a WHERE a.year>=" + year + " GROUP BY year ORDER BY year DESC")
-        .addEntity(Holiday.class).list();
+                + " ORDER BY h.employee_id) a WHERE a.year>=" + startYear + endYearQuery + " GROUP BY year ORDER BY year DESC").addEntity(Holiday.class).list();
     tx.commit();
     return holidays;
   }
