@@ -108,8 +108,8 @@ public class MissionReportController {
   private HashMap<String, Object> getFormData(ProjectPanel view) {
     HashMap<String, Object> formData = new HashMap<String, Object>();
     formData.put("missions", getSelectedMissions(view));
-    formData.put("startData", view.getDatePanelForm().getDateFrom());
-    formData.put("endData", view.getDatePanelForm().getDateUntil());
+    formData.put("startDate", view.getDatePanelForm().getDateFrom());
+    formData.put("endDate", view.getDatePanelForm().getDateUntil());
     formData.put("showEmployees", view.getOptionPanelForm().getReportWithEmployee());
     formData.put("positions", getSelectedPositions(view.getPositionPanelForm().getPositions()));
     return formData;
@@ -125,7 +125,9 @@ public class MissionReportController {
     if (endDate == null) {
       endDate = Calendar.getInstance();
     }
+    System.out.println(startDate);
     if (startDate == null && view.getMissionPanelForm().getSelectedMission() != 2) {
+      System.out.println("No date start");
       startDate = Calendar.getInstance();
       startDate.set(startDate.get(Calendar.YEAR), 0, 1);
     }
