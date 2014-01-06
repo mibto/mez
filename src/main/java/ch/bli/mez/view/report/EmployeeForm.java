@@ -83,15 +83,15 @@ public class EmployeeForm extends DefaultForm {
     return null;
   }
 
-  public List<String> getSingelEmployee() {
+  public List<String> getSingelEmployees() {
     String[] employee = singelEmployee.getText().split(",");
-    List<String> employeeTrimed = new ArrayList<String>();
+    List<String> employees = new ArrayList<String>();
     for (String emp : employee) {
       if (!"".equals(emp)) {
-        employeeTrimed.add(emp.trim());
+        employees.add(emp);
       }
     }
-    return employeeTrimed;
+    return employees;
   }
 
   @Override
@@ -105,7 +105,7 @@ public class EmployeeForm extends DefaultForm {
         return false;
       }
 
-      if (getSingelEmployee().size() == 1) {
+      if (getSingelEmployees().size() == 0) {
         getParentPanel().showError("Es gab ein Problem beim lesen der Eingabe. Bitte den Mitarbeiter neu eingeben.");
         return false;
       }

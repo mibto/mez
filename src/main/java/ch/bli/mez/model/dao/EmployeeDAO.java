@@ -93,6 +93,19 @@ public class EmployeeDAO implements Searchable {
     criteria.add(Restrictions.or(firstName, lastName));
     return criteria;
   }
+  
+  public Employee findByEmployeeName(String lastName, String firstName) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Criteria criteria = session.createCriteria(Employee.class);
+    criteria.add(Restrictions.eq("lastName", lastName));
+    criteria.add(Restrictions.eq("firstName", firstName));
+    List<Employee> employees = criteria.list();
+    if (employees.isEmpty()) {
+      return null;
+    } else {
+      return employees.get(0);
+    }
+  }
 
   /**
    * 
