@@ -5,14 +5,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
+import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
+import ch.bli.mez.model.dao.TimeEntryDAO;
 
 public class TimeEntriesPerMission {
   
   private Mission mission;
   private Integer totalTime = 0;
   private List<TimeEntriesPerPosition> timeEntriesPerPositions = new ArrayList<TimeEntriesPerPosition>();
+  private TimeEntryDAO model;
   
   public TimeEntriesPerMission(Mission mission, List<Position> hiddenPositions, Boolean showEmployee, Calendar endDate, Calendar startDate){
     this.mission = mission;
@@ -26,6 +29,15 @@ public class TimeEntriesPerMission {
       else{
         totalTime += timeEntriesPerPosition.getTotalTime();          
       }
+    }
+  }
+
+  public TimeEntriesPerMission(Mission mission, Employee employee, Calendar endDate, Calendar startDate) {
+    this.mission = mission;
+    this.model = new TimeEntryDAO();
+    totalTime = model.getWorktimeForReport(employee, endDate, startDate, mission, null);
+    for (Position position : model.getPositionsForReport(employee, endDate, startDate, mission)){
+      timeEntriesPerPositions.add(new TimeEntriesPerPosition(mission, position, false, endDate, startDate));
     }
   }
 

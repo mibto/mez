@@ -3,17 +3,17 @@ package ch.bli.mez.controller;
 import java.util.Calendar;
 
 import ch.bli.mez.model.Employee;
-import ch.bli.mez.model.dao.EmployeeDAO;
+import ch.bli.mez.model.dao.TimeEntryDAO;
 import ch.bli.mez.view.time.WeekSummaryPanel;
 
 public class TimeEntryWeekSummaryController {
 
   private Employee employee;
   private WeekSummaryPanel view;
-  private EmployeeDAO model;
+  private TimeEntryDAO model;
 
   public TimeEntryWeekSummaryController(Employee employee) {
-    this.model = new EmployeeDAO();
+    this.model = new TimeEntryDAO();
     this.view = new WeekSummaryPanel();
     this.employee = employee;
   }

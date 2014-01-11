@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Comparable<Employee> {
 
   @Column(name = "employee_id")
   private Integer id;
@@ -142,5 +142,17 @@ public class Employee {
 
   public void setBirthday(Calendar birthday) {
     this.birthday = birthday;
+  }
+  
+  public int compareTo(Employee employee){
+    int compare = lastName.compareTo(employee.getLastName());
+    if (compare != 0){
+      return compare;
+    }
+    compare = firstName.compareTo(employee.getFirstName());
+    if (compare != 0){
+      return compare;
+    }
+    return isActive.compareTo(employee.getIsActive());
   }
 }

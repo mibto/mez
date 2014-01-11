@@ -1,5 +1,6 @@
 package ch.bli.mez.util;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -10,15 +11,20 @@ import ch.bli.mez.model.TimeEntry;
 import ch.bli.mez.model.dao.TimeEntryDAO;
 
 public class TimeEntriesPerEmployee {
-  
+
   private Integer totalTime = 0;
   private List<TimeEntry> timeEntries;
   private Employee employee;
   private static TimeEntryDAO model = new TimeEntryDAO();
+  private boolean showWeeks;
+  private boolean showMissions;
+  private List<TimeEntriesPerWeek> timeEntriesPerWeek;
+  private List<TimeEntriesPerMission> timeEntriesPerMission;
 
-  public TimeEntriesPerEmployee(Employee employee, Mission mission, Position position, Calendar endDate, Calendar dateStart) {
+  public TimeEntriesPerEmployee(Employee employee, Mission mission, Position position, Calendar endDate,
+      Calendar dateStart) {
     timeEntries = model.getEntriesForReport(mission, position, endDate, dateStart, employee);
-    for (TimeEntry timeEntry : timeEntries){
+    for (TimeEntry timeEntry : timeEntries) {
       totalTime += timeEntry.getWorktime();
     }
     this.employee = employee;
@@ -27,10 +33,43 @@ public class TimeEntriesPerEmployee {
   public TimeEntriesPerEmployee(Employee employee, List<Mission> missions, Position position, Calendar endDate,
       Calendar startDate) {
     timeEntries = model.getEntriesForReport(missions, position, endDate, startDate, employee);
-    for (TimeEntry timeEntry : timeEntries){
+    for (TimeEntry timeEntry : timeEntries) {
       totalTime += timeEntry.getWorktime();
     }
     this.employee = employee;
+  }
+
+  public TimeEntriesPerEmployee(Employee employee, Boolean showWeeks, Boolean showMissions, Calendar endDate,
+      Calendar startDate) {
+    this.employee = employee;
+    this.showWeeks = showWeeks;
+    this.showMissions = showMissions;
+    totalTime = model.getWorktimeForReport(employee, endDate, startDate, null, null);
+    if (showWeeks) {
+      timeEntriesPerWeek = new ArrayList<TimeEntriesPerWeek>();
+      for (Calendar week : getWeekNumbers(endDate, startDate)) {
+        timeEntriesPerWeek.add(new TimeEntriesPerWeek(employee, showMissions, week));
+      }
+    } else {
+      timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
+      for (Mission mission : model.getMissionsForReport(employee, endDate, startDate)) {
+        timeEntriesPerMission.add(new TimeEntriesPerMission(mission, employee, endDate, startDate));
+      }
+    }
+  }
+
+  private List<Calendar> getWeekNumbers(Calendar endDate, Calendar startDate) {
+    List<Calendar> list = new ArrayList<Calendar>();
+    Calendar week = Calendar.getInstance();
+    week.clear();
+    week.set(Calendar.YEAR, startDate.get(Calendar.YEAR));
+    week.set(Calendar.WEEK_OF_YEAR, startDate.get(Calendar.WEEK_OF_YEAR) + 2);
+    week.add(Calendar.WEEK_OF_YEAR, - 2);
+    while (week.before(endDate)) {
+      list.add((Calendar) week.clone());
+      week.add(Calendar.WEEK_OF_YEAR, 1);
+    }
+    return list;
   }
 
   public Employee getEmployee() {
@@ -49,5 +88,20 @@ public class TimeEntriesPerEmployee {
     return model;
   }
 
-  
+  public List<TimeEntriesPerWeek> getTimeEntriesPerWeek() {
+    return timeEntriesPerWeek;
+  }
+
+  public boolean getShowWeeks() {
+    return showWeeks;
+  }
+
+  public List<TimeEntriesPerMission> getTimeEntriesPerMission() {
+    return timeEntriesPerMission;
+  }
+
+  public boolean getShowMissions() {
+    return showMissions;
+  }
+
 }

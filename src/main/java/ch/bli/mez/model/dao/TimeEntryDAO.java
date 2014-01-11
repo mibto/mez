@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import ch.bli.mez.model.Employee;
@@ -118,6 +119,41 @@ public class TimeEntryDAO implements Searchable {
     }
     return criteria;
   }
+  
+  /**
+   * 
+   * @param employee
+   *          concerned employee
+   * @return newest Week in TimeEntries
+   */
+  public Calendar getNewestDateOfWork(Employee employee) {
+    if (employee == null) {
+      return null;
+    }
+    Session session = SessionManager.getSessionManager().getSession();
+    List<TimeEntry> timeEntries = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee))
+        .addOrder(Order.desc("date")).list();
+    if (timeEntries.size() > 0) {
+      return timeEntries.get(0).getDate();
+    }
+    return null;
+  }
+
+  public Integer getWeekSummaryAmount(Employee employee, Calendar weekBegin) {
+    if (weekBegin == null || employee == null) {
+      return 0;
+    }
+    Calendar weekEnd = (Calendar) weekBegin.clone();
+    weekEnd.set(Calendar.WEEK_OF_YEAR, weekBegin.get(Calendar.WEEK_OF_YEAR) + 1);
+    Session session = SessionManager.getSessionManager().getSession();
+    Long weekSum = (Long) session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
+        .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", weekBegin))
+        .add(Restrictions.lt("date", weekEnd)).uniqueResult();
+    if (weekSum != null) {
+      return weekSum.intValue();
+    }
+    return 0;
+  }
 
   public List<TimeEntry> getEntriesForReport(Mission mission, Position position, Calendar endDate, Calendar dateStart) {
     Session session = SessionManager.getSessionManager().getSession();
@@ -184,4 +220,63 @@ public class TimeEntryDAO implements Searchable {
     criteria.addOrder(Order.asc("employee.lastName"));
     return criteria.list();
   }
+  
+  public Integer getWorktimeForReport(Employee employee, Calendar endDate, Calendar startDate, Mission mission, Position position) {
+    if (startDate == null || employee == null || endDate == null) {
+      return 0;
+    }
+    Session session = SessionManager.getSessionManager().getSession();
+        Criteria criteria = session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
+        .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", startDate))
+        .add(Restrictions.lt("date", endDate));
+        if (mission != null){
+          criteria.add(Restrictions.eq("mission", mission));
+        }
+        if (position != null){
+          criteria.add(Restrictions.eq("position", position));
+        }
+        Long weekSum = (Long) criteria.uniqueResult();
+    if (weekSum != null) {
+      return weekSum.intValue();
+    }
+    return 0;
+  }
+  
+  public List<Mission> getMissionsForReport(Employee employee, Calendar endDate, Calendar startDate){
+    if (startDate == null || employee == null || endDate == null) {
+      return null;
+    }
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<Mission> missions = session.createQuery(
+        "select mission FROM TimeEntry WHERE employee_id = " + employee.getId() + "AND date>=" + startDate.getTimeInMillis()
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+    tx.commit();
+    return missions;
+  }
+  
+  public List<Position> getPositionsForReport(Employee employee, Calendar endDate, Calendar startDate, Mission mission){
+    if (startDate == null || employee == null || endDate == null || mission == null) {
+      return null;
+    }
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<Position> positions = session.createQuery(
+        "select position FROM TimeEntry WHERE employee_id = " + employee.getId() + " AND mission_mission_id=" + mission.getId() + " AND date>=" + startDate.getTimeInMillis()
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+    tx.commit();
+    return positions;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
