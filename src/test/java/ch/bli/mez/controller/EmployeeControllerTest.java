@@ -58,7 +58,7 @@ public class EmployeeControllerTest {
     when(employeeForm.validateFields()).thenReturn(true);
     when(employeeForm.getParentPanel()).thenReturn(new DefaultPanel());
 
-    employeeController.updateEmployee(employee, employeeForm);
+    employeeController.updateEmployee(employee, employeeForm, true);
 
     InOrder inOrder = inOrder(employeeForm, employee);
 

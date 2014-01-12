@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.dao.TimeEntryDAO;
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.view.time.WeekSummaryPanel;
 
 public class TimeEntryWeekSummaryController {
@@ -23,7 +24,7 @@ public class TimeEntryWeekSummaryController {
   }
 
   public void updateWeekSummary() {
-    Calendar currentWeek = model.getNewestDateOfWork(employee);
+    Calendar currentWeek = Parser.getWeekBegin(model.getNewestDateOfWork(employee));
     if (currentWeek == null) {
       return;
     }
@@ -31,15 +32,7 @@ public class TimeEntryWeekSummaryController {
     lastWeek.set(Calendar.WEEK_OF_YEAR, currentWeek.get(Calendar.WEEK_OF_YEAR) - 1);
     view.setCurrentWeekNumber(currentWeek.get(Calendar.WEEK_OF_YEAR), currentWeek.get(Calendar.YEAR));
     view.setLastWeekNumber(lastWeek.get(Calendar.WEEK_OF_YEAR), lastWeek.get(Calendar.YEAR));
-    view.setCurrentWeekAmount(model.getWeekSummaryAmount(employee, getWeekBegin(currentWeek)));
-    view.setLastWeekAmount(model.getWeekSummaryAmount(employee, getWeekBegin(lastWeek)));
-  }
-
-  private Calendar getWeekBegin(Calendar calendar) {
-    Calendar weekBegin = Calendar.getInstance();
-    weekBegin.clear();
-    weekBegin.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-    weekBegin.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR));
-    return weekBegin;
+    view.setCurrentWeekAmount(model.getWeekSummaryAmount(employee, Parser.getWeekBegin(currentWeek)));
+    view.setLastWeekAmount(model.getWeekSummaryAmount(employee, Parser.getWeekBegin(lastWeek)));
   }
 }

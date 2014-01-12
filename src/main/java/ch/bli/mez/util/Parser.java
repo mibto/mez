@@ -95,4 +95,23 @@ public class Parser {
     return simpleDateFormat.format(calendar.getTime());
   }
 
+  public static Calendar getWeekBegin(Calendar calendar) {
+    if (calendar == null){
+      return null;
+    }
+    Calendar weekBegin = Calendar.getInstance();
+    weekBegin.clear();
+    int month = calendar.get(Calendar.MONTH);
+    int week = calendar.get(Calendar.WEEK_OF_YEAR);
+    int year = calendar.get(Calendar.YEAR);
+    weekBegin.set(Calendar.YEAR, year);
+    if (month == 0 && week == 52){
+      weekBegin.add(Calendar.YEAR, -1);
+    } else if (month == 11 && week == 1){
+      weekBegin.add(Calendar.YEAR, 1);
+    }
+    weekBegin.set(Calendar.WEEK_OF_YEAR, week);
+    weekBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    return weekBegin;
+  }
 }
