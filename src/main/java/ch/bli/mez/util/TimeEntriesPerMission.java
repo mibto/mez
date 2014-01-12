@@ -2,6 +2,7 @@ package ch.bli.mez.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,9 +43,11 @@ public class TimeEntriesPerMission {
   }
 
   private Set<Position> getVisiblePositions(List<Position> positions) {
+    Set<Position> visibleMissionPositions = new HashSet<Position>();
     Set<Position> missionPositions = mission.getPositions();
-    missionPositions.removeAll(positions);
-    return missionPositions;
+    visibleMissionPositions.addAll(missionPositions);
+    visibleMissionPositions.removeAll(positions);
+    return visibleMissionPositions;
   }
 
   public Mission getMission() {

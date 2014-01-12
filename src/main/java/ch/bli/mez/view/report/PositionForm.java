@@ -64,7 +64,6 @@ public class PositionForm extends DefaultForm {
   @Override
   public void showAsCreateNew() {
     // not used
-
   }
 
   @Override
