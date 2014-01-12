@@ -32,7 +32,7 @@ public class MissionForm extends DefaultForm {
     flowLayout.setAlignment(FlowLayout.LEFT);
     add(projectLabelPanel, BorderLayout.NORTH);
 
-    JLabel chooseProjectLabel = new JLabel("Projekte Auswählen:");
+    JLabel chooseProjectLabel = new JLabel("Aufträge Auswählen:");
     chooseProjectLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
     projectLabelPanel.add(chooseProjectLabel);
 
@@ -57,19 +57,19 @@ public class MissionForm extends DefaultForm {
     selectProjectPanel.add(everythingPanel);
     everythingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-    everythingRadioButton = new JRadioButton("Alles (alle Orgeln und Projekte)");
+    everythingRadioButton = new JRadioButton("Alles (alle Orgeln und Aufträge)");
     everythingPanel.add(everythingRadioButton);
 
     JPanel singelOrganPAnel = new JPanel();
     selectProjectPanel.add(singelOrganPAnel);
     singelOrganPAnel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-    singelOrganRadioButton = new JRadioButton("Einzelne Orgeln:");
+    singelOrganRadioButton = new JRadioButton("Einzelne Aufträge:");
     singelOrganRadioButton.setSelected(false);
     singelOrganPAnel.add(singelOrganRadioButton);
 
     singelMission = new JTextField();
-    singelMission.setToolTipText("Mehrere Orgeln mit einem Komma trennen. z.B \r\nBern, Zürich, Basel");
+    singelMission.setToolTipText("Mehrere Aufträge mit einem Komma trennen. z.B \r\nBern, Zürich, Tour");
     singelOrganPAnel.add(singelMission);
     singelMission.setColumns(15);
 
