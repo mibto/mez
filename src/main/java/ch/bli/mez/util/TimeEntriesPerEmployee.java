@@ -48,7 +48,10 @@ public class TimeEntriesPerEmployee {
     if (showWeeks) {
       timeEntriesPerWeek = new ArrayList<TimeEntriesPerWeek>();
       for (Calendar week : getWeekNumbers(endDate, startDate)) {
-        timeEntriesPerWeek.add(new TimeEntriesPerWeek(employee, showMissions, week));
+        TimeEntriesPerWeek timeEntries = new TimeEntriesPerWeek(employee, showMissions, week);
+        if (timeEntries.getTotalTime() > 0){
+          timeEntriesPerWeek.add(timeEntries);
+        }
       }
     } else {
       timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
@@ -60,14 +63,10 @@ public class TimeEntriesPerEmployee {
 
   private List<Calendar> getWeekNumbers(Calendar endDate, Calendar startDate) {
     List<Calendar> list = new ArrayList<Calendar>();
-    Calendar week = Calendar.getInstance();
-    week.clear();
-    week.set(Calendar.YEAR, startDate.get(Calendar.YEAR));
-    week.set(Calendar.WEEK_OF_YEAR, startDate.get(Calendar.WEEK_OF_YEAR) + 2);
-    week.add(Calendar.WEEK_OF_YEAR, - 2);
-    while (week.before(endDate)) {
-      list.add((Calendar) week.clone());
-      week.add(Calendar.WEEK_OF_YEAR, 1);
+    Calendar week = Parser.getWeekBegin(startDate);
+    while (!week.after(endDate)) {
+        list.add((Calendar) week.clone());
+        week.add(Calendar.WEEK_OF_YEAR, 1);
     }
     return list;
   }
