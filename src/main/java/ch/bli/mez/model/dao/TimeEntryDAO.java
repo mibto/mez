@@ -249,7 +249,7 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery(
-        "select mission FROM TimeEntry WHERE employee_id = " + employee.getId() + "AND date>=" + startDate.getTimeInMillis()
+        "select DISTINCT mission FROM TimeEntry WHERE employee_id = " + employee.getId() + "AND date>=" + startDate.getTimeInMillis()
             + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
     tx.commit();
     return missions;
@@ -262,7 +262,7 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
-        "select position FROM TimeEntry WHERE employee_id = " + employee.getId() + " AND mission_mission_id=" + mission.getId() + " AND date>=" + startDate.getTimeInMillis()
+        "select DISTINCT position FROM TimeEntry WHERE employee_id = " + employee.getId() + " AND mission_mission_id=" + mission.getId() + " AND date>=" + startDate.getTimeInMillis()
             + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
     tx.commit();
     return positions;
