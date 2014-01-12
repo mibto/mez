@@ -15,39 +15,46 @@ import ch.bli.mez.util.TimeEntriesPerPosition;
 
 public class FormatMissionReportController {
 
-  public void formatTimeEntries(List<TimeEntriesPerMission> timeEntriesPerMissions, List<TimeEntriesPerPosition> summarizedTimeEntries) {
+  public void formatTimeEntries(List<TimeEntriesPerMission> timeEntriesPerMissions,
+      List<TimeEntriesPerPosition> summarizedTimeEntries) {
     showReport(createReport(timeEntriesPerMissions, summarizedTimeEntries));
   }
 
-  private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions, List<TimeEntriesPerPosition> summarizedTimeEntries) {
+  private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions,
+      List<TimeEntriesPerPosition> summarizedTimeEntries) {
     String report = "<!Doctype html>";
-    report += "<div style='margin: 0 auto; width: 1250px;'>";
+    report += "<div style='margin: 0 auto; width: 1000px;'>";
     report += "<div style='font-weight: bold; width: 300px; text-align: left; display: inline-block;'>Auftrag</div>";
-    report += "<div style='font-weight: bold; width: 450px; text-align: left; display: inline-block;'>Position</div>";
-    report += "<div style='font-weight: bold; width: 450px; text-align: left; display: inline-block;'>Person</div>";
+    report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Position</div>";
+    report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Person</div>";
     report += "<br>";
-    
+
     for (TimeEntriesPerMission timeEntryPerMission : timeEntriesPerMissions) {
       report += "<div style='display: inline-block; width: 300px;'>";
-      report += "<span style='padding-right: 25px;'>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
-      report += "<div style='display: inline-block; font-weight: bold; text-align: right'>" + Parser.parseMinutesIntegerToString(timeEntryPerMission.getTotalTime()) + "</div>";
+      report += "<span>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
+      report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
+          + Parser.parseMinutesIntegerToString(timeEntryPerMission.getTotalTime()) + "</div>";
       report += "</div>";
       report += "<br>";
 
       for (TimeEntriesPerPosition timeEntryPerPosition : timeEntryPerMission.getTimeEntriesPerPositions()) {
-        report += "<div style='display: inline-block; width: 450px; margin-left: 300px;'>";
+        report += "<div style='display: inline-block; width: 350px; margin-left: 300px;'>";
         report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
-        report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
-        report += "<div style='display: inline-block; float: right; margin-right: 150px; text-align: right; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
+        report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
+        report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
+            + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
         report += "</div>";
         report += "<br>";
-        
+
         if (timeEntryPerPosition.getShowEmployees()) {
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
-            report += "<div style='display: inline-block; width: 450px; margin-left: 750px;'>";
-            report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName() + "</span>";
-            report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName() + "</span>";
-            report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 100px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
+            report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
+            report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName()
+                + "</span>";
+            report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName()
+                + "</span>";
+            report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
+                + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
             report += "</div>";
             report += "<br>";
           }
@@ -57,19 +64,34 @@ public class FormatMissionReportController {
       }
       report += "<hr>";
     }
-    for (TimeEntriesPerPosition timeEntryPerPosition : summarizedTimeEntries){
-      report += timeEntryPerPosition.getPosition().getPositionName() + " " + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime());
-      if (timeEntryPerPosition.getShowEmployees()) {
-        for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
-          report += "<div style='display: inline-block; width: 450px; margin-left: 750px;'>";
-          report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName() + "</span>";
-          report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName() + "</span>";
-          report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 100px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
-          report += "</div>";
-          report += "<br>";
-        }
-      } else {
+    if (!summarizedTimeEntries.isEmpty()) {
+      report += "<div style='display: inline-block; width: 300px;'>";
+      report += "<span style='padding-right: 25px;'>Zusammengefasste Positionen:</span>";
+      report += "</div>";
+      report += "<br>";
+
+      for (TimeEntriesPerPosition timeEntryPerPosition : summarizedTimeEntries) {
+        report += "<div style='display: inline-block; width: 350px; margin-left: 300px;'>";
+        report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
+        report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
+        report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
+            + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
+        report += "</div>";
         report += "<br>";
+        if (timeEntryPerPosition.getShowEmployees()) {
+          for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
+            report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
+            report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName()
+                + "</span>";
+            report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName()
+                + "</span>";
+            report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
+                + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
+            report += "</div>";
+            report += "<br>";
+          }
+        }
+        report += "<hr>";
       }
     }
     report += "</div></html>";
@@ -80,7 +102,7 @@ public class FormatMissionReportController {
     File reportFile;
     try {
       reportFile = File.createTempFile("report", ".html");
-      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportFile),"UTF-8"));
+      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reportFile), "UTF-8"));
       out.write(report);
       out.close();
       if (Desktop.isDesktopSupported()) {

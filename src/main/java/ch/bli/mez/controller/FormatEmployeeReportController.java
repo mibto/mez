@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
+import ch.bli.mez.util.Parser;
 import ch.bli.mez.util.TimeEntriesPerEmployee;
 import ch.bli.mez.util.TimeEntriesPerMission;
 import ch.bli.mez.util.TimeEntriesPerPosition;
@@ -21,50 +22,55 @@ public class FormatEmployeeReportController {
 
   private String createReport(List<TimeEntriesPerEmployee> timeEntriesPerEmployees) {
     String report = "<!Doctype html>";
-    report += "<ul style='list-style-type: none;'>";
+    report += "<div style='margin: 0 auto; width: 1000px;'>";
+    report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Person</div>";
+    report += "<div style='font-weight: bold; width: 300px; text-align: left; display: inline-block;'>Auftrag</div>";
+    report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Position</div>";
+    report += "<br>";
+    
     for (TimeEntriesPerEmployee timeEntryPerEmployee : timeEntriesPerEmployees) {
-      report += "<li>";
-      report += "<span class='employeeName'>" + timeEntryPerEmployee.getEmployee().getLastName() + "</span>";
-      report += "<span style='margin-left: 25px;'>" + timeEntryPerEmployee.getEmployee().getFirstName() + "</span>";
-      report += "<span class='employeeTotal' style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerEmployee.getTotalTime() + "</span>";
-      report += "<ul style='list-style-type: none;'>";
+      report += "<div style='display: inline-block; width: 350px;'>";
+      report += "<span style='padding-right: 10px;'>" + timeEntryPerEmployee.getEmployee().getFirstName() + "</span>";
+      report += "<span>" + timeEntryPerEmployee.getEmployee().getLastName() + "</span>";
+      report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerEmployee.getTotalTime()) + "</div>";
+      report += "</div>";
+      report += "<br>";
+      
       if (timeEntryPerEmployee.getShowWeeks()){
         for (TimeEntriesPerWeek timeEntryPerWeek : timeEntryPerEmployee.getTimeEntriesPerWeek()){
-          report += "<li style='padding-left: 250px;'>";
-          report += "<span>" + "KW" + timeEntryPerWeek.getWeek().get(Calendar.WEEK_OF_YEAR) + "</span>";
-          report += "<span style='margin-left: 25px;'>" + "(" + timeEntryPerWeek.getWeek().get(Calendar.YEAR) + ")" + "</span>";
-          report += "<span style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerWeek.getTotalTime() + "</span>";
+          report += "<div style='display: inline-block; width: 300px; margin-left: 350px;'>";
+          report += "<span style='padding-right: 25px;'>" + "KW" + timeEntryPerWeek.getWeek().get(Calendar.WEEK_OF_YEAR) + "</span>";
+          report += "<span>" + "(" + timeEntryPerWeek.getWeek().get(Calendar.YEAR) + ")" + "</span>";
+          report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 50px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerWeek.getTotalTime()) + "</div>";
+          report += "</div><br>";
+          
           if (timeEntryPerEmployee.getShowMissions()){
             report += createMissionReport(timeEntryPerWeek.getTimeEntriesPerMission());
           }
-          report += "</li>";
+          
         }
       } else if (timeEntryPerEmployee.getShowMissions()) {
         report += createMissionReport(timeEntryPerEmployee.getTimeEntriesPerMission());
       }
-      report += "</ul>";
-      report += "</li>";
+      report += "<hr>";
     }
-    report += "</ul>";
     return report;
   }
   
   private String createMissionReport(List<TimeEntriesPerMission> timeEntriesPerMission){
     String report = "";
     for (TimeEntriesPerMission timeEntryPerMission : timeEntriesPerMission) {
-      report += "<li style='padding-left: 250px;'>";
+      report += "<div style='display: inline-block; width: 300px; margin-left: 350px;'>";
       report += "<span class='missionName'>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
-      report += "<span class='missionTotal' style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerMission.getTotalTime() + "</span>";
-      report += "<ul style='list-style-type: none;'>";
+      report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 50px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerMission.getTotalTime()) + "</div>";
+      report += "</div><br>";
       for (TimeEntriesPerPosition timeEntryPerPosition : timeEntryPerMission.getTimeEntriesPerPositions()) {
-        report += "<li style='padding-left: 250px;'>";
+        report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
+        report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
         report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
-        report += "<span style='margin-left: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
-        report += "<span style='margin-left: 50px; font-weight: bold;'>" + timeEntryPerPosition.getTotalTime() + "</span>";
-        report += "</li>";
+        report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
+        report += "</div><br>";
       }
-      report += "</ul>";
-      report += "</li>";
     }
     return report;
   }
