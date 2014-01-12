@@ -70,7 +70,7 @@ public class MissionController {
   }
 
   private void addMissionForms() {
-    for (Mission mission : model.findAll()) {
+    for (Mission mission : model.getActiveMissions()) {
       view.addForm(createMissionForm(mission));
     }
   }
@@ -114,11 +114,9 @@ public class MissionController {
       mission.setMissionName(form.getMissionName());
       mission.setComment(form.getComment());
       boolean formIsOrgan = form.getIsOrgan();
-      if (formIsOrgan ^ mission.getIsOrgan()) {
+      if (isNewMission) {
         mission.setIsOrgan(formIsOrgan);
         updatePositions(mission, formIsOrgan);
-      }
-      if (isNewMission) {
         model.addMission(mission);
         view.addForm(createMissionForm(mission));
         form.cleanFields();
@@ -166,7 +164,8 @@ public class MissionController {
         if (mission.getIsActive()) {
           mission.setIsActive(false);
           model.updateMission(mission);
-          form.setActive(false);
+          form.getParent().remove(form);
+          view.revalidate();
         } else {
           mission.setIsActive(true);
           model.updateMission(mission);

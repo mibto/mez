@@ -69,7 +69,7 @@ public class MissionForm extends DefaultForm {
     missionName.setEnabled(isActive);
     comment.setEnabled(isActive);
     saveButton.setEnabled(isActive);
-    isOrgan.setEnabled(isActive);
+    isOrgan.setEnabled(false);
   }
 
   public void cleanFields() {
@@ -89,6 +89,7 @@ public class MissionForm extends DefaultForm {
     statusButton.setVisible(false);
     commentLabel.setVisible(true);
     nameLabel.setVisible(true);
+    isOrgan.setEnabled(true);
   }
 
   public void setSaveListener(ActionListener actionListener) {

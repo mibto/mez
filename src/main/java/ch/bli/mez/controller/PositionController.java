@@ -41,7 +41,7 @@ public class PositionController {
 
   private void addPositionEntrys() {
     view.setCreateNewForm(createPositionForm(null));
-    for (Position position : model.findAll()) {
+    for (Position position : model.getActivePositions()) {
       view.addForm(createPositionForm(position));
     }
   }
@@ -84,7 +84,8 @@ public class PositionController {
         if (position.getIsActive()) {
           position.setIsActive(false);
           model.updatePosition(position);
-          form.setActive(false);
+          form.getParent().remove(form);
+          view.revalidate();
         } else {
           position.setIsActive(true);
           model.updatePosition(position);
