@@ -208,6 +208,7 @@ public class TimeEntryController {
         form.getParentPanel().showError("Die eingegebene Position existiert nicht.");
         return false;
       }
+      System.out.println(mission.getPositions());
       if (!mission.getPositions().contains(position)) {
         form.getParentPanel().showError(
             "Der Auftrag " + mission.getMissionName() + " hat keine Position mit Code " + position.getCode() + ".");

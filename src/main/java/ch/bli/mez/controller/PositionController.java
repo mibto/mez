@@ -60,7 +60,9 @@ public class PositionController {
         form.setMissionName("Orgeln");
       } else {
         Mission mission = position.firstMission();
-        form.setMissionName(mission.getMissionName());
+        if (mission != null){
+          form.setMissionName(mission.getMissionName());
+        }
       }      
     }
 
