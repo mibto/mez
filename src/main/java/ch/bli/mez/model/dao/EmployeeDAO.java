@@ -36,6 +36,9 @@ public class EmployeeDAO implements Searchable {
   }
 
   public void addEmployee(Employee employee) {
+    if (employee == null){
+      return;
+    }
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     try {
@@ -56,6 +59,9 @@ public class EmployeeDAO implements Searchable {
   }
 
   public void updateEmployee(Employee employee) {
+    if (employee == null){
+      return;
+    }
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     try {

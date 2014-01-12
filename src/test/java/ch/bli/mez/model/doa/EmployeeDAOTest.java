@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.hibernate.ObjectNotFoundException;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -81,9 +83,11 @@ public class EmployeeDAOTest {
   /*
    * Prüft ob einen als null gespeicherten Employee nicht gespeichert wird
    */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void addNullEmployee() {
+    List<Employee> allEmployees = instance.findAll();
     instance.addEmployee(null);
+    instance.findAll().equals(allEmployees);
   }
 
   /*

@@ -145,8 +145,8 @@ public class EmployeeController {
     return form;
   }
 
-  protected Employee updateEmployee(Employee employee, EmployeeForm form) {
-    if (form.validateFields()) {
+  protected Employee updateEmployee(Employee employee, EmployeeForm form, Boolean isNewEmployee) {
+    if (validateFields(employee, form, isNewEmployee)) {
       if (!"".equals(form.getPlz())) {
         employee.setPlz(Integer.parseInt(form.getPlz()));
       }
@@ -164,6 +164,18 @@ public class EmployeeController {
       return employee;
     }
     return null;
+  }
+  
+  private boolean validateFields(Employee employee, EmployeeForm form, Boolean isNewEmployee){
+    if (!form.validateFields()){
+      return false;
+    }
+    Employee duplicate = model.findByEmployeeName(form.getLastname(), form.getFirstname());
+    if (isNewEmployee && duplicate != null || duplicate!= null && !isNewEmployee && duplicate.getId() != employee.getId()){
+      form.getParentPanel().showError("Einen Mitarbeiter mit gleichem Vor- und Nachname existiert bereits");
+      return false;
+    }
+    return true;
   }
 
   public void setEmployeeFormActionListeners(final Employee employee, final EmployeeForm form, Boolean isNewEmployee) {
@@ -192,15 +204,20 @@ public class EmployeeController {
     return new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (!isNewEmployee) {
-          model.updateEmployee(updateEmployee(employee, form));
-          view.updateTabName(employee.getFirstName() + " " + employee.getLastName());
+          Employee updatedEmployee = updateEmployee(employee, form, isNewEmployee);
+          if (updatedEmployee != null){
+            model.updateEmployee(updatedEmployee);
+            view.updateTabName(updatedEmployee.getLastName() + " " + updatedEmployee.getFirstName());
+          }
         } else {
           Employee safeEmployee = new Employee();
-          safeEmployee = updateEmployee(safeEmployee, form);
-          model.addEmployee(safeEmployee);
-          view.addTab(safeEmployee.getFirstName() + " " + safeEmployee.getLastName(),
-              createEmployeePanel(safeEmployee, false));
-          form.cleanFields();
+          safeEmployee = updateEmployee(safeEmployee, form, isNewEmployee);
+          if (safeEmployee != null){
+            model.addEmployee(safeEmployee);
+            view.addTab(safeEmployee.getLastName() + " " + safeEmployee.getFirstName(),
+                createEmployeePanel(safeEmployee, false));
+            form.cleanFields();
+          }
         }
       }
     };
