@@ -63,7 +63,7 @@ public class EmployeeForm extends DefaultForm {
     singelEmployee = new JTextField();
     singelEmployee.setToolTipText("Mehrere Mitarbeiter mit einem Komma trennen. z.B \r\nMax, Hans");
     singelOrganPAnel.add(singelEmployee);
-    singelEmployee.setColumns(15);
+    singelEmployee.setColumns(18);
 
     // Group the radio buttons.
     radioButtonGroup = new ButtonGroup();

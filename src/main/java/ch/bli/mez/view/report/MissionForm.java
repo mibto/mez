@@ -71,7 +71,7 @@ public class MissionForm extends DefaultForm {
     singelMission = new JTextField();
     singelMission.setToolTipText("Mehrere Aufträge mit einem Komma trennen. z.B \r\nBern, Zürich, Tour");
     singelOrganPAnel.add(singelMission);
-    singelMission.setColumns(15);
+    singelMission.setColumns(18);
 
     // Group the radio buttons.
     radioButtonGroup = new ButtonGroup();
