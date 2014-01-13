@@ -41,7 +41,7 @@ public class PositionForm extends DefaultForm {
     positions = new JTextField();
     positions.setToolTipText("Positionen müssen mit einem Komma getrennt werden. z.B 10,20,30");
     positionPanel.add(positions);
-    positions.setColumns(40);
+    positions.setColumns(30);
 
   }
 

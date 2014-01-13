@@ -33,12 +33,19 @@ public class DefaultPanel extends JPanel {
 
     JPanel northPanel = new JPanel();
     add(new JRapidScrollPane(northPanel), BorderLayout.NORTH);
-
+    
+    JPanel helpPanel = new JPanel();
+    helpPanel.setLayout(new BoxLayout(helpPanel, BoxLayout.PAGE_AXIS));
+    northPanel.add(helpPanel);
+    
+    JPanel helpTopPanel = new JPanel();
+    helpPanel.add(helpTopPanel);
+    
     topPanel = new JPanel(new BorderLayout());
-    northPanel.add(topPanel);
+    helpTopPanel.add(topPanel);
 
     JPanel messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    topPanel.add(messagePanel, BorderLayout.SOUTH);
+    helpPanel.add(messagePanel);
 
     messageLabel = new JLabel(" ");
     messagePanel.add(messageLabel);

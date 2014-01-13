@@ -22,6 +22,7 @@ public class EmployeePanel extends DefaultPanel {
   JPanel employeePanel;
   JPanel optionPanel;
   JPanel generateReportPanel;
+  private JPanel reportPanel;
 
   public EmployeePanel() {
     createPanel();
@@ -30,22 +31,25 @@ public class EmployeePanel extends DefaultPanel {
   public void createPanel() {
     JPanel centerPanel = new JPanel(new GridLayout(1, 0));
     add(centerPanel, BorderLayout.CENTER);
-    getTopPanel().setLayout(new BoxLayout(getTopPanel(), BoxLayout.Y_AXIS));
+    
+    reportPanel = new JPanel();
+    reportPanel.setLayout(new BoxLayout(reportPanel, BoxLayout.Y_AXIS));
+    getTopPanel().add(reportPanel, BorderLayout.CENTER);
 
     datePanel = new JPanel();
-    getTopPanel().add(datePanel);
+    reportPanel.add(datePanel);
     datePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
     employeePanel = new JPanel();
-    getTopPanel().add(employeePanel);
+    reportPanel.add(employeePanel);
     employeePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
     optionPanel = new JPanel();
-    getTopPanel().add(optionPanel);
+    reportPanel.add(optionPanel);
     optionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
     generateReportPanel = new JPanel();
-    getTopPanel().add(generateReportPanel);
+    reportPanel.add(generateReportPanel);
     generateReportPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
   }
 
@@ -91,7 +95,7 @@ public class EmployeePanel extends DefaultPanel {
 
   @Override
   public void addForm(DefaultForm form) {
-    getTopPanel().add(form, BorderLayout.CENTER);
+    reportPanel.add(form, BorderLayout.CENTER);
     form.setParentPanel(this);
   }
 
