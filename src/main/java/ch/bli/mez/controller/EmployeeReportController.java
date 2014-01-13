@@ -137,7 +137,7 @@ public class EmployeeReportController {
     view.getGeneratePanelForm().setGenerateProjectReportListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         if (validateFields(view)) {
-          formatController.formatTimeEntries(getTimeEntries(view));
+          formatController.formatTimeEntries(getTimeEntries(view), getEndDate(view), getStartDate(view));
         }
       }
     }));

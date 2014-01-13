@@ -187,7 +187,7 @@ public class MissionReportController {
       public void actionPerformed(ActionEvent event) {
         if (validateFields(view)) {
           HashMap<String, Object> formData = getFormData(view);
-          formatController.formatTimeEntries(getTimeEntries(view, formData), getSummarizedTimeEntries(view, formData));
+          formatController.formatTimeEntries(getTimeEntries(view, formData), getSummarizedTimeEntries(view, formData), formData);
         }
       }
     }));

@@ -1,5 +1,6 @@
 package ch.bli.mez.util;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -113,5 +114,23 @@ public class Parser {
     weekBegin.set(Calendar.WEEK_OF_YEAR, week);
     weekBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     return weekBegin;
+  }
+  
+  public static String encodeHTML(String s)
+  {
+      StringBuffer out = new StringBuffer();
+      for(int i=0; i<s.length(); i++)
+      {
+          char c = s.charAt(i);
+          if(c > 127 || c=='"' || c=='<' || c=='>')
+          {
+             out.append("&#"+(int)c+";");
+          }
+          else
+          {
+              out.append(c);
+          }
+      }
+      return out.toString();
   }
 }

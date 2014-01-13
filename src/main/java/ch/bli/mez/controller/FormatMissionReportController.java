@@ -6,8 +6,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import ch.bli.mez.model.Mission;
+import ch.bli.mez.model.Position;
 import ch.bli.mez.util.Parser;
 import ch.bli.mez.util.TimeEntriesPerEmployee;
 import ch.bli.mez.util.TimeEntriesPerMission;
@@ -16,14 +22,24 @@ import ch.bli.mez.util.TimeEntriesPerPosition;
 public class FormatMissionReportController {
 
   public void formatTimeEntries(List<TimeEntriesPerMission> timeEntriesPerMissions,
-      List<TimeEntriesPerPosition> summarizedTimeEntries) {
-    showReport(createReport(timeEntriesPerMissions, summarizedTimeEntries));
+      List<TimeEntriesPerPosition> summarizedTimeEntries, HashMap<String, Object> formData) {
+    showReport(createReport(timeEntriesPerMissions, summarizedTimeEntries, formData));
   }
 
   private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions,
-      List<TimeEntriesPerPosition> summarizedTimeEntries) {
+      List<TimeEntriesPerPosition> summarizedTimeEntries, HashMap<String, Object> formData) {
+    Calendar endDate = (Calendar) formData.get("endDate");
+    Calendar startDate = (Calendar) formData.get("startDate");
+
+    Date date = new Date();
+    SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
     String report = "<!Doctype html>";
     report += "<div style='margin: 0 auto; width: 1000px;'>";
+    report += "<div style='height: 100px; border-bottom: 1px dotted black;'>" + "<h2>Metzler Orgelbau AG - Auftragsreport</h2>"
+        + "<span>Zeitperiode: " + Parser.parseDateCalendarToString(startDate) + " - "
+        + Parser.parseDateCalendarToString(endDate) + "</span>" + "<span style='float: right'>"
+        + f.format(date) + "</span>" + "</div><br>";
     report += "<div style='font-weight: bold; width: 300px; text-align: left; display: inline-block;'>Auftrag</div>";
     report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Position</div>";
     report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Person</div>";
@@ -49,10 +65,10 @@ public class FormatMissionReportController {
         if (timeEntryPerPosition.getShowEmployees()) {
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
             report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
-            report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName()
-                + "</span>";
-            report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName()
-                + "</span>";
+            report += "<span style='padding-right: 10px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
+            report += "<span style='padding-right: 25px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getLastName()) + "</span>";
             report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
                 + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
             report += "</div>";
@@ -81,10 +97,10 @@ public class FormatMissionReportController {
         if (timeEntryPerPosition.getShowEmployees()) {
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
             report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
-            report += "<span style='padding-right: 10px;'>" + timeEntriesPerEmployee.getEmployee().getFirstName()
-                + "</span>";
-            report += "<span style='padding-right: 25px;'>" + timeEntriesPerEmployee.getEmployee().getLastName()
-                + "</span>";
+            report += "<span style='padding-right: 10px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
+            report += "<span style='padding-right: 25px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getLastName()) + "</span>";
             report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
                 + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
             report += "</div>";
