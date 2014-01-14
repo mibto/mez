@@ -71,13 +71,13 @@ public class FormatEmployeeReportController {
     String report = "";
     for (TimeEntriesPerMission timeEntryPerMission : timeEntriesPerMission) {
       report += "<div style='display: inline-block; width: 300px; margin-left: 350px;'>";
-      report += "<span class='missionName'>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
+      report += "<span class='missionName'>" + Parser.encodeHTML(timeEntryPerMission.getMission().getMissionName()) + "</span>";
       report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 50px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerMission.getTotalTime()) + "</div>";
       report += "</div><br>";
       for (TimeEntriesPerPosition timeEntryPerPosition : timeEntryPerMission.getTimeEntriesPerPositions()) {
         report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
         report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
-        report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
+        report += "<span>" + Parser.encodeHTML(timeEntryPerPosition.getPosition().getPositionName()) + "</span>";
         report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
         report += "</div><br>";
       }
