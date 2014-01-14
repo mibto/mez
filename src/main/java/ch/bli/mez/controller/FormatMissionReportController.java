@@ -29,17 +29,31 @@ public class FormatMissionReportController {
   private String createReport(List<TimeEntriesPerMission> timeEntriesPerMissions,
       List<TimeEntriesPerPosition> summarizedTimeEntries, HashMap<String, Object> formData) {
     Calendar endDate = (Calendar) formData.get("endDate");
+    if (endDate == null) {
+      endDate = Calendar.getInstance();
+      int year = endDate.get(Calendar.YEAR);
+      endDate.clear();
+      endDate.set(year, 11, 31);
+    }
     Calendar startDate = (Calendar) formData.get("startDate");
+    if (startDate == null) {
+      startDate = Calendar.getInstance();
+      int year = startDate.get(Calendar.YEAR);
+      startDate.clear();
+      startDate.set(year, 0, 1);
+    }
 
     Date date = new Date();
     SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 
     String report = "<!Doctype html>";
     report += "<div style='margin: 0 auto; width: 1000px;'>";
-    report += "<div style='height: 100px; border-bottom: 1px dotted black;'>" + "<h2>Metzler Orgelbau AG - Auftragsreport</h2>"
-        + "<span>Zeitperiode: " + Parser.parseDateCalendarToString(startDate) + " - "
-        + Parser.parseDateCalendarToString(endDate) + "</span>" + "<span style='float: right'>"
-        + f.format(date) + "</span>" + "</div><br>";
+    report += "<div style='height: 100px; border-bottom: 1px dotted black;'>" + "<h2>Metzler Orgelbau AG - Auftragsreport</h2>";
+    if ((Integer) formData.get("selectedMission") != 2){
+    report += "<span>Zeitperiode: " + Parser.parseDateCalendarToString(startDate) + " - "
+        + Parser.parseDateCalendarToString(endDate) + "</span>";
+    }
+    report += "<span style='float: right'>" + f.format(date) + "</span>" + "</div><br>";
     report += "<div style='font-weight: bold; width: 300px; text-align: left; display: inline-block;'>Auftrag</div>";
     report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Position</div>";
     report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Person</div>";

@@ -112,6 +112,7 @@ public class MissionReportController {
     formData.put("endDate", view.getDatePanelForm().getDateUntil());
     formData.put("showEmployees", view.getOptionPanelForm().getReportWithEmployee());
     formData.put("positions", getSelectedPositions(view.getPositionPanelForm().getPositions()));
+    formData.put("selectedMission", view.getMissionPanelForm().getSelectedMission());
     return formData;
   }
   
