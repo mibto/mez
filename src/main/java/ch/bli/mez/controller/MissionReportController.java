@@ -124,10 +124,15 @@ public class MissionReportController {
     Boolean showEmployees = (Boolean) formData.get("showEmployees");
     if (endDate == null) {
       endDate = Calendar.getInstance();
+      int year = endDate.get(Calendar.YEAR);
+      endDate.clear();
+      endDate.set(year, 11, 31);
     }
     if (startDate == null && view.getMissionPanelForm().getSelectedMission() != 2) {
       startDate = Calendar.getInstance();
-      startDate.set(startDate.get(Calendar.YEAR), 0, 1);
+      int year = startDate.get(Calendar.YEAR);
+      startDate.clear();
+      startDate.set(year, 0, 1);
     }
     for (Mission mission : missions) {
       timeEntriesPerMission.add(new TimeEntriesPerMission(mission, positions, showEmployees, endDate, startDate));
@@ -144,10 +149,15 @@ public class MissionReportController {
     List<TimeEntriesPerPosition> timeEntriesPerPosition = new ArrayList<TimeEntriesPerPosition>();
     if (endDate == null) {
       endDate = Calendar.getInstance();
+      int year = endDate.get(Calendar.YEAR);
+      endDate.clear();
+      endDate.set(year, 11, 31);
     }
     if (startDate == null && view.getMissionPanelForm().getSelectedMission() != 2) {
       startDate = Calendar.getInstance();
-      startDate.set(startDate.get(Calendar.YEAR), 0, 1);
+      int year = startDate.get(Calendar.YEAR);
+      startDate.clear();
+      startDate.set(year, 0, 1);
     }
     for (Position position : positions) {
       timeEntriesPerPosition.add(new TimeEntriesPerPosition(missions, position, showEmployees, endDate, startDate));
