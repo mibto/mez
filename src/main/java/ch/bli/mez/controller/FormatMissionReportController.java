@@ -47,7 +47,7 @@ public class FormatMissionReportController {
 
     for (TimeEntriesPerMission timeEntryPerMission : timeEntriesPerMissions) {
       report += "<div style='display: inline-block; width: 300px;'>";
-      report += "<span>" + timeEntryPerMission.getMission().getMissionName() + "</span>";
+      report += "<span>" + Parser.encodeHTML(timeEntryPerMission.getMission().getMissionName()) + "</span>";
       report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
           + Parser.parseMinutesIntegerToString(timeEntryPerMission.getTotalTime()) + "</div>";
       report += "</div>";
@@ -56,7 +56,7 @@ public class FormatMissionReportController {
       for (TimeEntriesPerPosition timeEntryPerPosition : timeEntryPerMission.getTimeEntriesPerPositions()) {
         report += "<div style='display: inline-block; width: 350px; margin-left: 300px;'>";
         report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
-        report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
+        report += "<span>" + Parser.encodeHTML(timeEntryPerPosition.getPosition().getPositionName()) + "</span>";
         report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
             + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
         report += "</div>";
@@ -89,7 +89,7 @@ public class FormatMissionReportController {
       for (TimeEntriesPerPosition timeEntryPerPosition : summarizedTimeEntries) {
         report += "<div style='display: inline-block; width: 350px; margin-left: 300px;'>";
         report += "<span style='padding-right: 25px;'>" + timeEntryPerPosition.getPosition().getCode() + "</span>";
-        report += "<span>" + timeEntryPerPosition.getPosition().getPositionName() + "</span>";
+        report += "<span>" + Parser.encodeHTML(timeEntryPerPosition.getPosition().getPositionName()) + "</span>";
         report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>"
             + Parser.parseMinutesIntegerToString(timeEntryPerPosition.getTotalTime()) + "</div>";
         report += "</div>";
