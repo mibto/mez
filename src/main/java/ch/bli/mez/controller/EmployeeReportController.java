@@ -119,7 +119,9 @@ public class EmployeeReportController {
     Calendar endDate = panel.getDatePanelForm().getDateUntil();
     if (endDate == null){
       endDate = Calendar.getInstance();
-      endDate.set(endDate.get(Calendar.YEAR), 11, 31);
+      int year = endDate.get(Calendar.YEAR);
+      endDate.clear();
+      endDate.set(year, 11, 31);
     }
     return endDate;
   }
@@ -128,7 +130,9 @@ public class EmployeeReportController {
     Calendar startDate = panel.getDatePanelForm().getDateFrom();
     if (startDate == null){
       startDate = Calendar.getInstance();
-      startDate.set(startDate.get(Calendar.YEAR), 0, 1);
+      int year = startDate.get(Calendar.YEAR);
+      startDate.clear();
+      startDate.set(year, 0, 1);
     }
     return startDate;
   }
