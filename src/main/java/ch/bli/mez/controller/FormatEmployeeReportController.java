@@ -51,7 +51,7 @@ public class FormatEmployeeReportController {
         for (TimeEntriesPerWeek timeEntryPerWeek : timeEntryPerEmployee.getTimeEntriesPerWeek()){
           report += "<div style='display: inline-block; width: 300px; margin-left: 350px;'>";
           report += "<span style='padding-right: 25px;'>" + "KW" + timeEntryPerWeek.getWeek().get(Calendar.WEEK_OF_YEAR) + "</span>";
-          report += "<span>" + "(" + timeEntryPerWeek.getWeek().get(Calendar.YEAR) + ")" + "</span>";
+          report += "<span>" + "(" + Parser.parseDateCalendarToString(timeEntryPerWeek.getWeek()) + ")" + "</span>";
           report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 50px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerWeek.getTotalTime()) + "</div>";
           report += "</div><br>";
           

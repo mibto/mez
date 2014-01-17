@@ -144,7 +144,7 @@ public class TimeEntryDAO implements Searchable {
       return 0;
     }
     Calendar weekEnd = (Calendar) weekBegin.clone();
-    weekEnd.set(Calendar.WEEK_OF_YEAR, weekBegin.get(Calendar.WEEK_OF_YEAR) + 1);
+    weekEnd.add(Calendar.WEEK_OF_YEAR, 1);
     Session session = SessionManager.getSessionManager().getSession();
     Long weekSum = (Long) session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", weekBegin))

@@ -30,8 +30,8 @@ public class TimeEntryWeekSummaryController {
     }
     Calendar lastWeek = (Calendar) currentWeek.clone();
     lastWeek.set(Calendar.WEEK_OF_YEAR, currentWeek.get(Calendar.WEEK_OF_YEAR) - 1);
-    view.setCurrentWeekNumber(currentWeek.get(Calendar.WEEK_OF_YEAR), currentWeek.get(Calendar.YEAR));
-    view.setLastWeekNumber(lastWeek.get(Calendar.WEEK_OF_YEAR), lastWeek.get(Calendar.YEAR));
+    view.setCurrentWeekNumber(currentWeek.get(Calendar.WEEK_OF_YEAR), Parser.parseDateCalendarToString(currentWeek));
+    view.setLastWeekNumber(lastWeek.get(Calendar.WEEK_OF_YEAR), Parser.parseDateCalendarToString(lastWeek));
     view.setCurrentWeekAmount(model.getWeekSummaryAmount(employee, Parser.getWeekBegin(currentWeek)));
     view.setLastWeekAmount(model.getWeekSummaryAmount(employee, Parser.getWeekBegin(lastWeek)));
   }
