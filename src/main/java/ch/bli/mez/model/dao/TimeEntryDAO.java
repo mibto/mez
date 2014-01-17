@@ -228,7 +228,7 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
         Criteria criteria = session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", startDate))
-        .add(Restrictions.lt("date", endDate));
+        .add(Restrictions.le("date", endDate));
         if (mission != null){
           criteria.add(Restrictions.eq("mission", mission));
         }

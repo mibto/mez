@@ -38,7 +38,7 @@ public class TimeEntriesPerMission {
     this.model = new TimeEntryDAO();
     totalTime = model.getWorktimeForReport(employee, endDate, startDate, mission, null);
     for (Position position : model.getPositionsForReport(employee, endDate, startDate, mission)){
-      timeEntriesPerPositions.add(new TimeEntriesPerPosition(mission, position, false, endDate, startDate));
+      timeEntriesPerPositions.add(new TimeEntriesPerPosition(employee, mission, position, endDate, startDate));
     }
   }
 

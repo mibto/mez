@@ -22,9 +22,23 @@ public class TimeEntriesPerWeek {
     totalTime = model.getWeekSummaryAmount(employee, week);
     if (showMissions) {
       Calendar endDate = getWeekEndDate(week);
-      for (Mission mission : model.getMissionsForReport(employee, endDate, week)) {
-        timeEntriesPerMission.add(new TimeEntriesPerMission(mission, employee, endDate, week));
-      }
+      createMissions(employee, week, endDate);
+    }
+  }
+  
+  public TimeEntriesPerWeek(Employee employee, Boolean showMissions, Calendar startDate, Calendar endDate){
+    this.week = Parser.getWeekBegin((Calendar) startDate.clone());
+    model = new TimeEntryDAO();
+    timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
+    totalTime = model.getWorktimeForReport(employee, endDate, startDate, null, null);
+    if (showMissions){
+      createMissions(employee, startDate, endDate);
+    }
+  }
+  
+  private void createMissions(Employee employee, Calendar startDate, Calendar endDate){
+    for (Mission mission : model.getMissionsForReport(employee, endDate, startDate)) {
+      timeEntriesPerMission.add(new TimeEntriesPerMission(mission, employee, endDate, startDate));
     }
   }
   

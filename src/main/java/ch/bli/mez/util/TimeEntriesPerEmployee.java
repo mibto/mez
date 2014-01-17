@@ -44,19 +44,33 @@ public class TimeEntriesPerEmployee {
     this.employee = employee;
     this.showWeeks = showWeeks;
     this.showMissions = showMissions;
+    endDate.add(Calendar.DAY_OF_MONTH, 1);
+    endDate.setTimeInMillis(endDate.getTimeInMillis() - 1);
     totalTime = model.getWorktimeForReport(employee, endDate, startDate, null, null);
     if (showWeeks) {
       timeEntriesPerWeek = new ArrayList<TimeEntriesPerWeek>();
+      TimeEntriesPerWeek timeEntries;
       for (Calendar week : getWeekNumbers(endDate, startDate)) {
-        TimeEntriesPerWeek timeEntries = new TimeEntriesPerWeek(employee, showMissions, week);
+        if (!startDate.before(week)){
+          Calendar endOfWeek = (Calendar) week.clone();
+          endOfWeek.add(Calendar.WEEK_OF_YEAR, 1);
+          endOfWeek.setTimeInMillis(endOfWeek.getTimeInMillis() - 1);
+          timeEntries = new TimeEntriesPerWeek(employee, showMissions, startDate, endOfWeek);
+        } else if (Parser.getWeekBegin(endDate).equals(week)){
+          timeEntries = new TimeEntriesPerWeek(employee, showMissions, week, endDate);
+        } else {
+          timeEntries = new TimeEntriesPerWeek(employee, showMissions, week);
+        }
         if (timeEntries.getTotalTime() > 0){
           timeEntriesPerWeek.add(timeEntries);
         }
       }
     } else {
       timeEntriesPerMission = new ArrayList<TimeEntriesPerMission>();
-      for (Mission mission : model.getMissionsForReport(employee, endDate, startDate)) {
-        timeEntriesPerMission.add(new TimeEntriesPerMission(mission, employee, endDate, startDate));
+      if (showMissions){
+        for (Mission mission : model.getMissionsForReport(employee, endDate, startDate)) {
+          timeEntriesPerMission.add(new TimeEntriesPerMission(mission, employee, endDate, startDate));
+        }
       }
     }
   }
