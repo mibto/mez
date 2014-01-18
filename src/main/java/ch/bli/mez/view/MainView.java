@@ -2,6 +2,7 @@ package ch.bli.mez.view;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,8 +26,18 @@ public class MainView extends JFrame {
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     getContentPane().setLayout(new CardLayout(0, 0));
-    setMinimumSize(new Dimension(1300, 700));
 
+    setTitle("Metzler Zeiterfassung - MEZ");
+    
+    Toolkit tk = Toolkit.getDefaultToolkit();
+    int xSize = ((int) tk.getScreenSize().getWidth());  
+    int ySize = ((int) tk.getScreenSize().getHeight());  
+    int height = (int) (Math.round(ySize * 0.80));
+    int width = (int) (Math.round(xSize * 0.80));
+    setPreferredSize(new Dimension(width, height));
+    
+    
+    
     try {
       UIManager
        .setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");

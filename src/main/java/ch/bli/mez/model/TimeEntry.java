@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -64,7 +65,7 @@ public class TimeEntry {
     this.worktime = worktime;
   }
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   public Mission getMission() {
     return mission;
   }
@@ -73,7 +74,7 @@ public class TimeEntry {
     this.mission = mission;
   }
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   public Position getPosition() {
     return position;
   }
@@ -82,7 +83,7 @@ public class TimeEntry {
     this.position = position;
   }
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   public Employee getEmployee() {
     return employee;
   }

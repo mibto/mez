@@ -8,7 +8,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -25,15 +24,7 @@ import ch.bli.mez.util.Parser;
 public class TimeEntryDAO implements Searchable {
 
   public TimeEntryDAO() {
-  }
 
-  public List<TimeEntry> findAll(Employee employee) {
-    Session session = SessionManager.getSessionManager().getSession();
-    Transaction tx = session.beginTransaction();
-    List<TimeEntry> timeEntries = session.createQuery(
-        "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date").list();
-    tx.commit();
-    return timeEntries;
   }
 
   public void addTimeEntry(TimeEntry timeEntry) {
@@ -77,6 +68,17 @@ public class TimeEntryDAO implements Searchable {
     tx.commit();
   }
 
+  //TODO
+  public List<TimeEntry> findAll(Employee employee) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<TimeEntry> timeEntries = session.createQuery(
+        "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date DESC").setMaxResults(50).list();
+    tx.commit();
+    return timeEntries;
+  }
+  
+  //TODO
   public List<TimeEntry> findByKeywords(String url) {
     Criteria criteria = createCriteria(Keyword.getKeywords(url));
     criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -87,13 +89,14 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(TimeEntry.class);
     Calendar cal = null;
+    
     try {
       cal = Parser.parseDateStringToCalendar(keywords.get("date"));
     } catch (Exception e) {
     }
+    
     if (cal != null) {
-      Criterion date = Restrictions.eq("date", cal);
-      criteria.add(date);
+      criteria.add(Restrictions.eq("date", cal));
     }
 
     EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -114,7 +117,7 @@ public class TimeEntryDAO implements Searchable {
       criteria.add(Restrictions.eq("position", position));
     }
 
-    if (!keywords.get("worktime").equals("")) {
+    if (!keywords.get("worktime").equals("") ) {
       criteria.add(Restrictions.eq("worktime", Parser.parseMinuteStringToInteger((keywords.get("worktime")))));
     }
     return criteria;
