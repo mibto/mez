@@ -147,7 +147,7 @@ public class TimeEntryDAO implements Searchable {
       return 0;
     }
     Calendar weekEnd = (Calendar) weekBegin.clone();
-    weekEnd.set(Calendar.WEEK_OF_YEAR, weekBegin.get(Calendar.WEEK_OF_YEAR) + 1);
+    weekEnd.add(Calendar.WEEK_OF_YEAR, 1);
     Session session = SessionManager.getSessionManager().getSession();
     Long weekSum = (Long) session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", weekBegin))
@@ -231,7 +231,7 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
         Criteria criteria = session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", startDate))
-        .add(Restrictions.lt("date", endDate));
+        .add(Restrictions.le("date", endDate));
         if (mission != null){
           criteria.add(Restrictions.eq("mission", mission));
         }
@@ -253,7 +253,7 @@ public class TimeEntryDAO implements Searchable {
     Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery(
         "select DISTINCT mission FROM TimeEntry WHERE employee_id = " + employee.getId() + "AND date>=" + startDate.getTimeInMillis()
-            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0 ORDER BY isOrgan DESC, missionName ASC").list();
     tx.commit();
     return missions;
   }
@@ -266,7 +266,7 @@ public class TimeEntryDAO implements Searchable {
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
         "select DISTINCT position FROM TimeEntry WHERE employee_id = " + employee.getId() + " AND mission_mission_id=" + mission.getId() + " AND date>=" + startDate.getTimeInMillis()
-            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0 ORDER BY code ASC").list();
     tx.commit();
     return positions;
   }

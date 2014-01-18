@@ -5,10 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import ch.bli.mez.util.Parser;
@@ -27,6 +27,7 @@ public class FormatEmployeeReportController {
 
     Date date = new Date();
     SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    DecimalFormat df = new DecimalFormat("00");
 
     String report = "<!Doctype html>";
     report += "<div style='margin: 0 auto; width: 1000px;'>";
@@ -50,8 +51,8 @@ public class FormatEmployeeReportController {
       if (timeEntryPerEmployee.getShowWeeks()){
         for (TimeEntriesPerWeek timeEntryPerWeek : timeEntryPerEmployee.getTimeEntriesPerWeek()){
           report += "<div style='display: inline-block; width: 300px; margin-left: 350px;'>";
-          report += "<span style='padding-right: 25px;'>" + "KW" + timeEntryPerWeek.getWeek().get(Calendar.WEEK_OF_YEAR) + "</span>";
-          report += "<span>" + "(" + timeEntryPerWeek.getWeek().get(Calendar.YEAR) + ")" + "</span>";
+          report += "<span style='padding-right: 25px;'>" + "KW " + df.format(timeEntryPerWeek.getWeek().get(Calendar.WEEK_OF_YEAR)) + "</span>";
+          report += "<span>" + "(" + Parser.parseDateCalendarToString(timeEntryPerWeek.getWeek()) + ")" + "</span>";
           report += "<div style='display: inline-block; text-align: right; float: right; margin-right: 50px; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerWeek.getTotalTime()) + "</div>";
           report += "</div><br>";
           

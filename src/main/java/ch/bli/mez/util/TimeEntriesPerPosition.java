@@ -69,6 +69,11 @@ public class TimeEntriesPerPosition {
       }
     }
   }
+  
+  public TimeEntriesPerPosition(Employee employee, Mission mission, Position position, Calendar endDate, Calendar startDate){
+    this.position = position;
+    totalTime = model.getWorktimeForReport(employee, endDate, startDate, mission, position);
+  }
 
   public List<TimeEntry> getTimeEntries() {
     return timeEntries;
