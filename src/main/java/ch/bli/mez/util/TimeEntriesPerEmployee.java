@@ -55,7 +55,11 @@ public class TimeEntriesPerEmployee {
           Calendar endOfWeek = (Calendar) week.clone();
           endOfWeek.add(Calendar.WEEK_OF_YEAR, 1);
           endOfWeek.setTimeInMillis(endOfWeek.getTimeInMillis() - 1);
-          timeEntries = new TimeEntriesPerWeek(employee, showMissions, startDate, endOfWeek);
+          if (endDate.after(endOfWeek)){
+            timeEntries = new TimeEntriesPerWeek(employee, showMissions, startDate, endOfWeek);
+          } else {
+            timeEntries = new TimeEntriesPerWeek(employee, showMissions, startDate, endDate);
+          }
         } else if (Parser.getWeekBegin(endDate).equals(week)){
           timeEntries = new TimeEntriesPerWeek(employee, showMissions, week, endDate);
         } else {
