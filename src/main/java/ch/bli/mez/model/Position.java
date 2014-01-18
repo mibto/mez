@@ -19,7 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "position")
-public class Position {
+public class Position implements Comparable<Position> {
 
   @Column(name = "position_id")
   private Integer id;
@@ -125,5 +125,13 @@ public class Position {
     else{
       return null;
     }
+  }
+
+  public int compareTo(Position position) {
+    int compare = code.compareTo(position.code);
+    if (compare != 0){
+      return compare;
+    }
+    return isActive.compareTo(position.isActive);
   }
 }

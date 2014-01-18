@@ -22,7 +22,7 @@ public class MissionDAO implements Searchable{
   public List<Mission> findAll() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery("FROM " + Mission.class.getName() + " AS m ORDER BY m.isActive DESC")
+    List<Mission> missions = session.createQuery("FROM " + Mission.class.getName() + " AS m ORDER BY m.isActive DESC, m.isOrgan DESC, m.missionName ASC")
         .list();
     tx.commit();
     return missions;
@@ -72,7 +72,7 @@ public class MissionDAO implements Searchable{
   public List<Mission> getOrganMissions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> organMissions = session.createQuery("from " + Mission.class.getName() + " m where m.isOrgan = true")
+    List<Mission> organMissions = session.createQuery("from " + Mission.class.getName() + " m where m.isOrgan = true ORDER BY m.missionName ASC")
         .list();
     tx.commit();
     return organMissions;
