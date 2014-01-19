@@ -3,6 +3,8 @@ package ch.bli.mez.view.report;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,8 @@ public class MissionForm extends DefaultForm {
     radioButtonGroup.add(everythingRadioButton);
     radioButtonGroup.add(singelOrganRadioButton);
     allOrganRadioButton.setSelected(true);
+    
+    setGuiListener();
   }
 
   // 0: allOrgans, 1: everything, 2: singleOrgan
@@ -137,7 +141,25 @@ public class MissionForm extends DefaultForm {
   public void cleanFields() {
     singelMission.setText("");
     allOrganRadioButton.setSelected(true);
-
   }
+  
+  private void setGuiListener(){
+    singelMission.addKeyListener(new KeyListener() {
+      public void keyTyped(KeyEvent e) {
+      }
+      public void keyReleased(KeyEvent e) {
+      }
+      public void keyPressed(KeyEvent e) {
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE){
+          
+        } else if (keyCode == KeyEvent.VK_ENTER){
 
+        } else {
+          singelOrganRadioButton.setSelected(true);
+        }
+        
+      }
+    });
+  }
 }
