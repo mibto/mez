@@ -1,6 +1,7 @@
 package ch.bli.mez.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -43,6 +44,10 @@ public class DefaultTabbedView extends JPanel {
 
   private int getSelectedIndex() {
     return tabbedPane.getSelectedIndex();
+  }
+  
+  public Component getSelectedComponent(){
+    return tabbedPane.getSelectedComponent();
   }
 
   public void setTabListener(ChangeListener changeListener) {

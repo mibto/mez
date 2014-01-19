@@ -13,6 +13,7 @@ public class TimeEntryPanel extends DefaultPanel {
   
   private Employee employee;
   private JPanel weekSummaryPanel;
+  private boolean prepared;
   
   public TimeEntryPanel(Employee employee){
     this.employee = employee;
@@ -43,5 +44,13 @@ public class TimeEntryPanel extends DefaultPanel {
     } else {
       return false;
     }
+  }
+
+  public boolean getIsPrepared() {
+    return prepared;
+  }
+
+  public void setIsPrepared(boolean prepared) {
+    this.prepared = prepared;
   }
 }

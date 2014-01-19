@@ -6,6 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
@@ -39,6 +43,7 @@ public class TimeEntryController {
     this.employeeModel = new EmployeeDAO();
     setView();
     addTabs();
+    setTabListener();
   }
 
   public EmployeeTabbedView getView() {
@@ -86,6 +91,8 @@ public class TimeEntryController {
 
   private void addTabs() {
     addEmployeeTabs(employeeModel.findActive());
+    TimeEntryPanel panel = (TimeEntryPanel) view.getSelectedComponent();
+    prepareViewOfTimeEntryPanel(panel.getEmployee(), panel);
   }
 
   private void addEmployeeTabs(List<Employee> employeeList) {
@@ -96,7 +103,8 @@ public class TimeEntryController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getLastName() + " " + employee.getFirstName(), createTimeEntryPanel(employee));
+    TimeEntryPanel panel = createEmptyTimeEntryPanel(employee);
+    view.addTab(employee.getLastName() + " " + employee.getFirstName(), panel);
   }
 
   public void updateTimeView() {
@@ -109,8 +117,12 @@ public class TimeEntryController {
     }
   }
 
-  private TimeEntryPanel createTimeEntryPanel(Employee employee) {
+  private TimeEntryPanel createEmptyTimeEntryPanel(Employee employee) {
     TimeEntryPanel panel = new TimeEntryPanel(employee);
+    return panel;
+  }
+  
+  private void prepareViewOfTimeEntryPanel(Employee employee, TimeEntryPanel panel){
     weekSummaryController = new TimeEntryWeekSummaryController(employee);
     panel.setWeekSummaryPanel(weekSummaryController.getView());
     panel.setCreateNewForm(createTimeEntryForm(null, employee));
@@ -120,8 +132,8 @@ public class TimeEntryController {
     panel.setListSearchPanel(timeEntrySearchPanel);
     panel.setListTitlePanel(new TimeEntryTitlePanel());
     addForms(panel, employee);
+    panel.setIsPrepared(true);
     weekSummaryController.updateWeekSummary();
-    return panel;
   }
 
   private void addForms(TimeEntryPanel panel, Employee employee) {
@@ -147,6 +159,19 @@ public class TimeEntryController {
     }
     setTimeEntryFormActionListeners(form, timeEntry, employee);
     return form;
+  }
+  
+  private void setTabListener(){
+    view.setTabListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        TimeEntryPanel panel = (TimeEntryPanel) ((JTabbedPane) e.getSource()).getSelectedComponent();
+        if (panel.getIsPrepared()){
+          return;
+        }
+        Employee employee = panel.getEmployee();
+        prepareViewOfTimeEntryPanel(employee, panel);
+      }
+    });
   }
 
   private void setTimeEntryFormActionListeners(final TimeEntryForm form, final TimeEntry timeEntry,
