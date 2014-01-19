@@ -90,7 +90,7 @@ public class MissionDAO implements Searchable{
   public List<Mission> getActiveMissions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Mission> missions = session.createQuery("from " + Mission.class.getName() + " where isActive=true ").list();
+    List<Mission> missions = session.createQuery("from " + Mission.class.getName() + " where isActive=true ORDER BY isOrgan DESC, missionName DESC").list();
     tx.commit();
     return missions;
   }

@@ -59,7 +59,7 @@ public class HolidayDAO {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
     List<Holiday> holidays = session.createQuery(
-        "FROM " + Holiday.class.getName() + " AS h WHERE h.employee IS null ORDER BY h.year DESC").list();
+        "FROM " + Holiday.class.getName() + " AS h WHERE h.employee IS null ORDER BY h.year ASC").list();
     tx.commit();
     return holidays;
   }
@@ -117,7 +117,7 @@ public class HolidayDAO {
     List<Holiday> holidays = session
         .createSQLQuery(
             "select * from (select * from holiday h WHERE h.employee_id IS null OR h.employee_id=" + employee.getId()
-                + " ORDER BY h.employee_id) a WHERE a.year>=" + startYear + endYearQuery + " GROUP BY year ORDER BY year DESC").addEntity(Holiday.class).list();
+                + " ORDER BY h.employee_id) a WHERE a.year>=" + startYear + endYearQuery + " GROUP BY year ORDER BY year ASC").addEntity(Holiday.class).list();
     tx.commit();
     return holidays;
   }
