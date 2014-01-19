@@ -165,7 +165,7 @@ public class TimeEntryController {
     view.setTabListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
         TimeEntryPanel panel = (TimeEntryPanel) ((JTabbedPane) e.getSource()).getSelectedComponent();
-        if (panel.getIsPrepared()){
+        if (panel == null || panel.getIsPrepared()){
           return;
         }
         Employee employee = panel.getEmployee();
