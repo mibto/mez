@@ -35,8 +35,7 @@ public class MainView extends JFrame {
     int height = (int) (Math.round(ySize * 0.80));
     int width = (int) (Math.round(xSize * 0.80));
     setPreferredSize(new Dimension(width, height));
-    
-    
+    setMinimumSize(new Dimension(1250, 700));    
     
     try {
       UIManager

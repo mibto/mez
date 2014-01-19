@@ -24,10 +24,10 @@ public class MainController {
     view = new MainView();
     managementController = null;
     employeeController = null;
-    timeEntryController = null;
+    timeEntryController = new TimeEntryController();
     analysisController = null;
     setListener();
-    view.setTimeEntryPanel(new TimeEntryController().getView());
+    view.setTimeEntryPanel(timeEntryController.getView());
   }
 
   public void showView() {
@@ -38,10 +38,7 @@ public class MainController {
   private void setListener() {
     view.setTabChangeListener(new ChangeListener() {
       public void stateChanged(ChangeEvent e) {
-        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0 && timeEntryController == null) {
-          timeEntryController = new TimeEntryController();
-          view.setTimeEntryPanel(timeEntryController.getView());
-        } else if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
+        if (((JTabbedPane) e.getSource()).getSelectedIndex() == 0) {
           timeEntryController.updateTimeView();
         }
 

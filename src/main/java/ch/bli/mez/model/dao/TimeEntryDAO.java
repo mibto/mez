@@ -134,12 +134,10 @@ public class TimeEntryDAO implements Searchable {
       return null;
     }
     Session session = SessionManager.getSessionManager().getSession();
-    List<TimeEntry> timeEntries = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee))
-        .addOrder(Order.desc("date")).list();
-    if (timeEntries.size() > 0) {
-      return timeEntries.get(0).getDate();
-    }
-    return null;
+    Criteria criteria = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee));
+    criteria.setProjection(Projections.max("date"));
+    Calendar maxDate = (Calendar) criteria.uniqueResult();
+    return maxDate;
   }
 
   public Integer getWeekSummaryAmount(Employee employee, Calendar weekBegin) {

@@ -65,7 +65,7 @@ public class TimeEntry {
     this.worktime = worktime;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   public Mission getMission() {
     return mission;
   }
@@ -74,7 +74,7 @@ public class TimeEntry {
     this.mission = mission;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   public Position getPosition() {
     return position;
   }
@@ -83,7 +83,7 @@ public class TimeEntry {
     this.position = position;
   }
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   public Employee getEmployee() {
     return employee;
   }
