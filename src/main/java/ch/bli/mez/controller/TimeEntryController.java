@@ -259,35 +259,6 @@ public class TimeEntryController {
   
  public void timeEntrySearch(TimeEntrySearchPanel timeEntrySearchPanel){
   TimeEntryPanel timeEntryPanel = (TimeEntryPanel) timeEntrySearchPanel.getParentPanel();
-//  
-//  String searchString = "";
-//  
-//  try {
-//      if(Parser.parseDateStringToCalendar(timeEntrySearchPanel.getDate()) != null){
-//    	  searchString += "date=" + timeEntrySearchPanel.getDate();
-//      }
-//    } catch (NumberFormatException e){
-//    }
-//
-//  Mission mission = findMissionByName(timeEntrySearchPanel.getMissionName());
-//  if(mission != null){
-//	  
-//	  if(searchString.length()>1){searchString += "&";}
-//	  searchString += "missionName=" + timeEntrySearchPanel.getMissionName();
-//  }
-//  
-//  Position position = findPositionByCode(timeEntrySearchPanel.getPositionCode());
-//  if(position != null){
-//	  if(searchString.length()>1){searchString += "&";}
-//	  searchString += "positionCode=" + timeEntrySearchPanel.getPositionCode();
-//  }
-//  
-//  if( timeEntrySearchPanel.getWorktime().length() > 0 && (timeEntrySearchPanel.getWorktime().matches("[0-9]*[:,.]{1}[0-9]{2}") || timeEntrySearchPanel.getWorktime().matches("[0-9]*"))){
-//	  if(searchString.length()>1){searchString += "&";}
-//	  searchString += "worktime=" + timeEntrySearchPanel.getWorktime();
-//  }
-//  
-  //TODO
   addForms(timeEntrySearchPanel.getSearchText(), timeEntryPanel, timeEntryPanel.getEmployee());
   
  }

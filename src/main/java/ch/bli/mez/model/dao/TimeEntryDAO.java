@@ -1,6 +1,7 @@
 package ch.bli.mez.model.dao;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -75,6 +76,7 @@ public class TimeEntryDAO implements Searchable {
     List<TimeEntry> timeEntries = session.createQuery(
         "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date DESC").setMaxResults(50).list();
     tx.commit();
+    Collections.reverse(timeEntries);
     return timeEntries;
   }
   
