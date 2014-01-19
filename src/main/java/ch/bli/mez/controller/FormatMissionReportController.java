@@ -12,8 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.bli.mez.model.Mission;
-import ch.bli.mez.model.Position;
 import ch.bli.mez.util.Parser;
 import ch.bli.mez.util.TimeEntriesPerEmployee;
 import ch.bli.mez.util.TimeEntriesPerMission;
