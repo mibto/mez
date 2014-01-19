@@ -78,9 +78,9 @@ public class FormatMissionReportController {
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
             report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
             report += "<span style='padding-right: 10px;'>"
-                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
-            report += "<span style='padding-right: 25px;'>"
                 + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getLastName()) + "</span>";
+            report += "<span style='padding-right: 25px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
             report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
                 + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
             report += "</div>";
@@ -110,9 +110,9 @@ public class FormatMissionReportController {
           for (TimeEntriesPerEmployee timeEntriesPerEmployee : timeEntryPerPosition.getTimeEntriesPerEmployees()) {
             report += "<div style='display: inline-block; width: 350px; margin-left: 650px;'>";
             report += "<span style='padding-right: 10px;'>"
-                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
-            report += "<span style='padding-right: 25px;'>"
                 + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getLastName()) + "</span>";
+            report += "<span style='padding-right: 25px;'>"
+                + Parser.encodeHTML(timeEntriesPerEmployee.getEmployee().getFirstName()) + "</span>";
             report += "<div style='display: inline-block; text-align: right; float: right; font-weight: bold;'>"
                 + Parser.parseMinutesIntegerToString(timeEntriesPerEmployee.getTotalTime()) + "</div>";
             report += "</div>";

@@ -42,8 +42,8 @@ public class FormatEmployeeReportController {
     
     for (TimeEntriesPerEmployee timeEntryPerEmployee : timeEntriesPerEmployees) {
       report += "<div style='display: inline-block; width: 350px;'>";
-      report += "<span style='padding-right: 10px;'>" + Parser.encodeHTML(timeEntryPerEmployee.getEmployee().getFirstName()) + "</span>";
-      report += "<span>" + Parser.encodeHTML(timeEntryPerEmployee.getEmployee().getLastName()) + "</span>";
+      report += "<span style='padding-right: 10px;'>" + Parser.encodeHTML(timeEntryPerEmployee.getEmployee().getLastName()) + "</span>";
+      report += "<span>" + Parser.encodeHTML(timeEntryPerEmployee.getEmployee().getFirstName()) + "</span>";
       report += "<div style='display: inline-block; float: right; margin-right: 50px; text-align: right; font-weight: bold;'>" + Parser.parseMinutesIntegerToString(timeEntryPerEmployee.getTotalTime()) + "</div>";
       report += "</div>";
       report += "<br>";

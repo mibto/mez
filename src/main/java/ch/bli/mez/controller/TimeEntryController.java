@@ -57,16 +57,21 @@ public class TimeEntryController {
     employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
-  private KeyListener createTimeEntrySearchKeyListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
-    return new KeyListener() {
-      public void keyPressed(KeyEvent arg0) {
+  private ActionListener createTimeEntrySearchActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        timeEntrySearch(timeEntrySearchPanel);  
       }
-
-      public void keyReleased(KeyEvent arg0) {
-    	  timeEntrySearch(timeEntrySearchPanel);
-      }
-
-      public void keyTyped(KeyEvent arg0) {
+    };
+  }
+  
+  private ActionListener createTimeEntryResetActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        timeEntrySearchPanel.resetFields();
+        timeEntrySearch(timeEntrySearchPanel);  
       }
     };
   }
@@ -127,7 +132,8 @@ public class TimeEntryController {
     panel.setWeekSummaryPanel(weekSummaryController.getView());
     panel.setCreateNewForm(createTimeEntryForm(null, employee));
     TimeEntrySearchPanel timeEntrySearchPanel = new TimeEntrySearchPanel();
-    timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener(timeEntrySearchPanel));
+    timeEntrySearchPanel.setSearchListener(createTimeEntrySearchActionListener(timeEntrySearchPanel));
+    timeEntrySearchPanel.setResetListener(createTimeEntryResetActionListener(timeEntrySearchPanel));
     timeEntrySearchPanel.setParentPanel(panel);
     panel.setListSearchPanel(timeEntrySearchPanel);
     panel.setListTitlePanel(new TimeEntryTitlePanel());
