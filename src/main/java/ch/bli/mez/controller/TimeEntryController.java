@@ -205,12 +205,20 @@ public class TimeEntryController {
     if (form.validateFields()) {
       Position position = findPositionByCode(form.getPositionCode());
       Mission mission = findMissionByName(form.getMissionName());
-      if (mission == null) {
+      if (mission == null ) {
         form.getParentPanel().showError("Der eingegebene Auftrag existiert nicht.");
+        return false;
+      }
+      if (!mission.getIsActive()){
+        form.getParentPanel().showError("Der eingegebene Auftrag ist nicht aktiv.");
         return false;
       }
       if (position == null) {
         form.getParentPanel().showError("Die eingegebene Position existiert nicht.");
+        return false;
+      }
+      if (!position.getIsActive()){
+        form.getParentPanel().showError("Die eingegebene Position ist nicht aktiv.");
         return false;
       }
       if (!position.getMissions().contains(mission)) {
