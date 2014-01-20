@@ -40,12 +40,12 @@ public class WeekSummaryPanel extends JPanel {
     this.add(lastWeekTextField);
   }
 
-  public void setCurrentWeekNumber(Integer weekNumber, Integer year) {
-    this.currentWeekLabel.setText("KW " + weekNumber + " (" + year + ")");
+  public void setCurrentWeekNumber(Integer weekNumber, String weekBeginn) {
+    this.currentWeekLabel.setText("KW " + weekNumber + " (" + weekBeginn + ")");
   }
 
-  public void setLastWeekNumber(Integer weekNumber, Integer year) {
-    this.lastWeekLabel.setText("KW " + weekNumber + " (" + year + ")");
+  public void setLastWeekNumber(Integer weekNumber, String weekBeginn) {
+    this.lastWeekLabel.setText("KW " + weekNumber + " (" + weekBeginn + ")");
   }
 
   public void setCurrentWeekAmount(Integer workMinutes) {

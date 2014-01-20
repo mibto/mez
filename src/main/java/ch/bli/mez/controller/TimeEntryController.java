@@ -6,6 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
 
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
 import ch.bli.mez.model.Position;
@@ -39,6 +43,7 @@ public class TimeEntryController {
     this.employeeModel = new EmployeeDAO();
     setView();
     addTabs();
+    setTabListener();
   }
 
   public EmployeeTabbedView getView() {
@@ -52,17 +57,21 @@ public class TimeEntryController {
     employeeSearchPanel.setKeyListener(createEmployeeSearchKeyListener());
   }
 
-  private KeyListener createTimeEntrySearchKeyListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
-    return new KeyListener() {
-      public void keyPressed(KeyEvent arg0) {
+  private ActionListener createTimeEntrySearchActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        timeEntrySearch(timeEntrySearchPanel);  
       }
-
-      public void keyReleased(KeyEvent arg0) {
-        TimeEntryPanel timeEntryPanel = (TimeEntryPanel) timeEntrySearchPanel.getParentPanel();
-        addForms(timeEntrySearchPanel.getSearchText(), timeEntryPanel, timeEntryPanel.getEmployee());
-      }
-
-      public void keyTyped(KeyEvent arg0) {
+    };
+  }
+  
+  private ActionListener createTimeEntryResetActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
+    return new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        timeEntrySearchPanel.resetFields();
+        timeEntrySearch(timeEntrySearchPanel);  
       }
     };
   }
@@ -87,6 +96,8 @@ public class TimeEntryController {
 
   private void addTabs() {
     addEmployeeTabs(employeeModel.findActive());
+    TimeEntryPanel panel = (TimeEntryPanel) view.getSelectedComponent();
+    prepareViewOfTimeEntryPanel(panel.getEmployee(), panel);
   }
 
   private void addEmployeeTabs(List<Employee> employeeList) {
@@ -97,26 +108,38 @@ public class TimeEntryController {
   }
 
   private void addEmployeeTab(Employee employee) {
-    view.addTab(employee.getLastName() + " " + employee.getFirstName(), createTimeEntryPanel(employee));
+    TimeEntryPanel panel = createEmptyTimeEntryPanel(employee);
+    view.addTab(employee.getLastName() + " " + employee.getFirstName(), panel);
   }
 
   public void updateTimeView() {
-    addTabs();
+    int tabAmount = view.getTabCount();
+    int activeEmployees = employeeModel.findActive().size();
+    if (tabAmount < activeEmployees){
+      for (int i = tabAmount; i < activeEmployees; i++) {
+        addEmployeeTab(employeeModel.getEmployee(i + 1));
+      }
+    }
   }
 
-  private TimeEntryPanel createTimeEntryPanel(Employee employee) {
+  private TimeEntryPanel createEmptyTimeEntryPanel(Employee employee) {
     TimeEntryPanel panel = new TimeEntryPanel(employee);
+    return panel;
+  }
+  
+  private void prepareViewOfTimeEntryPanel(Employee employee, TimeEntryPanel panel){
     weekSummaryController = new TimeEntryWeekSummaryController(employee);
     panel.setWeekSummaryPanel(weekSummaryController.getView());
     panel.setCreateNewForm(createTimeEntryForm(null, employee));
     TimeEntrySearchPanel timeEntrySearchPanel = new TimeEntrySearchPanel();
-    timeEntrySearchPanel.setKeyListener(createTimeEntrySearchKeyListener(timeEntrySearchPanel));
+    timeEntrySearchPanel.setSearchListener(createTimeEntrySearchActionListener(timeEntrySearchPanel));
+    timeEntrySearchPanel.setResetListener(createTimeEntryResetActionListener(timeEntrySearchPanel));
     timeEntrySearchPanel.setParentPanel(panel);
     panel.setListSearchPanel(timeEntrySearchPanel);
     panel.setListTitlePanel(new TimeEntryTitlePanel());
     addForms(panel, employee);
+    panel.setIsPrepared(true);
     weekSummaryController.updateWeekSummary();
-    return panel;
   }
 
   private void addForms(TimeEntryPanel panel, Employee employee) {
@@ -142,6 +165,19 @@ public class TimeEntryController {
     }
     setTimeEntryFormActionListeners(form, timeEntry, employee);
     return form;
+  }
+  
+  private void setTabListener(){
+    view.setTabListener(new ChangeListener() {
+      public void stateChanged(ChangeEvent e) {
+        TimeEntryPanel panel = (TimeEntryPanel) ((JTabbedPane) e.getSource()).getSelectedComponent();
+        if (panel == null || panel.getIsPrepared()){
+          return;
+        }
+        Employee employee = panel.getEmployee();
+        prepareViewOfTimeEntryPanel(employee, panel);
+      }
+    });
   }
 
   private void setTimeEntryFormActionListeners(final TimeEntryForm form, final TimeEntry timeEntry,
@@ -200,15 +236,23 @@ public class TimeEntryController {
     if (form.validateFields()) {
       Position position = findPositionByCode(form.getPositionCode());
       Mission mission = findMissionByName(form.getMissionName());
-      if (mission == null) {
+      if (mission == null ) {
         form.getParentPanel().showError("Der eingegebene Auftrag existiert nicht.");
+        return false;
+      }
+      if (!mission.getIsActive()){
+        form.getParentPanel().showError("Der eingegebene Auftrag ist nicht aktiv.");
         return false;
       }
       if (position == null) {
         form.getParentPanel().showError("Die eingegebene Position existiert nicht.");
         return false;
       }
-      if (!mission.getPositions().contains(position)) {
+      if (!position.getIsActive()){
+        form.getParentPanel().showError("Die eingegebene Position ist nicht aktiv.");
+        return false;
+      }
+      if (!position.getMissions().contains(mission)) {
         form.getParentPanel().showError(
             "Der Auftrag " + mission.getMissionName() + " hat keine Position mit Code " + position.getCode() + ".");
         return false;
@@ -218,4 +262,11 @@ public class TimeEntryController {
     }
     return false;
   }
+  
+ public void timeEntrySearch(TimeEntrySearchPanel timeEntrySearchPanel){
+  TimeEntryPanel timeEntryPanel = (TimeEntryPanel) timeEntrySearchPanel.getParentPanel();
+  addForms(timeEntrySearchPanel.getSearchText(), timeEntryPanel, timeEntryPanel.getEmployee());
+  
+ }
+ 
 }

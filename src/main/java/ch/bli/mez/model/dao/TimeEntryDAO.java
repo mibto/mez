@@ -1,6 +1,7 @@
 package ch.bli.mez.model.dao;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -25,15 +25,7 @@ import ch.bli.mez.util.Parser;
 public class TimeEntryDAO implements Searchable {
 
   public TimeEntryDAO() {
-  }
 
-  public List<TimeEntry> findAll(Employee employee) {
-    Session session = SessionManager.getSessionManager().getSession();
-    Transaction tx = session.beginTransaction();
-    List<TimeEntry> timeEntries = session.createQuery(
-        "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date").list();
-    tx.commit();
-    return timeEntries;
   }
 
   public void addTimeEntry(TimeEntry timeEntry) {
@@ -77,6 +69,18 @@ public class TimeEntryDAO implements Searchable {
     tx.commit();
   }
 
+  //TODO
+  public List<TimeEntry> findAll(Employee employee) {
+    Session session = SessionManager.getSessionManager().getSession();
+    Transaction tx = session.beginTransaction();
+    List<TimeEntry> timeEntries = session.createQuery(
+        "FROM TimeEntry WHERE employee_id = " + employee.getId() + " order by date DESC").setMaxResults(50).list();
+    tx.commit();
+    Collections.reverse(timeEntries);
+    return timeEntries;
+  }
+  
+  //TODO
   public List<TimeEntry> findByKeywords(String url) {
     Criteria criteria = createCriteria(Keyword.getKeywords(url));
     criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -87,13 +91,14 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
     Criteria criteria = session.createCriteria(TimeEntry.class);
     Calendar cal = null;
+    
     try {
       cal = Parser.parseDateStringToCalendar(keywords.get("date"));
     } catch (Exception e) {
     }
+    
     if (cal != null) {
-      Criterion date = Restrictions.eq("date", cal);
-      criteria.add(date);
+      criteria.add(Restrictions.eq("date", cal));
     }
 
     EmployeeDAO employeeDAO = new EmployeeDAO();
@@ -114,7 +119,7 @@ public class TimeEntryDAO implements Searchable {
       criteria.add(Restrictions.eq("position", position));
     }
 
-    if (!keywords.get("worktime").equals("")) {
+    if (!keywords.get("worktime").equals("") ) {
       criteria.add(Restrictions.eq("worktime", Parser.parseMinuteStringToInteger((keywords.get("worktime")))));
     }
     return criteria;
@@ -131,12 +136,10 @@ public class TimeEntryDAO implements Searchable {
       return null;
     }
     Session session = SessionManager.getSessionManager().getSession();
-    List<TimeEntry> timeEntries = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee))
-        .addOrder(Order.desc("date")).list();
-    if (timeEntries.size() > 0) {
-      return timeEntries.get(0).getDate();
-    }
-    return null;
+    Criteria criteria = session.createCriteria(TimeEntry.class).add(Restrictions.eq("employee", employee));
+    criteria.setProjection(Projections.max("date"));
+    Calendar maxDate = (Calendar) criteria.uniqueResult();
+    return maxDate;
   }
 
   public Integer getWeekSummaryAmount(Employee employee, Calendar weekBegin) {
@@ -144,7 +147,7 @@ public class TimeEntryDAO implements Searchable {
       return 0;
     }
     Calendar weekEnd = (Calendar) weekBegin.clone();
-    weekEnd.set(Calendar.WEEK_OF_YEAR, weekBegin.get(Calendar.WEEK_OF_YEAR) + 1);
+    weekEnd.add(Calendar.WEEK_OF_YEAR, 1);
     Session session = SessionManager.getSessionManager().getSession();
     Long weekSum = (Long) session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", weekBegin))
@@ -228,7 +231,7 @@ public class TimeEntryDAO implements Searchable {
     Session session = SessionManager.getSessionManager().getSession();
         Criteria criteria = session.createCriteria(TimeEntry.class).setProjection(Projections.sum("worktime"))
         .add(Restrictions.eq("employee", employee)).add(Restrictions.ge("date", startDate))
-        .add(Restrictions.lt("date", endDate));
+        .add(Restrictions.le("date", endDate));
         if (mission != null){
           criteria.add(Restrictions.eq("mission", mission));
         }
@@ -250,7 +253,7 @@ public class TimeEntryDAO implements Searchable {
     Transaction tx = session.beginTransaction();
     List<Mission> missions = session.createQuery(
         "select DISTINCT mission FROM TimeEntry WHERE employee_id = " + employee.getId() + "AND date>=" + startDate.getTimeInMillis()
-            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0 ORDER BY isOrgan DESC, missionName ASC").list();
     tx.commit();
     return missions;
   }
@@ -263,7 +266,7 @@ public class TimeEntryDAO implements Searchable {
     Transaction tx = session.beginTransaction();
     List<Position> positions = session.createQuery(
         "select DISTINCT position FROM TimeEntry WHERE employee_id = " + employee.getId() + " AND mission_mission_id=" + mission.getId() + " AND date>=" + startDate.getTimeInMillis()
-            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0").list();
+            + " AND date<=" + endDate.getTimeInMillis() + " AND worktime > 0 ORDER BY code ASC").list();
     tx.commit();
     return positions;
   }

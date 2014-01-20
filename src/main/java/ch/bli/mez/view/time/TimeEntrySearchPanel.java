@@ -1,11 +1,14 @@
 package ch.bli.mez.view.time;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
+import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import ch.bli.mez.view.DefaultSearchPanel;
+
 import javax.swing.JPanel;
 
 public class TimeEntrySearchPanel extends DefaultSearchPanel {
@@ -15,6 +18,8 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
   private JTextField missionName;
   private JTextField positionCode;
   private JTextField worktime;
+  private JButton searchButton;
+  private JButton resetButton;
   private JPanel spacer;
 
   public TimeEntrySearchPanel(){
@@ -40,9 +45,15 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
     this.add(worktime);
     worktime.setColumns(7);
     
+    searchButton = new JButton("Suche");
+    this.add(searchButton);
+    
+    resetButton = new JButton("Reset");
+    this.add(resetButton);
+    
     spacer = new JPanel();
     FlowLayout flowLayout = (FlowLayout) spacer.getLayout();
-    flowLayout.setHgap(76);
+    flowLayout.setHgap(2);
     flowLayout.setVgap(0);
     add(spacer);
   }
@@ -56,10 +67,18 @@ public class TimeEntrySearchPanel extends DefaultSearchPanel {
     return searchString;
   }
 
-  public void setKeyListener(KeyListener keyListener) {
-    date.addKeyListener(keyListener);
-    missionName.addKeyListener(keyListener);
-    positionCode.addKeyListener(keyListener);
-    worktime.addKeyListener(keyListener);
+  public void setSearchListener(ActionListener actionListener) {
+    searchButton.addActionListener(actionListener);
+  }
+  
+  public void setResetListener(ActionListener actionListener){
+    resetButton.addActionListener(actionListener);
+  }
+  
+  public void resetFields(){
+    date.setText("");
+    missionName.setText("");
+    positionCode.setText("");
+    worktime.setText("");
   }
 }

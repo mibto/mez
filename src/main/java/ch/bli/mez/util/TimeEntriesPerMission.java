@@ -2,9 +2,9 @@ package ch.bli.mez.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import ch.bli.mez.model.Employee;
 import ch.bli.mez.model.Mission;
@@ -38,12 +38,12 @@ public class TimeEntriesPerMission {
     this.model = new TimeEntryDAO();
     totalTime = model.getWorktimeForReport(employee, endDate, startDate, mission, null);
     for (Position position : model.getPositionsForReport(employee, endDate, startDate, mission)){
-      timeEntriesPerPositions.add(new TimeEntriesPerPosition(mission, position, false, endDate, startDate));
+      timeEntriesPerPositions.add(new TimeEntriesPerPosition(employee, mission, position, endDate, startDate));
     }
   }
 
   private Set<Position> getVisiblePositions(List<Position> positions) {
-    Set<Position> visibleMissionPositions = new HashSet<Position>();
+    Set<Position> visibleMissionPositions = new TreeSet<Position>();
     Set<Position> missionPositions = mission.getPositions();
     visibleMissionPositions.addAll(missionPositions);
     visibleMissionPositions.removeAll(positions);

@@ -93,7 +93,7 @@ public class DefaultPanel extends JPanel {
   }
 
   public void addForm(DefaultForm form) {
-    listPanel.add(form);
+    listPanel.add(form, 0);
     this.revalidate();
     form.setParentPanel(this);
   }

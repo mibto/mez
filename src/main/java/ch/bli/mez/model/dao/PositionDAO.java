@@ -87,7 +87,7 @@ public class PositionDAO {
   public List<Position> getActivePositions() {
     Session session = SessionManager.getSessionManager().getSession();
     Transaction tx = session.beginTransaction();
-    List<Position> positions = session.createQuery("from " + Position.class.getName() + " where isActive=true ").list();
+    List<Position> positions = session.createQuery("from " + Position.class.getName() + " where isActive=true ORDER BY organDefault ASC, code DESC").list();
     tx.commit();
     return positions;
   }
