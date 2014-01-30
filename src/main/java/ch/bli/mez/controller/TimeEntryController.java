@@ -59,7 +59,7 @@ public class TimeEntryController {
 
   private ActionListener createTimeEntrySearchActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
     return new ActionListener() {
-      @Override
+   //   @Override
       public void actionPerformed(ActionEvent e) {
         timeEntrySearch(timeEntrySearchPanel);  
       }
@@ -68,7 +68,7 @@ public class TimeEntryController {
   
   private ActionListener createTimeEntryResetActionListener(final TimeEntrySearchPanel timeEntrySearchPanel) {
     return new ActionListener() {
-      @Override
+     // @Override
       public void actionPerformed(ActionEvent e) {
         timeEntrySearchPanel.resetFields();
         timeEntrySearch(timeEntrySearchPanel);  
@@ -186,7 +186,9 @@ public class TimeEntryController {
     form.setSaveListener((new ActionListener() {
       public void actionPerformed(ActionEvent event) {
         updateTimeEntry(timeEntry, form, employee);
+        form.setFocus();
         controller.updateWeekSummary();
+        
       }
     }));
 

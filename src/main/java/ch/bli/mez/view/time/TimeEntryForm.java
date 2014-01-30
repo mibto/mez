@@ -111,6 +111,10 @@ public class TimeEntryForm extends DefaultForm {
   public void cleanFields() {
     worktime.setText("");
   }
+  
+  public void setFocus() {
+    date.requestFocus();
+  }
 
   public String getDate() {
     return date.getText();

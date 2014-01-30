@@ -47,10 +47,10 @@ public class FormatMissionReportController {
     String report = "<!Doctype html>";
     report += "<div style='margin: 0 auto; width: 1000px;'>";
     report += "<div style='height: 100px; border-bottom: 1px dotted black;'>" + "<h2>Metzler Orgelbau AG - Auftragsreport</h2>";
-    if ((Integer) formData.get("selectedMission") != 2){
+    //if ((Integer) formData.get("selectedMission") != 2){
     report += "<span>Zeitperiode: " + Parser.parseDateCalendarToString(startDate) + " - "
         + Parser.parseDateCalendarToString(endDate) + "</span>";
-    }
+    //}
     report += "<span style='float: right'>" + f.format(date) + "</span>" + "</div><br>";
     report += "<div style='font-weight: bold; width: 300px; text-align: left; display: inline-block;'>Auftrag</div>";
     report += "<div style='font-weight: bold; width: 350px; text-align: left; display: inline-block;'>Position</div>";
